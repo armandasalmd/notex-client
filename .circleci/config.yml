@@ -30,4 +30,4 @@ workflows:
     firebase_deploy:
         jobs:
             - build:
-                  context: Firebase
+                context: Firebase
