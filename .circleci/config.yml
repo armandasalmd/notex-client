@@ -5,7 +5,6 @@ jobs:
             - image: circleci/python:3.7.2-node
         steps:
             - checkout
-            # Download and cache dependencies
             - run:
                   name: Install yarn
                   command: curl -o- -L https://yarnpkg.com/install.sh | bash

@@ -4,7 +4,7 @@ import './App.less';
 
 const App = () => (
   <div className="App">
-    <Button type="primary">Button</Button>
+    <Button type="primary">Button!!</Button>
   </div>
 );
 
