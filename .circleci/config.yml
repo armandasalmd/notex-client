@@ -22,6 +22,8 @@ jobs:
                     - ~/.cache/yarn
             - run:
                 name: Build
+                env:
+                    CI: ""
                 command: yarn build
             - run:
                 name: Firebase Deploy
