@@ -22,7 +22,7 @@ jobs:
                     - ~/.cache/yarn
             - run:
                 name: Build
-                command: yarn build
+                command: CI=false yarn build
             - run:
                 name: Firebase Deploy
                 command: ./node_modules/.bin/firebase deploy --token "$FIREBASE_TOKEN" --only hosting
