@@ -7,36 +7,38 @@ import LogoutPage from "#/pages/auth/LogoutPage";
 
 import { withTitle } from "##/HeadTitle";
 import { RouteUtils } from "@utils";
+import { useTranslation } from 'react-i18next';
 
 export default class AppPrivate extends Component {
     render() {
-        document.title = "Notex app";
+		const { t } = useTranslation();
+		
         return (
 			<>
 				<Switch>
 					<Route
-						exact path={RouteUtils.app.private.main}
+						exact path={RouteUtils.app.private.main.link}
 						component={withTitle({
 							component: NotePage,
-							title: "Welcote to Notex"
+							title: t(RouteUtils.app.private.main.titleTextKey)
 						})}
 					/>
 					<Route
-						exact path={RouteUtils.app.private.note}
+						exact path={RouteUtils.app.private.note.link}
 						component={withTitle({
 							component: NotePage,
-							title: "Welcote to Notex"
+							title: t(RouteUtils.app.private.note.titleTextKey)
 						})}
 					/>
 					<Route
-						exact path={RouteUtils.app.private.settings}
+						exact path={RouteUtils.app.private.settings.link}
 						component={withTitle({
 							component: SettingsPage,
-							title: "Welcote to Notex"
+							title: t(RouteUtils.app.private.settings.titleTextKey)
 						})}
 					/>
 					<Route
-						exact path={RouteUtils.app.auth.logout}
+						exact path={RouteUtils.app.auth.logout.link}
 						component={LogoutPage}
 					/>
 					<Route component={() => <Redirect to="/" />} />

@@ -1,12 +1,13 @@
 import React from "react";
-import { useTranslation } from 'react-i18next';
+
+import Banner from "#/containers/Banner";
+import Features from "#/containers/Features";
 
 const LandingPage = () => {
-    const { t } = useTranslation();
-
     return (
         <div>
-            <p>{t("appName")}</p>
+            <Banner />
+            <Features />
         </div>
     );
 };

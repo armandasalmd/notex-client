@@ -9,37 +9,40 @@ import RegisterPage from "#/pages/auth/RegisterPage";
 
 import { withTitle } from "##/HeadTitle";
 import { RouteUtils } from "@utils";
+import { useTranslation } from 'react-i18next';
 
 const AppPublic = () => {
+    const { t } = useTranslation();
+
     return (
         <>
             <Switch>
                 <Route
-                    exact path={RouteUtils.app.public.landing}
+                    exact path={RouteUtils.app.public.landing.link}
                     component={withTitle({
                         component: LandingPage,
-                        title: "Welcote to Notex"
+                        title: t(RouteUtils.app.public.landing.titleTextKey)
                     })}
                 />
                 <Route
-                    exact path={RouteUtils.app.public.about}
+                    exact path={RouteUtils.app.public.about.link}
                     component={withTitle({
                         component: AboutPage,
-                        title: "Welcote to Notex"
+                        title: t(RouteUtils.app.public.about.titleTextKey)
                     })}
                 />
                 <Route
-                    exact path={RouteUtils.app.auth.register}
+                    exact path={RouteUtils.app.auth.register.link}
                     component={withTitle({
                         component: RegisterPage,
-                        title: "Notex - Register"
+                        title: t(RouteUtils.app.auth.register.titleTextKey)
                     })}
                 />
                 <Route
-                    exact path={RouteUtils.app.auth.login}
+                    exact path={RouteUtils.app.auth.login.link}
                     component={withTitle({
                         component: LoginPage,
-                        title: "Notex - Login"
+                        title: t(RouteUtils.app.auth.login.titleTextKey)
                     })}
                 />
                 <Route

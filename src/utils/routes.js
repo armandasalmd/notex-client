@@ -52,18 +52,50 @@ export default {
     },
     app: {
         auth: {
-            login: "/auth/login",
-            logout: "/auth/logout",
-            register: "/auth/register"
+            login: { 
+                link: "/auth/login",
+                navTextKey: "navText.login",
+                titleTextKey: "titleText.login"
+            },
+            logout: {
+                link: "/auth/logout",
+                navTextKey: "navText.logout",
+                titleTextKey: "titleText.logout"
+            },
+            register: {
+                link: "/auth/register",
+                navTextKey: "navText.register",
+                titleTextKey: "titleText.register"
+            }
         },
         public: {
-            landing: "/",
-            about: "/about"
+            landing: {
+                link: "/",
+                navTextKey: "navText.home",
+                titleTextKey: "titleText.home"
+            },
+            about: {
+                link: "/about",
+                navTextKey: "navText.about",
+                titleTextKey: "titleText.about"
+            }
         },
         private: {
-            main: "/",
-            note: "/note",
-            settings: "/settings"
+            main: {
+                link: "/",
+                navTextKey: "navText.main",
+                titleTextKey: "titleText.main"
+            },
+            note: {
+                link: "/note",
+                navTextKey: "navText.note",
+                titleTextKey: "titleText.note"
+            },
+            settings: {
+                link: "/settings",
+                navTextKey: "navText.settings",
+                titleTextKey: "titleText.settings"
+            }
         }
     }
 };
