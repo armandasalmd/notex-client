@@ -52,8 +52,18 @@ export default {
     },
     app: {
         auth: {
-            loginPage: "/auth/login",
-            loginSuccess: "/auth/login?success=true"
+            login: "/auth/login",
+            logout: "/auth/logout",
+            register: "/auth/register"
+        },
+        public: {
+            landing: "/",
+            about: "/about"
+        },
+        private: {
+            main: "/",
+            note: "/note",
+            settings: "/settings"
         }
     }
 };

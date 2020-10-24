@@ -5,9 +5,9 @@ import './App.less';
 import { Provider } from 'react-redux'
 import store from '../store'
 
-import Navbar from '##/Navbar';
-import Footer from '##/Footer';
-import AuthSwitch from '#/AuthSwitch';
+import Navbar from '#/containers/Navbar';
+import Footer from '#/containers/Footer';
+import AuthSwitch from '#/auth/AuthSwitch';
 
 const NavbarWithRoute = withRouter(props => <Navbar {...props} />);
 

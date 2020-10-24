@@ -1,9 +1,9 @@
 import React from "react";
 
-const Navbar = (props) => (
+const Navbar = () => (
     <div>
         <p>
-            Hello world
+            Navbar container
         </p>
     </div>
 );

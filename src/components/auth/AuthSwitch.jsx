@@ -9,7 +9,7 @@ import AppPrivate from "#/AppPrivate";
 
 const AuthSwitch = ({ component: Component, auth, ...rest }) => (
     <Route {...rest} render={
-        (props) => {
+        function (props) {
             if (auth.isAuthenticated === true) {
                 return <AppPrivate {...props} />;
             } else {
