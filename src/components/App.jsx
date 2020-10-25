@@ -3,12 +3,13 @@ import { BrowserRouter as Router, withRouter } from "react-router-dom";
 
 import { Provider } from "react-redux";
 import store from "../store";
+import { AuthUtils } from "@utils";
 
 import Navbar from "#/containers/Navbar";
-import Footer from "#/containers/Footer";
 import AuthSwitch from "#/auth/AuthSwitch";
-
 import { Layout } from "antd";
+
+AuthUtils.resetAuthTokenFromStorage();
 
 const NavbarWithRoute = withRouter(props => <Navbar {...props} />);
 
@@ -20,7 +21,6 @@ const App = () => (
                 <Layout>
                     <AuthSwitch />
                 </Layout>
-                <Footer />
             </Layout>
         </Router>
     </Provider>

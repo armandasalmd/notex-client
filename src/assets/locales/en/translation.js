@@ -12,7 +12,8 @@ export default {
         about: "About us",
         main: "Dashboard",
         note: "Preview note",
-        settings: "Settings"
+        settings: "Settings",
+        tutorial: "Tutorial"
     },
     titleText: {
         login: "Login page",
@@ -22,7 +23,8 @@ export default {
         about: "About us page",
         main: "Dashboard page",
         note: "Preview note page",
-        settings: "Settings page"
+        settings: "Settings page",
+        tutorial: "Tutorial page"
     },
     landing: {
         banner: {
@@ -97,5 +99,58 @@ export default {
             ]
         },
         copyright: "Copyright © 2020 Coventry, Armandas Barkauskas"
+    },
+    errorPage: {
+        titlePrefix: "Error",
+        description: "Sorry, but page was not found",
+        goHomeLink: "Go home"
+    },
+    login: {
+        title: "Please login",
+        emailPlaceholder: "Email address",
+        passwordPlaceholder: "Password",
+        button: "Show my notebooks - login",
+        registerTitle: "New to Notex?",
+        registerLinkText: "Click here to register"
+    },
+    register: {
+        title: "Please register",
+        firstnamePlaceholder: "Firstname",
+        lastnamePlaceholder: "Lastname",
+        emailPlaceholder: "Email address",
+        password1Placeholder: "Enter your password",
+        password2Placeholder: "Confirm your password",
+        button: "Register",
+        loginTitle: "Already a member?",
+        loginLinkText: "Login here"
+    },
+    about: {
+        sectionAbout: {
+            title: "What is this site about?",
+            paragraphs: [
+                `Why can't we get rid of textbooks in an era of
+                computers? Create an account and make your
+                school/university notes online. You are going to be
+                using simple file formating - Markdown.`,
+
+                `Don't know how to use MarkDown? Have a quick tutorial:
+                <a href="https://www.markdowntutorial.com/">
+                    https://www.Markdowntutorial.com
+                </a>`,
+
+                `Take a look at the MarkDown cheatsheet here:
+                <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet">
+                    https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet
+                </a>`
+            ]
+        },
+        sectionAuthor: {
+            title: "About the creator of this website",
+            paragraphs: [
+                "I am <strong>Armandas Barkauskas</strong>, currently studying in Coventry university Bsc Computer Science. I enjoy creating something that's trully.",
+                "The idea here was that I didn't want to carry heavy books. I wanted something more simple than Office Word. Something where I could quickly type while sitting in the lectures.",
+                "Try this app and see how it works for you. I am quite sure that you going to like it."
+            ]
+        }
     }
 };

@@ -1,31 +1,39 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
+
+import "./AboutPage.less";
 
 const About = () => {
+    const { t } = useTranslation();
+
+    const aboutParagraphs = t("about.sectionAbout.paragraphs", { returnObjects: true})
+        .map(text => {
+            return <p dangerouslySetInnerHTML={{ __html: text }}></p>
+        });
+
+    const authorParagraphs = t("about.sectionAuthor.paragraphs", { returnObjects: true})
+        .map(text => {
+            return <p dangerouslySetInnerHTML={{ __html: text }}></p>
+        });
+
     return (
-        <section style={{ marginBottom: '48px' }}>
-            <h2>What is this site about?</h2>
-            <div className="divider" />
-            <article>
-                <p>
-                    Why can't we get rid of textbooks in an era of
-                    computers? Create an account and make your
-                    school/university notes online. You are going to be
-                    using simple file formating - Markdown.
-                </p>
-                <p>
-                    Don't know how to use MarkDown? Have a quick tutorial:
-                    <a href="https://www.markdowntutorial.com/">
-                        https://www.Markdowntutorial.com
-                    </a>
-                </p>
-                <p>
-                    Take a look at the MarkDown cheatsheet here:
-                    <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet">
-                        https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet
-                    </a>
-                </p>
-            </article>
-        </section>
+        <div className="about-page" style={{ marginBottom: '48px' }}>
+            <div className="about-image"/>
+            <div className="about-content">
+                <div className="section">
+                    <h1>{t("about.sectionAbout.title")}</h1>
+                    <article>
+                        {aboutParagraphs}
+                    </article>
+                </div>
+                <div className="section">
+                    <h1>{t("about.sectionAuthor.title")}</h1>
+                    <article>
+                        {authorParagraphs}
+                    </article>
+                </div>
+            </div>
+        </div>
     );
 };
 

@@ -1,4 +1,9 @@
 import axios from "axios";
+import jwt_decode from "jwt-decode";
+import store from "../store";
+import { logoutUser } from "@actions/authActions";
+import { RouteUtils } from "@utils";
+import { SET_CURRENT_USER } from "@actions/types";
 
 /**
  * Set auth header as it would be cookie
@@ -12,6 +17,26 @@ function setAuthHeaderToken(token) {
     }
 }
 
+function resetAuthTokenFromStorage () {
+    if (localStorage.jwtToken) {
+        const token = localStorage.jwtToken;
+        const decoded = jwt_decode(token);
+        const currentTime = Date.now() / 1000;
+
+        if (decoded && decoded.exp > currentTime) {
+            setAuthHeaderToken(token);
+            store.dispatch({
+                type: SET_CURRENT_USER,
+                payload: decoded
+            });
+        } else {
+            store.dispatch(logoutUser());
+            window.location.href = RouteUtils.app.auth.login.link;
+        }
+    }
+}
+
 export default {
-    setAuthHeaderToken
+    setAuthHeaderToken,
+    resetAuthTokenFromStorage
 };

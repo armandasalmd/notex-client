@@ -3,7 +3,7 @@ import React from "react";
 import "./Features.less";
 import { useTranslation } from "react-i18next";
 
-import { Card, Row } from "antd";
+import { Card } from "antd";
 const { Meta } = Card;
 
 const Features = () => {

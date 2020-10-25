@@ -1,51 +1,60 @@
-const hostName = "https://notex-api.herokuapp.com";
+import { Constants } from "@utils";
+import axios from "axios";
+
+const sendApiRequest = (apiRoute, bodyData) => {
+    return axios({
+        method: apiRoute.method || "GET",
+        url: apiRoute.path || "/",
+        data: bodyData
+    });
+}
 
 export default {
-    hostName: hostName,
+    hostName: Constants.apiHostName,
     api: {
         auth: {
             login: {
-                path: hostName + "/api/users/login",
+                path: "/api/users/login",
                 method: "POST"
             },
             register: {
-                path: hostName + "/api/users/register",
+                path: "/api/users/register",
                 method: "POST"
             }
         },
         note: {
             addNote: {
-                path: hostName + "/api/backpack/note/add",
+                path: "/api/backpack/note/add",
                 method: "POST"
             },
             deleteNote: {
-                path: hostName + "/api/backpack/note",
+                path: "/api/backpack/note",
                 method: "DELETE"
             },
             renameNote: {
-                path: hostName + "/api/backpack/note/rename",
+                path: "/api/backpack/note/rename",
                 method: "PUT"
             },
             saveNote: {
-                path: hostName + "/api/backpack/note/save",
+                path: "/api/backpack/note/save",
                 method: "PUT"
             }
         },
         notebook: {
             addNotebook: {
-                path: hostName + "/api/backpack/notebook/add",
+                path: "/api/backpack/notebook/add",
                 method: "POST"
             },
             deleteNotebook: {
-                path: hostName + "/api/backpack/notebook",
+                path: "/api/backpack/notebook",
                 method: "DELETE"
             },
             getAll: {
-                path: hostName + "/api/backpack/notebook",
+                path: "/api/backpack/notebook",
                 method: "GET"
             },
             renameNotebook: {
-                path: hostName + "/api/backpack/notebook/rename",
+                path: "/api/backpack/notebook/rename",
                 method: "PUT"
             }
         }
@@ -78,6 +87,11 @@ export default {
                 link: "/about",
                 navTextKey: "navText.about",
                 titleTextKey: "titleText.about"
+            },
+            tutorial: {
+                link: "/tutorial",
+                navTextKey: "navText.tutorial",
+                titleTextKey: "titleText.tutorial"
             }
         },
         private: {
@@ -97,5 +111,6 @@ export default {
                 titleTextKey: "titleText.settings"
             }
         }
-    }
+    },
+    sendApiRequest
 };

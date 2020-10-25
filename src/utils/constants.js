@@ -1,3 +1,4 @@
 export default {
-    defaultTitle: 'Notex'
+    defaultTitle: "Notex",
+    apiHostName: "https://notex-api.herokuapp.com"
 };

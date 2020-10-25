@@ -24,7 +24,7 @@ const FooterCategories = () => {
     const categories = t("footer.categories.items", { returnObjects: true });
 
     const items = (categories || []).map((item, i) => (
-        <li>
+        <li key={i}>
             <a href={item.link}>{t(item.titleTextKey)}</a>
         </li>
     ));
@@ -42,10 +42,9 @@ const FooterCategories = () => {
 const FooterLinks = () => {
     const { t } = useTranslation();
     const categories = t("footer.quickLinks.items", { returnObjects: true });
-    console.log(categories);
 
     const items = (categories || []).map((item, i) => (
-        <li>
+        <li key={i}>
             <a href={item.link}>{t(item.titleTextKey)}</a>
         </li>
     ));
@@ -61,29 +60,30 @@ const FooterLinks = () => {
 };
 
 const FooterSocial = () => {
+    const { t } = useTranslation();
+
     return (
         <>
             <Col md={16} sm={12} xs={24}>
                 <p className="copyright-text">
-                    Copyright &copy; 2017 All Rights Reserved by
-                    <a href="#">Scanfcode</a>.
+                    {t("footer.copyright")}
                 </p>
             </Col>
 
             <Col md={8} sm={12} xs={24}>
                 <ul className="social-icons">
                     <li>
-                        <a className="facebook" href="#">
+                        <a className="facebook" href="https://www.facebook.com/armandasalmd/">
                             <FacebookOutlined />
                         </a>
                     </li>
                     <li>
-                        <a className="twitter" href="#">
+                        <a className="twitter" href="https://twitter.com/armandasalmd/">
                             <TwitterOutlined />
                         </a>
                     </li>
                     <li>
-                        <a className="linkedin" href="#">
+                        <a className="linkedin" href="https://www.linkedin.com/in/armandas-barkauskas/">
                             <LinkedinOutlined />
                         </a>
                     </li>

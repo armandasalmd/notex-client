@@ -1,10 +1,21 @@
-const initialState = {};
+import { SET_CURRENT_USER } from "@actions/types";
 
-function reducer (state = initialState, action) {
+const isEmpty = require("is-empty");
+
+const initialState = {
+    isAuthenticated: false,
+    user: {}
+};
+
+export default function (state = initialState, action) {
     switch (action.type) {
+        case SET_CURRENT_USER:
+            return {
+                ...state,
+                isAuthenticated: !isEmpty(action.payload),
+                user: action.payload
+            };
         default:
             return state;
     }
-};
-
-export default reducer;
+}

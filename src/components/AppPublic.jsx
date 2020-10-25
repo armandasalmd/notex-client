@@ -6,6 +6,7 @@ import LandingPage from "#/pages/public/LandingPage";
 import NotFoundPage from "#/pages/public/NotFoundPage";
 import LoginPage from "#/pages/auth/LoginPage";
 import RegisterPage from "#/pages/auth/RegisterPage";
+import Footer from "#/containers/Footer";
 
 import { withTitle } from "##/HeadTitle";
 import { RouteUtils } from "@utils";
@@ -52,6 +53,12 @@ const AppPublic = () => {
                     })}
                 />
             </Switch>
+            <Route exact path={[
+                RouteUtils.app.public.landing.link,
+                RouteUtils.app.public.about.link
+            ]}>
+                <Footer />
+            </Route>
         </>
     );
 };
