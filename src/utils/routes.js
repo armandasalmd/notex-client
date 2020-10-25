@@ -2,9 +2,13 @@ import { Constants } from "@utils";
 import axios from "axios";
 
 const sendApiRequest = (apiRoute, bodyData) => {
+    let url = apiRoute.path.startsWith("http") ?
+        apiRoute.path :
+        Constants.apiHostName + apiRoute.path;
+
     return axios({
         method: apiRoute.method || "GET",
-        url: apiRoute.path || "/",
+        url: url || "/",
         data: bodyData
     });
 }
