@@ -22,7 +22,12 @@ function resetAuthTokenFromStorage () {
         const token = localStorage.jwtToken;
 
         if (typeof token === "string" && token.startsWith(Constants.authTokenType)) {
-            const decoded = jwt_decode(token);
+            let decoded;
+            try {
+                decoded = jwt_decode(token);
+            } catch (err) {
+                decoded = undefined;
+            }
             const currentTime = Date.now() / 1000;
 
             if (decoded && decoded.exp > currentTime) {
