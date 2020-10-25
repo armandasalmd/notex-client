@@ -14,7 +14,7 @@ const NotFound = () => {
     return (
         <div style={mainStyle}>
             <div style={{ textAlign: "center" }}>
-                <h1 style={{ color: "rgb(55,96,131)" }}>{t("errorPage.titlePrefix")} 404</h1>
+                <h1 className="header" style={{ color: "rgb(55,96,131)" }}>{t("errorPage.titlePrefix")} 404</h1>
                 <p style={{ fontSize: "20px" }}>{t("errorPage.description")}</p>
                 <Link to="/" style={{ fontSize: "20px" }}>
                     {t("errorPage.goHomeLink")}

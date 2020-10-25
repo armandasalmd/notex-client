@@ -64,7 +64,7 @@ class RegisterPage extends React.Component {
         return (
             <section className="reg-main">
                 <div className="reg-main-inner">
-                    <h1>{t("register.title")}</h1>
+                    <h1 className="header">{t("register.title")}</h1>
                     <form noValidate onSubmit={this.onSubmit}>
                         {/* Firstname */}
                         <div className="reg-form-item">

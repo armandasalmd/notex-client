@@ -1,13 +1,11 @@
 import React from "react";
 
-import Banner from "#/containers/Banner";
-import Features from "#/containers/Features";
+import LandingShowcase from "#/thirdParty/LandingShowcase";
 
 const LandingPage = () => {
     return (
         <div>
-            <Banner />
-            <Features />
+            <LandingShowcase />
         </div>
     );
 };

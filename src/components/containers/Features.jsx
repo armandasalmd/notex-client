@@ -18,7 +18,7 @@ const Features = () => {
 
     return (
         <div className="feature-root">
-            <h1>{t("landing.features.title")}</h1>
+            <h1 className="header">{t("landing.features.title")}</h1>
             <div className="scrolling-wrapper">{cardList}</div>
         </div>
     );

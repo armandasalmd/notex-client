@@ -63,7 +63,7 @@ class LoginPage extends React.Component {
         return (
             <div className="login-main">
                 <div className="login-main-inner">
-                    <h1>{t("login.title")}</h1>
+                    <h1 className="header">{t("login.title")}</h1>
                     <form noValidate onSubmit={this.onSubmit}>
                         <div className="login-form-item">
                             <Input
