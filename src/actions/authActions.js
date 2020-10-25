@@ -45,7 +45,7 @@ export const registerUser = (userData, history) => dispatch => {
     const route = RouteUtils.api.auth.register;
 	RouteUtils.sendApiRequest(route, userData)
         .then(res => {
-            history.push(`${RouteUtils.api.auth.login}?success=true`);
+            history.push(`${RouteUtils.app.auth.login.link}?success=true`);
         })
         .catch(err => {
             dispatch({
