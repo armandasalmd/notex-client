@@ -2,6 +2,16 @@
 
 @note: note;
 
+@main-padding-top: 24px;
+@main-background: rgb(255, 251, 240);
+
 .@{note}-sidebar {
     height: calc(100vh - @navbar-heigth);
+    z-index: 1;
+    box-shadow: @default-box-shadow;
+}
+
+.@{note}-main {
+    background-color: @main-background;
+    padding-top: @main-padding-top;
 }
