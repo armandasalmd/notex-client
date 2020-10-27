@@ -1,0 +1,23 @@
+@import "../../../../styles/Variables.less";
+
+@sidebar: sidebar;
+
+@sidebar-height: 100%;
+
+@ant-border-style: 1px solid #f0f0f0;
+@ant-sidebar-padding-left: 24px;
+
+.@{sidebar}-header {
+    border-right: @ant-border-style;
+    margin-left: @ant-sidebar-padding-left;
+}
+
+.@{sidebar}-root {
+    display: flex;
+    flex-direction: column;
+    height: @sidebar-height;
+
+    ul {
+        flex-grow: 1;
+    }
+}

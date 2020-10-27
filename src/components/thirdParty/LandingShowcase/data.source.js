@@ -32,8 +32,9 @@ export const Content00DataSource = {
             {
               name: 'image',
               className: 'content0-block-icon',
-              children:
-                'https://zos.alipayobjects.com/rmsportal/WBnVOjtIlGWbzyQivuyq.png',
+              children: (
+                <img src="/images/ira/inbox.svg" alt=""></img>
+              )
             },
             {
               name: 'title',
@@ -66,8 +67,9 @@ export const Content00DataSource = {
             {
               name: 'image',
               className: 'content0-block-icon',
-              children:
-                'https://zos.alipayobjects.com/rmsportal/YPMsLQuCEXtuEkmXTTdk.png',
+              children: (
+                <img src="/images/ira/pig.svg" alt=""></img>
+              )
             },
             {
               name: 'title',
@@ -106,8 +108,9 @@ export const Content00DataSource = {
             {
               name: 'image',
               className: 'content0-block-icon',
-              children:
-                'https://zos.alipayobjects.com/rmsportal/EkXWVvAaFJKCzhMmQYiX.png',
+              children: (
+                <img src="/images/ira/rocket.svg" alt=""></img>
+              )
             },
             {
               name: 'title',
@@ -160,7 +163,7 @@ export const Feature40DataSource = {
     ],
   },
   img: {
-    children: 'https://zos.alipayobjects.com/rmsportal/VHGOVdYyBwuyqCx.png',
+    children: '/images/undraw/undraw_work_time.svg',
     className: 'content6-img',
     xs: 24,
     md: 14,
@@ -171,7 +174,7 @@ export const Feature40DataSource = {
         name: 'block0',
         img: {
           children:
-            'https://zos.alipayobjects.com/rmsportal/NKBELAOuuKbofDD.png',
+            '/images/ira/bag.svg',
           className: 'content6-icon',
         },
         title: {
@@ -201,7 +204,7 @@ export const Feature40DataSource = {
         img: {
           className: 'content6-icon',
           children:
-            'https://zos.alipayobjects.com/rmsportal/xMSBjgxBhKfyMWX.png',
+            '/images/ira/computer.svg',
         },
         title: {
           className: 'content6-title',
@@ -230,7 +233,7 @@ export const Feature40DataSource = {
         img: {
           className: 'content6-icon',
           children:
-            'https://zos.alipayobjects.com/rmsportal/MNdlBNhmDBLuzqp.png',
+            '/images/ira/tools.svg',
         },
         title: {
           className: 'content6-title',
