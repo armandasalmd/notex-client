@@ -2,16 +2,29 @@
 
 @note: note;
 
-@main-padding-top: 24px;
-@main-background: rgb(255, 251, 240);
+@main-padding-x: 18px;
+@main-padding-y: 18px;
+@main-background: rgb(255, 253, 246);
 
 .@{note}-sidebar {
     height: calc(100vh - @navbar-heigth);
+
+    // height: auto;
+
     z-index: 1;
     box-shadow: @default-box-shadow;
 }
 
 .@{note}-main {
     background-color: @main-background;
-    padding-top: @main-padding-top;
+    padding: @main-padding-y @main-padding-x;
 }
+
+@media screen {
+    @media (max-width: @lg) {
+        .@{note}-sidebar {
+            height: auto;    
+        }
+    }
+}
+

@@ -7,9 +7,17 @@
 
 .@{notebook-details} {
     padding: @card-padding-y @card-padding-x;
-    background-color: red;
+    overflow: hidden;
 
     &-actions button {
         margin-top: 8px;
     }
+
+    .title-image {
+        width: @notebook-details-img-width;
+    }
+}
+
+.ant-tabs-nav {
+    margin-bottom: 0 !important;
 }

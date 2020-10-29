@@ -24,7 +24,8 @@ module.exports = {
           "#": "./src/components",
           "##": "./src/components/components",
           "@reducers": "./src/reducers",
-          "@utils": "./src/utils",
+          "@styles": "./src/styles",
+          "@utils": "./src/utils"
         }
       }
     }

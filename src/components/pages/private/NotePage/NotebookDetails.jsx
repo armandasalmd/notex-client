@@ -9,11 +9,11 @@ const NotebookDetails = () => {
     return (
         <div className="notebook-details-root">
             <div className="content-card notebook-details">
-                <Row style={{marginBottom: "18px"}} justify="center">
-                    <img src="https://via.placeholder.com/150" alt="" />
-                    <h1>Math homework</h1>
+                <Row style={{marginTop: "24px", marginBottom: "18px", flexFlow: "column", alignItems: "center"}}>
+                    <img className="title-image" src="/images/undraw/undraw_notebook.svg" alt="Notebook" />
+                    <h1 style={{fontSize: "1.5em", marginTop: 16}}>Math homework</h1>
                 </Row>
-                <Row style={{marginBottom: "18px"}}>
+                <Row style={{marginBottom: "18px", display: "inline-block"}}>
                     <h1 className="header header--medium">Notebook details</h1>
                     <p className="text"><span className="text--silent">Date created:</span> 2020-06-22</p>
                     <p className="text"><span className="text--silent">Access level:</span> public</p>
