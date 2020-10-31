@@ -11,7 +11,7 @@ const NotebookDetails = () => {
             <div className="content-card notebook-details">
                 <Row style={{marginTop: "24px", marginBottom: "18px", flexFlow: "column", alignItems: "center"}}>
                     <img className="title-image" src="/images/undraw/undraw_notebook.svg" alt="Notebook" />
-                    <h1 style={{fontSize: "1.5em", marginTop: 16}}>Math homework</h1>
+                    <h1>Math homework</h1>
                 </Row>
                 <Row style={{marginBottom: "18px", display: "inline-block"}}>
                     <h1 className="header header--medium">Notebook details</h1>

@@ -1,9 +1,10 @@
 import React from "react";
 
-import "./index.less";
+import "./TabbedEditor.less";
+
 import Editor from "./Editor";
 
-import { Row, Tabs } from "antd";
+import { Tabs } from "antd";
 
 const { TabPane } = Tabs;
 

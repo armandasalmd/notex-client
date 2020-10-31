@@ -1,0 +1,69 @@
+@import "./Variables.less";
+
+@form: form;
+
+@form-section: form__section;
+@form-items: form__items;
+@form-title: form__title;
+
+@fixed-width: 500px;
+@section-gap: 20px;
+
+.@{form} {
+
+    .@{form-section} {
+        margin-top: @section-gap;
+        
+        .@{form-items} {
+            margin-top: 4px;
+            display: flex;
+            align-items: center;
+        }
+
+        .@{form-items} > *:not(:last-child) {
+            margin: 0 12px 0 0;
+        }
+
+        &--small-gap {
+            margin-top: 8px;
+        }
+        
+        &--no-gap {
+            margin-top: 0px;
+        }
+    }
+
+    /**
+      * Bigger screens
+      */
+    @media screen and (min-width: @md) {
+        max-width: @fixed-width;
+        width: 100%;
+    }
+    
+    P {
+        margin-bottom: 0px;
+    }
+
+    /**
+      * title CSS
+      */
+    .@{form-title} {
+        font-family: "Raleway", sans-serif;
+        color: @primary-color;
+        margin-bottom: 0px;
+    }
+    
+    h1.@{form-title} {
+        font-size: 1.4em;
+    }
+    
+    h2.@{form-title} {
+        font-size: 1.3em;
+    }
+    
+    h3.@{form-title} {
+        font-size: 1.2em;
+    }
+}
+

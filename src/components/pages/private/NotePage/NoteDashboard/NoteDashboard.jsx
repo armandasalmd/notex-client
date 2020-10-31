@@ -1,12 +1,12 @@
 import React from "react";
 
 import "./NoteDashboard.less";
+
+import NoteSettings from "./NoteSettings";
 import TabbedEditor from "./TabbedEditor";
 
 import { PrinterOutlined, CloseOutlined, SaveOutlined, HighlightOutlined, ControlOutlined } from "@ant-design/icons";
 import { Breadcrumb, Button, Col, Row, Tabs } from "antd";
-
-import {} from "@ant-design/icons";
 
 const { TabPane } = Tabs;
 
@@ -18,7 +18,7 @@ const NoteDashboard = () => {
                     <Col className="note-row-toolbar-breadcrumb">
                         <Breadcrumb>
                             <Breadcrumb.Item>
-                                <a href="">History notebook</a>
+                                History notebook
                             </Breadcrumb.Item>
                             <Breadcrumb.Item>Second World War</Breadcrumb.Item>
                         </Breadcrumb>
@@ -38,7 +38,7 @@ const NoteDashboard = () => {
                     </h2>
                 </Row>
                 <Row className="note-row-action-tabs">
-                    <Tabs defaultActiveKey="1" style={{width: "100%", marginBottom: 0}}>
+                    <Tabs defaultActiveKey="2" style={{width: "100%", marginBottom: 0}}>
                         <TabPane
                             tab={
                                 <span>
@@ -46,8 +46,7 @@ const NoteDashboard = () => {
                                     Editor view
                                 </span>
                             }
-                            key="1"
-                        >
+                            key="1">
                             <TabbedEditor />
                         </TabPane>
                         <TabPane
@@ -57,9 +56,8 @@ const NoteDashboard = () => {
                                     Note settings
                                 </span>
                             }
-                            key="2"
-                        >
-                            Note settings container
+                            key="2">
+                            <NoteSettings />
                         </TabPane>
                     </Tabs>
                 </Row>

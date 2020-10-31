@@ -1,4 +1,4 @@
-@import "../../../../styles/Variables.less";
+@import "@styles/Variables.less";
 
 @note: note;
 @note-row: note-row;
@@ -28,13 +28,15 @@
         align-items: center;
 
         .@{title} {
+            font-family: "Raleway", sans-serif;
             font-size: 1.5em;
-            color: @primary-color;
+            font-weight: 600;
+            color: @shade80;
         }
         
         .@{sub-title} {
             margin-left: 8px;
-            font-size: 1.2em;
+            font-size: 1.1em;
             font-weight: 400;
 
             &__info {
@@ -42,7 +44,6 @@
             }
             
             &__warn {
-                font-weight: 500;
                 color: @warn;
             }
             
