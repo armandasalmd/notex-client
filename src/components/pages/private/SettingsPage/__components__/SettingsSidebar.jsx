@@ -10,8 +10,8 @@ class SettingsSidebar extends React.Component {
 
     render() {
         return (
-            <div className="content-card content-card--sticky full-width">
-                <h2 class="header" style={{margin: "10px 0 10px 16px"}}>Site settings</h2>
+            <div className="content-card content-card--sticky full-width" style={{paddingBottom: "8px"}}>
+                <h2 className="header" style={{margin: "10px 0 10px 16px"}}>Site settings</h2>
                 <Menu selectable={false} onClick={this.handleClick} mode="vertical">
                     <Menu.Item key="1" icon={<UserOutlined />}>
                         Personal details
