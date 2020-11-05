@@ -11,11 +11,10 @@ const { TabPane } = Tabs;
 const TabbedEditor = () => {
     return (
         <div className="tabbed-editor-root">
-            <Tabs size={"small"} defaultActiveKey="1" tabPosition={"top"} style={{ height: 220, width: "100%" }}>
+            <Tabs className="full-width" size={"small"} defaultActiveKey="1" tabPosition={"top"}>
                 {[...Array.from({ length: 30 }, (v, i) => i)].map(i => (
                     <TabPane tab={`Tab-${i}`} key={i} disabled={i === 28}>
                         <Editor key={i} />
-
                     </TabPane>
                 ))}
             </Tabs>

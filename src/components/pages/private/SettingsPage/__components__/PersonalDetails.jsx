@@ -3,7 +3,7 @@ import React from "react";
 const PersonalDetails = () => {
 
     return (
-        <div>
+        <div id="section-details">
             <p>Personal details</p>
         </div>  
     );

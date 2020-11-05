@@ -3,7 +3,7 @@ import React from "react";
 const SecurityAccount = () => {
 
     return (
-        <div>
+        <div id="section-security" style={{height: "1000px"}}>
             <p>Security Account</p>
         </div>  
     );

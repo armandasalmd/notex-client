@@ -18,7 +18,7 @@ const App = () => (
         <Router>
             <Layout className="app">
                 <NavbarWithRoute />
-                <Layout>
+                <Layout id="root-container">
                     <AuthSwitch />
                 </Layout>
             </Layout>
