@@ -20,7 +20,7 @@ const ControlAccess = () => {
                 <h3 className="form__title">Control access level</h3>
                 <div className="form__items">
                     <div>
-                        <p>Access</p>
+                        <p>Access type</p>
                         <Select defaultValue="public" onChange={handleChange} style={{ width: 200 }}>
                             <Option key="public">Public</Option>
                             <Option key="private">Private</Option>
@@ -30,9 +30,15 @@ const ControlAccess = () => {
             </div>
             <div className="form__section form__section--no-gap">
                 <div className="form__items">
-                    <div>
-                        <p>Share with</p>
-                        <Select mode="tags" placeholder="Please select" defaultValue={["a10", "c12"]} onChange={handleChange} style={{ minWidth: 400 }}>
+                    <div style={{ width: "100%" }}>
+                        <p>Share with (when private)</p>
+                        <Select
+                            mode="tags"
+                            placeholder="Please select"
+                            defaultValue={["a10", "c12"]}
+                            onChange={handleChange}
+                            style={{ width: "100%" }}
+                        >
                             {children}
                         </Select>
                     </div>

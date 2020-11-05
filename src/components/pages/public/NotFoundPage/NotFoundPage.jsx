@@ -2,6 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
+import { Result, Button } from "antd";
+
 const NotFound = () => {
     const mainStyle = {
         display: "flex",
@@ -14,11 +16,16 @@ const NotFound = () => {
     return (
         <div style={mainStyle}>
             <div style={{ textAlign: "center" }}>
-                <h1 className="header" style={{ color: "rgb(55,96,131)" }}>{t("errorPage.titlePrefix")} 404</h1>
-                <p style={{ fontSize: "20px" }}>{t("errorPage.description")}</p>
-                <Link to="/" style={{ fontSize: "20px" }}>
-                    {t("errorPage.goHomeLink")}
-                </Link>
+                <Result
+                    status="404"
+                    title="404"
+                    subTitle={t("errorPage.description")}
+                    extra={
+                        <Link to="/" style={{ fontSize: "20px" }}>
+                            <Button type="primary">{t("errorPage.goHomeLink")}</Button>
+                        </Link>
+                    }
+                />
             </div>
         </div>
     );

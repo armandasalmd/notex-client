@@ -1,0 +1,32 @@
+@import "@styles/Variables.less";
+
+@settings: settings;
+
+@main-background: @sand-background-color;
+@main-padding-y: 18px;
+@main-padding-x: 20%;
+@section-gap: 20px;
+
+.@{settings}-root {
+    background: @main-background;
+    padding: @main-padding-y @main-padding-x;
+    height: calc(100vh - @navbar-heigth);
+}
+
+@media only screen and (max-width: @xxl) {
+    .@{settings}-root {
+        padding: @main-padding-y calc(@main-padding-x / 2);
+    }
+}
+
+@media only screen and (max-width: @md) {
+    .@{settings}-root {
+        padding: @main-padding-y @main-padding-y;
+    }
+}
+
+.@{settings}-main {
+    section:not(:last-child)  {
+        margin-bottom: @section-gap;
+    }
+}

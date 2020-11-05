@@ -28,7 +28,7 @@ code {
     &::after {
         content: "";
         display: block;
-        width: 65%;
+        width: 80%;
         height: 2px;
         background: @secondary-color;
         position: absolute;
@@ -56,7 +56,40 @@ code {
     }
 }
 
+/**
+  * title CSS
+  */
+.title {
+    font-family: "Raleway", sans-serif;
+    font-size: 1.5em;
+    font-weight: 600;
+    color: @shade80;
+}
 
+.title--light {
+    font-weight: 500;
+}
+
+.title--primary {
+    color: @primary-color;
+}
+
+h1.title {
+    font-size: 1.4em;
+}
+
+h2.title {
+    font-size: 1.3em;
+}
+
+h3.title {
+    font-size: 1.2em;
+}
+
+
+/**
+  * footer CSS
+  */
 .footer {
     background-color: #e1e7e7;
     width: 100%;
@@ -91,4 +124,8 @@ code {
     box-shadow: @default-box-shadow;
     background: @background-color;
     border-radius: @card-border-radius;
+}
+
+.full-width {
+    width: 100%;
 }
