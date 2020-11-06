@@ -1,37 +1,29 @@
-.login-form-button {
-	width: 100%;
-}
+@import "@styles/Variables.less";
 
-.login-main {
+@login-root: login-root;
+
+.@{login-root} {
+	background: @sand-background-color;
+	height: calc(100vh - @navbar-heigth);
+	padding-bottom: 10vh;
+
 	display: flex;
-	align-items: center;
+	flex-direction: column;
 	justify-content: center;
-	margin-top: 25vh;
-}
 
-.login-main-inner {
-	min-width: 400px;
-}
+	.content-card {
+		padding: 48px 32px;
+		margin: 0 8px;
+		width: 400px;
+	}
 
-.login-main .divider {
-	height: 2px;
-	background-color: #317c8f;
-	margin-bottom: 16px;
-	width: 120px;
-}
+	.social-button-wrapper {
+		button:not(:last-child) {
+			margin: 8px 0;
+		}
+	}
 
-.login-form-item {
-	margin-top: 16px;
-}
-
-.red-text {
-	color: red;
-}
-
-.register-link {
-	margin-top: 8px;
-}
-
-.login-link {
-	margin-top: 8px;
+	.login-button {
+		width: 100%;
+	}
 }

@@ -2,6 +2,10 @@
 @import "./Variables.less";
 @import "./Form.less";
 
+@import "./Text/Header.less";
+@import "./Text/Text.less";
+@import "./Text/Title.less";
+
 @card: content-card;
 @header: header;
 @text: text;
@@ -17,75 +21,6 @@ body {
 code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
-
-.@{header} {
-    font-family: "Raleway", sans-serif;
-    font-size: 1.5em;
-    color: @primary-color;
-    position: relative;
-    display: inline-block;
-
-    &::after {
-        content: "";
-        display: block;
-        width: 80%;
-        height: 2px;
-        background: @secondary-color;
-        position: absolute;
-        bottom: 0;
-        left: 0;
-    }
-
-    &--small {
-        font-size: 1.1em;
-    }
-
-    &--medium {
-        font-size: 1.3em;
-    }
-}
-
-.@{text} {
-    color: @text-color;
-    font-size: 1.1em;
-    font-weight: 500;
-    margin-bottom: 4px;
-
-    &--silent {
-        color: @text-silent-color;
-    }
-}
-
-/**
-  * title CSS
-  */
-.title {
-    font-family: "Raleway", sans-serif;
-    font-size: 1.5em;
-    font-weight: 600;
-    color: @shade80;
-}
-
-.title--light {
-    font-weight: 500;
-}
-
-.title--primary {
-    color: @primary-color;
-}
-
-h1.title {
-    font-size: 1.4em;
-}
-
-h2.title {
-    font-size: 1.3em;
-}
-
-h3.title {
-    font-size: 1.2em;
-}
-
 
 /**
   * footer CSS

@@ -6,9 +6,10 @@ import { connect } from "react-redux";
 import { loginUser } from "@actions/authActions";
 
 import "./LoginPage.less";
-import { RouteUtils } from "@utils";
-import { Input, Button, message } from "antd";
+import { Constants, RouteUtils } from "@utils";
+import { Row, Form, Input, Button, message } from "antd";
 import { MailOutlined, LockOutlined } from "@ant-design/icons";
+import SocialButton from "##/SocialButton";
 
 class LoginPage extends React.Component {
     constructor() {
@@ -22,15 +23,6 @@ class LoginPage extends React.Component {
 
     onChange = e => {
         this.setState({ [e.target.id]: e.target.value });
-    };
-
-    onSubmit = e => {
-        e.preventDefault();
-        const userData = {
-            email: this.state.email,
-            password: this.state.password
-        };
-        this.props.loginUser(userData);
     };
 
     componentWillReceiveProps(nextProps) {
@@ -56,62 +48,54 @@ class LoginPage extends React.Component {
         }
     }
 
+    onSubmit(form) {
+        this.props.loginUser(form);
+    }
+
     render() {
         const { errors } = this.state;
         const { t } = this.props;
 
         return (
-            <div className="login-main">
-                <div className="login-main-inner">
-                    <h1 className="header">{t("login.title")}</h1>
-                    <form noValidate onSubmit={this.onSubmit}>
-                        <div className="login-form-item">
-                            <Input
-                                prefix={
-                                    <MailOutlined
-                                        style={{
-                                            color: "rgba(0,0,0,.25)"
-                                        }}
-                                    />
-                                }
-                                placeholder={t("login.emailPlaceholder")}
-                                onChange={this.onChange}
-                                value={this.state.email}
-                                id="email"
-                            />
-                            <span className="red-text">
-                                {errors.email}
-                                {errors.emailnotfound}
-                            </span>
+            <div className="login-root">
+                <Row justify="center">
+                    <div className="content-card">
+                        <h1 className="header header--center-line header--special">{t("login.title")}</h1>
+                        <div className="social-button-wrapper">
+                            <SocialButton options={Constants.socialButtonTypes.google} />
+                            <SocialButton options={Constants.socialButtonTypes.facebook} />
                         </div>
-                        <div className="login-form-item">
-                            <Input.Password
-                                prefix={
-                                    <LockOutlined
-                                        style={{
-                                            color: "rgba(0,0,0,.25)"
-                                        }}
-                                    />
-                                }
-                                placeholder={t("login.passwordPlaceholder")}
-                                onChange={this.onChange}
-                                value={this.state.password}
-                                id="password"
-                            />
-                            <span className="red-text">
-                                {errors.message}
-                            </span>
-                        </div>
-                        <div className="login-form-item">
-                            <Button type="primary" htmlType="submit" className="login-form-button">
-                                {t("login.button")}
-                            </Button>
-                        </div>
-                    </form>
-                    <div className="login-link">
-                            {t("login.registerTitle")} <Link to="/auth/register">{t("login.registerLinkText")}</Link>
+                        <p className="text text--silent text--center" style={{margin: "20px 0"}}>or use your account</p>
+                        <Form layout="vertical" name="normal_login" className="login-form" initialValues={{ remember: true }} onFinish={this.onSubmit.bind(this)}>
+                            <Form.Item 
+                                { ...errors.email && {
+                                    help: errors.email,
+                                    validateStatus: "error"
+                                }}
+                                { ...errors.emailnotfound && {
+                                    help: errors.emailnotfound,
+                                    validateStatus: "error"
+                                }}                        
+                                name="email" rules={[{ required: true, message: "Please input your Username!" }]}>
+                                <Input prefix={<MailOutlined className="site-form-item-icon" />} placeholder="Username"  />
+                            </Form.Item>
+                            <Form.Item { ...errors.message && {
+                                    help: errors.message,
+                                    validateStatus: "error"
+                                }}
+                                name="password" rules={[{ required: true, message: "Please input your Password!" }]}>
+                                <Input.Password prefix={<LockOutlined className="site-form-item-icon" />} placeholder="Password" />
+                            </Form.Item>
+
+                            <Form.Item>
+                                <Button type="primary" htmlType="submit" className="login-button">
+                                    {t("login.button")}
+                                </Button>
+                                {t("login.registerTitle")} <Link to="/auth/register">{t("login.registerLinkText")}</Link>
+                            </Form.Item>
+                        </Form>
                     </div>
-                </div>
+                </Row>
             </div>
         );
     }
