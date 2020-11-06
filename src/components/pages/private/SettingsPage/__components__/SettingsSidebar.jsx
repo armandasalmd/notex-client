@@ -8,16 +8,11 @@ class SettingsSidebar extends React.Component {
         current: "mail"
     };
 
-    handleClick = e => {
-        console.log("click ", e);
-        this.setState({ current: e.key });
-    };
-
     render() {
         return (
-            <div className="content-card full-width">
-                <h2 class="header" style={{margin: "10px 0 10px 16px"}}>Site settings</h2>
-                <Menu onClick={this.handleClick} mode="vertical">
+            <div className="content-card content-card--sticky full-width" style={{paddingBottom: "8px"}}>
+                <h2 className="header" style={{margin: "10px 0 10px 16px"}}>Site settings</h2>
+                <Menu selectable={false} onClick={this.handleClick} mode="vertical">
                     <Menu.Item key="1" icon={<UserOutlined />}>
                         Personal details
                     </Menu.Item>

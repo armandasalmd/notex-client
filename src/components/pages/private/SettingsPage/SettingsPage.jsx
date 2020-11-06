@@ -20,7 +20,7 @@ function SectionComponent(props) {
 
 const SettingsPage = () => {
     return (
-        <div className="settings-root">
+        <div className="settings-root full-height full-width" id="settings-root">
             <Row justify="center" gutter={[18, 18]}>
                 <Col className="settings-sidebar" xs={24} sm={24} md={7} lg={7} xl={6}>
                     <SettingsSidebar />

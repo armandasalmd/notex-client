@@ -114,7 +114,7 @@ h3.title {
     background-color: @background-color;
     height: @navbar-heigth;
     padding: 0;
-    z-index: 1;
+    z-index: 3;
     -moz-box-shadow: 3px 3px 16px rgba(182, 182, 182, 0.5);
     -webkit-box-shadow: 3px 3px 16px rgba(182, 182, 182, 0.5);
     box-shadow: 3px 3px 16px rgba(182, 182, 182, 0.5);
@@ -124,8 +124,26 @@ h3.title {
     box-shadow: @default-box-shadow;
     background: @background-color;
     border-radius: @card-border-radius;
+
+    &--sticky {
+        position: -webkit-sticky;
+        position: sticky;
+        top: calc(@navbar-heigth + 16px);
+    }
 }
 
 .full-width {
     width: 100%;
+}
+
+.full-height {
+    height: 100%;
+}
+
+.spinner-container {
+    text-align: center;
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 4px;
+    padding: 120px 50px;
+    margin: 20px 0;
 }

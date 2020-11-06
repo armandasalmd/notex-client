@@ -3,7 +3,7 @@ import React from "react";
 const AppSettings = () => {
 
     return (
-        <div>
+        <div id="section-app-settings">
             <p>App settings</p>
         </div>  
     );

@@ -1,37 +1,53 @@
 @import "../../styles/Variables.less";
 
-.logo {
-	height: auto;
-	width: auto;
-	float: left;
-    margin: auto 0px auto 32px;
-    
-    img {
-        width: 60px;
-        height: 60px;
-    }
-}
+@navbar: navbar;
 
-@media screen and (max-width: 600px) {
-	.logo {
-		display: none;
+.@{navbar} {
+
+	&--sticky {
+		position: -webkit-sticky;
+		position: sticky;
+		top: 0;
+		z-index: 3;
 	}
+
+	.logo {
+		height: auto;
+		width: auto;
+		float: left;
+		margin: auto 0px auto 32px;
+		
+		img {
+			width: 60px;
+			height: 60px;
+		}
+	}
+	
+	@media screen and (max-width: 600px) {
+		.logo {
+			display: none;
+		}
+	}
+	
+	p.menu {
+		margin: 0px;
+	}
+	
+	.logo .title {
+		line-height: 60px;
+		vertical-align: bottom;
+	
+		font-weight: bold;
+		font-family: 'Bellota', cursive, sans-serif;
+		font-size: xx-large;
+	
+		margin-left: 8px;
+		background: -webkit-linear-gradient(#284850, #2577c4);
+		background-clip: unset;
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+	}
+	
 }
 
-p.menu {
-	margin: 0px;
-}
 
-.logo .title {
-	line-height: 60px;
-	vertical-align: bottom;
-
-	font-weight: bold;
-	font-family: 'Bellota', cursive, sans-serif;
-	font-size: xx-large;
-
-	margin-left: 8px;
-	background: -webkit-linear-gradient(#284850, #2577c4);
-	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;
-}
