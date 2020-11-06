@@ -1,3 +1,4 @@
+@import "@styles/Variables.less";
 
 @banner2: banner2;
 .@{banner2} {
@@ -130,5 +131,12 @@
         left: 0;
       }
     }
+  }
+}
+
+@media screen and (max-width: @sm) {
+  .banner2-page {
+    top: 0;
+    padding: 24px 24px;
   }
 }

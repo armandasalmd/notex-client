@@ -8,8 +8,7 @@ const NotFound = () => {
     const mainStyle = {
         display: "flex",
         alignItems: "center",
-        justifyContent: "center",
-        height: "66vh"
+        justifyContent: "center"
     };
     const { t } = useTranslation();
 

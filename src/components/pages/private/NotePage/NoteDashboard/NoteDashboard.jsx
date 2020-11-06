@@ -38,7 +38,7 @@ const NoteDashboard = () => {
                     </h2>
                 </Row>
                 <Row className="note-row-action-tabs">
-                    <Tabs defaultActiveKey="2" style={{width: "100%", marginBottom: 0}}>
+                    <Tabs defaultActiveKey="2" style={{width: "100%", marginBottom: 0, overflow: "visible"}}>
                         <TabPane
                             tab={
                                 <span>
