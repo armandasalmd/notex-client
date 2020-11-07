@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import Helmet from "react-helmet";
 
 import { Constants } from "@utils";
@@ -12,15 +12,13 @@ const Title = ({ title }) => {
 };
 
 const withTitle = ({ component: Comp, title }) => {
-    return class TitleComponent extends Component {
-        render() {
-            return (
-                <React.Fragment>
-					<Title title={title} />
-                    <Comp {...this.props} />
-                </React.Fragment>
-            );
-        }
+    return (props) => {
+        return (
+            <React.Fragment>
+                <Title title={title} />
+                <Comp {...props} />
+            </React.Fragment>
+        );
     };
 };
 

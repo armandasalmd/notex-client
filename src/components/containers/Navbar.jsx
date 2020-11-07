@@ -1,76 +1,85 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, withRouter } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import classnames from "classnames";
 
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
-
-import { RouteUtils } from "@utils";
 import "./Navbar.less";
+import { Drawer, Layout, Menu, Button } from "antd";
+import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
+import BackpackMenu from "#/pages/private/NotePage/Sidebar";
 
-import { Layout, Menu } from "antd";
 const { Header } = Layout;
 
-const getMenuItems = (isAuth) => {
-  const offlineLinks = [
-    RouteUtils.app.public.landing,
-    RouteUtils.app.public.about,
-    RouteUtils.app.auth.login,
-    RouteUtils.app.auth.register,
-  ];
-  const onlineLinks = [
-    RouteUtils.app.private.main,
-    RouteUtils.app.private.settings,
-    RouteUtils.app.auth.logout,
-  ];
+const Navbar = ({menuItems, location, ...rest}) => {
+    // ...rest can be: hamburgerEnabled, hamburgerMenuComponent
 
-  return isAuth ? onlineLinks : offlineLinks;
-};
+    const [ menuCollapsed, setMenuCollapsed ] = useState(true);
+    const { t } = useTranslation();
+    const { pathname: path } = location;
 
-const Navbar = (props) => {
-  const { t } = useTranslation();
-  const { pathname: path } = props.location;
-  const menuItems = getMenuItems(props.auth.isAuthenticated).map((item) => {
+    const itemsComponents = menuItems.map(item => {
+        return (
+            <Menu.Item key={item.link}>
+                <p className="menu">{t(item.navTextKey)}</p>
+                <Link to={item.link} />
+            </Menu.Item>
+        );
+    });
+
+    const onCloseMenu = () => {
+        setMenuCollapsed(true);
+    };
+
     return (
-      <Menu.Item key={item.link}>
-        <p className="menu">{t(item.navTextKey)}</p>
-        <Link to={item.link} />
-      </Menu.Item>
+        <>
+            <Header className="navbar navbar--sticky">
+                <div className="navbar-inner">
+                    <div className="navbar-left">
+                        <Button
+                            className={classnames({
+                                gone: !rest.hamburgerEnabled,
+                                "gone-big-screen": true
+                            })}
+                            onClick={() => setMenuCollapsed(!menuCollapsed)}
+                        >
+                            {React.createElement(menuCollapsed ? MenuUnfoldOutlined : MenuFoldOutlined)}
+                        </Button>
+                        <div className="navbar-logo">
+                            <Link to="/">
+                                <img src="/logo.png" alt="logo" />
+                                <span className="title">Notex</span>
+                            </Link>
+                        </div>
+                    </div>
+                    <Menu
+                        theme="light"
+                        mode="horizontal"
+                        selectedKeys={[path]}
+                        style={{
+                            lineHeight: "32px",
+                            float: "right",
+                            height: "100%",
+                            paddingTop: "16px"
+                        }}
+                    >
+                        {itemsComponents}
+                    </Menu>
+                </div>
+            </Header>
+            <Drawer
+                placement="left"
+                closable={false}
+                onClose={onCloseMenu}
+                visible={!menuCollapsed}
+            >
+                <BackpackMenu
+                    hamburgerMenu={rest.hamburgerEnabled}
+                    data={rest.hamburgerMenuData}
+                    onItemClick={onCloseMenu}
+                />
+            </Drawer>
+        </>
     );
-  });
-
-  return (
-    <Header className="navbar navbar--sticky">
-      <div>
-        <div className="logo">
-          <a href="/">
-            <img src="/logo.png" alt="logo" />
-            <span className="title">Notex</span>
-          </a>
-        </div>
-        <Menu
-          theme="light"
-          mode="horizontal"
-          selectedKeys={[path]}
-          style={{
-            lineHeight: "64px",
-            float: "right",
-            marginRight: "2%",
-          }}
-        >
-          {menuItems}
-        </Menu>
-      </div>
-    </Header>
-  );
 };
 
-Navbar.propTypes = {
-  auth: PropTypes.object.isRequired,
-};
-
-const mapStateToProps = (state) => ({
-  auth: state.auth,
-});
-
-export default connect(mapStateToProps)(Navbar);
+export default withRouter(Navbar);

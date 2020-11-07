@@ -22,9 +22,6 @@ code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
-/**
-  * footer CSS
-  */
 .footer {
     background-color: #e1e7e7;
     width: 100%;
@@ -55,6 +52,11 @@ code {
     box-shadow: 3px 3px 16px rgba(182, 182, 182, 0.5);
 }
 
+.scroll-container {
+    overflow-y: auto;
+    height: calc(100vh - @navbar-heigth);
+}
+
 .@{card} {
     box-shadow: @default-box-shadow;
     background: @background-color;
@@ -63,7 +65,7 @@ code {
     &--sticky {
         position: -webkit-sticky;
         position: sticky;
-        top: calc(@navbar-heigth + 16px);
+        top: 0px;
     }
 }
 
@@ -81,4 +83,27 @@ code {
     border-radius: 4px;
     padding: 120px 50px;
     margin: 20px 0;
+}
+
+.gone {
+    display: none;
+}
+
+@media screen and (min-width: @lg) {
+    .gone-big-screen {
+        display: none;
+    }
+}
+
+@media screen and (max-width: @lg) {
+    .gone-small-screen {
+        display: none;
+    }
+}
+
+/**
+  * Ant overrides - dangerous
+  */
+.ant-drawer-body {
+    padding: 0;
 }

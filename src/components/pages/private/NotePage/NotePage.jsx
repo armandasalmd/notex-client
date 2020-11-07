@@ -13,7 +13,7 @@ const NotePage = () => {
         <div className="note-root">
             <Row>
                 <Col className="note-sidebar" xs={24} sm={24} md={24} lg={5} xl={4}>
-                    <Sidebar />
+                    <Sidebar data={{}} />
                 </Col>
                 <Col className="note-main" xs={24} sm={24} md={24} lg={19} xl={20}>
                     <Row style={{ justifyContent: "space-evenly" }} align="top" gutter={[18, 18]}>

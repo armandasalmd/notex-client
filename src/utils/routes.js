@@ -1,19 +1,7 @@
 import { Constants } from "@utils";
 import axios from "axios";
 
-const sendApiRequest = (apiRoute, bodyData) => {
-    let url = apiRoute.path.startsWith("http") ?
-        apiRoute.path :
-        Constants.apiHostName + apiRoute.path;
-
-    return axios({
-        method: apiRoute.method || "GET",
-        url: url || "/",
-        data: bodyData
-    });
-}
-
-export default {
+var RouteUtils = {
     hostName: Constants.apiHostName,
     api: {
         auth: {
@@ -115,6 +103,30 @@ export default {
                 titleTextKey: "titleText.settings"
             }
         }
-    },
-    sendApiRequest
+    }
+};
+
+const getMenuItems = isAuth => {
+    const offlineLinks = [RouteUtils.app.public.landing, RouteUtils.app.public.about, RouteUtils.app.auth.login, RouteUtils.app.auth.register];
+    const onlineLinks = [RouteUtils.app.private.main, RouteUtils.app.private.settings, RouteUtils.app.auth.logout];
+
+    return isAuth ? onlineLinks : offlineLinks;
+};
+
+const sendApiRequest = (apiRoute, bodyData) => {
+    let url = apiRoute.path.startsWith("http") ?
+        apiRoute.path :
+        Constants.apiHostName + apiRoute.path;
+
+    return axios({
+        method: apiRoute.method || "GET",
+        url: url || "/",
+        data: bodyData
+    });
+};
+
+export default {
+    ...RouteUtils,
+    sendApiRequest,
+    getMenuItems
 };

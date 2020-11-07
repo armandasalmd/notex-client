@@ -30,5 +30,22 @@ export default {
             backgroundColor: "#5B7DC1",
             textColor: "#FFFFFF"
         }
-    }
+    },
+    settingsSections: [
+        {
+            id: "section-details",
+            titleKey: "settings.section.details",
+            defaultTitle: "Personal details"
+        },
+        {
+            id: "section-app-settings",
+            titleKey: "settings.section.appSettings",
+            defaultTitle: "App settings"
+        },
+        {
+            id: "section-security",
+            titleKey: "settings.section.security",
+            defaultTitle: "Security and account"
+        },
+    ]
 };

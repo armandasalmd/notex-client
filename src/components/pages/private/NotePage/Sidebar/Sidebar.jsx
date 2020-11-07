@@ -1,4 +1,5 @@
 import React from "react";
+import classnames from "classnames";
 
 import { Menu } from 'antd';
 import { MailOutlined, AppstoreOutlined, SettingOutlined } from '@ant-design/icons';
@@ -9,20 +10,33 @@ const { SubMenu } = Menu;
 
 class Sidebar extends React.Component {
 
-    state = {
-        current: "1",
-    };
+    constructor() {
+        super();
+        this.state = {
+            current: "1",
+        };
+    }
 
     handleClick = e => {
-        console.log('click ', e);
         this.setState({
             current: e.key,
         });
+
+        if (typeof this.props.onItemClick === "function") {
+            this.props.onItemClick(e.key);
+        }
     };
 
     render () {
+        // console.log(this.props.data);
+
         return (
-            <div className="sidebar-root">
+            <div className={
+                classnames({
+                    "sidebar-root": true,
+                    "gone-small-screen": !this.props.hamburgerMenu
+                })
+            }>
                 <div className="sidebar-header">
                     <h1 className="header">Your backpack</h1>
                 </div>
@@ -59,7 +73,5 @@ class Sidebar extends React.Component {
         );
     }
 }
-
-
 
 export default Sidebar;

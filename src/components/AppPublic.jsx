@@ -1,6 +1,10 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
 
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+
+import Navbar from "#/containers/Navbar";
 import AboutPage from "#/pages/public/AboutPage";
 import LandingPage from "#/pages/public/LandingPage";
 import NotFoundPage from "#/pages/public/NotFoundPage";
@@ -11,11 +15,12 @@ import { withTitle } from "##/HeadTitle";
 import { RouteUtils } from "@utils";
 import { useTranslation } from "react-i18next";
 
-const AppPublic = () => {
+const AppPublic = (props) => {
     const { t } = useTranslation();
 
     return (
         <>
+            <Navbar menuItems={RouteUtils.getMenuItems(props.auth.isAuthenticated)} />
             <Switch>
                 <Route
                     exact path={RouteUtils.app.public.landing.link}
@@ -56,4 +61,12 @@ const AppPublic = () => {
     );
 };
 
-export default AppPublic;
+Navbar.propTypes = {
+    auth: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+    auth: state.auth
+});
+
+export default connect(mapStateToProps)(AppPublic);
