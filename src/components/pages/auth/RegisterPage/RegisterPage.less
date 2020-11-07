@@ -1,33 +1,33 @@
-.reg-form-button {
-	width: 100%;
-}
+@import "@styles/Variables.less";
 
-.reg-main {
+@register-root: register-root;
+
+.@{register-root} {
+	background: @sand-background-color;
+	height: calc(100vh - @navbar-heigth);
+
+	
+	@media only screen and (min-width: @md) and (min-height: @md) {
+		padding-bottom: 10vh;
+	}
+
 	display: flex;
-	align-items: center;
+	flex-direction: column;
 	justify-content: center;
-	margin-top: 20vh;
-}
 
-.reg-main-inner {
-	min-width: 400px;
-}
+	.content-card {
+		padding: 48px 32px;
+		margin: 0 8px;
+		width: 400px;
+	}
 
-.reg-main .divider {
-	height: 2px;
-	background-color: #317c8f;
-	margin-bottom: 16px;
-	width: 120px;
-}
+	.social-button-wrapper {
+		button:not(:last-child) {
+			margin: 8px 0;
+		}
+	}
 
-.reg-form-item {
-	margin-top: 16px;
-}
-
-.red-text {
-	color: red;
-}
-
-.register-link {
-	margin-top: 8px;
+	.register-button {
+		width: 100%;
+	}
 }

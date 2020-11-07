@@ -8,13 +8,13 @@ const About = () => {
     const { t } = useTranslation();
 
     const aboutParagraphs = t("about.sectionAbout.paragraphs", { returnObjects: true})
-        .map(text => {
-            return <p dangerouslySetInnerHTML={{ __html: text }}></p>
+        .map((text, i) => {
+            return <p key={i} dangerouslySetInnerHTML={{ __html: text }}></p>
         });
 
     const authorParagraphs = t("about.sectionAuthor.paragraphs", { returnObjects: true})
-        .map(text => {
-            return <p dangerouslySetInnerHTML={{ __html: text }}></p>
+        .map((text, i) => {
+            return <p key={i} dangerouslySetInnerHTML={{ __html: text }}></p>
         });
 
     return (

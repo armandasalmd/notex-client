@@ -1,29 +1,25 @@
 import React from "react";
 import { withTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
+
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { loginUser } from "@actions/authActions";
 
 import "./LoginPage.less";
 import { Constants, RouteUtils } from "@utils";
-import { Row, Form, Input, Button, message } from "antd";
+import { Row, Form, Button, message } from "antd";
 import { MailOutlined, LockOutlined } from "@ant-design/icons";
 import SocialButton from "##/SocialButton";
+import { AuthFormItem, requiredRule } from "../__components__";
 
 class LoginPage extends React.Component {
     constructor() {
         super();
         this.state = {
-            email: "",
-            password: "",
             errors: {}
         };
     }
-
-    onChange = e => {
-        this.setState({ [e.target.id]: e.target.value });
-    };
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.auth.isAuthenticated) {
@@ -66,27 +62,23 @@ class LoginPage extends React.Component {
                             <SocialButton options={Constants.socialButtonTypes.facebook} />
                         </div>
                         <p className="text text--silent text--center" style={{margin: "20px 0"}}>or use your account</p>
-                        <Form layout="vertical" name="normal_login" className="login-form" initialValues={{ remember: true }} onFinish={this.onSubmit.bind(this)}>
-                            <Form.Item 
-                                { ...errors.email && {
-                                    help: errors.email,
-                                    validateStatus: "error"
-                                }}
-                                { ...errors.emailnotfound && {
-                                    help: errors.emailnotfound,
-                                    validateStatus: "error"
-                                }}                        
-                                name="email" rules={[{ required: true, message: "Please input your Username!" }]}>
-                                <Input prefix={<MailOutlined className="site-form-item-icon" />} placeholder="Username"  />
-                            </Form.Item>
-                            <Form.Item { ...errors.message && {
-                                    help: errors.message,
-                                    validateStatus: "error"
-                                }}
-                                name="password" rules={[{ required: true, message: "Please input your Password!" }]}>
-                                <Input.Password prefix={<LockOutlined className="site-form-item-icon" />} placeholder="Password" />
-                            </Form.Item>
-
+                        <Form 
+                            layout="vertical"
+                            onFinish={this.onSubmit.bind(this)}>
+                            {<AuthFormItem 
+                                name="email"
+                                placeholder={t("login.emailPlaceholder")}
+                                prefix={<MailOutlined />}
+                                rules={[requiredRule("email")]}
+                                customError={errors.firstname}
+                            />}
+                            {<AuthFormItem 
+                                name="password"
+                                placeholder={t("login.passwordPlaceholder")}
+                                prefix={<LockOutlined />}
+                                rules={[requiredRule("password")]}
+                                customError={errors.message}
+                            />}
                             <Form.Item>
                                 <Button type="primary" htmlType="submit" className="login-button">
                                     {t("login.button")}

@@ -5,7 +5,11 @@
 .@{login-root} {
 	background: @sand-background-color;
 	height: calc(100vh - @navbar-heigth);
-	padding-bottom: 10vh;
+
+	
+	@media only screen and (min-width: @md) and (min-height: @md) {
+		padding-bottom: 10vh;
+	}
 
 	display: flex;
 	flex-direction: column;
