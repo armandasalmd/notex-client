@@ -71,11 +71,12 @@ const Navbar = ({menuItems, location, ...rest}) => {
                 closable={false}
                 onClose={onCloseMenu}
                 visible={!menuCollapsed}
+                width="360px"
             >
                 <BackpackMenu
                     hamburgerMenu={rest.hamburgerEnabled}
                     data={rest.hamburgerMenuData}
-                    onItemClick={onCloseMenu}
+                    closeMenu={onCloseMenu}
                 />
             </Drawer>
         </>

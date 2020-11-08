@@ -77,16 +77,30 @@ code {
     height: 100%;
 }
 
+.flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+}
+
 .spinner-container {
-    text-align: center;
     background: rgba(0, 0, 0, 0.05);
     border-radius: 4px;
-    padding: 120px 50px;
-    margin: 20px 0;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .gone {
     display: none;
+}
+
+.invisible {
+    visibility: hidden;
 }
 
 @media screen and (min-width: @lg) {
@@ -101,9 +115,20 @@ code {
     }
 }
 
+.shade50 {
+    color: @shade50;
+}
+
 /**
   * Ant overrides - dangerous
   */
 .ant-drawer-body {
     padding: 0;
+}
+
+.ant-menu-inline {
+    .ant-menu-item, .ant-menu-submenu-title {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
 }

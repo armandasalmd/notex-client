@@ -9,8 +9,7 @@
 
 .@{sidebar}-header {
     border-right: @ant-border-style;
-    padding-top: 16px;
-    padding-left: @ant-sidebar-padding-left;
+    padding: 16px 12px 0 @ant-sidebar-padding-left;
 }
 
 .@{sidebar}-root {
@@ -31,3 +30,24 @@
     }
 }
 
+.sidebar-actions {
+    float: right;
+
+    button:not(:first-child) {
+        margin-left: 4px;
+    }
+}
+
+.notebook-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 8px;
+
+    #add {
+        color: green;
+    }
+
+    #delete {
+        color: red;
+    }
+}

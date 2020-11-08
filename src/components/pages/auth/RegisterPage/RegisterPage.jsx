@@ -90,7 +90,7 @@ class RegisterPage extends React.Component {
                             />}
                             <Form.Item>
                                 <Button type="primary" htmlType="submit" className="register-button">
-                                    {t("login.button")}
+                                    {t("register.button")}
                                 </Button>
                                 {t("register.loginTitle")} <Link to="/auth/register">{t("register.loginLinkText")}</Link>
                             </Form.Item>

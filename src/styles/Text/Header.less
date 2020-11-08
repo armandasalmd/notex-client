@@ -4,6 +4,10 @@
     color: @primary-color;
     position: relative;
     display: inline-block;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 100%;
 
     &::after {
         content: "";

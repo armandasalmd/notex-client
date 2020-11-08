@@ -11,7 +11,7 @@ const NotebookDetails = () => {
             <div className="content-card notebook-details">
                 <Row style={{marginTop: "24px", marginBottom: "18px", flexFlow: "column", alignItems: "center"}}>
                     <img className="title-image" src="/images/undraw/undraw_notebook.svg" alt="Notebook" />
-                    <h1>Math homework</h1>
+                    <h1>History notebook</h1>
                 </Row>
                 <Row style={{marginBottom: "18px", display: "inline-block"}}>
                     <h1 className="header header--medium">Notebook details</h1>
@@ -24,7 +24,7 @@ const NotebookDetails = () => {
                     <h1 className="header header--medium">Notebook actions</h1>
                     <Button type="primary" ghost block icon={<PlusOutlined />}>Add new note</Button>
                     <Button block icon={<EditOutlined />}>Rename notebook</Button>
-                    <Button block icon={<PrinterOutlined />}>Export all notes to PDF</Button>
+                    <Button disabled block icon={<PrinterOutlined />}>Export all notes to PDF</Button>
                     <Button danger block icon={<DeleteOutlined />}>Delete notebook</Button>
                 </Row>
             </div>

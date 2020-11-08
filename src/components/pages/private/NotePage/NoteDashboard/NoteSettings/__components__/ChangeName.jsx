@@ -10,7 +10,7 @@ const ChangeName = () => {
             <h3 className="form__title">Change note name</h3>
             <div className="form__items">
                 <Input
-                    value="trigonometry equations"
+                    value="Second World War"
                     prefix={<CalendarOutlined />}
                     suffix={
                         <Tooltip title="Change the name of selected note">
