@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Constants, GlobalUtils } from "@utils";
+import { Constants } from "@utils";
 
 import "./SettingsPage.less";
 import { Row, Col } from "antd";
@@ -11,16 +11,17 @@ const SettingsPage = () => {
     const { settingsSections } = Constants;
 
     const getSectionComponentByItsName = (sectionName, propsToPass) => {
-        switch (sectionName) {
-            case GlobalUtils.getComponentName(SectionAppSettings):
-                return React.createElement(SectionAppSettings, propsToPass);
-            case GlobalUtils.getComponentName(SectionPersonalDetails):
-                return React.createElement(SectionPersonalDetails, propsToPass);
-            case GlobalUtils.getComponentName(SectionSecurityAccount):
-                return React.createElement(SectionSecurityAccount, propsToPass);
-            default:
-                return <p>Unknown section</p>;
-        }
+        const availableSections = {
+            "SectionAppSettings": SectionAppSettings,
+            "SectionPersonalDetails": SectionPersonalDetails,
+            "SectionSecurityAccount": SectionSecurityAccount
+        };
+        
+        const selectedComponent = availableSections[sectionName];
+
+        return selectedComponent ? 
+            React.createElement(selectedComponent, propsToPass) :
+            <p>Unknown section</p>;
     };
 
     const sectionComponents = settingsSections.map(function (section) {

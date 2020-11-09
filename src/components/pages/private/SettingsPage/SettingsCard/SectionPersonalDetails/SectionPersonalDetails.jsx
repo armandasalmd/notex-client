@@ -2,7 +2,7 @@ import React from "react";
 
 import "./SectionPersonalDetails.less";
 import { AvatarForm, DetailsForm } from "./__components__";
-import { Button, Col, Row } from "antd";
+import { Col, Row } from "antd";
 
 const SectionPersonalDetails = props => {
     return (
