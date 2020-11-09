@@ -1,4 +1,5 @@
 export default {
+    appName: "Notex",
     defaultTitle: "Notex",
     apiHostName: "https://notex-api.herokuapp.com",
     authTokenType: "Bearer",
@@ -34,19 +35,22 @@ export default {
     },
     settingsSections: [
         {
+            componentName: "SectionPersonalDetails",
+            defaultTitle: "Personal details",
             id: "section-details",
-            titleKey: "settings.section.details",
-            defaultTitle: "Personal details"
+            titleKey: "settings.section.details"
         },
         {
+            componentName: "SectionAppSettings",
+            defaultTitle: "App settings",
             id: "section-app-settings",
-            titleKey: "settings.section.appSettings",
-            defaultTitle: "App settings"
+            titleKey: "settings.section.appSettings"
         },
         {
+            componentName: "SectionSecurityAccount",
+            defaultTitle: "Security and account",
             id: "section-security",
-            titleKey: "settings.section.security",
-            defaultTitle: "Security and account"
+            titleKey: "settings.section.security"
         },
     ]
 };

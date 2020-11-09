@@ -29,13 +29,6 @@ const SettingsSidebar = ({ sections }) => {
                         );
                     })
                 }
-
-                {/* <Menu.Item key="2" icon={<AppstoreOutlined />}>
-                    App settings
-                </Menu.Item>
-                <Menu.Item key="3" icon={<SecurityScanOutlined />}>
-                    Security and account
-                </Menu.Item> */}
             </Menu>
         </nav>
     );

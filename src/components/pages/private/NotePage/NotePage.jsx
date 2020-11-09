@@ -17,10 +17,10 @@ const NotePage = () => {
                 </Col>
                 <Col className="note-main" xs={24} sm={24} md={24} lg={18} xl={19}>
                     <Row style={{ justifyContent: "space-evenly" }} align="top" gutter={[18, 18]}>
-                        <Col xs={24} sm={24} md={15} lg={16} xl={18}>
+                        <Col xs={24} sm={24} md={15} lg={24} xl={17}>
                             <NoteDashboard data={{}} />
                         </Col>
-                        <Col xs={24} sm={24} md={9} lg={8} xl={6}>
+                        <Col xs={24} sm={24} md={9} lg={24} xl={7}>
                             <NotebookDetails />
                         </Col>
                     </Row>

@@ -1,48 +1,47 @@
 import React from "react";
 
-import { Constants } from "@utils";
+import { Constants, GlobalUtils } from "@utils";
 
 import "./SettingsPage.less";
 import { Row, Col } from "antd";
-import { AppSettings, PersonalDetails, SecurityAccount, SettingsSidebar } from "./__components__";
-
-function SectionComponent(props) {
-    const innerComponent = props.innerComponent;
-
-    return (
-        <section id={props.id}>
-            <h1 className="title title--light title--primary">{props.title}</h1>
-            <div className="content-card full-width" style={{minHeight: 128}}>
-                {innerComponent}
-            </div>
-        </section>
-    );
-}
+import SettingsCard, { SectionAppSettings, SectionPersonalDetails, SectionSecurityAccount } from "./SettingsCard";
+import SettingsSidebar from "./SettingsSidebar";
 
 const SettingsPage = () => {
-    const sections = Constants.settingsSections;
+    const { settingsSections } = Constants;
 
-    const sectionComponents = [
-        <PersonalDetails />,
-        <AppSettings />,
-        <SecurityAccount />
-    ];
+    const getSectionComponentByItsName = (sectionName, propsToPass) => {
+        switch (sectionName) {
+            case GlobalUtils.getComponentName(SectionAppSettings):
+                return React.createElement(SectionAppSettings, propsToPass);
+            case GlobalUtils.getComponentName(SectionPersonalDetails):
+                return React.createElement(SectionPersonalDetails, propsToPass);
+            case GlobalUtils.getComponentName(SectionSecurityAccount):
+                return React.createElement(SectionSecurityAccount, propsToPass);
+            default:
+                return <p>Unknown section</p>;
+        }
+    };
+
+    const sectionComponents = settingsSections.map(function (section) {
+        return (
+            <SettingsCard
+                key={section.id}
+                id={section.id}
+                title={section.defaultTitle}
+                innerComponent={getSectionComponentByItsName(section.componentName, section)}
+            />
+        );
+    });
 
     return (
         <div className="settings-root full-width scroll-container" id="settings-root">
             <Row justify="center" gutter={[18, 18]}>
                 <Col className="settings-sidebar" xs={24} sm={24} md={7} lg={7} xl={6}>
-                    <SettingsSidebar sections={sections} />
+                    <SettingsSidebar sections={settingsSections} />
                 </Col>
                 <Col className="settings-main" xs={24} sm={24} md={17} lg={17} xl={18}>
-                    {
-                        sections.map(function (section, index) {
-                            return <SectionComponent key={index} id={section.id} title={section.defaultTitle} innerComponent={sectionComponents[index]} />;
-                        })
-                    }
-                    {/* <SectionComponent id="section-details" title="Personal details" innerComponent={<PersonalDetails />} />
-                    <SectionComponent id="section-app-settings" title="App settings" innerComponent={<AppSettings />} />
-                    <SectionComponent id="section-security" title="Security and account" innerComponent={<SecurityAccount />} /> */}
+                    {sectionComponents}
                 </Col>
             </Row>
         </div>
