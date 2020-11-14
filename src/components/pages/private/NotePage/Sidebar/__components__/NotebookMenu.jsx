@@ -13,8 +13,6 @@ import SingleFieldModal from "##/SingleFieldModal";
 const { SubMenu } = Menu;
 
 const NotebookMenu = (props) => {
-    const [current, setCurrent] = useState("");
-
     const [modalAddNoteOpen, setModalAddNoteOpen] = useState(false);
     const [addNoteLoading, setAddNoteLoading] = useState(false);
 
@@ -34,7 +32,6 @@ const NotebookMenu = (props) => {
     };
 
     const handleClick = e => {
-        // setCurrent(e.key);
         props.setActiveNote(props.backpack, e.key);
         GlobalUtils.callIfFunction(props.tryCloseMenu);
     };
