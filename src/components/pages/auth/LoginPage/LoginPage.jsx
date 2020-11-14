@@ -8,7 +8,7 @@ import { loginUser } from "@actions/authActions";
 
 import "./LoginPage.less";
 import { Constants, RouteUtils } from "@utils";
-import { Row, Form, Button, message } from "antd";
+import { Row, Form, Button, Spin, message } from "antd";
 import { MailOutlined, LockOutlined } from "@ant-design/icons";
 import SocialButton from "##/SocialButton";
 import { AuthFormItem, requiredRule } from "../__components__";
@@ -53,42 +53,44 @@ class LoginPage extends React.Component {
         const { t } = this.props;
 
         return (
-            <div className="login-root">
-                <Row justify="center">
-                    <div className="content-card">
-                        <h1 className="header header--center-line header--special">{t("login.title")}</h1>
-                        <div className="social-button-wrapper">
-                            <SocialButton options={Constants.socialButtonTypes.google} />
-                            <SocialButton options={Constants.socialButtonTypes.facebook} />
+            <Spin spinning={this.props.auth.loading} tip="Login in progress">
+                <div className="login-root">
+                    <Row justify="center">
+                        <div className="content-card">
+                            <h1 className="header header--center-line header--special">{t("login.title")}</h1>
+                            <div className="social-button-wrapper">
+                                <SocialButton options={Constants.socialButtonTypes.google} />
+                                <SocialButton options={Constants.socialButtonTypes.facebook} />
+                            </div>
+                            <p className="text text--silent text--center" style={{margin: "20px 0"}}>or use your account</p>
+                            <Form 
+                                layout="vertical"
+                                onFinish={this.onSubmit.bind(this)}>
+                                {<AuthFormItem 
+                                    name="email"
+                                    placeholder={t("login.emailPlaceholder")}
+                                    prefix={<MailOutlined />}
+                                    rules={[requiredRule("email")]}
+                                    customError={errors.firstname}
+                                />}
+                                {<AuthFormItem 
+                                    name="password"
+                                    placeholder={t("login.passwordPlaceholder")}
+                                    prefix={<LockOutlined />}
+                                    rules={[requiredRule("password")]}
+                                    customError={errors.message}
+                                />}
+                                <Form.Item>
+                                    <Button type="primary" htmlType="submit" className="login-button">
+                                        {t("login.button")}
+                                    </Button>
+                                    {t("login.registerTitle")} <Link to="/auth/register">{t("login.registerLinkText")}</Link>
+                                </Form.Item>
+                            </Form>
                         </div>
-                        <p className="text text--silent text--center" style={{margin: "20px 0"}}>or use your account</p>
-                        <Form 
-                            layout="vertical"
-                            onFinish={this.onSubmit.bind(this)}>
-                            {<AuthFormItem 
-                                name="email"
-                                placeholder={t("login.emailPlaceholder")}
-                                prefix={<MailOutlined />}
-                                rules={[requiredRule("email")]}
-                                customError={errors.firstname}
-                            />}
-                            {<AuthFormItem 
-                                name="password"
-                                placeholder={t("login.passwordPlaceholder")}
-                                prefix={<LockOutlined />}
-                                rules={[requiredRule("password")]}
-                                customError={errors.message}
-                            />}
-                            <Form.Item>
-                                <Button type="primary" htmlType="submit" className="login-button">
-                                    {t("login.button")}
-                                </Button>
-                                {t("login.registerTitle")} <Link to="/auth/register">{t("login.registerLinkText")}</Link>
-                            </Form.Item>
-                        </Form>
-                    </div>
-                </Row>
-            </div>
+                    </Row>
+                </div>
+            </Spin>
         );
     }
 }

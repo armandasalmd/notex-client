@@ -20,6 +20,7 @@ const AppPrivate = (props) => {
     return (
         <>
 			<Navbar
+                
 				hamburgerEnabled={true}
 				hamburgerMenuData={{}}
 				menuItems={RouteUtils.getMenuItems(props.auth.isAuthenticated)} />
@@ -55,7 +56,7 @@ const AppPrivate = (props) => {
     );
 };
 
-Navbar.propTypes = {
+AppPrivate.propTypes = {
     auth: PropTypes.object.isRequired
 };
 

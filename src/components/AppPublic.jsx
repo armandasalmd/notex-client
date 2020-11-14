@@ -61,7 +61,7 @@ const AppPublic = (props) => {
     );
 };
 
-Navbar.propTypes = {
+AppPublic.propTypes = {
     auth: PropTypes.object.isRequired
 };
 

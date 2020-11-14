@@ -45,7 +45,7 @@ export default class Home extends React.Component {
             <Banner2 id="Banner2_0" key="Banner2_0" dataSource={Banner20DataSource} isMobile={this.state.isMobile} />,
             <Content0 id="Content0_0" key="Content0_0" dataSource={Content00DataSource} isMobile={this.state.isMobile} />,
             <Feature4 id="Feature4_0" key="Feature4_0" dataSource={Feature40DataSource} isMobile={this.state.isMobile} />,
-            <Footer />
+            <Footer key="Footer" />
         ];
         return (
             <div

@@ -2,7 +2,7 @@ import jwt_decode from "jwt-decode";
 
 import { AuthUtils, RouteUtils } from "@utils";
 
-import { SET_CURRENT_USER, GET_ERRORS } from "@actions/types";
+import { SET_CURRENT_USER, GET_ERRORS, SET_AUTH_LOADING } from "@actions/types";
 
 export const logoutUser = () => {
     return function (dispatch) {
@@ -15,9 +15,15 @@ export const logoutUser = () => {
     };
 };
 
-export const loginUser = userData => {
+export const loginUser = (userData) => {
     return function (dispatch) {
         const route = RouteUtils.api.auth.login;
+
+        dispatch({
+            type: SET_AUTH_LOADING,
+            payload: true
+        });
+
         RouteUtils.sendApiRequest(route, userData)
             .then(res => {
                 const { token } = res.data;
@@ -33,6 +39,10 @@ export const loginUser = userData => {
             .catch(err => {
                 if (err.response) {
                     dispatch({
+                        type: SET_AUTH_LOADING,
+                        payload: false
+                    });
+                    dispatch({
                         type: GET_ERRORS,
                         payload: err.response.data
                     });
@@ -43,11 +53,25 @@ export const loginUser = userData => {
 
 export const registerUser = (userData, history) => dispatch => {
     const route = RouteUtils.api.auth.register;
+    
+    dispatch({
+        type: SET_AUTH_LOADING,
+        payload: true
+    });
+
 	RouteUtils.sendApiRequest(route, userData)
         .then(res => {
+            dispatch({
+                type: SET_AUTH_LOADING,
+                payload: false
+            });
             history.push(`${RouteUtils.app.auth.login.link}?success=true`);
         })
         .catch(err => {
+            dispatch({
+                type: SET_AUTH_LOADING,
+                payload: false
+            });
             dispatch({
                 type: GET_ERRORS,
                 payload: err.response.data

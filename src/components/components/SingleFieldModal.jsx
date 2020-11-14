@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 
 import { Button, Modal, Form, Input } from "antd";
 
@@ -18,6 +18,7 @@ import { GlobalUtils } from "@utils";
  * @param {function} props.onSubmit
  */
 const SingleFieldModal = props => {
+    const formRef = useRef(null);
     const [form] = Form.useForm();
 
     const close = () => {
@@ -50,14 +51,14 @@ const SingleFieldModal = props => {
     ];
 
     useEffect(() => {
-        if (!props.loading) {
-            form.resetFields();
+        if (!props.loading && formRef.current) {
+            formRef.current.resetFields();
         }
-    }, [props.loading, form]);
+    }, [props.loading, formRef]);
 
     return (
         <Modal visible={props.visible} title={props.title || "No title"} onCancel={close} onOk={submit} footer={footer}>
-            <Form form={form} onFinish={submit}>
+            <Form form={form} onFinish={submit} ref={formRef}>
                 <Form.Item name="field" rules={[{ required: !props.allowEmpty, message: "This field is required" }]}>
                     <Input placeholder={props.textPlaceholder} />
                 </Form.Item>
