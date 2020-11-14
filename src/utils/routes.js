@@ -121,7 +121,7 @@ const sendApiRequest = (apiRoute, bodyData) => {
     return axios({
         method: apiRoute.method || "GET",
         url: url || "/",
-        data: bodyData
+        data: bodyData || {}
     });
 };
 

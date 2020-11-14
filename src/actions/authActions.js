@@ -1,16 +1,14 @@
 import jwt_decode from "jwt-decode";
 
 import { AuthUtils, RouteUtils } from "@utils";
-
-import { SET_CURRENT_USER, GET_ERRORS, SET_AUTH_LOADING } from "@actions/types";
+import { SET_CURRENT_USER, GET_ERRORS, SET_AUTH_LOADING, USER_LOGOUT } from "@actions/types";
 
 export const logoutUser = () => {
     return function (dispatch) {
         localStorage.removeItem("jwtToken");
         AuthUtils.setAuthHeaderToken(false);
         dispatch({
-            type: SET_CURRENT_USER,
-            payload: {}
+            type: USER_LOGOUT
         });
     };
 };

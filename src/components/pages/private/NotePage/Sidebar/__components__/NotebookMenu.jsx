@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-
-import FakeNotebooks from "./fakeData";
-
 import { GlobalUtils } from "@utils";
+
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { setActiveNote } from "@actions/appActions";
 
 import { NotebookOptions } from ".";
 import { Button, Menu, Popconfirm } from "antd";
@@ -33,7 +34,8 @@ const NotebookMenu = (props) => {
     };
 
     const handleClick = e => {
-        setCurrent(e.key);
+        // setCurrent(e.key);
+        props.setActiveNote(props.backpack, e.key);
         GlobalUtils.callIfFunction(props.tryCloseMenu);
     };
 
@@ -67,7 +69,8 @@ const NotebookMenu = (props) => {
         );
     };
 
-    const notebookMenuItems = FakeNotebooks.notebooks.map(function (notebook) {
+    const data = props.backpack.notebooks || [];
+    const notebookMenuItems = data.map(function (notebook) {
         return (
             <React.Fragment key={notebook._id}>
                 {getNotebookMenuItem(notebook)}
@@ -82,8 +85,8 @@ const NotebookMenu = (props) => {
                 theme="light"
                 onClick={handleClick}
                 style={{ width: "100%" }}
-                defaultOpenKeys={["sub1"]}
-                selectedKeys={[current]}
+                defaultOpenKeys={[]}
+                selectedKeys={[props.app.selectedNoteId]}
                 mode="inline"
             >
                 <Menu.Divider />
@@ -102,4 +105,15 @@ const NotebookMenu = (props) => {
     );
 }
 
-export default NotebookMenu;
+NotebookMenu.propTypes = {
+    setActiveNote: PropTypes.func.isRequired,
+    app: PropTypes.object.isRequired,
+    backpack: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+    app: state.app,
+    backpack: state.backpack
+});
+
+export default connect(mapStateToProps, { setActiveNote })(NotebookMenu);
