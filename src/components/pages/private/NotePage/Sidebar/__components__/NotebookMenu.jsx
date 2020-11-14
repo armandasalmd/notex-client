@@ -1,34 +1,43 @@
-import React from "react";
+import React, { useState } from "react";
 
 import FakeNotebooks from "./fakeData";
+
+import { GlobalUtils } from "@utils";
 
 import { NotebookOptions } from ".";
 import { Button, Menu, Popconfirm } from "antd";
 import { FolderOutlined } from "@ant-design/icons";
+import SingleFieldModal from "##/SingleFieldModal";
 
 const { SubMenu } = Menu;
 
-class NotebookMenu extends React.Component {
-    constructor() {
-        super();
-        this.state = {
-            current: ""
-        };
-    }
+const NotebookMenu = (props) => {
+    const [current, setCurrent] = useState("");
 
-    confirm() {
+    const [modalAddNoteOpen, setModalAddNoteOpen] = useState(false);
+    const [addNoteLoading, setAddNoteLoading] = useState(false);
+
+    const submitDelete = () => {
         console.log("yes, delete");
     }
 
-    handleClick(e) {
-        this.setState({
-            current: e.key
-        });
+    const submitAddNote = (value, {notebookId}) => {
+        setAddNoteLoading(true);
+        console.log(value);
+        console.log(notebookId);
 
-        this.props.tryCloseMenu();
-    }
+        setTimeout(() => {
+            setAddNoteLoading(false);
+            setModalAddNoteOpen(false);
+        }, 3000);
+    };
 
-    getNotebookMenuItem(notebook) {
+    const handleClick = e => {
+        setCurrent(e.key);
+        GlobalUtils.callIfFunction(props.tryCloseMenu);
+    };
+
+    const getNotebookMenuItem = (notebook) => {
         const noteMenuItems = notebook.notes.map(function (note) {
             return <Menu.Item key={note._id}>{note.title}</Menu.Item>;
         });
@@ -36,13 +45,13 @@ class NotebookMenu extends React.Component {
         return (
             <SubMenu icon={<FolderOutlined />} style={{fontSize: "1.15em"}} key={notebook._id} title={notebook.title}>
                 <div className="notebook-actions">
-                    <Button id="add" type="text">
+                    <Button id="add" type="text" onClick={() => setModalAddNoteOpen(true)}>
                         Add note
                     </Button>
                     <Popconfirm
                         placement="bottomRight"
                         title="Are you sure you want to delete notebook?"
-                        onConfirm={this.confirm}
+                        onConfirm={submitDelete}
                         okText="Yes"
                         cancelText="No"
                     >
@@ -50,38 +59,47 @@ class NotebookMenu extends React.Component {
                             Delete
                         </Button>
                     </Popconfirm>
-                    <NotebookOptions />
+                    <NotebookOptions notebookId={"11111112"}/>
                 </div>
                 <Menu.Divider />
                 {noteMenuItems}
             </SubMenu>
         );
-    }
+    };
 
-    render() {
-        const notebookMenuItems = FakeNotebooks.notebooks.map(function (notebook) {
-            return (
-                <React.Fragment key={notebook._id}>
-                    {this.getNotebookMenuItem(notebook)}
-                    <Menu.Divider />
-                </React.Fragment>
-            );
-        }.bind(this));
-
+    const notebookMenuItems = FakeNotebooks.notebooks.map(function (notebook) {
         return (
+            <React.Fragment key={notebook._id}>
+                {getNotebookMenuItem(notebook)}
+                <Menu.Divider />
+            </React.Fragment>
+        );
+    });
+
+    return (
+        <>
             <Menu
                 theme="light"
-                onClick={this.handleClick.bind(this)}
+                onClick={handleClick}
                 style={{ width: "100%" }}
                 defaultOpenKeys={["sub1"]}
-                selectedKeys={[this.state.current]}
+                selectedKeys={[current]}
                 mode="inline"
             >
                 <Menu.Divider />
                 {notebookMenuItems}
             </Menu>
-        );
-    }
+            <SingleFieldModal
+                extra={{notebookId: "1111111"}}
+                textPlaceholder="Enter note title"
+                title="Add new note for ..."
+                loading={addNoteLoading}
+                visible={modalAddNoteOpen}
+                setVisible={setModalAddNoteOpen}
+                onSubmit={submitAddNote}
+            />
+        </>
+    );
 }
 
 export default NotebookMenu;

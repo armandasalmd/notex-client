@@ -1,13 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 
-import { Button, Menu, Dropdown, message } from "antd";
+import { Button, Menu, Dropdown } from "antd";
 import { EllipsisOutlined, PrinterOutlined, FontColorsOutlined } from "@ant-design/icons";
+import SingleFieldModal from "##/SingleFieldModal";
 
-const NotebookOptions = () => {
-    function handleMenuClick(e) {
-        message.info("Click on menu item.");
-        console.log("click", e);
+const NotebookOptions = (props) => {
+    const [modalRenameOpen, setModalRenameOpen] = useState(false);
+    const [renameLoading, setRenameLoading] = useState(false);
+
+    const handleMenuClick = e => {
+        setModalRenameOpen(true);
     }
+
+    const submitRename = (value, {notebookId}) => {
+        setRenameLoading(true);
+        console.log(value);
+        console.log(notebookId);
+
+        setTimeout(() => {
+            setRenameLoading(false);
+            setModalRenameOpen(false);
+        }, 3000);
+    };
 
     const menu = (
         <Menu onClick={handleMenuClick}>
@@ -21,9 +35,20 @@ const NotebookOptions = () => {
     );
 
     return (
-        <Dropdown overlay={menu} placement="bottomRight">
-            <Button type="text" shape="circle" icon={<EllipsisOutlined />} />
-        </Dropdown>
+        <>
+            <Dropdown overlay={menu} placement="bottomRight">
+                <Button type="text" shape="circle" icon={<EllipsisOutlined />} />
+            </Dropdown>
+            <SingleFieldModal
+                extra={{notebookId: props.notebookId}}
+                textPlaceholder="Enter new name"
+                title="Rename notebook"
+                loading={renameLoading}
+                visible={modalRenameOpen}
+                setVisible={setModalRenameOpen}
+                onSubmit={submitRename}
+            />
+        </>
     );
 };
 
