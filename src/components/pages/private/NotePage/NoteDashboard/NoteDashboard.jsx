@@ -6,8 +6,8 @@ import NoteSettings from "./NoteSettings";
 import TabbedEditor from "./TabbedEditor";
 import ReadMode from "./ReadMode";
 
-import { PrinterOutlined, CloseOutlined, SaveOutlined, HighlightOutlined, ControlOutlined, AlignLeftOutlined } from "@ant-design/icons";
-import { Breadcrumb, Button, Col, Empty, Row, Tabs } from "antd";
+import { ShareAltOutlined, CloseOutlined, SaveOutlined, HighlightOutlined, ControlOutlined, AlignLeftOutlined } from "@ant-design/icons";
+import { Breadcrumb, Button, Col, Empty, Row, Tabs, Tooltip } from "antd";
 
 const { TabPane } = Tabs;
 
@@ -36,11 +36,15 @@ const NoteDashboard = props => {
                             </Breadcrumb>
                         </Col>
                         <Col className="note-row-toolbar-actions">
-                            <Button className="action-save" type="primary" shape="round" icon={<SaveOutlined />}>
+                            <Button loading className="action-save" type="primary" shape="round" icon={<SaveOutlined />}>
                                 Save
                             </Button>
-                            <Button className="action-print" type="primary" ghost shape="circle" icon={<PrinterOutlined />}></Button>
-                            <Button className="action-close" danger shape="circle" icon={<CloseOutlined />}></Button>
+                            <Tooltip placement="bottom" title="Click to copy sharable link">
+                                <Button className="action-share" type="primary" ghost shape="circle" icon={<ShareAltOutlined />}></Button>
+                            </Tooltip>
+                            <Tooltip placement="bottom" title="Close note">
+                                <Button className="action-close" danger shape="circle" icon={<CloseOutlined />}></Button>
+                            </Tooltip>
                         </Col>
                     </Row>
                     <Row className="note-row-title">

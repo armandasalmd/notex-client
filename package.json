@@ -31,7 +31,8 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.4",
     "redux": "^4.0.5",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "use-clippy": "^1.0.8"
   },
   "scripts": {
     "start": "craco start",
