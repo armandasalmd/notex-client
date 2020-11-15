@@ -8,7 +8,6 @@ import "./NoteSettings.less";
 import { ChangeName, ChangeNotebook, ControlAccess, DeleteNote } from "./__components__";
 
 const NoteSettings = props => {
-    
     const note = props.app.selectedNote,
         noteTitle = GlobalUtils.getValue(note, NoteUtils.props.note.title);
 
@@ -33,19 +32,21 @@ const NoteSettings = props => {
     return (
         <div className="note-settings-root">
             <div className="form">
-                <ChangeName noteName={noteTitle} onSubmit={onChangeName} />
+                <ChangeName key={noteTitle + "1"} noteName={noteTitle} onSubmit={onChangeName} />
                 <ChangeNotebook
+                    key={noteTitle + "2"}
                     noteName={noteTitle}
                     notebookId={GlobalUtils.getValue(notebook, NoteUtils.props.notebook.id)}
                     notebookOptions={NoteUtils.getNotebookSelectOptions(props.backpack)}
                     onSubmit={onChangeNotebook}
                 />
                 <ControlAccess
+                    key={noteTitle + "3"}
                     selectedValue={GlobalUtils.getValue(note, NoteUtils.props.note.accessLevel)}
-                    accessOptions={NoteUtils.accessOptions}
+                    noteOwner={GlobalUtils.getValue(notebook, NoteUtils.props.notebook.owner)}
                     onSubmit={onChangeAccess}
                 />
-                <DeleteNote onSubmit={onDeleteNote} />
+                <DeleteNote key={noteTitle + "4"} onSubmit={onDeleteNote} />
             </div>
         </div>
     );

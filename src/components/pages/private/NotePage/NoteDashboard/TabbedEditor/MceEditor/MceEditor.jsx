@@ -1,28 +1,41 @@
-import React, { useState } from "react";
-
+import React, { useState, useEffect, useRef } from "react";
 import classnames from "classnames";
-import { Constants } from "@utils";
+import { Constants, GlobalUtils, NoteUtils } from "@utils";
 
 import "./MceEditor.less";
 import { Editor } from "@tinymce/tinymce-react";
 import { SpinnerContainer } from "./__components__";
 
-const MceEditor = (props) => {
+const MceEditor = ({ selectedNote }) => {
+    const selectedText = GlobalUtils.getValue(selectedNote, NoteUtils.props.note.text);
+
+    const [editorValue, setEditorValue] = useState(selectedText);
     const [loading, setLoading] = useState(true);
+    const editorElement = useRef(null);
 
     const loadingStateChange = isLoading => {
         if (isLoading !== loading) {
-            setTimeout(() => { setLoading(isLoading); }, 250);            
+            setTimeout(() => {
+                setLoading(isLoading);
+            }, 250);
         }
     };
 
     const handleEditorChange = content => {
-        console.log("Content was updated:", content);
+        setEditorValue(content);
     };
+
+    useEffect(() => {
+        const clearUndoFn = GlobalUtils.getValue(editorElement, "current.editor.undoManager.clear");
+
+        GlobalUtils.callIfFunction(clearUndoFn, selectedText);
+        setEditorValue(selectedText);
+    }, [selectedText]);
 
     const EditorContainer = (
         <Editor
-            initialValue="<p>This is the initial content of the editor</p>"
+            ref={editorElement}
+            value={editorValue}
             init={{
                 codesample_languages: [
                     { text: "HTML/XML", value: "markup" },
@@ -56,12 +69,14 @@ const MceEditor = (props) => {
 
     return (
         <div className="editor-root">
-                { loading && <SpinnerContainer /> }
-                <div className={classnames({
+            {loading && <SpinnerContainer />}
+            <div
+                className={classnames({
                     gone: loading
-                })}>
-                    {EditorContainer}
-                </div>
+                })}
+            >
+                {EditorContainer}
+            </div>
         </div>
     );
 };

@@ -8,7 +8,7 @@ const ChangeName = ({noteName, onSubmit}) => {
 
     return (
         <div className="form__section">
-            <h3 className="form__title">Change note name{noteName}</h3>
+            <h3 className="form__title">Change note name</h3>
             <div className="form__items">
                 <Input
                     value={name}

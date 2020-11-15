@@ -10,11 +10,11 @@ export default {
             args[0](...args.splice(1));
         }
     },
-    getValue: (target, property, defaultValue) => {
-        if (typeof property === "string") {
-            return !!target[property] ? target[property] : defaultValue;
-        } else {
+    getValue: (target, path, defaultValue, pathSeparator = ".") => {
+        if (!target || typeof path !== "string") {
             return defaultValue;
+        } else {
+            return path.split(pathSeparator).reduce((p, c) => (p && p[c]) || defaultValue, target);
         }
     }
 };

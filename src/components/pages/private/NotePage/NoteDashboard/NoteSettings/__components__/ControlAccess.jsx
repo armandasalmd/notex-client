@@ -1,21 +1,18 @@
-import React from "react";
-import useClippy from 'use-clippy';
+import React, { useState } from "react";
+import useClippy from "use-clippy";
+import { NoteUtils } from "@utils";
 
 import { Button, Select, Space, Tooltip, message } from "antd";
 import { ShareAltOutlined } from "@ant-design/icons";
 
 const { Option } = Select;
 
-const ControlAccess = () => {
+const ControlAccess = ({ selectedValue, noteOwner, onSubmit }) => {
     const [, setClipboard] = useClippy();
+    const [access, setAccess] = useState(selectedValue);
 
-    const children = [];
-    for (let i = 10; i < 36; i++) {
-        children.push(<Option key={i.toString(36) + i}>{i.toString(36) + i}</Option>);
-    }
-
-    const handleChange = value => {
-        console.log(`Selected: ${value}`);
+    const handleChange = () => {
+        console.log("handle change");
     };
 
     const copyUrl = () => {
@@ -31,9 +28,14 @@ const ControlAccess = () => {
                     <div>
                         <p>Access type</p>
                         <Space>
-                            <Select defaultValue="public" onChange={handleChange} style={{ width: 200 }}>
-                                <Option key="public">Public</Option>
-                                <Option key="private">Private</Option>
+                            <Select value={access} onChange={setAccess} style={{ width: 200 }}>
+                                {NoteUtils.accessLevelOptions.map(function (option) {
+                                    return (
+                                        <Option key={option.value} value={option.value}>
+                                            {option.name}
+                                        </Option>
+                                    );
+                                })}
                             </Select>
                             <Tooltip placement="bottom" title="Click to copy sharable link">
                                 <Button icon={<ShareAltOutlined />} onClick={copyUrl} />
@@ -46,20 +48,14 @@ const ControlAccess = () => {
                 <div className="form__items">
                     <div style={{ width: "100%" }}>
                         <p>Share with (when private)</p>
-                        <Select
-                            mode="tags"
-                            placeholder="Please select"
-                            defaultValue={["a10", "c12"]}
-                            onChange={handleChange}
-                            style={{ width: "100%" }}
-                        >
-                            {children}
+                        <Select disabled mode="tags" placeholder="Please select" defaultValue={[noteOwner]} onChange={handleChange} style={{ width: "100%" }}>
+                            <Option>{noteOwner}</Option>
                         </Select>
                     </div>
                 </div>
             </div>
             <div className="form__section form__section--small-gap">
-                <Button>Save changes</Button>
+                <Button onClick={() => onSubmit(access)}>Save changes</Button>
             </div>
         </>
     );

@@ -1,19 +1,25 @@
 import React from "react";
 
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+
 import "./TabbedEditor.less";
 import MceEditor from "./MceEditor";
 
-// import { Tabs } from "antd";
-// const { TabPane } = Tabs;
+const TabbedEditor = props => {
+    return (
+        <div className="tabbed-editor-root">
+            <MceEditor selectedNote={props.app.selectedNote || {}} />
+        </div>
+    );
+};
 
-class TabbedEditor extends React.Component {
-    render() {
-        return (
-            <div className="tabbed-editor-root">
-                <MceEditor data={{}} />
-            </div>
-        );
-    }
-}
+TabbedEditor.propTypes = {
+    app: PropTypes.object.isRequired
+};
 
-export default TabbedEditor;
+const mapStateToProps = state => ({
+    app: state.app
+});
+
+export default connect(mapStateToProps, {})(TabbedEditor);
