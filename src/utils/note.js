@@ -33,8 +33,13 @@ const findNoteParent = function (noteId, backpack) {
 };
 
 const findNote = function (noteId, backpack) {
-    if (noteId && backpack && backpack.isFetched)
-        for (let notebook of backpack.notebooks) for (let note of notebook.notes) if (note._id === noteId) return note;
+    if (noteId && backpack && backpack.isFetched) {
+        for (let notebook of backpack.notebooks) {
+            for (let note of notebook.notes) {
+                if (note._id === noteId) return note;
+            }
+        }
+    }
 };
 
 const getNotebookSelectOptions = function (backpack) {

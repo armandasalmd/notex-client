@@ -4,12 +4,10 @@ import { combineReducers } from "redux";
 import appReducer from "./appReducer";
 import authReducer from "./authReducer";
 import errorReducer from "./errorReducer";
-import backpackReducer from "./backpackReducer";
 
 const rootReducer = combineReducers({
     auth: authReducer,
     errors: errorReducer,
-    backpack: backpackReducer,
     app: appReducer
 });
 

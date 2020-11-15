@@ -5,7 +5,7 @@ import { Spin } from "antd";
 
 const SpinnerContainer = () => {
     return (
-        <div className="spinner-container flex-center" style={{ height: Constants.editorHeight }}>
+        <div className="spinner-container flex-center" style={{ height: Constants.mceOptions.height }}>
             <Spin size="large" />
         </div>
     );

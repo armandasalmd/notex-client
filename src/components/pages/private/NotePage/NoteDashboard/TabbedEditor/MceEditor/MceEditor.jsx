@@ -1,15 +1,16 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import classnames from "classnames";
-import { Constants, GlobalUtils, NoteUtils } from "@utils";
+import { Constants, GlobalUtils } from "@utils";
+
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { setEditorText } from "@actions/appActions";
 
 import "./MceEditor.less";
 import { Editor } from "@tinymce/tinymce-react";
 import { SpinnerContainer } from "./__components__";
 
-const MceEditor = ({ selectedNote }) => {
-    const selectedText = GlobalUtils.getValue(selectedNote, NoteUtils.props.note.text);
-
-    const [editorValue, setEditorValue] = useState(selectedText);
+const MceEditor = ({ selectedNote, setEditorText, editorText }) => {
     const [loading, setLoading] = useState(true);
     const editorElement = useRef(null);
 
@@ -22,42 +23,20 @@ const MceEditor = ({ selectedNote }) => {
     };
 
     const handleEditorChange = content => {
-        setEditorValue(content);
+        setEditorText(content);
     };
 
     useEffect(() => {
         const clearUndoFn = GlobalUtils.getValue(editorElement, "current.editor.undoManager.clear");
-
-        GlobalUtils.callIfFunction(clearUndoFn, selectedText);
-        setEditorValue(selectedText);
-    }, [selectedText]);
+        GlobalUtils.callIfFunction(clearUndoFn);
+    }, [selectedNote]);
 
     const EditorContainer = (
         <Editor
             ref={editorElement}
-            value={editorValue}
+            value={editorText}
             init={{
-                codesample_languages: [
-                    { text: "HTML/XML", value: "markup" },
-                    { text: "JavaScript", value: "javascript" },
-                    { text: "CSS", value: "css" },
-                    { text: "Ruby", value: "ruby" },
-                    { text: "Python", value: "python" },
-                    { text: "Java", value: "java" },
-                    { text: "C", value: "c" },
-                    { text: "C#", value: "csharp" },
-                    { text: "C++", value: "cpp" }
-                ],
-                height: Constants.editorHeight,
-                menubar: true,
-                plugins: [
-                    "codesample advlist autolink lists link image charmap print preview anchor",
-                    "searchreplace visualblocks code fullscreen",
-                    "insertdatetime media table paste code help wordcount"
-                ],
-                toolbar:
-                    "undo redo | code formatselect | bold italic backcolor | fullscreen link image codesample print | bullist numlist outdent indent | removeformat | help",
-                toolbar_mode: "sliding",
+                ...Constants.mceOptions,
                 setup: editor => {
                     editor.on("PreProcess", loadingStateChange(true));
                     editor.on("PostProcess SkinLoaded", loadingStateChange(false));
@@ -81,4 +60,16 @@ const MceEditor = ({ selectedNote }) => {
     );
 };
 
-export default MceEditor;
+
+MceEditor.propTypes = {
+    selectedNote: PropTypes.object.isRequired,
+    editorText: PropTypes.string.isRequired,
+    setEditorText: PropTypes.func.isRequired
+};
+
+const mapStateToProps = state => ({
+    selectedNote: state.app.selectedNote,
+    editorText: state.app.editorText
+});
+
+export default connect(mapStateToProps, { setEditorText })(MceEditor);

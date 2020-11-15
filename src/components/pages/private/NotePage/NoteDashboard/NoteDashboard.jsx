@@ -4,7 +4,7 @@ import { NoteUtils, GlobalUtils } from "@utils";
 
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { closeNotebook } from "@actions/appActions";
+import { closeNotebook, saveChanges } from "@actions/appActions";
 
 import "./NoteDashboard.less";
 import NoteSettings from "./NoteSettings";
@@ -20,6 +20,12 @@ const NoteDashboard = props => {
     const note = props.app.selectedNote;
     const notebook = props.app.selectedNotebook;
 
+    const onSave = () => {
+        props.saveChanges(GlobalUtils.getValue(note, NoteUtils.props.note.id), props.app.editorText);
+    };
+
+    const changesSaved = () => props.app.editorText === GlobalUtils.getValue(note, NoteUtils.props.note.text);
+
     return (
         <div className="note-root">
             <div className="content-card">
@@ -31,7 +37,15 @@ const NoteDashboard = props => {
                         </Breadcrumb>
                     </Col>
                     <Col className="note-row-toolbar-actions">
-                        <Button loading={props.app.isSaving} className="action-save" type="primary" shape="round" icon={<SaveOutlined />}>
+                        <Button
+                            loading={props.app.isSaving}
+                            disabled={changesSaved()}
+                            onClick={onSave}
+                            className="action-save"
+                            type="primary"
+                            shape="round"
+                            icon={<SaveOutlined />}
+                        >
                             Save
                         </Button>
                         <Tooltip placement="bottom" title="Click to copy sharable link">
@@ -50,10 +64,14 @@ const NoteDashboard = props => {
                 </Row>
                 <Row className="note-row-title">
                     <h1 className="title">{GlobalUtils.getValue(note, NoteUtils.props.note.title)}</h1>
-                    <h2 className={classnames({
-                        "sub-title sub-title__warn": true,
-                        "gone": props.app.changesSaved
-                    })}>(Not saved)</h2>
+                    <h2
+                        className={classnames({
+                            "sub-title sub-title__warn": true,
+                            gone: changesSaved()
+                        })}
+                    >
+                        (Not saved)
+                    </h2>
                 </Row>
                 <Row className="note-row-action-tabs">
                     <Tabs defaultActiveKey="1" style={{ width: "100%", marginBottom: 0, overflow: "visible" }}>
@@ -77,7 +95,7 @@ const NoteDashboard = props => {
                             }
                             key="2"
                         >
-                            <ReadMode innerHtml={GlobalUtils.getValue(note, NoteUtils.props.note.text)} />
+                            <ReadMode innerHtml={props.app.editorText || GlobalUtils.getValue(note, NoteUtils.props.note.text)} />
                         </TabPane>
                         <TabPane
                             tab={
@@ -99,6 +117,7 @@ const NoteDashboard = props => {
 
 NoteDashboard.propTypes = {
     closeNotebook: PropTypes.func.isRequired,
+    saveChanges: PropTypes.func.isRequired,
     app: PropTypes.object.isRequired
 };
 
@@ -106,4 +125,4 @@ const mapStateToProps = state => ({
     app: state.app
 });
 
-export default connect(mapStateToProps, { closeNotebook })(NoteDashboard);
+export default connect(mapStateToProps, { closeNotebook, saveChanges })(NoteDashboard);

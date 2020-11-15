@@ -19,6 +19,10 @@ const SectionAppSettings = props => {
         console.log(`changeCloseMenuPreference: ${checked}`);
     };
 
+    const changeAutoSavePreference = checked => {
+        console.log(`changeAutoSavePreference: ${checked}`);
+    };
+
     return (
         <div className="section-app-settings">
             <section>
@@ -53,6 +57,8 @@ const SectionAppSettings = props => {
             <section>
                 <p className="text text--form-label">Clone backpack menu after item click</p>
                 <Switch defaultChecked onChange={changeCloseMenuPreference} />
+                <p className="text text--form-label">Auto save content</p>
+                <Switch onChange={changeAutoSavePreference} />
             </section>
             <section>
                 <p className="text text--form-label">Dangerous actions</p>

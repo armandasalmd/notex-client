@@ -59,7 +59,7 @@ NoteSettings.propTypes = {
 
 const mapStateToProps = state => ({
     app: state.app,
-    backpack: state.backpack
+    backpack: state.app.backpack
 });
 
 export default connect(mapStateToProps, {})(NoteSettings);

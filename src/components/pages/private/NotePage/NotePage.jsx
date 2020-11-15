@@ -2,8 +2,7 @@ import React, { useState } from "react";
 
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { setActiveNote } from "@actions/appActions";
-import { fetchNotebooks } from "@actions/backpackActions";
+import { setActiveNote, fetchNotebooks } from "@actions/appActions";
 
 import "./NotePage.less";
 import Sidebar from "./Sidebar/Sidebar";
@@ -90,7 +89,7 @@ NotePage.propTypes = {
 
 const mapStateToProps = state => ({
     app: state.app,
-    backpack: state.backpack
+    backpack: state.app.backpack
 });
 
 export default connect(mapStateToProps, { setActiveNote, fetchNotebooks })(NotePage);
