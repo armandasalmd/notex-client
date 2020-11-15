@@ -1,4 +1,6 @@
 import React from "react";
+import classnames from "classnames";
+import { NoteUtils, GlobalUtils } from "@utils";
 
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -15,31 +17,43 @@ import { Breadcrumb, Button, Col, Row, Tabs, Tooltip } from "antd";
 const { TabPane } = Tabs;
 
 const NoteDashboard = props => {
+    const note = props.app.selectedNote;
+    const notebook = props.app.selectedNotebook;
+
     return (
         <div className="note-root">
             <div className="content-card">
                 <Row className="note-row-toolbar" justify="space-between">
                     <Col className="note-row-toolbar-breadcrumb">
                         <Breadcrumb>
-                            <Breadcrumb.Item>History notebook</Breadcrumb.Item>
-                            <Breadcrumb.Item>Second World War</Breadcrumb.Item>
+                            <Breadcrumb.Item>{GlobalUtils.getValue(notebook, NoteUtils.props.notebook.title)}</Breadcrumb.Item>
+                            <Breadcrumb.Item>{GlobalUtils.getValue(note, NoteUtils.props.note.title)}</Breadcrumb.Item>
                         </Breadcrumb>
                     </Col>
                     <Col className="note-row-toolbar-actions">
-                        <Button loading className="action-save" type="primary" shape="round" icon={<SaveOutlined />}>
+                        <Button loading={props.app.isSaving} className="action-save" type="primary" shape="round" icon={<SaveOutlined />}>
                             Save
                         </Button>
                         <Tooltip placement="bottom" title="Click to copy sharable link">
                             <Button className="action-share" type="primary" ghost shape="circle" icon={<ShareAltOutlined />}></Button>
                         </Tooltip>
                         <Tooltip placement="bottom" title="Close note">
-                            <Button className="action-close" danger shape="circle" icon={<CloseOutlined />} onClick={() => props.closeNotebook()} ></Button>
+                            <Button
+                                className="action-close"
+                                danger
+                                shape="circle"
+                                icon={<CloseOutlined />}
+                                onClick={() => props.closeNotebook()}
+                            ></Button>
                         </Tooltip>
                     </Col>
                 </Row>
                 <Row className="note-row-title">
-                    <h1 className="title">Second World War</h1>
-                    <h2 className="sub-title sub-title__warn">(Not saved)</h2>
+                    <h1 className="title">{GlobalUtils.getValue(note, NoteUtils.props.note.title)}</h1>
+                    <h2 className={classnames({
+                        "sub-title sub-title__warn": true,
+                        "gone": props.app.changesSaved
+                    })}>(Not saved)</h2>
                 </Row>
                 <Row className="note-row-action-tabs">
                     <Tabs defaultActiveKey="1" style={{ width: "100%", marginBottom: 0, overflow: "visible" }}>
@@ -63,7 +77,7 @@ const NoteDashboard = props => {
                             }
                             key="2"
                         >
-                            <ReadMode innerHtml="<h1>This is my note text</h1>It works" />
+                            <ReadMode innerHtml={GlobalUtils.getValue(note, NoteUtils.props.note.text)} />
                         </TabPane>
                         <TabPane
                             tab={
@@ -84,9 +98,12 @@ const NoteDashboard = props => {
 };
 
 NoteDashboard.propTypes = {
-    closeNotebook: PropTypes.func.isRequired
+    closeNotebook: PropTypes.func.isRequired,
+    app: PropTypes.object.isRequired
 };
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+    app: state.app
+});
 
 export default connect(mapStateToProps, { closeNotebook })(NoteDashboard);

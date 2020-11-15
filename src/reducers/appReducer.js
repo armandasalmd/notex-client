@@ -2,9 +2,12 @@ import { SET_ACTIVE_NOTE, CLOSE_NOTEBOOK } from "@actions/types";
 
 const initialState = {
     changesSaved: true,
+    isSaving: false,
     isSelected: false,
     selectedNotebookId: "",
-    selectedNoteId: ""
+    selectedNoteId: "",
+    selectedNotebook: {},
+    selectedNote: {}
 };
 
 export default function (state = initialState, action) {
@@ -15,13 +18,17 @@ export default function (state = initialState, action) {
                 ...state,
                 selectedNotebookId: action.payload.notebookId,
                 selectedNoteId: action.payload.noteId,
+                selectedNotebook: action.payload.notebook,
+                selectedNote: action.payload.note,
                 isSelected: selected
             };
         case CLOSE_NOTEBOOK:
             return {
                 ...state,
-                selectedNotebookId: "",
-                selectedNoteId: "",
+                selectedNotebookId: initialState.selectedNotebookId,
+                selectedNoteId: initialState.selectedNoteId,
+                selectedNotebook: initialState.selectedNotebook,
+                selectedNote: initialState.selectedNote,
                 isSelected: false
             };
         default:

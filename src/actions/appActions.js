@@ -1,14 +1,17 @@
+import { GlobalUtils, NoteUtils } from "@utils";
 import { SET_ACTIVE_NOTE, CLOSE_NOTEBOOK } from "@actions/types";
 
 export const setActiveNote = (backpack, noteId) => {
     return function (dispatch) {
-        // Find rel notebook id in backpack
-        
+        const notebook = NoteUtils.findNoteParent(noteId, backpack);
+
         dispatch({
             type: SET_ACTIVE_NOTE,
             payload: {
-                notebookId: "undefined",
-                noteId: noteId
+                notebookId: GlobalUtils.getValue(notebook, NoteUtils.props.notebook.id),
+                noteId: noteId,
+                notebook: notebook,
+                note: NoteUtils.findNote(noteId, backpack)
             }
         });
     };
