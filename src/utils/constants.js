@@ -4,6 +4,8 @@ export default {
     apiHostName: "https://notex-api.herokuapp.com",
     apiHostNameDev: "http://localhost:3001",
     authTokenType: "Bearer",
+    autoSaveTime: 5000,
+    autoSaveEnabled: true,
 
     accessLevels: {
         public: {
