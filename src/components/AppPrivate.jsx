@@ -9,45 +9,31 @@ import NotePage from "#/pages/private/NotePage";
 import SettingsPage from "#/pages/private/SettingsPage";
 import LogoutPage from "#/pages/auth/LogoutPage";
 
-import { withTitle } from "##/HeadTitle";
 import { RouteUtils } from "@utils";
 import { useTranslation } from "react-i18next";
+import RenderPage from "#/RenderPage";
 
+const AppPrivate = props => {
+    const { t } = useTranslation();
 
-const AppPrivate = (props) => {
-	const { t } = useTranslation();
-	
     return (
         <>
-			<Navbar
-                
-				hamburgerEnabled={true}
-				hamburgerMenuData={{}}
-				menuItems={RouteUtils.getMenuItems(props.auth.isAuthenticated)} />
+            <Navbar hamburgerEnabled={true} hamburgerMenuData={{}} menuItems={RouteUtils.getMenuItems(props.auth.isAuthenticated)} />
             <Switch>
                 <Route
                     exact
                     path={RouteUtils.app.private.main.link}
-                    component={withTitle({
-                        component: NotePage,
-                        title: t(RouteUtils.app.private.main.titleTextKey)
-                    })}
+                    component={RenderPage(NotePage, t(RouteUtils.app.private.note.titleTextKey))}
                 />
                 <Route
                     exact
-                    path={RouteUtils.app.private.note.link}
-                    component={withTitle({
-                        component: NotePage,
-                        title: t(RouteUtils.app.private.note.titleTextKey)
-                    })}
+                    path={`${RouteUtils.app.private.note.link}/:noteId`}
+                    component={RenderPage(NotePage, t(RouteUtils.app.private.note.titleTextKey))}
                 />
                 <Route
                     exact
                     path={RouteUtils.app.private.settings.link}
-                    component={withTitle({
-                        component: SettingsPage,
-                        title: t(RouteUtils.app.private.settings.titleTextKey)
-                    })}
+                    component={RenderPage(SettingsPage, t(RouteUtils.app.private.settings.titleTextKey))}
                 />
                 <Route exact path={RouteUtils.app.auth.logout.link} component={LogoutPage} />
                 <Route component={() => <Redirect to="/" />} />

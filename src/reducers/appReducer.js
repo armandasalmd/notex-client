@@ -7,12 +7,14 @@ const initialState = {
         notebooks: []
     },
     editorText: "",
+    isAutosaved: false,
     isSaving: false,
     isSelected: false,
     selectedNotebookId: "",
     selectedNoteId: "",
     selectedNotebook: {},
-    selectedNote: {}
+    selectedNote: {},
+    wasEverSelected: false
 };
 
 export default function (state = initialState, action) {
@@ -20,7 +22,7 @@ export default function (state = initialState, action) {
         case SET_ACTIVE_NOTE:
             const selected = !!action.payload.notebookId && !!action.payload.noteId;
             const newEditorText = GlobalUtils.getValue(action.payload.note, NoteUtils.props.note.text);
-
+            
             return {
                 ...state,
                 selectedNotebookId: action.payload.notebookId,
@@ -28,7 +30,8 @@ export default function (state = initialState, action) {
                 selectedNotebook: action.payload.notebook,
                 selectedNote: action.payload.note,
                 isSelected: selected,
-                editorText: newEditorText
+                editorText: newEditorText,
+                wasEverSelected: true
             };
         case CLOSE_NOTEBOOK:
             return {
@@ -62,7 +65,8 @@ export default function (state = initialState, action) {
             }
             return {
                 ...state,
-                isSaving: false
+                isSaving: false,
+                isAutosaved: action.payload.autosaved
             };
         case SAVE_SPIN_START:
             return {

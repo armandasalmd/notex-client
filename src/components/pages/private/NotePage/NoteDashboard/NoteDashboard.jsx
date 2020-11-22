@@ -72,6 +72,14 @@ const NoteDashboard = props => {
                     >
                         (Not saved)
                     </h2>
+                    <h2
+                        className={classnames({
+                            "sub-title sub-title__success": true,
+                            gone: !(props.app.isAutosaved && changesSaved())
+                        })}
+                    >
+                        (Auto saved)
+                    </h2>
                 </Row>
                 <Row className="note-row-action-tabs">
                     <Tabs defaultActiveKey="1" style={{ width: "100%", marginBottom: 0, overflow: "visible" }}>

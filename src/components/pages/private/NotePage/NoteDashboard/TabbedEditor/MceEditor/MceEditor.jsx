@@ -43,8 +43,7 @@ const MceEditor = ({
                     setTimeout(() => {
                         // if user saves manually then auto save request is not needed
                         if (!changesSaved(GlobalUtils.getValue(selectedNote, NoteUtils.props.note.text))) {
-                            console.log("Armandas");
-                            saveChanges(GlobalUtils.getValue(selectedNote, NoteUtils.props.note.id), content);
+                            saveChanges(GlobalUtils.getValue(selectedNote, NoteUtils.props.note.id), content, true);
                         }
                     }, Constants.autoSaveTime)
                 );

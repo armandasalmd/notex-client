@@ -5,15 +5,21 @@ export const setActiveNote = (backpack, noteId) => {
     return function (dispatch) {
         const notebook = NoteUtils.findNoteParent(noteId, backpack);
 
-        dispatch({
-            type: SET_ACTIVE_NOTE,
-            payload: {
-                notebookId: GlobalUtils.getValue(notebook, NoteUtils.props.notebook.id),
-                noteId: noteId,
-                notebook: notebook,
-                note: NoteUtils.findNote(noteId, backpack)
-            }
-        });
+        if (notebook) {
+            dispatch({
+                type: SET_ACTIVE_NOTE,
+                payload: {
+                    notebookId: GlobalUtils.getValue(notebook, NoteUtils.props.notebook.id),
+                    noteId: noteId,
+                    notebook: notebook,
+                    note: NoteUtils.findNote(noteId, backpack)
+                }
+            });
+    
+            window.history.pushState(RouteUtils.app.private.note.link, "", `?${RouteUtils.app.private.note.queryNames.note}=${noteId}`);
+        } else {
+            window.history.pushState(RouteUtils.app.private.note.link, "", RouteUtils.app.private.note.link);
+        }
     };
 };
 
@@ -22,6 +28,7 @@ export const closeNotebook = () => {
         dispatch({
             type: CLOSE_NOTEBOOK
         });
+        window.history.pushState(RouteUtils.app.private.note.link, "", RouteUtils.app.private.note.link);
     };
 };
 
@@ -58,9 +65,9 @@ export const fetchNotebooks = () => {
     };
 };
 
-export const saveChanges = (noteId, newText) => {
+export const saveChanges = (noteId, newText, isAutosave) => {
     return function (dispatch) {
-        dispatch({type: SAVE_SPIN_START});
+        dispatch({ type: SAVE_SPIN_START });
         const route = RouteUtils.api.note.saveNote;
         const body = {
             noteId,
@@ -74,7 +81,8 @@ export const saveChanges = (noteId, newText) => {
                         type: SAVE_NOTE,
                         payload: {
                             noteId: noteId,
-                            note: res.data.data
+                            note: res.data.data,
+                            autosaved: !!isAutosave
                         }
                     });
                 }

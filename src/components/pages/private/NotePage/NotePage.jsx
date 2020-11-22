@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import { RouteUtils } from "@utils";
 
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { setActiveNote, fetchNotebooks } from "@actions/appActions";
+import { fetchNotebooks, setActiveNote } from "@actions/appActions";
 
 import "./NotePage.less";
 import Sidebar from "./Sidebar/Sidebar";
@@ -12,13 +14,26 @@ import SingleFieldModal from "##/SingleFieldModal";
 
 import { Row, Col, Empty, Button } from "antd";
 
+const useQuery = () => {
+    return new URLSearchParams(useLocation().search);
+}
+
 const NotePage = props => {
+    const query = useQuery();
     const [modalAddOpen, setModalAddOpen] = useState(false);
     const [addLoading, setAddLoading] = useState(false);
 
-    if (!props.backpack.isFetched) {
-        props.fetchNotebooks();
-    }
+    useEffect(() => {
+        if (!props.app.backpack.isFetched) {
+            props.fetchNotebooks();
+        } else {
+            const noteId = query.get(RouteUtils.app.private.note.queryNames.note);
+            
+            if (!props.app.wasEverSelected && noteId) {
+                props.setActiveNote(props.app.backpack, noteId);
+            }
+        }
+    }, [props, query]);
 
     const submitAdd = submitText => {
         setAddLoading(true);
@@ -52,7 +67,7 @@ const NotePage = props => {
                     <Sidebar data={{}} />
                 </Col>
                 <Col className="note-main" xs={24} sm={24} md={24} lg={18} xl={19}>
-                    {props.backpack.isFetched && props.app.isSelected ? (
+                    {props.app.backpack.isFetched && props.app.isSelected ? (
                         <Row style={{ justifyContent: "space-evenly" }} align="top" gutter={[18, 18]}>
                             <Col xs={24} sm={24} md={15} lg={24} xl={17}>
                                 <NoteDashboard />
@@ -81,15 +96,14 @@ const NotePage = props => {
 };
 
 NotePage.propTypes = {
-    setActiveNote: PropTypes.func.isRequired,
     fetchNotebooks: PropTypes.func.isRequired,
+    setActiveNote: PropTypes.func.isRequired,
     app: PropTypes.object.isRequired,
-    backpack: PropTypes.object.isRequired
+    history: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-    app: state.app,
-    backpack: state.app.backpack
+    app: state.app
 });
 
-export default connect(mapStateToProps, { setActiveNote, fetchNotebooks })(NotePage);
+export default connect(mapStateToProps, { fetchNotebooks, setActiveNote })(NotePage);

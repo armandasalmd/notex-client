@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { GlobalUtils } from "@utils";
+import { GlobalUtils, NoteUtils } from "@utils";
 
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -12,15 +12,17 @@ import SingleFieldModal from "##/SingleFieldModal";
 
 const { SubMenu } = Menu;
 
-const NotebookMenu = (props) => {
+const NotebookMenu = props => {
     const [modalAddNoteOpen, setModalAddNoteOpen] = useState(false);
     const [addNoteLoading, setAddNoteLoading] = useState(false);
+    const [openSubMenus, setOpenSubMenus] = useState([]);
+    const [menuWasPreopened, setMenuWasPreopened] = useState(false);
 
     const submitDelete = () => {
         console.log("yes, delete");
-    }
+    };
 
-    const submitAddNote = (value, {notebookId}) => {
+    const submitAddNote = (value, { notebookId }) => {
         setAddNoteLoading(true);
         console.log(value);
         console.log(notebookId);
@@ -36,13 +38,13 @@ const NotebookMenu = (props) => {
         GlobalUtils.callIfFunction(props.tryCloseMenu);
     };
 
-    const getNotebookMenuItem = (notebook) => {
+    const getNotebookMenuItem = notebook => {
         const noteMenuItems = notebook.notes.map(function (note) {
             return <Menu.Item key={note._id}>{note.title}</Menu.Item>;
         });
 
         return (
-            <SubMenu icon={<FolderOutlined />} style={{fontSize: "1.15em"}} key={notebook._id} title={notebook.title}>
+            <SubMenu icon={<FolderOutlined />} style={{ fontSize: "1.15em" }} key={notebook._id} title={notebook.title}>
                 <div className="notebook-actions">
                     <Button id="add" type="text" onClick={() => setModalAddNoteOpen(true)}>
                         Add note
@@ -58,7 +60,7 @@ const NotebookMenu = (props) => {
                             Delete
                         </Button>
                     </Popconfirm>
-                    <NotebookOptions notebookId={"11111112"}/>
+                    <NotebookOptions notebookId={"11111112"} />
                 </div>
                 <Menu.Divider />
                 {noteMenuItems}
@@ -76,13 +78,23 @@ const NotebookMenu = (props) => {
         );
     });
 
+    const selectedNotebookId = NoteUtils.findNoteParentId(props.app.selectedNoteId, props.backpack);
+    if (!!selectedNotebookId && !openSubMenus.includes(selectedNotebookId) && !menuWasPreopened) {
+        // opening preselected note item submenu
+        setOpenSubMenus([selectedNotebookId]);
+        setMenuWasPreopened(true);
+    }
+
     return (
         <>
             <Menu
                 theme="light"
                 onClick={handleClick}
                 style={{ width: "100%" }}
-                defaultOpenKeys={[]}
+                openKeys={openSubMenus}
+                onOpenChange={openKeys => {
+                    setOpenSubMenus(openKeys);
+                }}
                 selectedKeys={[props.app.selectedNoteId]}
                 mode="inline"
             >
@@ -90,7 +102,7 @@ const NotebookMenu = (props) => {
                 {notebookMenuItems}
             </Menu>
             <SingleFieldModal
-                extra={{notebookId: "1111111"}}
+                extra={{ notebookId: "1111111" }}
                 textPlaceholder="Enter note title"
                 title="Add new note for ..."
                 loading={addNoteLoading}
@@ -100,7 +112,7 @@ const NotebookMenu = (props) => {
             />
         </>
     );
-}
+};
 
 NotebookMenu.propTypes = {
     setActiveNote: PropTypes.func.isRequired,

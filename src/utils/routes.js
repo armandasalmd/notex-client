@@ -93,7 +93,10 @@ var RouteUtils = {
                 titleTextKey: "titleText.main"
             },
             note: {
-                link: "/note",
+                link: "/",
+                queryNames: {
+                    note: "note"
+                },
                 navTextKey: "navText.note",
                 titleTextKey: "titleText.note"
             },

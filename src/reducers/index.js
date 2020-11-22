@@ -15,6 +15,7 @@ const reducerWithReset = (state, action) => {
     if (action.type === USER_LOGOUT) {
         state = undefined;
     }
+    
     return rootReducer(state, action);
 };
 
