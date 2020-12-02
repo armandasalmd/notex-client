@@ -15,7 +15,7 @@ export const SET_CURRENT_USER = "SET_CURRENT_USER";
 export const USER_LOGOUT = "USER_LOGOUT";
 
 // backpack actions
-// export const ADD_NEW_NOTEBOOK = "ADD_NEW_NOTEBOOK";
+export const ADD_NEW_NOTEBOOK = "ADD_NEW_NOTEBOOK";
 // export const RENAME_NOTEBOOK = "RENAME_NOTEBOOK";
 // export const DELETE_NOTEBOOK = "DELETE_NOTEBOOK";
 // export const EVICT_NOTE = "EVICT_NOTE";

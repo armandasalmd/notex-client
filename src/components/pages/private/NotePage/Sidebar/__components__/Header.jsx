@@ -1,22 +1,24 @@
 import React, { useState } from "react";
 import classnames from "classnames";
+import { GlobalUtils } from "@utils";
 
 import { Button } from "antd";
 import { PlusOutlined, CloseOutlined } from "@ant-design/icons";
 import SingleFieldModal from "##/SingleFieldModal";
 
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { addNewNotebook } from "@actions/noteActions";
+
 const Header = props => {
     const [modalAddOpen, setModalAddOpen] = useState(false);
     const [addLoading, setAddLoading] = useState(false);
 
-    const submitAdd = submitText => {
+    const submitAdd = async submitText => {
         setAddLoading(true);
-        console.log(submitText);
-
-        setTimeout(() => {
-            setAddLoading(false);
-            setModalAddOpen(false);
-        }, 3000);
+        await props.addNewNotebook(submitText, GlobalUtils.getValue(props.auth, "user.email"));
+        setAddLoading(false);
+        setModalAddOpen(false);
     };
 
     return (
@@ -46,4 +48,13 @@ const Header = props => {
     );
 };
 
-export default Header;
+Header.propTypes = {
+    addNewNotebook: PropTypes.func.isRequired,
+    auth: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+    auth: state.auth
+});
+
+export default connect(mapStateToProps, { addNewNotebook })(Header);

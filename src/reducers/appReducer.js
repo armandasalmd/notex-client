@@ -1,4 +1,4 @@
-import { SET_ACTIVE_NOTE, SAVE_NOTE, SAVE_SPIN_START, CLOSE_NOTEBOOK, FETCH_NOTEBOOKS, SET_EDITOR_TEXT } from "@actions/types";
+import { SET_ACTIVE_NOTE, SAVE_NOTE, SAVE_SPIN_START, CLOSE_NOTEBOOK, FETCH_NOTEBOOKS, SET_EDITOR_TEXT, ADD_NEW_NOTEBOOK } from "@actions/types";
 import { GlobalUtils, NoteUtils } from "@utils";
 
 const initialState = {
@@ -19,6 +19,18 @@ const initialState = {
 
 export default function (state = initialState, action) {
     switch (action.type) {
+        case ADD_NEW_NOTEBOOK:
+            if (action.payload) {
+                state.backpack.notebooks.push(action.payload);
+            }
+
+            return {
+                ...state,
+                selectedNotebookId: GlobalUtils.getValue(action.payload, NoteUtils.props.notebook.id),
+                selectedNoteId: GlobalUtils.getValue(action.payload, `${NoteUtils.props.notebook.notes}.0.${NoteUtils.props.note.id}`),
+                selectedNote: GlobalUtils.getValue(action.payload, `${NoteUtils.props.notebook.notes}.0`),
+                selectedNotebook: action.payload,
+            };
         case SET_ACTIVE_NOTE:
             const selected = !!action.payload.notebookId && !!action.payload.noteId;
             const newEditorText = GlobalUtils.getValue(action.payload.note, NoteUtils.props.note.text);

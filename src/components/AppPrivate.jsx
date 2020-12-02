@@ -15,19 +15,15 @@ import RenderPage from "#/RenderPage";
 
 const AppPrivate = props => {
     const { t } = useTranslation();
+    const noteMenuAvailable = props.location.pathname === RouteUtils.app.private.main.link;
 
     return (
         <>
-            <Navbar hamburgerEnabled={true} hamburgerMenuData={{}} menuItems={RouteUtils.getMenuItems(props.auth.isAuthenticated)} />
+            <Navbar hamburgerEnabled={noteMenuAvailable} menuItems={RouteUtils.getMenuItems(props.auth.isAuthenticated)} />
             <Switch>
                 <Route
                     exact
                     path={RouteUtils.app.private.main.link}
-                    component={RenderPage(NotePage, t(RouteUtils.app.private.note.titleTextKey))}
-                />
-                <Route
-                    exact
-                    path={`${RouteUtils.app.private.note.link}/:noteId`}
                     component={RenderPage(NotePage, t(RouteUtils.app.private.note.titleTextKey))}
                 />
                 <Route
