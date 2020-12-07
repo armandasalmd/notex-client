@@ -55,6 +55,17 @@ const findNote = function (noteId, backpack) {
     }
 };
 
+const findNotebook = function(notebookId, backpack) {
+	if (notebookId && backpack && backpack.isFetched) {
+		for (let notebook of backpack.notebooks) {
+			if (notebook._id === notebookId) {
+                return notebook;
+            }
+        }
+    }
+}
+
+
 const getNotebookSelectOptions = function (backpack) {
     const list = Array.isArray(backpack.notebooks) ? backpack.notebooks : [];
 
@@ -66,11 +77,17 @@ const getNotebookSelectOptions = function (backpack) {
     });
 };
 
+const notebookCount = function (backpack) {
+    return backpack.notebooks.length;
+}
+
 export default {
+    accessLevelOptions,
+    findNote,
+    findNotebook,
     findNoteParent,
     findNoteParentId,
-    findNote,
-    props: properties,
-    accessLevelOptions,
-    getNotebookSelectOptions
+    getNotebookSelectOptions,
+    notebookCount,
+    props: properties
 };

@@ -16,7 +16,7 @@ const Header = props => {
 
     const submitAdd = async submitText => {
         setAddLoading(true);
-        await props.addNewNotebook(submitText, GlobalUtils.getValue(props.auth, "user.email"));
+        await props.addNewNotebook(props.backpack, submitText, GlobalUtils.getValue(props.auth, "user.email"));
         setAddLoading(false);
         setModalAddOpen(false);
     };
@@ -50,11 +50,13 @@ const Header = props => {
 
 Header.propTypes = {
     addNewNotebook: PropTypes.func.isRequired,
-    auth: PropTypes.object.isRequired
+    auth: PropTypes.object.isRequired,
+    backpack: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-    auth: state.auth
+    auth: state.auth,
+    backpack: state.app.backpack
 });
 
 export default connect(mapStateToProps, { addNewNotebook })(Header);

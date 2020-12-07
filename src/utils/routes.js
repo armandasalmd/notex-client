@@ -119,7 +119,7 @@ const getMenuItems = isAuth => {
 const sendApiRequest = (apiRoute, bodyData) => {
     let url = apiRoute.path.startsWith("http") ?
         apiRoute.path :
-        Constants.apiHostName + apiRoute.path;
+        RouteUtils.hostName + apiRoute.path;
 
     return axios({
         method: apiRoute.method || "GET",

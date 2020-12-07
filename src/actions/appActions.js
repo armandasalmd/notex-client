@@ -15,7 +15,7 @@ export const setActiveNote = (backpack, noteId) => {
                     note: NoteUtils.findNote(noteId, backpack)
                 }
             });
-    
+
             window.history.pushState(RouteUtils.app.private.note.link, "", `?${RouteUtils.app.private.note.queryNames.note}=${noteId}`);
         } else {
             window.history.pushState(RouteUtils.app.private.note.link, "", RouteUtils.app.private.note.link);

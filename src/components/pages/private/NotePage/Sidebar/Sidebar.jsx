@@ -22,7 +22,7 @@ const Sidebar = props => {
                 "gone-small-screen": !props.hamburgerMenu
             })}
         >
-            <Spin spinning={!props.backpack.isFetched}>
+            <Spin spinning={!props.backpack.isFetched || props.app.isMenuLoading }>
                 <Header isHamburgerMenu={props.hamburgerMenu} onClose={tryCloseMenu} />
                 <NotebookMenu tryCloseMenu={tryCloseMenu} />
             </Spin>
@@ -33,7 +33,7 @@ const Sidebar = props => {
 Sidebar.propTypes = {
     app: PropTypes.object.isRequired,
     backpack: PropTypes.object.isRequired
-};
+}
 
 const mapStateToProps = state => ({
     app: state.app,

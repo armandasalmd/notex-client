@@ -4,6 +4,7 @@ import { GlobalUtils, NoteUtils } from "@utils";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { setActiveNote } from "@actions/appActions";
+import { addNewNote, deleteNotebook } from "@actions/noteActions";
 
 import { NotebookOptions } from ".";
 import { Button, Menu, Popconfirm } from "antd";
@@ -14,23 +15,25 @@ const { SubMenu } = Menu;
 
 const NotebookMenu = props => {
     const [modalAddNoteOpen, setModalAddNoteOpen] = useState(false);
+    const [addNoteNotebookId, setAddNoteNotebookId] = useState(null);
     const [addNoteLoading, setAddNoteLoading] = useState(false);
     const [openSubMenus, setOpenSubMenus] = useState([]);
     const [menuWasPreopened, setMenuWasPreopened] = useState(false);
+    // const [notebookCount, setNotebookCount] = useState(0);
 
-    const submitDelete = () => {
-        console.log("yes, delete");
+    // if (notebookCount === 0 && NoteUtils.notebookCount(props.backpack) > 0) {
+    //     setNotebookCount(NoteUtils.notebookCount(props.backpack));
+    // }
+
+    const submitDelete = notebookId => {
+        props.deleteNotebook(notebookId, props.app.selectedNotebookId);
     };
 
-    const submitAddNote = (value, { notebookId }) => {
+    const submitAddNote = async (value) => {
         setAddNoteLoading(true);
-        console.log(value);
-        console.log(notebookId);
-
-        setTimeout(() => {
-            setAddNoteLoading(false);
-            setModalAddNoteOpen(false);
-        }, 3000);
+        await props.addNewNote(props.backpack, value, addNoteNotebookId);
+        setAddNoteLoading(false);
+        setModalAddNoteOpen(false);
     };
 
     const handleClick = e => {
@@ -43,16 +46,26 @@ const NotebookMenu = props => {
             return <Menu.Item key={note._id}>{note.title}</Menu.Item>;
         });
 
+        const notebookId = GlobalUtils.getValue(notebook, NoteUtils.props.notebook.id),
+            notebookTitle = GlobalUtils.getValue(notebook, NoteUtils.props.notebook.title);
+
         return (
-            <SubMenu icon={<FolderOutlined />} style={{ fontSize: "1.15em" }} key={notebook._id} title={notebook.title}>
+            <SubMenu icon={<FolderOutlined />} style={{ fontSize: "1.15em" }} key={notebookId} title={notebookTitle}>
                 <div className="notebook-actions">
-                    <Button id="add" type="text" onClick={() => setModalAddNoteOpen(true)}>
+                    <Button
+                        id="add"
+                        type="text"
+                        onClick={() => {
+                            setModalAddNoteOpen(true);
+                            setAddNoteNotebookId(notebookId);
+                        }}
+                    >
                         Add note
                     </Button>
                     <Popconfirm
                         placement="bottomRight"
                         title="Are you sure you want to delete notebook?"
-                        onConfirm={submitDelete}
+                        onConfirm={() => submitDelete(notebookId)}
                         okText="Yes"
                         cancelText="No"
                     >
@@ -60,7 +73,7 @@ const NotebookMenu = props => {
                             Delete
                         </Button>
                     </Popconfirm>
-                    <NotebookOptions notebookId={"11111112"} />
+                    <NotebookOptions notebookId={notebookId} />
                 </div>
                 <Menu.Divider />
                 {noteMenuItems}
@@ -85,6 +98,14 @@ const NotebookMenu = props => {
         setMenuWasPreopened(true);
     }
 
+    // useEffect(function () {
+    //     console.log(`${NoteUtils.notebookCount(props.backpack)}-${notebookCount}`)
+    //     if (NoteUtils.notebookCount(props.backpack) === notebookCount + 1) {
+    //         setOpenSubMenus([...openSubMenus, props.app.selectedNotebookId]);
+    //         setNotebookCount(NoteUtils.notebookCount(props.backpack));
+    //     }
+    // }, [props, notebookCount, setNotebookCount, openSubMenus]);
+
     return (
         <>
             <Menu
@@ -102,9 +123,8 @@ const NotebookMenu = props => {
                 {notebookMenuItems}
             </Menu>
             <SingleFieldModal
-                extra={{ notebookId: "1111111" }}
                 textPlaceholder="Enter note title"
-                title="Add new note for ..."
+                title="Add new note"
                 loading={addNoteLoading}
                 visible={modalAddNoteOpen}
                 setVisible={setModalAddNoteOpen}
@@ -115,9 +135,11 @@ const NotebookMenu = props => {
 };
 
 NotebookMenu.propTypes = {
-    setActiveNote: PropTypes.func.isRequired,
+    addNewNote: PropTypes.func.isRequired,
     app: PropTypes.object.isRequired,
-    backpack: PropTypes.object.isRequired
+    backpack: PropTypes.object.isRequired,
+    deleteNotebook: PropTypes.func.isRequired,
+    setActiveNote: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -125,4 +147,4 @@ const mapStateToProps = state => ({
     backpack: state.app.backpack
 });
 
-export default connect(mapStateToProps, { setActiveNote })(NotebookMenu);
+export default connect(mapStateToProps, { addNewNote, deleteNotebook, setActiveNote })(NotebookMenu);

@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { RouteUtils } from "@utils";
+import { RouteUtils, GlobalUtils } from "@utils";
 
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { fetchNotebooks, setActiveNote } from "@actions/appActions";
+import { addNewNotebook } from "@actions/noteActions";
 
 import "./NotePage.less";
 import Sidebar from "./Sidebar/Sidebar";
@@ -35,14 +36,11 @@ const NotePage = props => {
         }
     }, [props, query]);
 
-    const submitAdd = submitText => {
+    const submitAdd = async submitText => {
         setAddLoading(true);
-        console.log(submitText);
-
-        setTimeout(() => {
-            setAddLoading(false);
-            setModalAddOpen(false);
-        }, 3000);
+        await props.addNewNotebook(props.app.backpack, submitText, GlobalUtils.getValue(props.auth, "user.email"));
+        setAddLoading(false);
+        setModalAddOpen(false);
     };
 
     const EmptyContainer = () => (
@@ -96,6 +94,7 @@ const NotePage = props => {
 };
 
 NotePage.propTypes = {
+    addNewNotebook: PropTypes.func.isRequired,
     fetchNotebooks: PropTypes.func.isRequired,
     setActiveNote: PropTypes.func.isRequired,
     app: PropTypes.object.isRequired,
@@ -103,7 +102,8 @@ NotePage.propTypes = {
 };
 
 const mapStateToProps = state => ({
-    app: state.app
+    app: state.app,
+    auth: state.auth
 });
 
-export default connect(mapStateToProps, { fetchNotebooks, setActiveNote })(NotePage);
+export default connect(mapStateToProps, { fetchNotebooks, setActiveNote, addNewNotebook })(NotePage);

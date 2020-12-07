@@ -1,4 +1,16 @@
-import { SET_ACTIVE_NOTE, SAVE_NOTE, SAVE_SPIN_START, CLOSE_NOTEBOOK, FETCH_NOTEBOOKS, SET_EDITOR_TEXT, ADD_NEW_NOTEBOOK } from "@actions/types";
+import {
+    ADD_NEW_NOTE,
+    ADD_NEW_NOTEBOOK,
+    CLOSE_NOTEBOOK,
+    DELETE_NOTEBOOK,
+    DELETE_NOTE,
+    FETCH_NOTEBOOKS,
+    SAVE_NOTE,
+    SAVE_SPIN_START,
+    SET_ACTIVE_NOTE,
+    SET_EDITOR_TEXT,
+    SET_MENU_LOADING
+} from "@actions/types";
 import { GlobalUtils, NoteUtils } from "@utils";
 
 const initialState = {
@@ -8,6 +20,7 @@ const initialState = {
     },
     editorText: "",
     isAutosaved: false,
+    isMenuLoading: false,
     isSaving: false,
     isSelected: false,
     selectedNotebookId: "",
@@ -18,7 +31,17 @@ const initialState = {
 };
 
 export default function (state = initialState, action) {
+    var notebook;
+
     switch (action.type) {
+        case ADD_NEW_NOTE:
+            notebook = NoteUtils.findNotebook(action.payload.notebookId, state.backpack) || {};
+            GlobalUtils.getValue(notebook, NoteUtils.props.notebook.notes).push(action.payload.note);
+            
+            return {
+                ...state,
+                isMenuLoading: false
+            };
         case ADD_NEW_NOTEBOOK:
             if (action.payload) {
                 state.backpack.notebooks.push(action.payload);
@@ -26,24 +49,7 @@ export default function (state = initialState, action) {
 
             return {
                 ...state,
-                selectedNotebookId: GlobalUtils.getValue(action.payload, NoteUtils.props.notebook.id),
-                selectedNoteId: GlobalUtils.getValue(action.payload, `${NoteUtils.props.notebook.notes}.0.${NoteUtils.props.note.id}`),
-                selectedNote: GlobalUtils.getValue(action.payload, `${NoteUtils.props.notebook.notes}.0`),
-                selectedNotebook: action.payload,
-            };
-        case SET_ACTIVE_NOTE:
-            const selected = !!action.payload.notebookId && !!action.payload.noteId;
-            const newEditorText = GlobalUtils.getValue(action.payload.note, NoteUtils.props.note.text);
-            
-            return {
-                ...state,
-                selectedNotebookId: action.payload.notebookId,
-                selectedNoteId: action.payload.noteId,
-                selectedNotebook: action.payload.notebook,
-                selectedNote: action.payload.note,
-                isSelected: selected,
-                editorText: newEditorText,
-                wasEverSelected: true
+                isMenuLoading: false
             };
         case CLOSE_NOTEBOOK:
             return {
@@ -55,6 +61,28 @@ export default function (state = initialState, action) {
                 isSelected: false,
                 editorText: initialState.editorText
             };
+        case DELETE_NOTEBOOK:
+            state.backpack.notebooks = state.backpack.notebooks.filter(function (notebook) {
+                return GlobalUtils.getValue(notebook, NoteUtils.props.notebook.id) !== action.payload.notebookId;
+            });
+
+            return {
+                ...state,
+                isMenuLoading: false
+            };
+        case DELETE_NOTE:
+            notebook = NoteUtils.findNoteParent(action.payload.noteId, state.backpack);
+            let notes = GlobalUtils.getValue(notebook, NoteUtils.props.notebook.notes);
+
+            notes = notes.filter((note) => {
+                return action.payload.noteId !== GlobalUtils.getValue(note, NoteUtils.props.note.id);
+            });
+            notebook.notes = notes;
+
+            return {
+                ...state,
+                isMenuLoading: false
+            };
         case FETCH_NOTEBOOKS:
             return {
                 ...state,
@@ -62,6 +90,20 @@ export default function (state = initialState, action) {
                     isFetched: true,
                     notebooks: action.payload
                 }
+            };
+        case SET_ACTIVE_NOTE:
+            const selected = !!action.payload.notebookId && !!action.payload.noteId;
+            const newEditorText = GlobalUtils.getValue(action.payload.note, NoteUtils.props.note.text);
+
+            return {
+                ...state,
+                selectedNotebookId: action.payload.notebookId,
+                selectedNoteId: action.payload.noteId,
+                selectedNotebook: action.payload.notebook,
+                selectedNote: action.payload.note,
+                isSelected: selected,
+                editorText: newEditorText,
+                wasEverSelected: true
             };
         case SET_EDITOR_TEXT:
             return {
@@ -85,6 +127,11 @@ export default function (state = initialState, action) {
                 ...state,
                 isSaving: true
             };
+        case SET_MENU_LOADING:
+            return {
+                ...state,
+                isMenuLoading: !!action.payload
+            }
         default:
             return state;
     }
