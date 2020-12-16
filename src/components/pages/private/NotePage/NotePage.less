@@ -6,12 +6,15 @@
 @main-padding-y: 18px;
 @main-background: @sand-background-color;
 
+.@{note}-root {
+    background-color: @main-background;
+    height: 100%;
+}
+
 .@{note}-sidebar {
     height: calc(100vh - @navbar-heigth);
     position: sticky !important;
     top: @navbar-heigth;
-    background-color: @layout-body-background;
-
     // height: auto;
 
     z-index: 2;
@@ -19,7 +22,6 @@
 }
 
 .@{note}-main {
-    background-color: @main-background;
     padding: @main-padding-y @main-padding-x;
 }
 

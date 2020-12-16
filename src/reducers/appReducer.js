@@ -5,6 +5,7 @@ import {
     DELETE_NOTEBOOK,
     DELETE_NOTE,
     FETCH_NOTEBOOKS,
+    RENAME_NOTEBOOK,
     SAVE_NOTE,
     SAVE_SPIN_START,
     SET_ACTIVE_NOTE,
@@ -90,6 +91,14 @@ export default function (state = initialState, action) {
                     isFetched: true,
                     notebooks: action.payload
                 }
+            };
+        case RENAME_NOTEBOOK:
+            notebook = NoteUtils.findNotebook(action.payload.notebookId, state.backpack);
+            notebook[NoteUtils.props.notebook.title] = action.payload.newTitle;
+
+            return {
+                ...state,
+                isMenuLoading: false
             };
         case SET_ACTIVE_NOTE:
             const selected = !!action.payload.notebookId && !!action.payload.noteId;

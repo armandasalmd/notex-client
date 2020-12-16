@@ -1,26 +1,21 @@
 import React, { useState } from "react";
 
+import { GlobalUtils, NoteUtils } from "@utils";
+
 import { Button, Menu, Dropdown } from "antd";
 import { EllipsisOutlined, PrinterOutlined, FontColorsOutlined } from "@ant-design/icons";
 import SingleFieldModal from "##/SingleFieldModal";
 
 const NotebookOptions = (props) => {
     const [modalRenameOpen, setModalRenameOpen] = useState(false);
-    const [renameLoading, setRenameLoading] = useState(false);
 
     const handleMenuClick = e => {
         setModalRenameOpen(true);
     }
 
     const submitRename = (value, {notebookId}) => {
-        setRenameLoading(true);
-        console.log(value);
-        console.log(notebookId);
-
-        setTimeout(() => {
-            setRenameLoading(false);
-            setModalRenameOpen(false);
-        }, 3000);
+        GlobalUtils.callIfFunction(props.submitRename, notebookId, value);
+        setModalRenameOpen(false);
     };
 
     const menu = (
@@ -40,13 +35,13 @@ const NotebookOptions = (props) => {
                 <Button type="text" shape="circle" icon={<EllipsisOutlined />} />
             </Dropdown>
             <SingleFieldModal
-                extra={{notebookId: props.notebookId}}
+                extra={{notebookId: GlobalUtils.getValue(props.notebook, NoteUtils.props.notebook.id)}}
                 textPlaceholder="Enter new name"
-                title="Rename notebook"
-                loading={renameLoading}
-                visible={modalRenameOpen}
-                setVisible={setModalRenameOpen}
                 onSubmit={submitRename}
+                setVisible={setModalRenameOpen}
+                title="Rename notebook"
+                text={GlobalUtils.getValue(props.notebook, NoteUtils.props.notebook.title)}
+                visible={modalRenameOpen}
             />
         </>
     );

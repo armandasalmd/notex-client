@@ -24,7 +24,9 @@ const NoteDashboard = props => {
         props.saveChanges(GlobalUtils.getValue(note, NoteUtils.props.note.id), props.app.editorText);
     };
 
-    const changesSaved = () => props.app.editorText === GlobalUtils.getValue(note, NoteUtils.props.note.text);
+    const changesSaved = () => {
+        return props.app.editorText === GlobalUtils.getValue(note, NoteUtils.props.note.text);
+    };
 
     return (
         <div className="note-root">

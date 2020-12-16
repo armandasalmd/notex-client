@@ -4,7 +4,7 @@ import { GlobalUtils, NoteUtils } from "@utils";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { setActiveNote } from "@actions/appActions";
-import { addNewNote, deleteNotebook } from "@actions/noteActions";
+import { addNewNote, deleteNotebook, renameNotebook } from "@actions/noteActions";
 
 import { NotebookOptions } from ".";
 import { Button, Menu, Popconfirm } from "antd";
@@ -25,15 +25,19 @@ const NotebookMenu = props => {
     //     setNotebookCount(NoteUtils.notebookCount(props.backpack));
     // }
 
-    const submitDelete = notebookId => {
-        props.deleteNotebook(notebookId, props.app.selectedNotebookId);
-    };
-
-    const submitAddNote = async (value) => {
+    const submitAddNote = async value => {
         setAddNoteLoading(true);
         await props.addNewNote(props.backpack, value, addNoteNotebookId);
         setAddNoteLoading(false);
         setModalAddNoteOpen(false);
+    };
+
+    const submitDelete = notebookId => {
+        props.deleteNotebook(notebookId, props.app.selectedNotebookId);
+    };
+
+    const submitRename = (notebookId, newTitle) => {
+        props.renameNotebook(notebookId, newTitle);
     };
 
     const handleClick = e => {
@@ -73,7 +77,7 @@ const NotebookMenu = props => {
                             Delete
                         </Button>
                     </Popconfirm>
-                    <NotebookOptions notebookId={notebookId} />
+                    <NotebookOptions notebook={notebook} submitRename={submitRename} />
                 </div>
                 <Menu.Divider />
                 {noteMenuItems}
@@ -139,6 +143,7 @@ NotebookMenu.propTypes = {
     app: PropTypes.object.isRequired,
     backpack: PropTypes.object.isRequired,
     deleteNotebook: PropTypes.func.isRequired,
+    renameNotebook: PropTypes.func.isRequired,
     setActiveNote: PropTypes.func.isRequired
 };
 
@@ -147,4 +152,4 @@ const mapStateToProps = state => ({
     backpack: state.app.backpack
 });
 
-export default connect(mapStateToProps, { addNewNote, deleteNotebook, setActiveNote })(NotebookMenu);
+export default connect(mapStateToProps, { addNewNote, deleteNotebook, renameNotebook, setActiveNote })(NotebookMenu);

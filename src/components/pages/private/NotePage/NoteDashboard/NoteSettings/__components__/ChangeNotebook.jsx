@@ -18,7 +18,7 @@ const ChangeNotebook = ({ noteName, notebookId, notebookOptions, onSubmit }) => 
 
     return (
         <div className="form__section">
-            <h3 className="form__title">Put to other notebook</h3>
+            <h3 className="form__title">Move to other notebook</h3>
             <div className="form__items">
                 <Input addonBefore={selectBefore} defaultValue={noteName} disabled />
                 <Button onClick={() => onSubmit(parent)}>Save</Button>

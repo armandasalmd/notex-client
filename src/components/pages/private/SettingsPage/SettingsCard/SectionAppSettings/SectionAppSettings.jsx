@@ -55,7 +55,7 @@ const SectionAppSettings = props => {
                 </Space>
             </section>
             <section>
-                <p className="text text--form-label">Clone backpack menu after item click</p>
+                <p className="text text--form-label">Close backpack menu after item click</p>
                 <Switch defaultChecked onChange={changeCloseMenuPreference} />
                 <p className="text text--form-label">Auto save content</p>
                 <Switch onChange={changeAutoSavePreference} />

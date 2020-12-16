@@ -3,7 +3,7 @@ import { NoteUtils, GlobalUtils } from "@utils";
 
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { addNewNote, deleteNotebook } from "@actions/noteActions";
+import { addNewNote, deleteNotebook, renameNotebook } from "@actions/noteActions";
 
 import { Row, Button, Popconfirm } from "antd";
 import { PlusOutlined, EditOutlined, PrinterOutlined, DeleteOutlined } from "@ant-design/icons";
@@ -12,16 +12,19 @@ import SingleFieldModal from "##/SingleFieldModal";
 import "./NotebookDetails.less";
 
 const NotebookDetails = props => {
-    const [modalAddNoteOpen, setModalAddNoteOpen] = useState(false);
-    const [addNoteLoading, setAddNoteLoading] = useState(false);
-
     const notebook = props.app.selectedNotebook;
 
+    const [modalAddNoteOpen, setModalAddNoteOpen] = useState(false);
+    const [modalRenameOpen, setModalRenameOpen] = useState(false);
+
     const submitAddNote = async (value, { notebookId }) => {
-        setAddNoteLoading(true);
-        await props.addNewNote(props.app.backpack, value, notebookId);
-        setAddNoteLoading(false);
+        props.addNewNote(props.app.backpack, value, notebookId);
         setModalAddNoteOpen(false);
+    };
+    
+    const submitRenameNotebook = async (value, { notebookId }) => {
+        props.renameNotebook(notebookId, value);
+        setModalRenameOpen(false);
     };
 
     const onDelete = () => {
@@ -54,12 +57,10 @@ const NotebookDetails = props => {
                 </Row>
                 <Row className="notebook-details-actions">
                     <h1 className="header header--medium">Notebook actions</h1>
-                    <Button type="primary" onClick={() => {
-                        setModalAddNoteOpen(true);
-                    }} ghost block icon={<PlusOutlined />}>
+                    <Button type="primary" onClick={() => setModalAddNoteOpen(true)} ghost block icon={<PlusOutlined />}>
                         Add new note
                     </Button>
-                    <Button block icon={<EditOutlined />}>
+                    <Button block onClick={() => setModalRenameOpen(true)} icon={<EditOutlined />}>
                         Rename notebook
                     </Button>
                     <Button disabled block icon={<PrinterOutlined />}>
@@ -82,10 +83,18 @@ const NotebookDetails = props => {
                 extra={{notebookId: props.app.selectedNotebookId}}
                 textPlaceholder="Enter note title"
                 title="Add new note"
-                loading={addNoteLoading}
                 visible={modalAddNoteOpen}
                 setVisible={setModalAddNoteOpen}
                 onSubmit={submitAddNote}
+            />
+            <SingleFieldModal
+                extra={{notebookId: props.app.selectedNotebookId}}
+                textPlaceholder="Notebook title"
+                title="Change notebook title"
+                text={GlobalUtils.getValue(notebook, NoteUtils.props.notebook.title)}
+                visible={modalRenameOpen}
+                setVisible={setModalRenameOpen}
+                onSubmit={submitRenameNotebook}
             />
         </div>
     );
@@ -94,11 +103,12 @@ const NotebookDetails = props => {
 NotebookDetails.propTypes = {
     addNewNote: PropTypes.func.isRequired,
     app: PropTypes.object.isRequired,
-    deleteNotebook: PropTypes.func.isRequired
+    deleteNotebook: PropTypes.func.isRequired,
+    renameNotebook: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
     app: state.app
 });
 
-export default connect(mapStateToProps, { addNewNote, deleteNotebook })(NotebookDetails);
+export default connect(mapStateToProps, { addNewNote, deleteNotebook, renameNotebook })(NotebookDetails);
