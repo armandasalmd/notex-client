@@ -1,5 +1,5 @@
 import { RouteUtils } from "@utils";
-import { ADD_NEW_NOTEBOOK, ADD_NEW_NOTE, DELETE_NOTEBOOK, DELETE_NOTE, RENAME_NOTEBOOK, SET_MENU_LOADING } from "@actions/types";
+import { ADD_NEW_NOTEBOOK, ADD_NEW_NOTE, DELETE_NOTEBOOK, DELETE_NOTE, RENAME_NOTEBOOK, RENAME_NOTE, SET_MENU_LOADING } from "@actions/types";
 
 import { closeNotebook, setActiveNote } from "./appActions";
 import { GlobalUtils, NoteUtils } from "@utils";
@@ -163,7 +163,38 @@ export const renameNotebook = (notebookId, newName) => {
                 });
         }
     };
-}
+};
+
+export const renameNote = (noteId, newName) => {
+    return function (dispatch) {
+        if (noteId && newName) {
+            const route = RouteUtils.api.note.renameNote;
+            const dto = {
+                noteId: noteId,
+                newName: newName
+            };
+
+            dispatch(setMenuLoading(true));
+            RouteUtils.sendApiRequest(route, dto)
+                .then(res => {
+                    if (res.status === 200) {
+                        dispatch({
+                            type: RENAME_NOTE,
+                            payload: {
+                                noteId: noteId,
+                                newTitle: newName
+                            }
+                        });
+                    }
+                })
+                .catch(err => {
+                    // TODO: replace with global error for the user
+                    // dispatch way
+                    console.log(err);
+                });
+        }
+    };
+};
 
 export const setMenuLoading = isLoading => {
     return function (dispatch) {

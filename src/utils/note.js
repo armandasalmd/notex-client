@@ -49,7 +49,9 @@ const findNote = function (noteId, backpack) {
     if (noteId && backpack && backpack.isFetched) {
         for (let notebook of backpack.notebooks) {
             for (let note of notebook.notes) {
-                if (note._id === noteId) return note;
+                if (note._id === noteId) {
+                    return note;
+                }
             }
         }
     }

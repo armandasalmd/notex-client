@@ -6,6 +6,7 @@ import {
     DELETE_NOTE,
     FETCH_NOTEBOOKS,
     RENAME_NOTEBOOK,
+    RENAME_NOTE,
     SAVE_NOTE,
     SAVE_SPIN_START,
     SET_ACTIVE_NOTE,
@@ -100,6 +101,15 @@ export default function (state = initialState, action) {
                 ...state,
                 isMenuLoading: false
             };
+        case RENAME_NOTE:
+            let note = NoteUtils.findNote(action.payload.noteId, state.backpack);
+
+            note[NoteUtils.props.note.title] = action.payload.newTitle;
+
+            return {
+                ...state,
+                isMenuLoading: false
+            }
         case SET_ACTIVE_NOTE:
             const selected = !!action.payload.notebookId && !!action.payload.noteId;
             const newEditorText = GlobalUtils.getValue(action.payload.note, NoteUtils.props.note.text);
