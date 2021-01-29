@@ -2,7 +2,7 @@ export default {
     appName: "Notex",
     defaultTitle: "Notex",
     apiHostName: "https://notex-api.herokuapp.com",
-    apiHostNameDev: "http://192.168.0.20:3001",
+    apiHostNameDev: "http://localhost:3001",
     authTokenType: "Bearer",
     autoSaveTime: 5000,
     autoSaveEnabled: true,
