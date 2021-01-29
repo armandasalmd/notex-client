@@ -1,13 +1,44 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useTranslation } from "react-i18next";
+
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { savePersonalDetails } from "@actions/settingsActions";
 
 import { Form, Input, Button } from "antd";
 
-const AvatarForm = () => {
+const dataToFieldDataList = (dataObj) => {
+    const formFields = [];
+
+    if (dataObj) {
+        for (const fieldName in dataObj) {
+            formFields.push({
+                name: [fieldName],
+                touched: false,
+                validating: false,
+                value: dataObj[fieldName] || ""
+            });
+        }
+    }
+
+    return formFields;
+};
+
+const DetailsForm = (props) => {
+    const { t } = useTranslation();
+    const tBase = "settings.sections.personalDetails";
+
     const [form] = Form.useForm();
 
     const onFinish = values => {
-        console.log("Received values of form: ", values);
+        props.savePersonalDetails(values);
     };
+
+    useEffect(() => {
+        if (form) {
+            form.setFields(dataToFieldDataList(props.data));
+        }
+    }, [form, props.data]);
 
     return (
         <>
@@ -15,27 +46,22 @@ const AvatarForm = () => {
                 form={form}
                 layout="vertical"
                 onFinish={onFinish}
-                initialValues={{
-                    firstname: "Armandas",
-                    lastname: "Barkauskas",
-                    phoneNumber: "07914603504"
-                }}
             >
-                <Form.Item label="First name" name="firstname" rules={[{ required: true, message: "First name is required" }]}>
-                    <Input placeholder="Enter your name" />
+                <Form.Item label={t(tBase + ".firstname")} name="firstname" rules={[{ required: true, message: t(tBase + ".required") }]}>
+                    <Input placeholder={t(tBase + ".placeholders.firstname")} />
                 </Form.Item>
-                <Form.Item label="Last name" name="lastname" rules={[{ required: true, message: "Last name is required" }]}>
-                    <Input placeholder="Enter your last name" />
+                <Form.Item label={t(tBase + ".lastname")} name="lastname" rules={[{ required: true, message: t(tBase + ".required") }]}>
+                    <Input placeholder={t(tBase + ".placeholders.lastname")} />
                 </Form.Item>
-                <Form.Item label="Email address">
-                    <Input disabled value="armandas.bark@gmail.com" />
+                <Form.Item label={t(tBase + ".email")} name="email">
+                    <Input disabled />
                 </Form.Item>
-                <Form.Item label="Phone number" name="phoneNumber">
-                    <Input placeholder="Enter your phone number" />
+                <Form.Item label={t(tBase + ".phone")} name="phone">
+                    <Input placeholder={t(tBase + ".placeholders.phone")} />
                 </Form.Item>
                 <Form.Item style={{marginBottom: "0"}}>
-                    <Button type="primary" htmlType="submit" style={{float: "right"}}>
-                        Save changes
+                    <Button loading={ props.loading } type="primary" htmlType="submit" style={{float: "right"}}>
+                        {t(tBase + ".saveButton")}
                     </Button>
                 </Form.Item>
             </Form>
@@ -43,4 +69,13 @@ const AvatarForm = () => {
     );
 };
 
-export default AvatarForm;
+DetailsForm.propTypes = {
+    savePersonalDetails: PropTypes.func.isRequired,
+    loading: PropTypes.bool.isRequired
+};
+
+const mapStateToProps = state => ({
+    loading: state.settings.isPersonalDetailsSaving
+});
+
+export default connect(mapStateToProps, { savePersonalDetails })(DetailsForm);

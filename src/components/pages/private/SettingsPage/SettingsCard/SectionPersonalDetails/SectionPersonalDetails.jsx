@@ -9,10 +9,10 @@ const SectionPersonalDetails = props => {
         <div className="section-personal-details">
             <Row gutter={[32, 18]}>
                 <Col md={14} span={24}>
-                    <DetailsForm />
+                    <DetailsForm data={props.data}/>
                 </Col>
                 <Col md={10} span={24}>
-                    <AvatarForm />
+                    <AvatarForm data={{ avatarUrl: props.data.avatarUrl }} />
                 </Col>
             </Row>
         </div>

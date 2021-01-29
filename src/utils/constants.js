@@ -40,19 +40,19 @@ export default {
             componentName: "SectionPersonalDetails",
             defaultTitle: "Personal details",
             id: "section-details",
-            titleKey: "settings.section.details"
+            titleKey: "settings.sections.personalDetails.title"
         },
         {
             componentName: "SectionAppSettings",
             defaultTitle: "App settings",
             id: "section-app-settings",
-            titleKey: "settings.section.appSettings"
+            titleKey: "settings.sections.appSettings.title"
         },
         {
             componentName: "SectionSecurityAccount",
             defaultTitle: "Security and account",
             id: "section-security",
-            titleKey: "settings.section.security"
+            titleKey: "settings.sections.securityAndAccount.title"
         }
     ],
     mceOptions: {

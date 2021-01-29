@@ -1,13 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { Constants } from "@utils";
+
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { initSettings } from "@actions/settingsActions";
 
 import "./SettingsPage.less";
 import { Row, Col } from "antd";
 import SettingsCard, { SectionAppSettings, SectionPersonalDetails, SectionSecurityAccount } from "./SettingsCard";
 import SettingsSidebar from "./SettingsSidebar";
 
-const SettingsPage = () => {
+const SettingsPage = (props) => {
     const { settingsSections } = Constants;
 
     const getSectionComponentByItsName = (sectionName, propsToPass) => {
@@ -24,15 +28,34 @@ const SettingsPage = () => {
             <p>Unknown section</p>;
     };
 
+    const dataDictionary = {
+        "SectionAppSettings": props.settings.appSettings,
+        "SectionPersonalDetails": props.settings.personalDetails,
+        "SectionSecurityAccount": props.settings.securitySettings
+    }
+
     const sectionComponents = settingsSections.map(function (section) {
+        const props = { 
+            ...section,
+            data: dataDictionary[section.componentName] || {}
+        };
+
         return (
             <SettingsCard
                 key={section.id}
                 id={section.id}
-                title={section.defaultTitle}
-                innerComponent={getSectionComponentByItsName(section.componentName, section)}
+                titleKey={section.titleKey}
+                defaultTitle={section.defaultTitle}
+                innerComponent={getSectionComponentByItsName(section.componentName, props)}
             />
         );
+    });
+
+    // component did mount mimic. Executes once component is created only
+    useEffect(() => {
+        if (props.settings.initialised === false) {
+            props.initSettings();
+        }
     });
 
     return (
@@ -49,4 +72,13 @@ const SettingsPage = () => {
     );
 };
 
-export default SettingsPage;
+SettingsPage.propTypes = {
+    initSettings: PropTypes.func.isRequired,
+    settings: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+    settings: state.settings
+});
+
+export default connect(mapStateToProps, { initSettings })(SettingsPage);
