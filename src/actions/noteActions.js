@@ -1,5 +1,5 @@
 import { RouteUtils } from "@utils";
-import { ADD_NEW_NOTEBOOK, ADD_NEW_NOTE, DELETE_NOTEBOOK, DELETE_NOTE, RENAME_NOTEBOOK, RENAME_NOTE, SET_MENU_LOADING } from "@actions/types";
+import { ADD_NEW_NOTEBOOK, ADD_NEW_NOTE, DELETE_NOTEBOOK, DELETE_NOTE, EVICT_NOTE, RENAME_NOTEBOOK, RENAME_NOTE, SET_MENU_LOADING } from "@actions/types";
 
 import { closeNotebook, setActiveNote } from "./appActions";
 import { GlobalUtils, NoteUtils } from "@utils";
@@ -129,6 +129,34 @@ export const deleteNote = noteId => {
                     // TODO: replace with global error for the user
                     // dispatch way
                     console.log(err);
+                });
+        }
+    };
+};
+
+export const evictNote = (noteId, newNotebookId) => {
+    return function (dispatch) {
+        if (noteId && newNotebookId) {
+            const route = RouteUtils.api.note.evictNote;
+            const dto = { noteId, newNotebookId };
+
+            dispatch(setMenuLoading(true));
+            RouteUtils.sendApiRequest(route, dto)
+                .then(res => {
+                    if (res.status === 200 && res.data === true) {
+                        dispatch({
+                            type: EVICT_NOTE,
+                            payload: { ...dto }
+                        });
+                    }
+                })
+                .catch(err => {
+                    // TODO: replace with global error for the user
+                    // dispatch way
+                    console.log(err);
+                })
+                .finally(() => {
+                    dispatch(setMenuLoading(false));
                 });
         }
     };

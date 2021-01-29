@@ -23,6 +23,10 @@ var RouteUtils = {
                 path: "/api/backpack/note",
                 method: "DELETE"
             },
+            evictNote: {
+                path: "/api/backpack/note/evict",
+                method: "PUT"
+            },
             renameNote: {
                 path: "/api/backpack/note/rename",
                 method: "PUT"

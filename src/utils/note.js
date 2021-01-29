@@ -65,7 +65,7 @@ const findNotebook = function(notebookId, backpack) {
             }
         }
     }
-}
+};
 
 
 const getNotebookSelectOptions = function (backpack) {
@@ -81,7 +81,29 @@ const getNotebookSelectOptions = function (backpack) {
 
 const notebookCount = function (backpack) {
     return backpack.notebooks.length;
-}
+};
+
+const popNote = function (noteId, backpack) {
+    let selectedNote = null;
+
+    if (noteId && backpack) {
+        const notebook = findNoteParent(noteId, backpack);
+        
+        let notes = GlobalUtils.getValue(notebook, properties.notebook.notes, []);
+
+        notebook.notes = notes.filter((note) => {
+            if (selectedNote === null && GlobalUtils.getValue(note, properties.note.id) === noteId) {
+                selectedNote = note;
+
+                return false;
+            } else {
+                return true;
+            }
+        });
+    }
+
+    return selectedNote;
+};
 
 export default {
     accessLevelOptions,
@@ -91,5 +113,6 @@ export default {
     findNoteParentId,
     getNotebookSelectOptions,
     notebookCount,
+    popNote,
     props: properties
 };

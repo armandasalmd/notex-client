@@ -3,7 +3,7 @@ import { NoteUtils, GlobalUtils } from "@utils";
 
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { deleteNote, renameNote } from "@actions/noteActions";
+import { deleteNote, evictNote, renameNote } from "@actions/noteActions";
 
 import "./NoteSettings.less";
 import { ChangeName, ChangeNotebook, ControlAccess, DeleteNote } from "./__components__";
@@ -19,7 +19,7 @@ const NoteSettings = props => {
     };
 
     const onChangeNotebook = selectedNotebookId => {
-        console.log(selectedNotebookId);
+        props.evictNote(GlobalUtils.getValue(note, NoteUtils.props.note.id), selectedNotebookId);
     };
 
     const onChangeAccess = newAccessValue => {
@@ -57,6 +57,7 @@ NoteSettings.propTypes = {
     app: PropTypes.object.isRequired,
     backpack: PropTypes.object.isRequired,
     deleteNote: PropTypes.func.isRequired,
+    evictNote: PropTypes.func.isRequired,
     renameNote: PropTypes.func.isRequired
 };
 
@@ -65,4 +66,4 @@ const mapStateToProps = state => ({
     backpack: state.app.backpack
 });
 
-export default connect(mapStateToProps, { deleteNote, renameNote })(NoteSettings);
+export default connect(mapStateToProps, { deleteNote, evictNote, renameNote })(NoteSettings);

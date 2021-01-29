@@ -22,5 +22,5 @@ export const DELETE_NOTE = "DELETE_NOTE";
 export const DELETE_NOTEBOOK = "DELETE_NOTEBOOK";
 export const RENAME_NOTE = "RENAME_NOTE";
 export const RENAME_NOTEBOOK = "RENAME_NOTEBOOK";
-// export const EVICT_NOTE = "EVICT_NOTE";
+export const EVICT_NOTE = "EVICT_NOTE";
 // export const CHANGE_ACCESS_LEVEL = "CHANGE_ACCESS_LEVEL";
