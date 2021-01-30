@@ -8,10 +8,7 @@ const SocialButton = props => {
     const SocialIcon = <img width={props.small ? "18" : "24"} src={options.iconSource} alt={options.title} style={{ marginRight: "8px" }}></img>;
 
     const notYet = function () {
-        message.warn({
-            content: "Ups. Not yet! Wait for this feature to arrive",
-            duration: 6
-        });
+        message.warn("Ups. Not yet! Wait for this feature to arrive");
     };
 
     const style = { backgroundColor: options.backgroundColor, color: options.textColor, fontWeight: "medium", width: props.width ? props.width : "100%" };

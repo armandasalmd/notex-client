@@ -8,6 +8,7 @@ import {
 } from "./types";
 import { setMenuLoading } from "./noteActions";
 import { logoutUser } from "./authActions";
+import { pushMessage, MESSAGE_TYPES } from "./messageActions";
 
 export const initSettings = () => {
     return function (dispatch) {
@@ -23,8 +24,7 @@ export const initSettings = () => {
                 }
             })
             .catch((err) => {
-                // TODO: replace with global error for the user
-                // dispatch way
+                dispatch(pushMessage("Something failed!", MESSAGE_TYPES.error));
                 console.log(err);
             });
     };
@@ -49,13 +49,13 @@ export const savePersonalDetails = (personalDetails) => {
                 }
             })
             .catch((err) => {
-                // TODO: replace with global error for the user
-                // dispatch way
+                dispatch(pushMessage("Something failed!", MESSAGE_TYPES.error));
                 console.log(err);
             })
             .finally(() => {
                 setTimeout(() => {
                     dispatch(setPersonalDetailsLoading(false));
+                    dispatch(pushMessage("Changes saved", MESSAGE_TYPES.success));
                 }, 500);
             });
     };
@@ -78,11 +78,11 @@ export const deleteAccount = () => {
             .then((res) => {
                 if (res.status === 200 && res.data.success === true) {
                     dispatch(logoutUser());
+                    dispatch(pushMessage("Account was deleted. Good bye!", MESSAGE_TYPES.info));
                 }
             })
             .catch((err) => {
-                // TODO: replace with global error for the user
-                // dispatch way
+                dispatch(pushMessage("Something failed!", MESSAGE_TYPES.error));
                 console.log(err);
             });
     };
@@ -100,11 +100,11 @@ export const deleteBackpack = () => {
                     dispatch({
                         type: DELETE_BACKPACK,
                     });
+                    dispatch(pushMessage("Content was deleted", MESSAGE_TYPES.success));
                 }
             })
             .catch((err) => {
-                // TODO: replace with global error for the user
-                // dispatch way
+                dispatch(pushMessage("Something failed!", MESSAGE_TYPES.error));
                 console.log(err);
             });
     };

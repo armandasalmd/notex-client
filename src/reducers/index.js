@@ -4,13 +4,15 @@ import { combineReducers } from "redux";
 import appReducer from "./appReducer";
 import authReducer from "./authReducer";
 import errorReducer from "./errorReducer";
+import messageReducer from "./messageReducer";
 import settingsReducer from "./settingsReducer";
 
 const rootReducer = combineReducers({
     app: appReducer,
     auth: authReducer,
     errors: errorReducer,
-    settings: settingsReducer
+    settings: settingsReducer,
+    message: messageReducer
 });
 
 const reducerWithReset = (state, action) => {
