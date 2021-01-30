@@ -16,5 +16,8 @@ export default {
         } else {
             return path.split(pathSeparator).reduce((p, c) => (p && p[c]) || defaultValue, target);
         }
+    },
+    hasLength: (object) => {
+        return typeof object === "string" || Array.isArray(object) ? object.length > 0 : false;
     }
 };

@@ -23,7 +23,7 @@ const Header = props => {
 
     return (
         <div className="sidebar-header">
-            <h1 className="header">Your backpack</h1>
+            <h1 className="header header--medium">Your backpack</h1>
             <div className="sidebar-actions">
                 <Button onClick={() => setModalAddOpen(true)} shape="circle" icon={<PlusOutlined className="shade50" />}></Button>
                 <Button

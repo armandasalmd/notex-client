@@ -76,6 +76,12 @@ const NotebookMenu = props => {
                 </div>
                 <Menu.Divider />
                 {noteMenuItems}
+                {!GlobalUtils.hasLength(noteMenuItems) && (
+                    <div className="notebookEmpty">
+                        <p className="notebookEmpty__text">No notes found here</p>
+                    </div>
+                )}
+                
             </SubMenu>
         );
     };
@@ -112,7 +118,7 @@ const NotebookMenu = props => {
                 mode="inline"
             >
                 <Menu.Divider />
-                {notebookMenuItems}
+                { notebookMenuItems }
             </Menu>
             <SingleFieldModal
                 textPlaceholder="Enter note title"
