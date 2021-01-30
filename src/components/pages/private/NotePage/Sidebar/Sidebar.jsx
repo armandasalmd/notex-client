@@ -7,12 +7,11 @@ import { connect } from "react-redux";
 import "./Sidebar.less";
 import { Header, NotebookMenu } from "./__components__";
 import { Spin } from "antd";
+import { GlobalUtils } from "@utils";
 
 const Sidebar = props => {
     const tryCloseMenu = () => {
-        if (typeof props.closeMenu === "function") {
-            props.closeMenu();
-        }
+        GlobalUtils.callIfFunction(props.closeMenu);
     };
 
     return (

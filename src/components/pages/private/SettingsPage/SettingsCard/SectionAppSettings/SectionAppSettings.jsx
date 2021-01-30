@@ -1,5 +1,9 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+
+import { deleteBackpack } from "@actions/settingsActions";
 
 import "./SectionAppSettings.less";
 import { Button, Popconfirm, Select, Upload, Switch, Space } from "antd";
@@ -12,7 +16,7 @@ const SectionAppSettings = props => {
     const tBase = "settings.sections.appSettings";
 
     const deleteBackpack = () => {
-        console.log("Delete backpack");
+        props.deleteBackpack();
     };
 
     const changeLanguage = option => {
@@ -82,4 +86,10 @@ const SectionAppSettings = props => {
     );
 };
 
-export default SectionAppSettings;
+SectionAppSettings.propTypes = {
+    deleteBackpack: PropTypes.func.isRequired
+};
+
+const mapStateToProps = () => ({});
+
+export default connect(mapStateToProps, { deleteBackpack })(SectionAppSettings);

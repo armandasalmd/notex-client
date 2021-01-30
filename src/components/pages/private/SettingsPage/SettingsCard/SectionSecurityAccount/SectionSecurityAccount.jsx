@@ -1,14 +1,19 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 
-import { Constants } from "@utils";
+import { deleteAccount } from "@actions/settingsActions";
+import { Constants, RouteUtils } from "@utils";
 
 import "./SectionSecurityAccount.less";
 import { Button, Modal, Input } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 import SocialButton from "##/SocialButton";
 
-const SectionSecurityAccount = () => {
+const SectionSecurityAccount = props => {
+    const history = useHistory();
     const { t } = useTranslation();
     const tBase = "settings.sections.securityAndAccount";
 
@@ -25,7 +30,8 @@ const SectionSecurityAccount = () => {
     };
 
     const deleteAccount = () => {
-        console.log("Delete this account");
+        props.deleteAccount();
+        history.push(RouteUtils.app.public.landing.link);
     };
 
     return (
@@ -66,4 +72,11 @@ const SectionSecurityAccount = () => {
     );
 };
 
-export default SectionSecurityAccount;
+SectionSecurityAccount.propTypes = {
+    deleteAccount: PropTypes.func.isRequired
+};
+
+const mapStateToProps = () => ({});
+
+export default connect(mapStateToProps, { deleteAccount })(SectionSecurityAccount);
+

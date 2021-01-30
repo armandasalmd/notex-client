@@ -1,21 +1,28 @@
 import { RouteUtils } from "@utils";
 
-import { SETTINGS_INIT, SETTINGS_SAVE_PERSONAL_DETAILS, SET_PERSONAL_DETAILS_LOADING } from "./types";
+import {
+    DELETE_BACKPACK,
+    SETTINGS_INIT,
+    SETTINGS_SAVE_PERSONAL_DETAILS,
+    SET_PERSONAL_DETAILS_LOADING
+} from "./types";
+import { setMenuLoading } from "./noteActions";
+import { logoutUser } from "./authActions";
 
 export const initSettings = () => {
     return function (dispatch) {
         const route = RouteUtils.api.settings.getUserSettings;
 
         RouteUtils.sendApiRequest(route, {})
-            .then(res => {
+            .then((res) => {
                 if (res.status === 200 && res.data) {
                     dispatch({
                         type: SETTINGS_INIT,
-                        payload: res.data
+                        payload: res.data,
                     });
                 }
             })
-            .catch(err => {
+            .catch((err) => {
                 // TODO: replace with global error for the user
                 // dispatch way
                 console.log(err);
@@ -33,15 +40,15 @@ export const savePersonalDetails = (personalDetails) => {
 
         dispatch(setPersonalDetailsLoading(true));
         RouteUtils.sendApiRequest(route, personalDetails)
-            .then(res => {
+            .then((res) => {
                 if (res.status === 200 && res.data) {
                     dispatch({
                         type: SETTINGS_SAVE_PERSONAL_DETAILS,
-                        payload: res.data
+                        payload: res.data,
                     });
                 }
             })
-            .catch(err => {
+            .catch((err) => {
                 // TODO: replace with global error for the user
                 // dispatch way
                 console.log(err);
@@ -58,7 +65,47 @@ export const setPersonalDetailsLoading = (loading) => {
     return function (dispatch) {
         dispatch({
             type: SET_PERSONAL_DETAILS_LOADING,
-            payload: loading
+            payload: loading,
         });
-    }
+    };
+};
+
+export const deleteAccount = () => {
+    return function (dispatch) {
+        const route = RouteUtils.api.settings.deleteAccount;
+
+        RouteUtils.sendApiRequest(route, {})
+            .then((res) => {
+                if (res.status === 200 && res.data.success === true) {
+                    dispatch(logoutUser());
+                }
+            })
+            .catch((err) => {
+                // TODO: replace with global error for the user
+                // dispatch way
+                console.log(err);
+            });
+    };
+};
+
+export const deleteBackpack = () => {
+    return function (dispatch) {
+        const route = RouteUtils.api.settings.deleteBackpack;
+
+        dispatch(setMenuLoading(true));
+
+        RouteUtils.sendApiRequest(route, {})
+            .then((res) => {
+                if (res.status === 200 && res.data.success === true) {
+                    dispatch({
+                        type: DELETE_BACKPACK,
+                    });
+                }
+            })
+            .catch((err) => {
+                // TODO: replace with global error for the user
+                // dispatch way
+                console.log(err);
+            });
+    };
 };

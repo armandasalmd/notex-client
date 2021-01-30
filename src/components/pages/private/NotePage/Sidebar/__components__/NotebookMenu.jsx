@@ -19,11 +19,6 @@ const NotebookMenu = props => {
     const [addNoteLoading, setAddNoteLoading] = useState(false);
     const [openSubMenus, setOpenSubMenus] = useState([]);
     const [menuWasPreopened, setMenuWasPreopened] = useState(false);
-    // const [notebookCount, setNotebookCount] = useState(0);
-
-    // if (notebookCount === 0 && NoteUtils.notebookCount(props.backpack) > 0) {
-    //     setNotebookCount(NoteUtils.notebookCount(props.backpack));
-    // }
 
     const submitAddNote = async value => {
         setAddNoteLoading(true);
@@ -96,19 +91,12 @@ const NotebookMenu = props => {
     });
 
     const selectedNotebookId = NoteUtils.findNoteParentId(props.app.selectedNoteId, props.backpack);
-    if (!!selectedNotebookId && !openSubMenus.includes(selectedNotebookId) && !menuWasPreopened) {
+
+    if (selectedNotebookId && !openSubMenus.includes(selectedNotebookId) && !menuWasPreopened) {
         // opening preselected note item submenu
         setOpenSubMenus([selectedNotebookId]);
         setMenuWasPreopened(true);
     }
-
-    // useEffect(function () {
-    //     console.log(`${NoteUtils.notebookCount(props.backpack)}-${notebookCount}`)
-    //     if (NoteUtils.notebookCount(props.backpack) === notebookCount + 1) {
-    //         setOpenSubMenus([...openSubMenus, props.app.selectedNotebookId]);
-    //         setNotebookCount(NoteUtils.notebookCount(props.backpack));
-    //     }
-    // }, [props, notebookCount, setNotebookCount, openSubMenus]);
 
     return (
         <>
