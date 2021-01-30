@@ -19,11 +19,6 @@ const NotebookMenu = props => {
     const [addNoteLoading, setAddNoteLoading] = useState(false);
     const [openSubMenus, setOpenSubMenus] = useState([]);
     const [menuWasPreopened, setMenuWasPreopened] = useState(false);
-    // const [notebookCount, setNotebookCount] = useState(0);
-
-    // if (notebookCount === 0 && NoteUtils.notebookCount(props.backpack) > 0) {
-    //     setNotebookCount(NoteUtils.notebookCount(props.backpack));
-    // }
 
     const submitAddNote = async value => {
         setAddNoteLoading(true);
@@ -81,6 +76,12 @@ const NotebookMenu = props => {
                 </div>
                 <Menu.Divider />
                 {noteMenuItems}
+                {!GlobalUtils.hasLength(noteMenuItems) && (
+                    <div className="notebookEmpty">
+                        <p className="notebookEmpty__text">No notes found here</p>
+                    </div>
+                )}
+                
             </SubMenu>
         );
     };
@@ -96,19 +97,12 @@ const NotebookMenu = props => {
     });
 
     const selectedNotebookId = NoteUtils.findNoteParentId(props.app.selectedNoteId, props.backpack);
-    if (!!selectedNotebookId && !openSubMenus.includes(selectedNotebookId) && !menuWasPreopened) {
+
+    if (selectedNotebookId && !openSubMenus.includes(selectedNotebookId) && !menuWasPreopened) {
         // opening preselected note item submenu
         setOpenSubMenus([selectedNotebookId]);
         setMenuWasPreopened(true);
     }
-
-    // useEffect(function () {
-    //     console.log(`${NoteUtils.notebookCount(props.backpack)}-${notebookCount}`)
-    //     if (NoteUtils.notebookCount(props.backpack) === notebookCount + 1) {
-    //         setOpenSubMenus([...openSubMenus, props.app.selectedNotebookId]);
-    //         setNotebookCount(NoteUtils.notebookCount(props.backpack));
-    //     }
-    // }, [props, notebookCount, setNotebookCount, openSubMenus]);
 
     return (
         <>
@@ -124,7 +118,7 @@ const NotebookMenu = props => {
                 mode="inline"
             >
                 <Menu.Divider />
-                {notebookMenuItems}
+                { notebookMenuItems }
             </Menu>
             <SingleFieldModal
                 textPlaceholder="Enter note title"

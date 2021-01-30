@@ -2,6 +2,7 @@ import {
     ADD_NEW_NOTE,
     ADD_NEW_NOTEBOOK,
     CLOSE_NOTEBOOK,
+    DELETE_BACKPACK,
     DELETE_NOTEBOOK,
     DELETE_NOTE,
     EVICT_NOTE,
@@ -64,6 +65,14 @@ export default function (state = initialState, action) {
                 isSelected: false,
                 editorText: initialState.editorText
             };
+        case DELETE_BACKPACK:
+            {
+                const newState = { ...initialState };
+
+                newState.backpack.isFetched = true;
+
+                return newState;
+            }
         case DELETE_NOTEBOOK:
             state.backpack.notebooks = state.backpack.notebooks.filter(function (notebook) {
                 return GlobalUtils.getValue(notebook, NoteUtils.props.notebook.id) !== action.payload.notebookId;

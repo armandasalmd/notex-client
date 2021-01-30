@@ -1,4 +1,9 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+
+import { deleteBackpack } from "@actions/settingsActions";
 
 import "./SectionAppSettings.less";
 import { Button, Popconfirm, Select, Upload, Switch, Space } from "antd";
@@ -7,8 +12,11 @@ import { DownloadOutlined, DeleteOutlined, UploadOutlined } from "@ant-design/ic
 const { Option } = Select;
 
 const SectionAppSettings = props => {
+    const { t } = useTranslation();
+    const tBase = "settings.sections.appSettings";
+
     const deleteBackpack = () => {
-        console.log("Delete backpack");
+        props.deleteBackpack();
     };
 
     const changeLanguage = option => {
@@ -26,13 +34,13 @@ const SectionAppSettings = props => {
     return (
         <div className="section-app-settings">
             <section>
-                <p className="text text--form-label">Website language</p>
+                <p className="text text--form-label">{t(tBase + ".labels.language")}</p>
                 <form autoComplete="off">
                     <Select
-                        defaultValue="en"
+                        value={props.data.preferredLanguage}
                         showSearch
                         style={{ width: 200 }}
-                        placeholder="Select language"
+                        placeholder={t(tBase + ".labels.language")}
                         optionFilterProp="children"
                         onChange={changeLanguage}
                     >
@@ -42,35 +50,35 @@ const SectionAppSettings = props => {
                 </form>
             </section>
             <section>
-                <p className="text text--form-label">Export/import backpack</p>
+                <p className="text text--form-label">{t(tBase + ".labels.exportImport")}</p>
                 <Space>
                     <Button disabled icon={<DownloadOutlined />}>
-                        Export data
+                        {t(tBase + ".exportButton")}
                     </Button>
                     <Upload>
                         <Button disabled icon={<UploadOutlined />}>
-                            Import data
+                            {t(tBase + ".importButton")}
                         </Button>
                     </Upload>
                 </Space>
             </section>
             <section>
-                <p className="text text--form-label">Close backpack menu after item click</p>
-                <Switch defaultChecked onChange={changeCloseMenuPreference} />
-                <p className="text text--form-label">Auto save content</p>
-                <Switch onChange={changeAutoSavePreference} />
+                <p className="text text--form-label">{t(tBase + ".labels.closeAfterClick")}</p>
+                <Switch checked={props.data.closeAfterSelect} onChange={changeCloseMenuPreference} />
+                <p className="text text--form-label">{t(tBase + ".labels.autoSave")}</p>
+                <Switch checked={props.data.autoSave} onChange={changeAutoSavePreference} />
             </section>
             <section>
-                <p className="text text--form-label">Dangerous actions</p>
+                <p className="text text--form-label">{t(tBase + ".labels.actions")}</p>
                 <Popconfirm
                     placement="bottomRight"
-                    title="Are you sure you want to delete everything?"
+                    title={t(tBase + ".confirm.deleteAll")}
                     onConfirm={deleteBackpack}
-                    okText="Yes"
-                    cancelText="No"
+                    okText={t("common.yes")}
+                    cancelText={t("common.no")}
                 >
                     <Button icon={<DeleteOutlined />} danger>
-                        Delete entire backpack
+                        {t(tBase + ".deleteBackpackButton")}
                     </Button>
                 </Popconfirm>
             </section>
@@ -78,4 +86,10 @@ const SectionAppSettings = props => {
     );
 };
 
-export default SectionAppSettings;
+SectionAppSettings.propTypes = {
+    deleteBackpack: PropTypes.func.isRequired
+};
+
+const mapStateToProps = () => ({});
+
+export default connect(mapStateToProps, { deleteBackpack })(SectionAppSettings);

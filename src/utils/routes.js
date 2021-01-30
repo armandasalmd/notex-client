@@ -53,6 +53,40 @@ var RouteUtils = {
                 path: "/api/backpack/notebook/rename",
                 method: "PUT"
             }
+        },
+        settings: {
+            autoSaveChange: {
+                path: "/api/settings/autoSaveChange",
+                method: "POST"
+            },
+            changeLanguage: {
+                path: "/api/settings/changeLanguage",
+                method: "POST"
+            },
+            changePassword: {
+                path: "/api/settings/changePassword",
+                method: "POST"
+            },
+            closeOnClickChange: {
+                path: "/api/settings/closeOnClickChange",
+                method: "POST"
+            },
+            deleteAccount: {
+                path: "/api/settings/account",
+                method: "DELETE"
+            },
+            deleteBackpack: {
+                path: "/api/settings/backpack",
+                method: "DELETE"
+            },
+            getUserSettings: {
+                path: "/api/settings",
+                method: "GET"
+            },
+            savePersonalDetails: {
+                path: "/api/settings/savePersonalDetails",
+                method: "POST"
+            }
         }
     },
     app: {

@@ -4,6 +4,13 @@ export default {
     appName: "Notex EN",
     pageTitles: {},
 
+    common: {
+        yes: "Yes",
+        no: "No",
+        areYouSure: "Are you sure?",
+        cancel: "Cancel",
+        ok: "Ok"
+    },
     navText: {
         login: "Login",
         logout: "Logout",
@@ -151,6 +158,59 @@ export default {
                 "The idea here was that I didn't want to carry heavy books. I wanted something more simple than Office Word. Something where I could quickly type while sitting in the lectures.",
                 "Try this app and see how it works for you. I am quite sure that you going to like it."
             ]
+        }
+    },
+    settings: {
+        title: "Site settings",
+        sections: {
+            personalDetails: {
+                title: "Personal details",
+                required: "This field is required",
+                firstname: "First name",
+                lastname: "Last name",
+                email: "Email address",
+                phone: "Phone number",
+                saveButton: "Save changes",
+                avatarTitle: "Your avatar",
+                avatarUploadButton: "Click to upload",
+                placeholders: {
+                    firstname: "Enter your name",
+                    lastname: "Enter your last name",
+                    phone: "Enter your phone number"
+                }
+            },
+            appSettings: {
+                title: "App settings",
+                labels: {
+                    language: "Website language",
+                    exportImport: "Export/import backpack",
+                    closeAfterClick: "Close backpack menu after item select",
+                    autoSave: "Auto save content",
+                    actions: "Dangerous actions"
+                },
+                confirm: {
+                    deleteAll: "Are you sure you want to delete everything?"
+                },
+                exportButton: "Export data",
+                importButton: "Import data",
+                deleteBackpackButton: "Delete entire backpack"
+            },
+            securityAndAccount: {
+                title: "Security and account",
+                labels: {
+                    changePassword: "Change password",
+                    social: "Link social account",
+                    actions: "Dangerous actions"
+                },
+                placeholders: {
+                    password: "Old password",
+                    newPassword1: "New Password",
+                    newPassword2: "Repeat password"
+                },
+                changePasswordButton: "Update password",
+                deleteAccountButton: "Delete this account",
+                deleteAccountText: "You are about to delete this account with all notes. After this you will be logged out"
+            }
         }
     }
 };

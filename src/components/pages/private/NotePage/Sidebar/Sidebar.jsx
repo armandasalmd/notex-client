@@ -6,25 +6,30 @@ import { connect } from "react-redux";
 
 import "./Sidebar.less";
 import { Header, NotebookMenu } from "./__components__";
-import { Spin } from "antd";
+import { Empty, Spin } from "antd";
+import { GlobalUtils } from "@utils";
 
-const Sidebar = props => {
+const Sidebar = (props) => {
     const tryCloseMenu = () => {
-        if (typeof props.closeMenu === "function") {
-            props.closeMenu();
-        }
+        GlobalUtils.callIfFunction(props.closeMenu);
     };
+
+    const isSpinning = !props.backpack.isFetched || props.app.isMenuLoading;
 
     return (
         <div
             className={classnames({
                 "sidebar-root": true,
-                "gone-small-screen": !props.hamburgerMenu
+                "gone-small-screen": !props.hamburgerMenu,
             })}
         >
-            <Spin spinning={!props.backpack.isFetched || props.app.isMenuLoading }>
-                <Header isHamburgerMenu={props.hamburgerMenu} onClose={tryCloseMenu} />
+            <Spin spinning={isSpinning}>
+                <Header
+                    isHamburgerMenu={props.hamburgerMenu}
+                    onClose={tryCloseMenu}
+                />
                 <NotebookMenu tryCloseMenu={tryCloseMenu} />
+                { !GlobalUtils.hasLength(props.app.backpack.notebooks) && !isSpinning && <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="No notebooks found" /> }
             </Spin>
         </div>
     );
@@ -32,12 +37,12 @@ const Sidebar = props => {
 
 Sidebar.propTypes = {
     app: PropTypes.object.isRequired,
-    backpack: PropTypes.object.isRequired
-}
+    backpack: PropTypes.object.isRequired,
+};
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     app: state.app,
-    backpack: state.app.backpack
+    backpack: state.app.backpack,
 });
 
 export default connect(mapStateToProps, {})(Sidebar);
