@@ -5,6 +5,7 @@ import {
     DELETE_BACKPACK,
     DELETE_NOTEBOOK,
     DELETE_NOTE,
+    EVICT_NOTE,
     FETCH_NOTEBOOKS,
     RENAME_NOTEBOOK,
     RENAME_NOTE,
@@ -94,6 +95,23 @@ export default function (state = initialState, action) {
                 ...state,
                 isMenuLoading: false
             };
+        case EVICT_NOTE:
+            {
+                const noteToMove = NoteUtils.popNote(action.payload.noteId, state.backpack);
+                
+                if (noteToMove) {
+                    const newSelectedNotebook = NoteUtils.findNotebook(action.payload.newNotebookId, state.backpack);
+
+                    if (newSelectedNotebook) {
+                        newSelectedNotebook.notes.push(noteToMove);
+
+                        state.selectedNotebookId = GlobalUtils.getValue(newSelectedNotebook, NoteUtils.props.notebook.id);
+                        state.selectedNotebook = newSelectedNotebook;
+                        state.selectedNote = noteToMove;
+                    }
+                }
+            }
+            return state;
         case FETCH_NOTEBOOKS:
             return {
                 ...state,
