@@ -40,17 +40,17 @@ const NotebookDetails = props => {
                 </Row>
                 <Row style={{ marginBottom: "18px", display: "inline-block" }}>
                     <h1 className="header header--medium">Notebook details</h1>
-                    <p className="text">
+                    <p className="text text--light">
                         <span className="text--silent">Last modified: </span>unavailable
                     </p>
-                    <p className="text">
+                    <p className="text text--light">
                         <span className="text--silent">Access level: </span>unavailable
                     </p>
-                    <p className="text">
+                    <p className="text text--light">
                         <span className="text--silent">Note count: </span>
                         {GlobalUtils.getValue(notebook, NoteUtils.props.notebook.notes).length}
                     </p>
-                    <p className="text">
+                    <p className="text text--light">
                         <span className="text--silent">Owner: </span>
                         {GlobalUtils.getValue(notebook, NoteUtils.props.notebook.owner)}
                     </p>

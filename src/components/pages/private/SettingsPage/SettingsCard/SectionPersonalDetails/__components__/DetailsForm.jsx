@@ -70,12 +70,9 @@ const DetailsForm = (props) => {
 };
 
 DetailsForm.propTypes = {
-    savePersonalDetails: PropTypes.func.isRequired,
-    loading: PropTypes.bool.isRequired
+    savePersonalDetails: PropTypes.func.isRequired
 };
 
-const mapStateToProps = state => ({
-    loading: state.settings.isPersonalDetailsSaving
-});
+const mapStateToProps = () => ({});
 
 export default connect(mapStateToProps, { savePersonalDetails })(DetailsForm);

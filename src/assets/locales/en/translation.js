@@ -162,6 +162,7 @@ export default {
     },
     settings: {
         title: "Site settings",
+        saving: "Saving changes...",
         sections: {
             personalDetails: {
                 title: "Personal details",

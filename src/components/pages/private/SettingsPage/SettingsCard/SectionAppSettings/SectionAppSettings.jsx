@@ -3,15 +3,23 @@ import { useTranslation } from "react-i18next";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
-import { deleteBackpack } from "@actions/settingsActions";
+import {
+    changeAutoSave,
+    changeCloseOnClick,
+    deleteBackpack,
+} from "@actions/settingsActions";
 
 import "./SectionAppSettings.less";
 import { Button, Popconfirm, Select, Upload, Switch, Space } from "antd";
-import { DownloadOutlined, DeleteOutlined, UploadOutlined } from "@ant-design/icons";
+import {
+    DownloadOutlined,
+    DeleteOutlined,
+    UploadOutlined,
+} from "@ant-design/icons";
 
 const { Option } = Select;
 
-const SectionAppSettings = props => {
+const SectionAppSettings = (props) => {
     const { t } = useTranslation();
     const tBase = "settings.sections.appSettings";
 
@@ -19,22 +27,24 @@ const SectionAppSettings = props => {
         props.deleteBackpack();
     };
 
-    const changeLanguage = option => {
+    const changeLanguage = (option) => {
         console.log(`Change language: ${option}`);
     };
 
-    const changeCloseMenuPreference = checked => {
-        console.log(`changeCloseMenuPreference: ${checked}`);
+    const changeCloseMenuPreference = (checked) => {
+        props.changeCloseOnClick(checked);
     };
 
-    const changeAutoSavePreference = checked => {
-        console.log(`changeAutoSavePreference: ${checked}`);
+    const changeAutoSavePreference = (checked) => {
+        props.changeAutoSave(checked);
     };
 
     return (
         <div className="section-app-settings">
             <section>
-                <p className="text text--form-label">{t(tBase + ".labels.language")}</p>
+                <p className="text text--form-label">
+                    {t(tBase + ".labels.language")}
+                </p>
                 <form autoComplete="off">
                     <Select
                         value={props.data.preferredLanguage}
@@ -50,7 +60,9 @@ const SectionAppSettings = props => {
                 </form>
             </section>
             <section>
-                <p className="text text--form-label">{t(tBase + ".labels.exportImport")}</p>
+                <p className="text text--form-label">
+                    {t(tBase + ".labels.exportImport")}
+                </p>
                 <Space>
                     <Button disabled icon={<DownloadOutlined />}>
                         {t(tBase + ".exportButton")}
@@ -63,13 +75,25 @@ const SectionAppSettings = props => {
                 </Space>
             </section>
             <section>
-                <p className="text text--form-label">{t(tBase + ".labels.closeAfterClick")}</p>
-                <Switch checked={props.data.closeAfterSelect} onChange={changeCloseMenuPreference} />
-                <p className="text text--form-label">{t(tBase + ".labels.autoSave")}</p>
-                <Switch checked={props.data.autoSave} onChange={changeAutoSavePreference} />
+                <p className="text text--form-label">
+                    {t(tBase + ".labels.closeAfterClick")}
+                </p>
+                <Switch
+                    checked={props.data.closeAfterSelect}
+                    onChange={changeCloseMenuPreference}
+                />
+                <p className="text text--form-label">
+                    {t(tBase + ".labels.autoSave")}
+                </p>
+                <Switch
+                    checked={props.data.autoSave}
+                    onChange={changeAutoSavePreference}
+                />
             </section>
             <section>
-                <p className="text text--form-label">{t(tBase + ".labels.actions")}</p>
+                <p className="text text--form-label">
+                    {t(tBase + ".labels.actions")}
+                </p>
                 <Popconfirm
                     placement="bottomRight"
                     title={t(tBase + ".confirm.deleteAll")}
@@ -87,9 +111,11 @@ const SectionAppSettings = props => {
 };
 
 SectionAppSettings.propTypes = {
+    changeAutoSave: PropTypes.func.isRequired,
+    changeCloseOnClick: PropTypes.func.isRequired,
     deleteBackpack: PropTypes.func.isRequired
 };
 
 const mapStateToProps = () => ({});
 
-export default connect(mapStateToProps, { deleteBackpack })(SectionAppSettings);
+export default connect(mapStateToProps, { changeAutoSave, changeCloseOnClick, deleteBackpack })(SectionAppSettings);

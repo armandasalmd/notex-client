@@ -1,7 +1,11 @@
 import {
     SETTINGS_INIT,
     SETTINGS_SAVE_PERSONAL_DETAILS,
-    SET_PERSONAL_DETAILS_LOADING
+    SET_PERSONAL_DETAILS_LOADING,
+    SET_APP_SETTINGS_LOADING,
+    SET_SECURITY_SETTINGS_LOADING,
+    SETTINGS_CHANGE_AUTO_SAVE,
+    SETTINGS_CHANGE_CLOSE_ON_CLICK
 } from "@actions/types";
 
 const initialState = {
@@ -22,7 +26,11 @@ const initialState = {
         provider: null,
     },
     initialised: false,
-    isPersonalDetailsSaving: false
+    loadingStates: {
+        appSettings: false,
+        personalDetails: false,
+        securitySettings: false
+    }
 };
 
 export default function (state = initialState, action) {
@@ -39,7 +47,8 @@ export default function (state = initialState, action) {
                     ...action.payload.securitySettings,
                 },
                 initialised: true,
-                isPersonalDetailsSaving: initialState.isPersonalDetailsSaving
+                isPersonalDetailsSaving: initialState.isPersonalDetailsSaving,
+                loadingStates: initialState.loadingStates
             };
         case SETTINGS_SAVE_PERSONAL_DETAILS:
             return {
@@ -49,10 +58,28 @@ export default function (state = initialState, action) {
                 },
             };
         case SET_PERSONAL_DETAILS_LOADING:
-            return {
-                ...state,
-                isPersonalDetailsSaving: !!action.payload
+            state.loadingStates.personalDetails = !!action.payload;
+            return { ...state };
+        case SET_APP_SETTINGS_LOADING:
+            state.loadingStates.appSettings = !!action.payload;
+            return { ...state };
+        case SET_SECURITY_SETTINGS_LOADING:
+            state.loadingStates.securitySettings = !!action.payload;
+            return { ...state };
+        case SETTINGS_CHANGE_AUTO_SAVE:
+            state.appSettings = { 
+                ...state.appSettings,
+                autoSave: !!action.payload
             };
+
+            return { ...state };
+        case SETTINGS_CHANGE_CLOSE_ON_CLICK:
+            state.appSettings = { 
+                ...state.appSettings,
+                closeAfterSelect: !!action.payload
+            };
+
+            return { ...state };
         default:
             return state;
     }
