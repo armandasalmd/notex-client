@@ -3908,7 +3908,7 @@ copy-descriptor@^0.1.0:
   resolved "https://registry.yarnpkg.com/copy-descriptor/-/copy-descriptor-0.1.1.tgz#676f6eb3c39997c2ee1ac3a924fd6124748f578d"
   integrity sha1-Z29us8OZl8LuGsOpJP1hJHSPV40=
 
-copy-to-clipboard@^3.2.0:
+copy-to-clipboard@^3.2.0, copy-to-clipboard@^3.3.1:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/copy-to-clipboard/-/copy-to-clipboard-3.3.1.tgz#115aa1a9998ffab6196f93076ad6da3b913662ae"
   integrity sha512-i13qo6kIHTTpCm8/Wup+0b1mVWETvu2kIMzKoK8FpkLkFxlt0znUAHcMzox+T8sPlqtZXq3CulEjQHsYiGFJUw==
@@ -13396,11 +13396,6 @@ url@^0.11.0:
   dependencies:
     punycode "1.3.2"
     querystring "0.2.0"
-
-use-clippy@^1.0.8:
-  version "1.0.8"
-  resolved "https://registry.yarnpkg.com/use-clippy/-/use-clippy-1.0.8.tgz#d3acfcf27ffce9c9c7b45b1a7fc3280d5e81c810"
-  integrity sha512-14aFsNmdkI+tpIHZdXtvQgp1RMZzGTdmMCc6jqjQBcEQvv9HGy1mafQ/NsVJiS3TpU5E7VIm/EcdyZiwoSJ+Vw==
 
 use@^3.1.0:
   version "3.1.1"

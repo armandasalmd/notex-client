@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import useClippy from "use-clippy";
+import copy from 'copy-to-clipboard';
 import { NoteUtils } from "@utils";
 
 import { Button, Select, Space, Tooltip, message } from "antd";
@@ -8,7 +8,6 @@ import { ShareAltOutlined } from "@ant-design/icons";
 const { Option } = Select;
 
 const ControlAccess = ({ selectedValue, noteOwner, onSubmit }) => {
-    const [, setClipboard] = useClippy();
     const [access, setAccess] = useState(selectedValue);
 
     const handleChange = () => {
@@ -16,7 +15,7 @@ const ControlAccess = ({ selectedValue, noteOwner, onSubmit }) => {
     };
 
     const copyUrl = () => {
-        setClipboard("https://stackoverflow.com/questions/39501289/in-reactjs-how-to-copy-text-to-clipboard");
+        copy(window.location.href);
         message.success("URL was copied");
     };
 

@@ -1,10 +1,11 @@
 import React from "react";
+import copy from 'copy-to-clipboard';
 import classnames from "classnames";
-import { NoteUtils, GlobalUtils } from "@utils";
-
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+
 import { closeNotebook, saveChanges } from "@actions/appActions";
+import { NoteUtils, GlobalUtils } from "@utils";
 
 import "./NoteDashboard.less";
 import NoteSettings from "./NoteSettings";
@@ -12,7 +13,7 @@ import TabbedEditor from "./TabbedEditor";
 import ReadMode from "./ReadMode";
 
 import { ShareAltOutlined, CloseOutlined, SaveOutlined, HighlightOutlined, ControlOutlined, AlignLeftOutlined } from "@ant-design/icons";
-import { Breadcrumb, Button, Col, Row, Tabs, Tooltip } from "antd";
+import { Breadcrumb, Button, Col, Row, Tabs, Tooltip, message } from "antd";
 
 const { TabPane } = Tabs;
 
@@ -20,13 +21,19 @@ const NoteDashboard = props => {
     const note = props.app.selectedNote;
     const notebook = props.app.selectedNotebook;
 
+    const changesSaved = () => {
+        return props.app.editorText === GlobalUtils.getValue(note, NoteUtils.props.note.text);
+    };
+
+    const copyUrl = () => {
+        copy(window.location.href);
+        message.success("URL was copied");
+    };
+
     const onSave = () => {
         props.saveChanges(GlobalUtils.getValue(note, NoteUtils.props.note.id), props.app.editorText);
     };
 
-    const changesSaved = () => {
-        return props.app.editorText === GlobalUtils.getValue(note, NoteUtils.props.note.text);
-    };
 
     return (
         <div className="note-root">
@@ -51,7 +58,7 @@ const NoteDashboard = props => {
                             Save
                         </Button>
                         <Tooltip placement="bottom" title="Click to copy sharable link">
-                            <Button className="action-share" type="primary" ghost shape="circle" icon={<ShareAltOutlined />}></Button>
+                            <Button onClick={copyUrl} className="action-share" type="primary" ghost shape="circle" icon={<ShareAltOutlined />}></Button>
                         </Tooltip>
                         <Tooltip placement="bottom" title="Close note">
                             <Button
