@@ -222,34 +222,35 @@ export const setChangePasswordErrors = (payload) => {
     };
 };
 
-export const tryChangePassword = (currentPassword, newPassword1, newPassword2) => {
+export const tryChangePassword = (values) => {
+    console.log(values);
     return function (dispatch) {
-        if (currentPassword || newPassword1 || newPassword2) {
-            const route = RouteUtils.api.settings.changePassword;
-            const dto = { currentPassword, newPassword1, newPassword2 };
+        const route = RouteUtils.api.settings.changePassword;
+        const dto = {
+            currentPassword: values.currentPassword || "",
+            newPassword1: values.newPassword1 || "",
+            newPassword2: values.newPassword2 || ""
+        };
 
-            dispatch(setSecuritySettingsLoading(true));
-            RouteUtils.sendApiRequest(route, dto)
-                .then((res) => {
-                    if (res.status === 200 && res.data.success === true) {
-                        dispatch(clearChangePasswordErrors());
-                        dispatch(pushMessage("Password changed successfully", MESSAGE_TYPES.success));
-                    } else if (res.data.errors) {
-                        dispatch(setChangePasswordErrors(res.data.errors));
-                        dispatch(pushMessage("Password was not changed", MESSAGE_TYPES.warn));
-                    }
-                })
-                .catch((err) => {
-                    dispatch(
-                        pushMessage("Something failed!", MESSAGE_TYPES.error)
-                    );
-                    console.log(err);
-                })
-                .finally(() => {
-                    dispatch(setSecuritySettingsLoading(false));
-                });
-        } else {
-            dispatch(pushMessage("Empty fields found!", MESSAGE_TYPES.error));
-        }
+        dispatch(setSecuritySettingsLoading(true));
+        RouteUtils.sendApiRequest(route, dto)
+            .then((res) => {
+                if (res.status === 200 && res.data.success === true) {
+                    dispatch(clearChangePasswordErrors());
+                    dispatch(pushMessage("Password changed successfully", MESSAGE_TYPES.success));
+                } else if (res.data.errors) {
+                    dispatch(setChangePasswordErrors(res.data.errors));
+                    dispatch(pushMessage("Password was not changed", MESSAGE_TYPES.warn));
+                }
+            })
+            .catch((err) => {
+                dispatch(
+                    pushMessage("Something failed!", MESSAGE_TYPES.error)
+                );
+                console.log(err);
+            })
+            .finally(() => {
+                dispatch(setSecuritySettingsLoading(false));
+            });
     }
 };

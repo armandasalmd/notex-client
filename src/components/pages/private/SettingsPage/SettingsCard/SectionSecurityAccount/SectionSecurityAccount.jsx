@@ -8,7 +8,7 @@ import { tryChangePassword, deleteAccount } from "@actions/settingsActions";
 import { Constants, RouteUtils } from "@utils";
 
 import "./SectionSecurityAccount.less";
-import { Button, Modal, Input } from "antd";
+import { Button, Modal, Input, Form } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 import SocialButton from "##/SocialButton";
 
@@ -18,15 +18,9 @@ const SectionSecurityAccount = props => {
     const tBase = "settings.sections.securityAndAccount";
 
     const [showDeleteModal, setShowDeleteModal] = useState(false);
-    const [passwordOld, setOldPassword] = useState("");
-    const [password1, setPassword1] = useState("");
-    const [password2, setPassword2] = useState("");
 
-    const updatePassword = () => {
-        props.tryChangePassword(passwordOld, password1, password2);
-        setOldPassword("");
-        setPassword1("");
-        setPassword2("");
+    const updatePassword = (values) => {
+        props.tryChangePassword(values);
     };
 
     const deleteAccount = () => {
@@ -36,15 +30,23 @@ const SectionSecurityAccount = props => {
 
     return (
         <div className="section-security-account">
-            <section>
+            <div>
                 <p className="text text--form-label">{t(tBase + ".labels.changePassword")}</p>
-                <div className="wrap-container">
-                    <Input.Password style={{width: 256}} value={passwordOld} onChange={(e) => setOldPassword(e.target.value)} placeholder={t(tBase + ".placeholders.password")} />
-                    <Input.Password style={{width: 256}} value={password1} onChange={(e) => setPassword1(e.target.value)} placeholder={t(tBase + ".placeholders.newPassword1")} />
-                    <Input.Password style={{width: 256}} value={password2} onChange={(e) => setPassword2(e.target.value)} placeholder={t(tBase + ".placeholders.newPassword2")} />
-                </div>
-                <Button onClick={updatePassword}>{t(tBase + ".changePasswordButton")}</Button>
-            </section>
+                <Form className="wrap-container" onFinish={updatePassword}>
+                    <Form.Item name="currentPassword" help={props.changePasswordErrors.currentPassword} validateStatus={props.changePasswordErrors.currentPassword ? "error": "success"}>
+                        <Input.Password style={{width: 256}} placeholder={t(tBase + ".placeholders.password")} />
+                    </Form.Item>
+                    <Form.Item name="newPassword1" help={props.changePasswordErrors.newPassword1} validateStatus={props.changePasswordErrors.newPassword1 ? "error": "success"}>
+                        <Input.Password style={{width: 256}} placeholder={t(tBase + ".placeholders.newPassword1")} />
+                    </Form.Item>
+                    <Form.Item name="newPassword2" help={props.changePasswordErrors.newPassword2} validateStatus={props.changePasswordErrors.newPassword2 ? "error": "success"}>
+                        <Input.Password style={{width: 256}} placeholder={t(tBase + ".placeholders.newPassword2")} />
+                    </Form.Item>
+                    <Form.Item>
+                        <Button htmlType="submit">{t(tBase + ".changePasswordButton")}</Button>
+                    </Form.Item>
+                </Form>
+            </div>
             <section>
                 <p className="text text--form-label">{t(tBase + ".labels.social")}</p>
                 <div className="wrap-container">
