@@ -37,7 +37,10 @@ const NotebookMenu = props => {
 
     const handleClick = e => {
         props.setActiveNote(props.backpack, e.key);
-        GlobalUtils.callIfFunction(props.tryCloseMenu);
+
+        if (props.autoClose) {
+            GlobalUtils.callIfFunction(props.tryCloseMenu);
+        }
     };
 
     const getNotebookMenuItem = notebook => {
@@ -135,6 +138,7 @@ const NotebookMenu = props => {
 NotebookMenu.propTypes = {
     addNewNote: PropTypes.func.isRequired,
     app: PropTypes.object.isRequired,
+    autoClose: PropTypes.bool.isRequired,
     backpack: PropTypes.object.isRequired,
     deleteNotebook: PropTypes.func.isRequired,
     renameNotebook: PropTypes.func.isRequired,
@@ -143,7 +147,8 @@ NotebookMenu.propTypes = {
 
 const mapStateToProps = state => ({
     app: state.app,
-    backpack: state.app.backpack
+    backpack: state.app.backpack,
+    autoClose: state.settings.appSettings.closeAfterSelect
 });
 
 export default connect(mapStateToProps, { addNewNote, deleteNotebook, renameNotebook, setActiveNote })(NotebookMenu);

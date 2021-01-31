@@ -5,7 +5,6 @@ export default {
     apiHostNameDev: "http://localhost:3001",
     authTokenType: "Bearer",
     autoSaveTime: 5000,
-    autoSaveEnabled: true,
 
     accessLevels: {
         public: {
@@ -55,6 +54,20 @@ export default {
             titleKey: "settings.sections.securityAndAccount.title"
         }
     ],
+    languages: {
+        en: {
+            name: "English",
+            value: "en"
+        },
+        lt: {
+            name: "Lithuanian",
+            value: "lt"
+        },
+        ru: {
+            name: "Russian",
+            value: "ru"
+        }
+    },
     mceOptions: {
         codesample_languages: [
             { text: "HTML/XML", value: "markup" },

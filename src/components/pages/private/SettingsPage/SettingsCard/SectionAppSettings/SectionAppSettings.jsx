@@ -3,9 +3,11 @@ import { useTranslation } from "react-i18next";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
+import { Constants } from "@utils";
 import {
     changeAutoSave,
     changeCloseOnClick,
+    changeLanguage,
     deleteBackpack,
 } from "@actions/settingsActions";
 
@@ -28,7 +30,7 @@ const SectionAppSettings = (props) => {
     };
 
     const changeLanguage = (option) => {
-        console.log(`Change language: ${option}`);
+        props.changeLanguage(option);
     };
 
     const changeCloseMenuPreference = (checked) => {
@@ -54,8 +56,9 @@ const SectionAppSettings = (props) => {
                         optionFilterProp="children"
                         onChange={changeLanguage}
                     >
-                        <Option value="en">English</Option>
-                        <Option value="lt">Lithuanian</Option>
+                        {Object.values(Constants.languages).map((language) => {
+                            return <Option key={language.value} value={language.value}>{language.name}</Option>
+                        })}
                     </Select>
                 </form>
             </section>
@@ -113,9 +116,10 @@ const SectionAppSettings = (props) => {
 SectionAppSettings.propTypes = {
     changeAutoSave: PropTypes.func.isRequired,
     changeCloseOnClick: PropTypes.func.isRequired,
+    changeLanguage: PropTypes.func.isRequired,
     deleteBackpack: PropTypes.func.isRequired
 };
 
 const mapStateToProps = () => ({});
 
-export default connect(mapStateToProps, { changeAutoSave, changeCloseOnClick, deleteBackpack })(SectionAppSettings);
+export default connect(mapStateToProps, { changeAutoSave, changeCloseOnClick, changeLanguage, deleteBackpack })(SectionAppSettings);

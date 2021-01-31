@@ -2,13 +2,15 @@ import { RouteUtils } from "@utils";
 
 import {
     DELETE_BACKPACK,
+    SETTINGS_CHANGE_AUTO_SAVE,
+    SETTINGS_CHANGE_CLOSE_ON_CLICK,
+    SETTINGS_CHANGE_LANGUAGE,
     SETTINGS_INIT,
     SETTINGS_SAVE_PERSONAL_DETAILS,
-    SET_PERSONAL_DETAILS_LOADING,
     SET_APP_SETTINGS_LOADING,
+    SET_CHANGE_PASSWORD_ERRORS,
+    SET_PERSONAL_DETAILS_LOADING,
     SET_SECURITY_SETTINGS_LOADING,
-    SETTINGS_CHANGE_AUTO_SAVE,
-    SETTINGS_CHANGE_CLOSE_ON_CLICK
 } from "./types";
 import { setMenuLoading } from "./noteActions";
 import { logoutUser } from "./authActions";
@@ -17,30 +19,91 @@ import { pushMessage, MESSAGE_TYPES } from "./messageActions";
 const loadingActionTemplate = (type, payload) => {
     return function (dispatch) {
         dispatch({ type, payload });
-    }
+    };
 };
 
-export const setAppSettingsLoading = (isLoading) => loadingActionTemplate(SET_APP_SETTINGS_LOADING, isLoading);
-export const setPersonalDetailsLoading = (isLoading) => loadingActionTemplate(SET_PERSONAL_DETAILS_LOADING, isLoading);
-export const setSecuritySettingsLoading = (isLoading) => loadingActionTemplate(SET_SECURITY_SETTINGS_LOADING, isLoading);
+export const setAppSettingsLoading = (isLoading) =>
+    loadingActionTemplate(SET_APP_SETTINGS_LOADING, isLoading);
+export const setPersonalDetailsLoading = (isLoading) =>
+    loadingActionTemplate(SET_PERSONAL_DETAILS_LOADING, isLoading);
+export const setSecuritySettingsLoading = (isLoading) =>
+    loadingActionTemplate(SET_SECURITY_SETTINGS_LOADING, isLoading);
 
 export const changeAutoSave = (value) => {
     return function (dispatch) {
         if (typeof value === "boolean") {
             const route = RouteUtils.api.settings.autoSaveChange;
-            
+
             dispatch(setAppSettingsLoading(true));
             RouteUtils.sendApiRequest(route, { autoSaveValue: value })
                 .then((res) => {
                     if (res.status === 200 && res.data.success === true) {
                         dispatch({
                             type: SETTINGS_CHANGE_AUTO_SAVE,
-                            payload: value
+                            payload: value,
                         });
                     }
                 })
                 .catch((err) => {
-                    dispatch(pushMessage("Something failed!", MESSAGE_TYPES.error));
+                    dispatch(
+                        pushMessage("Something failed!", MESSAGE_TYPES.error)
+                    );
+                    console.log(err);
+                })
+                .finally(() => {
+                    dispatch(setAppSettingsLoading(false));
+                });
+        }
+    };
+};
+
+export const changeCloseOnClick = (value) => {
+    return function (dispatch) {
+        if (typeof value === "boolean") {
+            const route = RouteUtils.api.settings.closeOnClickChange;
+
+            dispatch(setAppSettingsLoading(true));
+            RouteUtils.sendApiRequest(route, { value })
+                .then((res) => {
+                    if (res.status === 200 && res.data.success === true) {
+                        dispatch({
+                            type: SETTINGS_CHANGE_CLOSE_ON_CLICK,
+                            payload: value,
+                        });
+                    }
+                })
+                .catch((err) => {
+                    dispatch(
+                        pushMessage("Something failed!", MESSAGE_TYPES.error)
+                    );
+                    console.log(err);
+                })
+                .finally(() => {
+                    dispatch(setAppSettingsLoading(false));
+                });
+        }
+    };
+};
+
+export const changeLanguage = (languageValue) => {
+    return function (dispatch) {
+        if (languageValue) {
+            const route = RouteUtils.api.settings.changeLanguage;
+
+            dispatch(setAppSettingsLoading(true));
+            RouteUtils.sendApiRequest(route, { languageValue })
+                .then((res) => {
+                    if (res.status === 200 && res.data.success === true) {
+                        dispatch({
+                            type: SETTINGS_CHANGE_LANGUAGE,
+                            payload: languageValue,
+                        });
+                    }
+                })
+                .catch((err) => {
+                    dispatch(
+                        pushMessage("Something failed!", MESSAGE_TYPES.error)
+                    );
                     console.log(err);
                 })
                 .finally(() => {
@@ -50,31 +113,7 @@ export const changeAutoSave = (value) => {
     }
 };
 
-export const changeCloseOnClick = (value) => {
-    return function (dispatch) {
-        if (typeof value === "boolean") {
-            const route = RouteUtils.api.settings.closeOnClickChange;
-            
-            dispatch(setAppSettingsLoading(true));
-            RouteUtils.sendApiRequest(route, { value })
-                .then((res) => {
-                    if (res.status === 200 && res.data.success === true) {
-                        dispatch({
-                            type: SETTINGS_CHANGE_CLOSE_ON_CLICK,
-                            payload: value
-                        });
-                    }
-                })
-                .catch((err) => {
-                    dispatch(pushMessage("Something failed!", MESSAGE_TYPES.error));
-                    console.log(err);
-                })
-                .finally(() => {
-                    dispatch(setAppSettingsLoading(false));
-                });
-        }
-    }
-};
+export const clearChangePasswordErrors = () => setChangePasswordErrors(undefined);
 
 export const deleteAccount = () => {
     return function (dispatch) {
@@ -84,7 +123,12 @@ export const deleteAccount = () => {
             .then((res) => {
                 if (res.status === 200 && res.data.success === true) {
                     dispatch(logoutUser());
-                    dispatch(pushMessage("Account was deleted. Good bye!", MESSAGE_TYPES.info));
+                    dispatch(
+                        pushMessage(
+                            "Account was deleted. Good bye!",
+                            MESSAGE_TYPES.info
+                        )
+                    );
                 }
             })
             .catch((err) => {
@@ -160,8 +204,52 @@ export const savePersonalDetails = (personalDetails) => {
             .finally(() => {
                 setTimeout(() => {
                     dispatch(setPersonalDetailsLoading(false));
-                    dispatch(pushMessage("Changes saved", MESSAGE_TYPES.success));
+                    dispatch(
+                        pushMessage("Changes saved", MESSAGE_TYPES.success)
+                    );
                 }, 500);
             });
     };
+};
+
+
+export const setChangePasswordErrors = (payload) => {
+    return function (dispatch) {
+        dispatch({
+            type: SET_CHANGE_PASSWORD_ERRORS,
+            payload
+        });
+    };
+};
+
+export const tryChangePassword = (currentPassword, newPassword1, newPassword2) => {
+    return function (dispatch) {
+        if (currentPassword || newPassword1 || newPassword2) {
+            const route = RouteUtils.api.settings.changePassword;
+            const dto = { currentPassword, newPassword1, newPassword2 };
+
+            dispatch(setSecuritySettingsLoading(true));
+            RouteUtils.sendApiRequest(route, dto)
+                .then((res) => {
+                    if (res.status === 200 && res.data.success === true) {
+                        dispatch(clearChangePasswordErrors());
+                        dispatch(pushMessage("Password changed successfully", MESSAGE_TYPES.success));
+                    } else if (res.data.errors) {
+                        dispatch(setChangePasswordErrors(res.data.errors));
+                        dispatch(pushMessage("Password was not changed", MESSAGE_TYPES.warn));
+                    }
+                })
+                .catch((err) => {
+                    dispatch(
+                        pushMessage("Something failed!", MESSAGE_TYPES.error)
+                    );
+                    console.log(err);
+                })
+                .finally(() => {
+                    dispatch(setSecuritySettingsLoading(false));
+                });
+        } else {
+            dispatch(pushMessage("Empty fields found!", MESSAGE_TYPES.error));
+        }
+    }
 };

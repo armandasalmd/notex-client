@@ -1,11 +1,12 @@
 import {
     SETTINGS_INIT,
     SETTINGS_SAVE_PERSONAL_DETAILS,
+    SETTINGS_CHANGE_LANGUAGE,
     SET_PERSONAL_DETAILS_LOADING,
     SET_APP_SETTINGS_LOADING,
     SET_SECURITY_SETTINGS_LOADING,
     SETTINGS_CHANGE_AUTO_SAVE,
-    SETTINGS_CHANGE_CLOSE_ON_CLICK
+    SETTINGS_CHANGE_CLOSE_ON_CLICK,
 } from "@actions/types";
 
 const initialState = {
@@ -29,8 +30,8 @@ const initialState = {
     loadingStates: {
         appSettings: false,
         personalDetails: false,
-        securitySettings: false
-    }
+        securitySettings: false,
+    },
 };
 
 export default function (state = initialState, action) {
@@ -48,7 +49,7 @@ export default function (state = initialState, action) {
                 },
                 initialised: true,
                 isPersonalDetailsSaving: initialState.isPersonalDetailsSaving,
-                loadingStates: initialState.loadingStates
+                loadingStates: initialState.loadingStates,
             };
         case SETTINGS_SAVE_PERSONAL_DETAILS:
             return {
@@ -57,6 +58,13 @@ export default function (state = initialState, action) {
                     ...action.payload,
                 },
             };
+        case SETTINGS_CHANGE_LANGUAGE:
+            state.appSettings = {
+                ...state.appSettings,
+                preferredLanguage: action.payload,
+            };
+
+            return { ...state };
         case SET_PERSONAL_DETAILS_LOADING:
             state.loadingStates.personalDetails = !!action.payload;
             return { ...state };
@@ -67,16 +75,16 @@ export default function (state = initialState, action) {
             state.loadingStates.securitySettings = !!action.payload;
             return { ...state };
         case SETTINGS_CHANGE_AUTO_SAVE:
-            state.appSettings = { 
+            state.appSettings = {
                 ...state.appSettings,
-                autoSave: !!action.payload
+                autoSave: !!action.payload,
             };
 
             return { ...state };
         case SETTINGS_CHANGE_CLOSE_ON_CLICK:
-            state.appSettings = { 
+            state.appSettings = {
                 ...state.appSettings,
-                closeAfterSelect: !!action.payload
+                closeAfterSelect: !!action.payload,
             };
 
             return { ...state };

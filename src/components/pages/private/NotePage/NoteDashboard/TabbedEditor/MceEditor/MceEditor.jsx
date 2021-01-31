@@ -10,12 +10,14 @@ import "./MceEditor.less";
 import { Editor } from "@tinymce/tinymce-react";
 import { SpinnerContainer } from "./__components__";
 
-const MceEditor = ({
-    selectedNote,
-    setEditorText,
-    editorText,
-    saveChanges,
-}) => {
+const MceEditor = (props) => {
+    const {
+        selectedNote,
+        setEditorText,
+        editorText,
+        saveChanges,
+    } = props;
+
     const [saveTimeoutId, setSaveTimeoutId] = useState(null);
     const [loading, setLoading] = useState(true);
     const editorElement = useRef(null);
@@ -31,7 +33,7 @@ const MceEditor = ({
     const handleEditorChange = (content) => {
         setEditorText(content);
         
-        if (Constants.autoSaveEnabled) {
+        if (props.autoSaveEnabled) {
             const changesSaved = (savedText) => content === savedText;
             
             if (saveTimeoutId) {
@@ -92,6 +94,7 @@ const MceEditor = ({
 };
 
 MceEditor.propTypes = {
+    autoSaveEnabled: PropTypes.bool.isRequired,
     selectedNote: PropTypes.object.isRequired,
     editorText: PropTypes.string.isRequired,
     setEditorText: PropTypes.func.isRequired,
@@ -99,6 +102,7 @@ MceEditor.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
+    autoSaveEnabled: state.settings.appSettings.autoSave,
     selectedNote: state.app.selectedNote,
     editorText: state.app.editorText,
 });

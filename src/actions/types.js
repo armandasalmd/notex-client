@@ -9,7 +9,6 @@ export const SAVE_SPIN_START = "SAVE_SPIN_START";
 export const SET_MENU_LOADING = "SET_MENU_LOADING";
 
 // auth actions
-export const GET_ERRORS = "GET_ERRORS";
 export const USER_LOADING = "USER_LOADING";
 export const SET_AUTH_LOADING = "SET_AUTH_LOADING";
 export const SET_CURRENT_USER = "SET_CURRENT_USER";
@@ -39,3 +38,7 @@ export const EVICT_NOTE = "EVICT_NOTE";
 // message reducer
 export const PUSH_MESSAGE = "PUSH_MESSAGE";
 export const REMOVE_MESSAGES_BY_ID = "REMOVE_MESSAGES_BY_ID";
+
+// error reducer
+export const GET_ERRORS = "GET_ERRORS";
+export const SET_CHANGE_PASSWORD_ERRORS = "SET_CHANGE_PASSWORD_ERRORS";

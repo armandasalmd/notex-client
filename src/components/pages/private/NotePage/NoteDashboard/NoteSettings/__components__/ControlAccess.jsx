@@ -28,7 +28,7 @@ const ControlAccess = ({ selectedValue, noteOwner, onSubmit }) => {
                     <div>
                         <p>Access type</p>
                         <Space>
-                            <Select value={access} onChange={setAccess} style={{ width: 200 }}>
+                            <Select disabled value={access} onChange={setAccess} style={{ width: 200 }}>
                                 {NoteUtils.accessLevelOptions.map(function (option) {
                                     return (
                                         <Option key={option.value} value={option.value}>

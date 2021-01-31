@@ -7,8 +7,6 @@ import { Spin } from "antd";
 
 const SettingsCard = props => {
     const { t } = useTranslation();
-
-    console.log(props);
     let isSpinning = false;
 
     switch(props.id) {

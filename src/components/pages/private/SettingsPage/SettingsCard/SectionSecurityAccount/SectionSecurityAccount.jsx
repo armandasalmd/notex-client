@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
-import { deleteAccount } from "@actions/settingsActions";
+import { tryChangePassword, deleteAccount } from "@actions/settingsActions";
 import { Constants, RouteUtils } from "@utils";
 
 import "./SectionSecurityAccount.less";
@@ -23,10 +23,10 @@ const SectionSecurityAccount = props => {
     const [password2, setPassword2] = useState("");
 
     const updatePassword = () => {
-        console.log("Update password");
-        console.log(passwordOld);
-        console.log(password1);
-        console.log(password2);
+        props.tryChangePassword(passwordOld, password1, password2);
+        setOldPassword("");
+        setPassword1("");
+        setPassword2("");
     };
 
     const deleteAccount = () => {
@@ -73,10 +73,12 @@ const SectionSecurityAccount = props => {
 };
 
 SectionSecurityAccount.propTypes = {
+    changePasswordErrors: PropTypes.object.isRequired,
     deleteAccount: PropTypes.func.isRequired
 };
 
-const mapStateToProps = () => ({});
+const mapStateToProps = (state) => ({
+    changePasswordErrors: state.errors.changePasswordErrors
+});
 
-export default connect(mapStateToProps, { deleteAccount })(SectionSecurityAccount);
-
+export default connect(mapStateToProps, { deleteAccount, tryChangePassword })(SectionSecurityAccount);
