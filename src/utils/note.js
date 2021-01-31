@@ -10,6 +10,7 @@ const properties = {
     note: {
         accessLevel: "accessLevel",
         dateCreated: "creationDate",
+        lastChanged: "lastChanged",
         text: "text",
         title: "title",
         id: "_id"

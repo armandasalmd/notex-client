@@ -157,17 +157,22 @@ export default function (state = initialState, action) {
                 editorText: action.payload
             };
         case SAVE_NOTE:
-            var noteObj = NoteUtils.findNote(action.payload.noteId, state.backpack);
-            if (noteObj) {
-                noteObj[NoteUtils.props.note.text] = GlobalUtils.getValue(action.payload.note, NoteUtils.props.note.text);
-            } else {
-                console.error("Cannot save note");
+            {
+                var noteObj = NoteUtils.findNote(action.payload.noteId, state.backpack);
+                
+                if (noteObj) {
+                    noteObj[NoteUtils.props.note.text] = GlobalUtils.getValue(action.payload.note, NoteUtils.props.note.text);
+                    noteObj[NoteUtils.props.note.lastChanged] = GlobalUtils.getValue(action.payload.note, NoteUtils.props.note.lastChanged);
+                } else {
+                    console.error("Cannot save note");
+                }
+
+                return {
+                    ...state,
+                    isSaving: false,
+                    isAutosaved: action.payload.autosaved
+                };
             }
-            return {
-                ...state,
-                isSaving: false,
-                isAutosaved: action.payload.autosaved
-            };
         case SAVE_SPIN_START:
             return {
                 ...state,

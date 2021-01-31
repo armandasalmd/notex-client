@@ -34,7 +34,6 @@ const NoteDashboard = props => {
         props.saveChanges(GlobalUtils.getValue(note, NoteUtils.props.note.id), props.app.editorText);
     };
 
-
     return (
         <div className="note-root">
             <div className="content-card">

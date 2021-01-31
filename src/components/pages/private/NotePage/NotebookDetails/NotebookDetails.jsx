@@ -13,6 +13,13 @@ import "./NotebookDetails.less";
 
 const NotebookDetails = props => {
     const notebook = props.app.selectedNotebook;
+    const note = props.app.selectedNote;
+    let noteAccessLevel = GlobalUtils.getValue(note, NoteUtils.props.note.accessLevel, "unavailable");
+    let noteLastChanged = GlobalUtils.getValue(note, NoteUtils.props.note.lastChanged, "unavailable");
+    
+    if (noteLastChanged !== "unavailable") {
+        noteLastChanged = GlobalUtils.toDisplayDate(new Date(noteLastChanged));
+    }
 
     const [modalAddNoteOpen, setModalAddNoteOpen] = useState(false);
     const [modalRenameOpen, setModalRenameOpen] = useState(false);
@@ -38,14 +45,17 @@ const NotebookDetails = props => {
                     <img className="title-image" src="/images/undraw/undraw_notebook.svg" alt="Notebook" />
                     <h1>{GlobalUtils.getValue(notebook, NoteUtils.props.notebook.title)}</h1>
                 </Row>
-                <Row style={{ marginBottom: "18px", display: "inline-block" }}>
+                <Row style={{ width: "100%", marginBottom: "18px", display: "inline-block" }}>
+                    <h1 className="header header--medium">Current note details</h1>
+                    <p className="text text--light">
+                        <span className="text--silent">Last modified: </span>{noteLastChanged}
+                    </p>
+                    <p className="text text--light">
+                        <span className="text--silent">Access level: </span>{noteAccessLevel}
+                    </p>
+                </Row>
+                <Row style={{ width: "100%", marginBottom: "18px", display: "inline-block" }}>
                     <h1 className="header header--medium">Notebook details</h1>
-                    <p className="text text--light">
-                        <span className="text--silent">Last modified: </span>unavailable
-                    </p>
-                    <p className="text text--light">
-                        <span className="text--silent">Access level: </span>unavailable
-                    </p>
                     <p className="text text--light">
                         <span className="text--silent">Note count: </span>
                         {GlobalUtils.getValue(notebook, NoteUtils.props.notebook.notes).length}

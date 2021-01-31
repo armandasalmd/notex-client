@@ -2,7 +2,7 @@ import { Constants } from "@utils";
 import axios from "axios";
 
 var RouteUtils = {
-    hostName: Constants.apiHostName.replace(/\/*$/, ""),
+    hostName: Constants.apiHostNameDev.replace(/\/*$/, ""),
     api: {
         auth: {
             login: {

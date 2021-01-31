@@ -77,6 +77,7 @@ export const saveChanges = (noteId, newText, isAutosave) => {
         RouteUtils.sendApiRequest(route, body)
             .then(res => {
                 if (res.status === 200 && res.data.data) {
+                    console.log(res.data.data);
                     dispatch({
                         type: SAVE_NOTE,
                         payload: {
