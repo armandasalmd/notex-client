@@ -1,9 +1,8 @@
 import { Constants } from "@utils";
 import axios from "axios";
 
-// TODO: swap backk to orinal host
 var RouteUtils = {
-    hostName: Constants.apiHostNameDev.replace(/\/*$/, ""),
+    hostName: Constants.apiHostName.replace(/\/*$/, ""),
     api: {
         auth: {
             login: {
