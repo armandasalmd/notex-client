@@ -223,7 +223,6 @@ export const setChangePasswordErrors = (payload) => {
 };
 
 export const tryChangePassword = (values) => {
-    console.log(values);
     return function (dispatch) {
         const route = RouteUtils.api.settings.changePassword;
         const dto = {
