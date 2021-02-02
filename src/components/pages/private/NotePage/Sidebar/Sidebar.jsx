@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import classnames from "classnames";
 
 import PropTypes from "prop-types";
@@ -10,6 +11,8 @@ import { Empty, Spin } from "antd";
 import { GlobalUtils } from "@utils";
 
 const Sidebar = (props) => {
+    const { t } = useTranslation();
+
     const tryCloseMenu = () => {
         GlobalUtils.callIfFunction(props.closeMenu);
     };
@@ -29,7 +32,7 @@ const Sidebar = (props) => {
                     onClose={tryCloseMenu}
                 />
                 <NotebookMenu tryCloseMenu={tryCloseMenu} />
-                { !GlobalUtils.hasLength(props.app.backpack.notebooks) && !isSpinning && <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="No notebooks found" /> }
+                { !GlobalUtils.hasLength(props.app.backpack.notebooks) && !isSpinning && <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={t("menu.noNotebooks")} /> }
             </Spin>
         </div>
     );

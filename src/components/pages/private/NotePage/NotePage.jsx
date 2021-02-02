@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { RouteUtils, GlobalUtils } from "@utils";
 
@@ -20,6 +21,8 @@ const useQuery = () => {
 }
 
 const NotePage = props => {
+    const { t } = useTranslation();
+
     const query = useQuery();
     const [modalAddOpen, setModalAddOpen] = useState(false);
     const [addLoading, setAddLoading] = useState(false);
@@ -45,14 +48,14 @@ const NotePage = props => {
 
     const EmptyContainer = () => (
         <div className="content-card flex-center">
-            <Empty description={"Please select a note OR"}>
+            <Empty description={t("dashboard.introCard.selectNoteText")}>
                 <Button
                     type="primary"
                     onClick={() => {
                         setModalAddOpen(true);
                     }}
                 >
-                    Add new notebok
+                    {t("dashboard.introCard.addNotebookButton")}
                 </Button>
             </Empty>
         </div>
@@ -80,8 +83,8 @@ const NotePage = props => {
                         </Row>
                     )}
                     <SingleFieldModal
-                        textPlaceholder="Enter notebook title"
-                        title="Add new notebook"
+                        title={t("modals.addNotebook.title")}
+                        textPlaceholder={t("modals.addNotebook.placeholder")}
                         loading={addLoading}
                         visible={modalAddOpen}
                         setVisible={setModalAddOpen}

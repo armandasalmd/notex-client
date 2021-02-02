@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import classnames from "classnames";
 import { GlobalUtils } from "@utils";
 
@@ -11,6 +12,8 @@ import { connect } from "react-redux";
 import { addNewNotebook } from "@actions/noteActions";
 
 const Header = props => {
+    const { t } = useTranslation();
+
     const [modalAddOpen, setModalAddOpen] = useState(false);
     const [addLoading, setAddLoading] = useState(false);
 
@@ -23,7 +26,7 @@ const Header = props => {
 
     return (
         <div className="sidebar-header">
-            <h1 className="header header--medium">Your backpack</h1>
+            <h1 className="header header--medium">{t("menu.title")}</h1>
             <div className="sidebar-actions">
                 <Button onClick={() => setModalAddOpen(true)} shape="circle" icon={<PlusOutlined className="shade50" />}></Button>
                 <Button
@@ -36,8 +39,8 @@ const Header = props => {
                     onClick={props.onClose}
                 />
                 <SingleFieldModal
-                    textPlaceholder="Enter notebook title"
-                    title="Add new notebook"
+                    title={t("modals.addNotebook.title")}
+                    textPlaceholder={t("modals.addNotebook.placeholder")}
                     loading={addLoading}
                     visible={modalAddOpen}
                     setVisible={setModalAddOpen}

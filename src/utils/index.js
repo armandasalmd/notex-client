@@ -5,3 +5,5 @@ export { default as HistoryUtils } from "./history";
 export { default as NoteUtils } from "./note";
 export { default as RouteUtils } from "./routes";
 
+// dependant exports
+export { default as I18nUtils } from "./i18n";

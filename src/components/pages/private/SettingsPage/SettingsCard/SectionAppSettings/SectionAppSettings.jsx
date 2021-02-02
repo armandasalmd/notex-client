@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
-import { Constants } from "@utils";
+import { I18nUtils } from "@utils";
 import {
     changeAutoSave,
     changeCloseOnClick,
@@ -56,7 +56,7 @@ const SectionAppSettings = (props) => {
                         optionFilterProp="children"
                         onChange={changeLanguage}
                     >
-                        {Object.values(Constants.languages).map((language) => {
+                        {Object.values(I18nUtils.languages).map((language) => {
                             return <Option key={language.value} value={language.value}>{language.name}</Option>
                         })}
                     </Select>

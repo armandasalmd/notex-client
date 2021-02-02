@@ -22,11 +22,10 @@ const MceEditor = (props) => {
     const [loading, setLoading] = useState(true);
     const editorElement = useRef(null);
 
+    // TODO: memory leak error cause. Fix it
     const loadingStateChange = (isLoading) => {
         if (isLoading !== loading) {
-            setTimeout(() => {
-                setLoading(isLoading);
-            }, 250);
+            setLoading(isLoading);
         }
     };
 

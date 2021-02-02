@@ -28,9 +28,9 @@ const initialState = {
     },
     initialised: false,
     loadingStates: {
-        appSettings: false,
-        personalDetails: false,
-        securitySettings: false,
+        appSettings: true,
+        personalDetails: true,
+        securitySettings: true,
     },
 };
 
@@ -49,7 +49,11 @@ export default function (state = initialState, action) {
                 },
                 initialised: true,
                 isPersonalDetailsSaving: initialState.isPersonalDetailsSaving,
-                loadingStates: initialState.loadingStates,
+                loadingStates: {
+                    appSettings: false,
+                    personalDetails: false,
+                    securitySettings: false
+                }
             };
         case SETTINGS_SAVE_PERSONAL_DETAILS:
             return {

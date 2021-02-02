@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import copy from 'copy-to-clipboard';
 import classnames from "classnames";
 import PropTypes from "prop-types";
@@ -18,6 +19,9 @@ import { Breadcrumb, Button, Col, Row, Tabs, Tooltip, message } from "antd";
 const { TabPane } = Tabs;
 
 const NoteDashboard = props => {
+    const { t } = useTranslation(),
+        tBase = "dashboard.noteCard";
+
     const note = props.app.selectedNote;
     const notebook = props.app.selectedNotebook;
 
@@ -27,7 +31,7 @@ const NoteDashboard = props => {
 
     const copyUrl = () => {
         copy(window.location.href);
-        message.success("URL was copied");
+        message.success(t("common.urlCopy"));
     };
 
     const onSave = () => {
@@ -54,12 +58,12 @@ const NoteDashboard = props => {
                             shape="round"
                             icon={<SaveOutlined />}
                         >
-                            Save
+                            {t(`${tBase}.toolbar.save`)}
                         </Button>
-                        <Tooltip placement="bottom" title="Click to copy sharable link">
+                        <Tooltip placement="bottom" title={t(`${tBase}.toolbar.shareTooltip`)}>
                             <Button onClick={copyUrl} className="action-share" type="primary" ghost shape="circle" icon={<ShareAltOutlined />}></Button>
                         </Tooltip>
-                        <Tooltip placement="bottom" title="Close note">
+                        <Tooltip placement="bottom" title={t(`${tBase}.toolbar.closeNote`)}>
                             <Button
                                 className="action-close"
                                 danger
@@ -78,7 +82,7 @@ const NoteDashboard = props => {
                             gone: changesSaved()
                         })}
                     >
-                        (Not saved)
+                        {t(`${tBase}.toolbar.notSaved`)}
                     </h2>
                     <h2
                         className={classnames({
@@ -86,7 +90,7 @@ const NoteDashboard = props => {
                             gone: !(props.app.isAutosaved && changesSaved())
                         })}
                     >
-                        (Auto saved)
+                        {t(`${tBase}.toolbar.autoSaved`)}
                     </h2>
                 </Row>
                 <Row className="note-row-action-tabs">
@@ -95,7 +99,7 @@ const NoteDashboard = props => {
                             tab={
                                 <span>
                                     <HighlightOutlined />
-                                    Editor view
+                                    {t(`${tBase}.tabs.editor`)}
                                 </span>
                             }
                             key="1"
@@ -106,7 +110,7 @@ const NoteDashboard = props => {
                             tab={
                                 <span>
                                     <AlignLeftOutlined />
-                                    Read view
+                                    {t(`${tBase}.tabs.read`)}
                                 </span>
                             }
                             key="2"
@@ -117,7 +121,7 @@ const NoteDashboard = props => {
                             tab={
                                 <span>
                                     <ControlOutlined />
-                                    Note settings
+                                    {t(`${tBase}.tabs.settings`)}
                                 </span>
                             }
                             key="3"

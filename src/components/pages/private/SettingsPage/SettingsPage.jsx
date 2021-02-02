@@ -1,10 +1,8 @@
-import React, { useEffect } from "react";
-
-import { Constants } from "@utils";
-
+import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { initSettings } from "@actions/settingsActions";
+
+import { Constants } from "@utils";
 
 import "./SettingsPage.less";
 import { Row, Col } from "antd";
@@ -51,13 +49,6 @@ const SettingsPage = (props) => {
         );
     });
 
-    // component did mount mimic. Executes once component is created only
-    useEffect(() => {
-        if (props.settings.initialised === false) {
-            props.initSettings();
-        }
-    });
-
     return (
         <div className="settings-root full-width scroll-container" id="settings-root">
             <Row justify="center" gutter={[18, 18]}>
@@ -73,7 +64,6 @@ const SettingsPage = (props) => {
 };
 
 SettingsPage.propTypes = {
-    initSettings: PropTypes.func.isRequired,
     settings: PropTypes.object.isRequired
 };
 
@@ -81,4 +71,4 @@ const mapStateToProps = state => ({
     settings: state.settings
 });
 
-export default connect(mapStateToProps, { initSettings })(SettingsPage);
+export default connect(mapStateToProps)(SettingsPage);

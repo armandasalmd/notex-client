@@ -54,20 +54,6 @@ export default {
             titleKey: "settings.sections.securityAndAccount.title"
         }
     ],
-    languages: {
-        en: {
-            name: "English",
-            value: "en"
-        },
-        lt: {
-            name: "Lithuanian",
-            value: "lt"
-        },
-        ru: {
-            name: "Russian",
-            value: "ru"
-        }
-    },
     mceOptions: {
         codesample_languages: [
             { text: "HTML/XML", value: "markup" },

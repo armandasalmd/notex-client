@@ -13,13 +13,16 @@ const resources = {
     }
 };
 
+const translations = {
+    en: resources.en.translation,
+    lt: resources.lt.translation
+};
+
 i18n.use(initReactI18next) // passes i18n down to react-i18next
     .init({
         resources,
         lng: "en",
-
         keySeparator: ".", // we do not use keys in form messages.welcome
-
         interpolation: {
             escapeValue: false // react already safes from xss
         }
@@ -27,5 +30,6 @@ i18n.use(initReactI18next) // passes i18n down to react-i18next
 
 export default i18n;
 
+export { translations };
 // Change language docs
 // https://www.i18next.com/overview/api#changelanguage

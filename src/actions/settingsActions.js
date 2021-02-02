@@ -1,4 +1,5 @@
-import { RouteUtils } from "@utils";
+import { RouteUtils, I18nUtils } from "@utils";
+import { setLocale } from "react-redux-i18n";
 
 import {
     DELETE_BACKPACK,
@@ -98,6 +99,9 @@ export const changeLanguage = (languageValue) => {
                             type: SETTINGS_CHANGE_LANGUAGE,
                             payload: languageValue,
                         });
+
+                        localStorage.setItem(I18nUtils.LOCAL_STORAGE_KEY, languageValue);
+                        dispatch(setLocale(languageValue));
                     }
                 })
                 .catch((err) => {
