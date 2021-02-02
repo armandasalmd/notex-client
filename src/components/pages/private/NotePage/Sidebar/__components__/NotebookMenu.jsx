@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useTranslation } from "react-i18next";
+import { I18n } from "react-redux-i18n";
 import { GlobalUtils, NoteUtils } from "@utils";
 
 import PropTypes from "prop-types";
@@ -15,8 +15,6 @@ import SingleFieldModal from "##/SingleFieldModal";
 const { SubMenu } = Menu;
 
 const NotebookMenu = props => {
-    const { t } = useTranslation();
-
     const [modalAddNoteOpen, setModalAddNoteOpen] = useState(false);
     const [addNoteNotebookId, setAddNoteNotebookId] = useState(null);
     const [addNoteLoading, setAddNoteLoading] = useState(false);
@@ -65,17 +63,17 @@ const NotebookMenu = props => {
                             setAddNoteNotebookId(notebookId);
                         }}
                     >
-                        {t("menu.addNote")}
+                        {I18n.t("menu.addNote")}
                     </Button>
                     <Popconfirm
                         placement="bottomRight"
-                        title={t("confirm.deleteNotebookTitle")}
+                        title={I18n.t("confirm.deleteNotebookTitle")}
                         onConfirm={() => submitDelete(notebookId)}
-                        okText={t("common.yes")}
-                        cancelText={t("common.no")}
+                        okText={I18n.t("common.yes")}
+                        cancelText={I18n.t("common.no")}
                     >
                         <Button id="delete" type="text">
-                            {t("menu.deleteNotebook")}
+                            {I18n.t("menu.deleteNotebook")}
                         </Button>
                     </Popconfirm>
                     <NotebookOptions notebook={notebook} submitRename={submitRename} />
@@ -84,7 +82,7 @@ const NotebookMenu = props => {
                 {noteMenuItems}
                 {!GlobalUtils.hasLength(noteMenuItems) && (
                     <div className="notebookEmpty">
-                        <p className="notebookEmpty__text">{t("menu.noNotes")}</p>
+                        <p className="notebookEmpty__text">{I18n.t("menu.noNotes")}</p>
                     </div>
                 )}
             </SubMenu>
@@ -126,8 +124,8 @@ const NotebookMenu = props => {
                 { notebookMenuItems }
             </Menu>
             <SingleFieldModal
-                title={t("modals.addNote.title")}
-                textPlaceholder={t("modals.addNote.placeholder")}
+                title={I18n.t("modals.addNote.title")}
+                textPlaceholder={I18n.t("modals.addNote.placeholder")}
                 loading={addNoteLoading}
                 visible={modalAddNoteOpen}
                 setVisible={setModalAddNoteOpen}

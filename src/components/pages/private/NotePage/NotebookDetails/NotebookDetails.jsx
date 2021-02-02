@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useTranslation } from "react-i18next";
+import { I18n } from "react-redux-i18n";
 import { NoteUtils, GlobalUtils } from "@utils";
 
 import PropTypes from "prop-types";
@@ -13,8 +13,7 @@ import SingleFieldModal from "##/SingleFieldModal";
 import "./NotebookDetails.less";
 
 const NotebookDetails = props => {
-    const { t } = useTranslation(),
-        textUnavailable = t("common.unavailable"),
+    const textUnavailable = I18n.t("common.unavailable"),
         tBase = "dashboard.detailsCard";
 
     const notebook = props.app.selectedNotebook;
@@ -51,61 +50,61 @@ const NotebookDetails = props => {
                     <h1>{GlobalUtils.getValue(notebook, NoteUtils.props.notebook.title)}</h1>
                 </Row>
                 <Row style={{ width: "100%", marginBottom: "18px", display: "inline-block" }}>
-                    <h1 className="header header--medium">{t(`${tBase}.currentNote`)}</h1>
+                    <h1 className="header header--medium">{I18n.t(`${tBase}.currentNote`)}</h1>
                     <p className="text text--light">
-                        <span className="text--silent">{t(`${tBase}.lastModified`)}</span>{noteLastChanged}
+                        <span className="text--silent">{I18n.t(`${tBase}.lastModified`)}</span>{noteLastChanged}
                     </p>
                     <p className="text text--light">
-                        <span className="text--silent">{t(`${tBase}.accessLevel`)}</span>{noteAccessLevel}
+                        <span className="text--silent">{I18n.t(`${tBase}.accessLevel`)}</span>{noteAccessLevel}
                     </p>
                 </Row>
                 <Row style={{ width: "100%", marginBottom: "18px", display: "inline-block" }}>
-                    <h1 className="header header--medium">{t(`${tBase}.notebookDetails`)}</h1>
+                    <h1 className="header header--medium">{I18n.t(`${tBase}.notebookDetails`)}</h1>
                     <p className="text text--light">
-                        <span className="text--silent">{t(`${tBase}.noteCount`)}</span>
+                        <span className="text--silent">{I18n.t(`${tBase}.noteCount`)}</span>
                         {GlobalUtils.getValue(notebook, NoteUtils.props.notebook.notes).length}
                     </p>
                     <p className="text text--light">
-                        <span className="text--silent">{t(`${tBase}.owner`)}</span>
+                        <span className="text--silent">{I18n.t(`${tBase}.owner`)}</span>
                         {GlobalUtils.getValue(notebook, NoteUtils.props.notebook.owner)}
                     </p>
                 </Row>
                 <Row className="notebook-details-actions">
-                    <h1 className="header header--medium">{t(`${tBase}.notebookActions`)}</h1>
+                    <h1 className="header header--medium">{I18n.t(`${tBase}.notebookActions`)}</h1>
                     <Button type="primary" onClick={() => setModalAddNoteOpen(true)} ghost block icon={<PlusOutlined />}>
-                        {t(`${tBase}.buttons.add`)}
+                        {I18n.t(`${tBase}.buttons.add`)}
                     </Button>
                     <Button block onClick={() => setModalRenameOpen(true)} icon={<EditOutlined />}>
-                        {t(`${tBase}.buttons.rename`)}
+                        {I18n.t(`${tBase}.buttons.rename`)}
                     </Button>
                     <Button disabled block icon={<PrinterOutlined />}>
-                        {t(`${tBase}.buttons.export`)}
+                        {I18n.t(`${tBase}.buttons.export`)}
                     </Button>
                     <Popconfirm
                         placement="bottomRight"
-                        title={t("confirm.deleteNotebookTitle")}
+                        title={I18n.t("confirm.deleteNotebookTitle")}
                         onConfirm={() => onDelete()}
-                        okText={t("common.yes")}
-                        cancelText={t("common.no")}
+                        okText={I18n.t("common.yes")}
+                        cancelText={I18n.t("common.no")}
                     >
                         <Button danger block icon={<DeleteOutlined />}>
-                            {t(`${tBase}.buttons.delete`)}
+                            {I18n.t(`${tBase}.buttons.delete`)}
                         </Button>
                     </Popconfirm>
                 </Row>
             </div>
             <SingleFieldModal
                 extra={{notebookId: props.app.selectedNotebookId}}
-                title={t("modals.addNote.title")}
-                textPlaceholder={t("modals.addNote.placeholder")}
+                title={I18n.t("modals.addNote.title")}
+                textPlaceholder={I18n.t("modals.addNote.placeholder")}
                 visible={modalAddNoteOpen}
                 setVisible={setModalAddNoteOpen}
                 onSubmit={submitAddNote}
             />
             <SingleFieldModal
                 extra={{notebookId: props.app.selectedNotebookId}}
-                title={t("modals.renameNote.title")}
-                textPlaceholder={t("modals.renameNote.placeholder")}
+                title={I18n.t("modals.renameNote.title")}
+                textPlaceholder={I18n.t("modals.renameNote.placeholder")}
                 text={GlobalUtils.getValue(notebook, NoteUtils.props.notebook.title)}
                 visible={modalRenameOpen}
                 setVisible={setModalRenameOpen}

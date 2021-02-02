@@ -1,57 +1,54 @@
 import React from "react";
-import { useTranslation } from "react-i18next";
+import { I18n } from "react-redux-i18n";
 
-import { Row, Col } from "antd";
+import { I18nUtils } from "@utils";
+
 import "./Footer.less";
-
-import { TwitterOutlined, FacebookOutlined, LinkedinOutlined } from '@ant-design/icons';
+import { Row, Col, Button, Dropdown, Menu } from "antd";
+import { TwitterOutlined, FacebookOutlined, LinkedinOutlined, GlobalOutlined } from '@ant-design/icons';
 
 const FooterAbout = () => {
-    const { t } = useTranslation();
-
     return (
         <Col sm={24} md={12}>
-            <h6>{t("footer.about.title")}</h6>
+            <h6>{I18n.t("footer.about.title")}</h6>
             <p className="text-justify">
-                {t("footer.about.description")}
+                {I18n.t("footer.about.description")}
             </p>
         </Col>
     );
 };
 
-const FooterCategories = () => {
-    const { t } = useTranslation();
-    const categories = t("footer.categories.items", { returnObjects: true });
+// const FooterCategories = () => {
+//     const categories = I18nUtils.tObject(I18n, "footer.categories.items", []);
 
-    const items = (categories || []).map((item, i) => (
-        <li key={i}>
-            <a href={item.link}>{t(item.titleTextKey)}</a>
-        </li>
-    ));
+//     const items = (categories || []).map((item, i) => (
+//         <li key={i}>
+//             <a href={item.link}>{I18n.t(item.titleTextKey)}</a>
+//         </li>
+//     ));
 
-    return (
-        <Col xs={12} md={6}>
-            <h6>{t("footer.categories.title")}</h6>
-            <ul className="footer-links">
-                {items}
-            </ul>
-        </Col>
-    );
-};
+//     return (
+//         <Col xs={12} md={6}>
+//             <h6>{I18n.t("footer.categories.title")}</h6>
+//             <ul className="footer-links">
+//                 {items}
+//             </ul>
+//         </Col>
+//     );
+// };
 
 const FooterLinks = () => {
-    const { t } = useTranslation();
-    const categories = t("footer.quickLinks.items", { returnObjects: true });
+    const categories = I18nUtils.tObject(I18n, "footer.quickLinks.items", []);
 
     const items = (categories || []).map((item, i) => (
         <li key={i}>
-            <a href={item.link}>{t(item.titleTextKey)}</a>
+            <a href={item.link}>{I18n.t(item.titleTextKey)}</a>
         </li>
     ));
 
     return (
         <Col xs={12} md={6}>
-            <h6>{t("footer.quickLinks.title")}</h6>
+            <h6>{I18n.t("footer.quickLinks.title")}</h6>
             <ul className="footer-links">
                 {items}
             </ul>
@@ -60,13 +57,11 @@ const FooterLinks = () => {
 };
 
 const FooterSocial = () => {
-    const { t } = useTranslation();
-
     return (
         <>
             <Col md={16} sm={12} xs={24}>
                 <p className="copyright-text">
-                    {t("footer.copyright")}
+                    {I18n.t("footer.copyright")}
                 </p>
             </Col>
 
@@ -93,12 +88,44 @@ const FooterSocial = () => {
     );
 };
 
+const FooterLanguage = () => {
+    const language = I18nUtils.getPreferredLanguage();
+
+    const onChange = (e) => {
+        if (language !== e.key) {
+            I18nUtils.saveLanguageLocally(e.key);
+            window.location.reload();
+        }
+    }
+
+    const languageMenuItems = Object.values(I18nUtils.languages).map((language) => {
+        return (
+            <Menu.Item key={language.value} >
+                {language.value.toUpperCase()}
+            </Menu.Item>
+        );
+    });
+
+    const languageMenu = <Menu onClick={onChange}>{languageMenuItems}</Menu>;
+
+    return (
+        <Col xs={12} md={6}>
+            <h6>{I18n.t("footer.languageHeader")}</h6>
+            <Dropdown overlay={languageMenu}>
+                <Button>
+                    <GlobalOutlined />{language.toUpperCase()}
+                </Button>
+            </Dropdown>
+        </Col>
+    );
+};
+
 const Footer = () => {
     return (
         <footer className="site-footer">
             <Row className="site-footer-main">
                 <FooterAbout />
-                <FooterCategories />
+                <FooterLanguage />
                 <FooterLinks />
                 <hr />
             </Row>
@@ -108,5 +135,6 @@ const Footer = () => {
         </footer>
     );
 };
+
 
 export default Footer;

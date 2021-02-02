@@ -130,7 +130,8 @@ export default {
                 RouteUtils.app.public.about
             ]
         },
-        copyright: "Copyright © 2020 Coventry, Armandas Barkauskas"
+        copyright: "Copyright © 2020 Coventry, Armandas Barkauskas",
+        languageHeader: "App language"
     },
     landing: {
         banner: {
@@ -190,7 +191,8 @@ export default {
         passwordPlaceholder: "Password",
         button: "Show my notebooks - login",
         registerTitle: "New to Notex?",
-        registerLinkText: "Click here to register"
+        registerLinkText: "Click here to register",
+        orLabel: "or use your account"
     },
     menu: {
         title: "Your backpack",
@@ -290,6 +292,11 @@ export default {
                 deleteAccountText: "You are about to delete this account with all notes. After this you will be logged out"
             }
         }
+    },
+    social: {
+        signInGoogleText: "Sign in with Google",
+        signInFacebookText: "Sign in with Facebook",
+        disabledText: "Ups. Not yet! Wait for this feature to arrive"
     },
     titleText: {
         login: "Login page",

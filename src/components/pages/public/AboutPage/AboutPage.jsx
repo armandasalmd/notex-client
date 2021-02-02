@@ -1,18 +1,18 @@
 import React from "react";
-import { useTranslation } from "react-i18next";
+import { I18n } from "react-redux-i18n";
+
+import { I18nUtils } from "@utils";
 
 import "./AboutPage.less";
 import Footer from "#/containers/Footer";
 
 const About = () => {
-    const { t } = useTranslation();
-
-    const aboutParagraphs = t("about.sectionAbout.paragraphs", { returnObjects: true})
+    const aboutParagraphs = I18nUtils.tObject(I18n, "about.sectionAbout.paragraphs")
         .map((text, i) => {
             return <p key={i} dangerouslySetInnerHTML={{ __html: text }}></p>
         });
 
-    const authorParagraphs = t("about.sectionAuthor.paragraphs", { returnObjects: true})
+    const authorParagraphs = I18nUtils.tObject(I18n, "about.sectionAuthor.paragraphs")
         .map((text, i) => {
             return <p key={i} dangerouslySetInnerHTML={{ __html: text }}></p>
         });
@@ -23,13 +23,13 @@ const About = () => {
                 <div className="about-image"/>
                 <div className="about-content">
                     <div className="section">
-                        <h1 className="header">{t("about.sectionAbout.title")}</h1>
+                        <h1 className="header">{I18n.t("about.sectionAbout.title")}</h1>
                         <article>
                             {aboutParagraphs}
                         </article>
                     </div>
                     <div className="section">
-                        <h1 className="header">{t("about.sectionAuthor.title")}</h1>
+                        <h1 className="header">{I18n.t("about.sectionAuthor.title")}</h1>
                         <article>
                             {authorParagraphs}
                         </article>

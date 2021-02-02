@@ -22,14 +22,14 @@ export default {
         google: {
             title: "Google",
             iconSource: "/images/icons/google_logo.svg",
-            loginButtonText: "Sign in with Google",
+            textKey: "social.signInGoogleText",
             backgroundColor: "#FFFFFF",
             textColor: "#6B6B6B"
         },
         facebook: {
             title: "Facebook",
             iconSource: "https://static.xx.fbcdn.net/rsrc.php/v3/yN/r/szGrb_tkxMW.png",
-            loginButtonText: "Sign in with Facebook",
+            textKey: "social.signInFacebookText",
             backgroundColor: "#5B7DC1",
             textColor: "#FFFFFF"
         }

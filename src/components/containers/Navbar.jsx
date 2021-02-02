@@ -1,26 +1,25 @@
 import React, { useState } from "react";
 import { Link, withRouter } from "react-router-dom";
-import { useTranslation } from "react-i18next";
 import classnames from "classnames";
+import { I18n } from "react-redux-i18n";
 
 import "./Navbar.less";
 import { Drawer, Layout, Menu, Button } from "antd";
 import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
 import BackpackMenu from "#/pages/private/NotePage/Sidebar";
 
+const { SubMenu } = Menu;
 const { Header } = Layout;
 
 const Navbar = ({menuItems, location, ...rest}) => {
     // ...rest can be: hamburgerEnabled, hamburgerMenuComponent
-
     const [ menuCollapsed, setMenuCollapsed ] = useState(true);
-    const { t } = useTranslation();
     const { pathname: path } = location;
 
     const itemsComponents = menuItems.map(item => {
         return (
             <Menu.Item key={item.link}>
-                <p className="menu">{t(item.navTextKey)}</p>
+                <p className="menu">{I18n.t(item.navTextKey)}</p>
                 <Link to={item.link} />
             </Menu.Item>
         );
@@ -58,8 +57,7 @@ const Navbar = ({menuItems, location, ...rest}) => {
                         style={{
                             lineHeight: "32px",
                             float: "right",
-                            height: "100%",
-                            paddingTop: "16px"
+                            paddingTop: "18px"
                         }}
                     >
                         {itemsComponents}

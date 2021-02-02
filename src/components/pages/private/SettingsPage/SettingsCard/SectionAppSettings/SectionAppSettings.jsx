@@ -1,5 +1,5 @@
 import React from "react";
-import { useTranslation } from "react-i18next";
+import { I18n } from "react-redux-i18n";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
@@ -22,7 +22,6 @@ import {
 const { Option } = Select;
 
 const SectionAppSettings = (props) => {
-    const { t } = useTranslation();
     const tBase = "settings.sections.appSettings";
 
     const deleteBackpack = () => {
@@ -45,14 +44,14 @@ const SectionAppSettings = (props) => {
         <div className="section-app-settings">
             <section>
                 <p className="text text--form-label">
-                    {t(tBase + ".labels.language")}
+                    {I18n.t(tBase + ".labels.language")}
                 </p>
                 <form autoComplete="off">
                     <Select
                         value={props.data.preferredLanguage}
                         showSearch
                         style={{ width: 200 }}
-                        placeholder={t(tBase + ".labels.language")}
+                        placeholder={I18n.t(tBase + ".labels.language")}
                         optionFilterProp="children"
                         onChange={changeLanguage}
                     >
@@ -64,29 +63,29 @@ const SectionAppSettings = (props) => {
             </section>
             <section>
                 <p className="text text--form-label">
-                    {t(tBase + ".labels.exportImport")}
+                    {I18n.t(tBase + ".labels.exportImport")}
                 </p>
                 <Space>
                     <Button disabled icon={<DownloadOutlined />}>
-                        {t(tBase + ".exportButton")}
+                        {I18n.t(tBase + ".exportButton")}
                     </Button>
                     <Upload>
                         <Button disabled icon={<UploadOutlined />}>
-                            {t(tBase + ".importButton")}
+                            {I18n.t(tBase + ".importButton")}
                         </Button>
                     </Upload>
                 </Space>
             </section>
             <section>
                 <p className="text text--form-label">
-                    {t(tBase + ".labels.closeAfterClick")}
+                    {I18n.t(tBase + ".labels.closeAfterClick")}
                 </p>
                 <Switch
                     checked={props.data.closeAfterSelect}
                     onChange={changeCloseMenuPreference}
                 />
                 <p className="text text--form-label">
-                    {t(tBase + ".labels.autoSave")}
+                    {I18n.t(tBase + ".labels.autoSave")}
                 </p>
                 <Switch
                     checked={props.data.autoSave}
@@ -95,17 +94,17 @@ const SectionAppSettings = (props) => {
             </section>
             <section>
                 <p className="text text--form-label">
-                    {t(tBase + ".labels.actions")}
+                    {I18n.t(tBase + ".labels.actions")}
                 </p>
                 <Popconfirm
                     placement="bottomRight"
-                    title={t(tBase + ".confirm.deleteAll")}
+                    title={I18n.t(tBase + ".confirm.deleteAll")}
                     onConfirm={deleteBackpack}
-                    okText={t("common.yes")}
-                    cancelText={t("common.no")}
+                    okText={I18n.t("common.yes")}
+                    cancelText={I18n.t("common.no")}
                 >
                     <Button icon={<DeleteOutlined />} danger>
-                        {t(tBase + ".deleteBackpackButton")}
+                        {I18n.t(tBase + ".deleteBackpackButton")}
                     </Button>
                 </Popconfirm>
             </section>

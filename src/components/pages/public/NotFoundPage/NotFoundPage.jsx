@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useTranslation } from "react-i18next";
+import { I18n } from "react-redux-i18n";
 
 import { Result, Button } from "antd";
 
@@ -10,18 +10,17 @@ const NotFound = () => {
         alignItems: "center",
         justifyContent: "center"
     };
-    const { t } = useTranslation();
-
+    
     return (
         <div style={mainStyle}>
             <div style={{ textAlign: "center" }}>
                 <Result
                     status="404"
                     title="404"
-                    subTitle={t("errorPage.description")}
+                    subTitle={I18n.t("errorPage.description")}
                     extra={
                         <Link to="/" style={{ fontSize: "20px" }}>
-                            <Button type="primary">{t("errorPage.goHomeLink")}</Button>
+                            <Button type="primary">{I18n.t("errorPage.goHomeLink")}</Button>
                         </Link>
                     }
                 />

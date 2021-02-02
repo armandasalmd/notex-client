@@ -4,20 +4,19 @@ import { Link } from "react-router-dom";
 import { Button } from "antd";
 
 import "./Banner.less";
-import { useTranslation } from "react-i18next";
+
+import { I18n } from "react-redux-i18n";
 
 const Banner = () => {
-    const { t } = useTranslation();
-
     return (
         <div className="banner-image">
             <div className="banner-text">
                 <h2>
-                    {t("landing.banner.title")}
+                    {I18n.t("landing.banner.title")}
                 </h2>
-                <p style={{ marginBottom: "32px" }}>{t("landing.banner.subtitle")}</p>
+                <p style={{ marginBottom: "32px" }}>{I18n.t("landing.banner.subtitle")}</p>
                 <Button className="banner-btn" size="large">
-                    <Link to="/auth/register">{t("landing.banner.buttonText")}</Link>
+                    <Link to="/auth/register">{I18n.t("landing.banner.buttonText")}</Link>
                 </Button>
             </div>
         </div>

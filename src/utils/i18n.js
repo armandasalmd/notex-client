@@ -3,6 +3,7 @@ import {
     loadTranslations,
     syncTranslationWithStore,
 } from "react-redux-i18n";
+import { default as GlobalUtils } from "./global";
 
 import translationEN from "../assets/locales/en/translation";
 import translationLT from "../assets/locales/lt/translation";
@@ -52,13 +53,35 @@ const saveLanguageLocally = (language) => {
     localStorage.setItem(LOCAL_STORAGE_KEY, languageToSet);
 };
 
+const getPreferredLanguage = () => {
+    let languageResult = localStorage.getItem(LOCAL_STORAGE_KEY);
+    
+    if (!Object.keys(languages).includes(localStorage.getItem(LOCAL_STORAGE_KEY))) {
+        languageResult = DEFAULT_LANGUAGE;
+    }
+
+    return languageResult;
+};
+
+const tObject = (i18n, path, defaultResult = {}) => {
+    if (i18n && path) {
+        let languageKey = GlobalUtils.getValue(i18n, "_locale", DEFAULT_LANGUAGE);
+
+        return GlobalUtils.getValue(translations[languageKey], path, defaultResult);
+    }
+
+    return defaultResult;
+};
+
 const exportObject = {
     DEFAULT_LANGUAGE,
     LOCAL_STORAGE_KEY,
     initAndAttachToStore,
+    getPreferredLanguage,
     languages,
+    saveLanguageLocally,
     translations,
-    saveLanguageLocally
+    tObject
 };
 
 export default exportObject;

@@ -1,12 +1,11 @@
 import React from "react";
-import { useTranslation } from "react-i18next";
+import { I18n } from "react-redux-i18n";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
 import { Spin } from "antd";
 
 const SettingsCard = props => {
-    const { t } = useTranslation();
     let isSpinning = false;
 
     switch(props.id) {
@@ -25,8 +24,8 @@ const SettingsCard = props => {
 
     return (
         <section id={props.id}>
-            <h1 className="title title--light title--primary">{ t(props.titleKey) || props.defaultTitle }</h1>
-            <Spin spinning={isSpinning} tip={t("settings.saving")}>
+            <h1 className="title title--light title--primary">{ I18n.t(props.titleKey) || props.defaultTitle }</h1>
+            <Spin spinning={isSpinning} tip={I18n.t("settings.saving")}>
                 <div className="content-card full-width" style={{ minHeight: 128, padding: "16px" }}>
                     {props.innerComponent}
                 </div>

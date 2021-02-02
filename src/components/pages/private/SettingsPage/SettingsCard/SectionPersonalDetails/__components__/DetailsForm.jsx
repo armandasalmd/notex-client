@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useTranslation } from "react-i18next";
+import { I18n } from "react-redux-i18n";
 
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -25,7 +25,6 @@ const dataToFieldDataList = (dataObj) => {
 };
 
 const DetailsForm = (props) => {
-    const { t } = useTranslation();
     const tBase = "settings.sections.personalDetails";
 
     const [form] = Form.useForm();
@@ -47,21 +46,21 @@ const DetailsForm = (props) => {
                 layout="vertical"
                 onFinish={onFinish}
             >
-                <Form.Item label={t(tBase + ".firstname")} name="firstname" rules={[{ required: true, message: t(tBase + ".required") }]}>
-                    <Input placeholder={t(tBase + ".placeholders.firstname")} />
+                <Form.Item label={I18n.t(tBase + ".firstname")} name="firstname" rules={[{ required: true, message: I18n.t(tBase + ".required") }]}>
+                    <Input placeholder={I18n.t(tBase + ".placeholders.firstname")} />
                 </Form.Item>
-                <Form.Item label={t(tBase + ".lastname")} name="lastname" rules={[{ required: true, message: t(tBase + ".required") }]}>
-                    <Input placeholder={t(tBase + ".placeholders.lastname")} />
+                <Form.Item label={I18n.t(tBase + ".lastname")} name="lastname" rules={[{ required: true, message: I18n.t(tBase + ".required") }]}>
+                    <Input placeholder={I18n.t(tBase + ".placeholders.lastname")} />
                 </Form.Item>
-                <Form.Item label={t(tBase + ".email")} name="email">
+                <Form.Item label={I18n.t(tBase + ".email")} name="email">
                     <Input disabled />
                 </Form.Item>
-                <Form.Item label={t(tBase + ".phone")} name="phone">
-                    <Input placeholder={t(tBase + ".placeholders.phone")} />
+                <Form.Item label={I18n.t(tBase + ".phone")} name="phone">
+                    <Input placeholder={I18n.t(tBase + ".placeholders.phone")} />
                 </Form.Item>
                 <Form.Item style={{marginBottom: "0"}}>
                     <Button loading={ props.loading } type="primary" htmlType="submit" style={{float: "right"}}>
-                        {t(tBase + ".saveButton")}
+                        {I18n.t(tBase + ".saveButton")}
                     </Button>
                 </Form.Item>
             </Form>

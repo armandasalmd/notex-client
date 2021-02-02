@@ -4,125 +4,122 @@ export default {
     appName: "Notex LT",
     about: {
         sectionAbout: {
-            title: "What is this site about?",
+            title: "Apie ką yra ši svetainė?",
             paragraphs: [
-                `Why can't we get rid of textbooks in an era of
-                computers? Create an account and make your
-                school/university notes online. You are going to be
-                using simple file formating - Markdown.`,
-
-                `Don't know how to use MarkDown? Have a quick tutorial:
-                <a href="https://www.markdowntutorial.com/">
-                    https://www.Markdowntutorial.com
-                </a>`,
-
-                `Take a look at the MarkDown cheatsheet here:
-                <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet">
-                    https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet
-                </a>`
+                `Kodėlgi mes negalime atsikratyti užrašų knygutėmis,
+                jei mes gyvename kompiuterių eroje? Susikurk paskyrą ir
+                kurk užrašus savo mokyklai/universitetui internetu.
+                Su šia aplikacija tu gali naudoti intuityvų redagavimo 
+                langą. Viskas labai paprasta. Išbandyk!`,
+                `Taip pat kviesk draugus prisijungti!`
             ]
         },
         sectionAuthor: {
-            title: "9About the creator of this website",
+            title: "Apie šios svetainės kūrėją",
             paragraphs: [
-                "I am <strong>Armandas Barkauskas</strong>, currently studying in Coventry university Bsc Computer Science. I enjoy creating something that's trully.",
-                "The idea here was that I didn't want to carry heavy books. I wanted something more simple than Office Word. Something where I could quickly type while sitting in the lectures.",
-                "Try this app and see how it works for you. I am quite sure that you going to like it."
+                "Aš esu <strong>Armandas Barkauskas</strong> ir šiuo metu studijuoju Coventry universitete Bsc Computer Science specialybę. Man patinka kurti tai kas padeda kitiems žmonėms",
+                "Šio projekto idėja buvo tai, kad universitete aš nenorėjau nešiotis sunkių knygų. Norėjau kažko paprasčiau nei Office Word. Kažko kur galėčiau greitai užsirašyti man kilusias idėjas ir nereikėtų nerimauti dėl sudėtingo Word maketavimo",
+                "Išbandyk šią svetainę ir tu! Aš esu visai įsitikinęs, kad tau tai tikrai patiks!"
             ]
         }
     },
     common: {
-        areYouSure: "9Ar tu tikrai įsitikinęs?",
-        cancel: "9Cancel",
-        no: "9No",
-        ok: "9Ok",
-        select: "9Please select",
-        submit: "9Submit",
-        yes: "9Yes",
-        unavailable: "9unavailable",
-        urlCopy: "9URL was copied"
+        areYouSure: "Ar tu tikrai įsitikinęs?",
+        cancel: "Atšaukti",
+        no: "Ne",
+        ok: "Gerai",
+        select: "Prašom pasirinkti",
+        submit: "Patvirtinti",
+        yes: "Taip",
+        unavailable: "nėra informacijos",
+        urlCopy: "Nuoroda nukopijuota sėkmingai!"
     },
     confirm: {
-        deleteNotebookTitle: "9Are you sure you want to delete notebook?"
+        deleteNotebookTitle: "Ar tu tikrai nori ištrinti užrašų knygutę?"
     },
     dashboard: {
         introCard: {
-            selectNoteText: "9Please select a note OR",
-            addNotebookButton: "9Add new notebook"
+            selectNoteText: "Pasirink užrašą ARBA",
+            addNotebookButton: "Sukurk naują knygutę"
         },
         detailsCard: {
-            currentNote: "9Current note details",
-            lastModified: "9Last modified: ",
-            accessLevel: "9Access level: ",
-            notebookDetails: "9Notebook details",
-            noteCount: "9Note count: ",
-            owner: "9Owner: ",
-            notebookActions: "9Notebook actions",
+            currentNote: "Šio užrašo detalės",
+            lastModified: "Paskutinis pakeitimas: ",
+            accessLevel: "Prieinamumas: ",
+            notebookDetails: "Knygutės detalės",
+            noteCount: "Užrašų skaičius: ",
+            owner: "Priklauso: ",
+            notebookActions: "Knygutės veiksmai",
             buttons: {
-                add: "9Add new note",
-                rename: "9Rename notebook",
-                export: "9Export all notes to PDF",
-                delete: "9Delete notebook"
+                add: "Pridėti naują užrašą",
+                rename: "Pervadinti knygutę",
+                export: "Eksportuoti užrašus į PDF",
+                delete: "Ištrinti knygutę"
             }
         },
         noteCard: {
             editor: {
-                noteEmpty: "9Note text is empty"
+                noteEmpty: "Šis užrašas yra tuščias"
             },
             tabs: {
-                editor: "9Editor view",
-                read: "9Read view",
-                settings: "9Note settings"
+                editor: "Redagavimo langas",
+                read: "Skaitymo langas",
+                settings: "Užrašo nustatymai"
             },
             settings: {
                 renameNote: {
-                    title: "9Change note name",
-                    tooltip: "9Change name of the current note",
-                    save: "9Save"
+                    title: "Pakeisti užrašo pavadinimą",
+                    tooltip: "Pakeisti pasirinkto užrašo vardą",
+                    save: "Išsaugoti"
                 },
                 evictNote: {
-                    title: "9Move to other notebook",
-                    save: "9Save"
+                    title: "Perkelti į kitą knygutę",
+                    save: "Išsaugoti"
                 },
                 accessLevel: {
-                    title: "9Control access level",
-                    typeLabel: "9Access type",
-                    shareTooltip: "9Click to copy sharable link",
-                    shareLabel: "9Share with (when private)",
-                    save: "9Save changes"
+                    title: "Keisti pasiekiamumo lygį",
+                    typeLabel: "Pasiekiamumas",
+                    shareTooltip: "Paspausk, jog  nukopijuotum dalinimosi nuorodą",
+                    shareLabel: "Dalintis su (tik kai pasiekiamumas privatus)",
+                    save: "Išsaugoti pakeitimus"
                 },
                 dangerous: {
-                    title: "9Dangerous actions",
-                    deleteNote: "9Delete this note"
+                    title: "Pavojingi veiksmai",
+                    deleteNote: "Ištrinti šį užrašą"
                 }
             },
             toolbar: {
-                save: "9Save",
-                shareTooltip: "9Click to copy sharable link",
-                closeNote: "9Close note",
-                autoSaved: "9(Auto saved)",
-                notSaved: "9(Not saved)"
+                save: "Išsaugoti",
+                shareTooltip: "Paspausk, jog  nukopijuotum dalinimosi nuorodą",
+                closeNote: "Uždaryti užrašą",
+                autoSaved: "(Automatiškai išsaugotas)",
+                notSaved: "(Neišsaugotas)"
             }
         }
     },
     errorPage: {
-        titlePrefix: "9Klaida",
-        description: "9Atsiprašome, bet šis puslapis nerastas",
-        goHomeLink: "9Grįžti namo"
+        titlePrefix: "Klaida",
+        description: "Atsiprašome, bet šis puslapis nerastas",
+        goHomeLink: "Grįžti namo"
     },
     footer: {
         about: {
-            title: "9About this app",
-            description: "9Why can't we get rid of textbooks in an era of computers? Create an account and make your school/university notes online. You are going to be using simple file formating - Markdown. Don't know how to use MarkDown? Have a quick tutorial:https://www.Markdowntutorial.com"
+            title: "Apie šią aplikaciją",
+            description: 
+                `Kodėlgi mes negalime atsikratyti užrašų knygutėmis,
+                jei mes gyvename kompiuterių eroje? Susikurk paskyrą ir
+                kurk užrašus savo mokyklai/universitetui internetu.
+                Su šia aplikacija tu gali naudoti intuityvų redagavimo 
+                langą. Viskas labai paprasta. Išbandyk!`
         },
         categories: {
-            title: "9Categories",
+            title: "Kategorijos",
             items: [
                 RouteUtils.app.public.landing
             ]
         },
         quickLinks: {
-            title: "9Quick links",
+            title: "Svarbios nuorodos",
             items: [
                 RouteUtils.app.public.landing,
                 RouteUtils.app.auth.login,
@@ -130,176 +127,163 @@ export default {
                 RouteUtils.app.public.about
             ]
         },
-        copyright: "9Copyright © 2020 Coventry, Armandas Barkauskas"
+        copyright: "Copyright © 2020 Coventry, Armandas Barkauskas",
+        languageHeader: "Svetainės kalba"
     },
     landing: {
         banner: {
-            title: "9Take notes online - take notex",
-            subtitle: "9Login, create your notes online in Markdown editor and access it anywhere",
-            buttonText: "9Sign Up!"
+            title: "Kurkis užrašus internete - naudok notex",
+            subtitle: "Prisijunk, kurkis užrašus internete žaibo greičiu ir pasiek juos visur kur yra internetas",
+            buttonText: "Prisijungti!"
         },
         features: {
-            title: "9Notex app feature list",
+            title: "Notex programėlės ypatybės",
             cards: [
                 {
                     image: "https://via.placeholder.com/606x400",
-                    title: "Notebooks saved on cloud",
-                    description: "Create notes and login anywhere to retrieve them"
+                    title: "Užrašai išsaugoti debesyje",
+                    description: "Kurk užrašus ir prieik juos iš betkurios vietos. Ar tai būtų kavinė ar namai."
                 },
                 {
                     image: "https://via.placeholder.com/606x400",
-                    title: "Share the content you create",
-                    description: "Make your notebooks and notes public to share a link with your friends"
+                    title: "Dalinkis turinių kūrį kuri ir gauk atgal",
+                    description: "Tu gali padaryti užrašus viešai prieinamus kitiems arba dalintis jais tik su draugais"
                 },
                 {
                     image: "https://via.placeholder.com/606x400",
-                    title: "Markdown editor",
-                    description: "Simple, fast-typed and reliable editor language"
+                    title: "Intuityvus redagavimo langas",
+                    description: "Paprasta, lengva maketuoti ir patikima"
                 },
                 {
                     image: "https://via.placeholder.com/606x400",
-                    title: "Simple navigation",
-                    description: "Sidebar that helps you to quickly switch over"
-                },
-                {
-                    image: "https://via.placeholder.com/606x400",
-                    title: "Notebooks saved on cloud",
-                    description: "Create notes and login anywhere to retrieve them"
-                },
-                {
-                    image: "https://via.placeholder.com/606x400",
-                    title: "Share the content you create",
-                    description: "Make your notebooks and notes public to share a link with your friends"
-                },
-                {
-                    image: "https://via.placeholder.com/606x400",
-                    title: "Markdown editor",
-                    description: "Simple, fast-typed and reliable editor language"
-                },
-                {
-                    image: "https://via.placeholder.com/606x400",
-                    title: "Simple navigation",
-                    description: "Sidebar that helps you to quickly switch over"
+                    title: "Paprastas meniu",
+                    description: "Meniu kuris yra pritaikytas greitai vaikščioti per užrašus"
                 }
             ]
         }
     },
     login: {
-        title: "9Please login",
-        emailPlaceholder: "9Email address",
-        passwordPlaceholder: "9Password",
-        button: "9Show my notebooks - login",
-        registerTitle: "9New to Notex?",
-        registerLinkText: "9Click here to register"
+        title: "Prašome prisijungti",
+        emailPlaceholder: "Elektroninis paštas",
+        passwordPlaceholder: "Slaptažodis",
+        button: "Rodyti mano užrašus - Prisijungti",
+        registerTitle: "Naujas Notex narys?",
+        registerLinkText: "Spausk čia ir registruokis",
+        orLabel: "arba naudok įprastą paskyrą"
     },
     menu: {
-        title: "9Your backpack",
-        addNote: "9Add note",
-        deleteNotebook: "9Delete",
-        renameNotebook: "9Rename notebook",
-        printPdf: "9Print to PDF",
-        noNotes: "9No notes found here",
-        noNotebooks: "9No notebooks found"
+        title: "Tavo kuprinė",
+        addNote: "Pridėti užrašą",
+        deleteNotebook: "Ištrinti",
+        renameNotebook: "Pervadinti knygutę",
+        printPdf: "Spausdinti PDF",
+        noNotes: "Užrašų nerasta",
+        noNotebooks: "Knygučių nerasta"
     },
     modals: {
         addNotebook: {
-            title: "9Add new notebook",
-            placeholder: "9Enter notebook title"
+            title: "Pridėti naują knygutę",
+            placeholder: "Įveskite knygutės pavadinimą"
         },
         addNote: {
-            title: "9Add new note",
-            placeholder: "9Enter note title"
+            title: "Pridėti naują užrašą",
+            placeholder: "Įveskite užrašo pavadinimą"
         },
         renameNote: {
-            title: "9Rename notebook",
-            placeholder: "9Enter new name"
+            title: "Pervadiniti knygutę",
+            placeholder: "Įverkite naują vardą"
         }
     },
     navText: {
-        login: "9Login",
-        logout: "9Atsijungti",
-        register: "9Register",
-        home: "9Home",
-        about: "9About us",
-        main: "9Dashboard",
-        note: "9Preview note",
-        settings: "9Nustatymai",
-        tutorial: "9Tutorial"
+        login: "Prisijungti",
+        logout: "Atsijungti",
+        register: "Registruotis",
+        home: "Namai",
+        about: "Apie mus",
+        main: "Užrašai",
+        note: "Peržiūrėti užrašą",
+        settings: "Nustatymai",
+        tutorial: "Pamoka"
     },
     register: {
-        title: "9Please register",
-        firstnamePlaceholder: "9Firstname",
-        lastnamePlaceholder: "9Lastname",
-        emailPlaceholder: "9Email address",
-        password1Placeholder: "9Enter your password",
-        password2Placeholder: "9Confirm your password",
-        button: "9Register",
-        loginTitle: "9Already a member?",
-        loginLinkText: "9Login here"
+        title: "Registracija",
+        firstnamePlaceholder: "Vardas",
+        lastnamePlaceholder: "Pavardė",
+        emailPlaceholder: "Elektroninis paštas",
+        password1Placeholder: "Įveskite slaptažodį",
+        password2Placeholder: "Patvirtinkite slaptažodį",
+        button: "Registruotis",
+        loginTitle: "Jau turi paskyrą?",
+        loginLinkText: "Prisijunk čia"
     },
     settings: {
-        title: "9Site settings",
-        saving: "9Saving changes...",
+        title: "Svetainės nustatymai",
+        saving: "Išsaugomi pakeitimai...",
         sections: {
             personalDetails: {
-                title: "9Personal details",
-                required: "9This field is required",
-                firstname: "9First name",
-                lastname: "9Last name",
-                email: "9Email address",
-                phone: "9Phone number",
-                saveButton: "9Save changes",
-                avatarTitle: "9Your avatar",
-                avatarUploadButton: "9Click to upload",
+                title: "Asmeninės detalės",
+                required: "Šis laukas privalomas",
+                firstname: "Vardas",
+                lastname: "Pavardė",
+                email: "Elektroninis paštas",
+                phone: "Telefono numeris",
+                saveButton: "Išsaugoti pakeitimus",
+                avatarTitle: "Jūsų nuotrauka",
+                avatarUploadButton: "Įkelti naują",
                 placeholders: {
-                    firstname: "9Enter your name",
-                    lastname: "9Enter your last name",
-                    phone: "9Enter your phone number"
+                    firstname: "Įveskite vardą",
+                    lastname: "Įveskite pavardę",
+                    phone: "Įveskite telefono numerį"
                 }
             },
             appSettings: {
-                title: "9App settings",
+                title: "Bendriniai nustatymai",
                 labels: {
-                    language: "9Website language",
-                    exportImport: "9Export/import backpack",
-                    closeAfterClick: "9Close backpack menu after item select",
-                    autoSave: "9Auto save content",
-                    actions: "9Dangerous actions"
+                    language: "Svetainės kalba",
+                    exportImport: "Eksportuoti/importuoti kuprinę",
+                    closeAfterClick: "Uždaryti meniu po paspaudimo (tik telefonams)",
+                    autoSave: "Automatiškai išsaugoti",
+                    actions: "Pavojingi veiksmai"
                 },
                 confirm: {
-                    deleteAll: "9Are you sure you want to delete everything?"
+                    deleteAll: "Ar tu įsitikinęs, ir nori ištrinti viską?"
                 },
-                exportButton: "9Export data",
-                importButton: "9Import data",
-                deleteBackpackButton: "9Delete entire backpack"
+                exportButton: "Eksportuoti užrašus",
+                importButton: "Importuoti užrašus",
+                deleteBackpackButton: "Ištrinti visą kuprinę"
             },
             securityAndAccount: {
-                title: "9Security and account",
+                title: "Apsauga ir paskyra",
                 labels: {
-                    changePassword: "9Change password",
-                    social: "9Link social account",
-                    actions: "9Dangerous actions"
+                    changePassword: "Keisti slaptažodį",
+                    social: "Susieti su socialiniu tinklu",
+                    actions: "Pavojingi veiksmai"
                 },
                 placeholders: {
-                    password: "9Old password",
-                    newPassword1: "9New Password",
-                    newPassword2: "9Repeat password"
+                    password: "Senas slaptažodis",
+                    newPassword1: "Naujas slaptažodis",
+                    newPassword2: "Pakartoti slaptažodį"
                 },
-                changePasswordButton: "9Update password",
-                deleteAccountButton: "9Delete this account",
-                deleteAccountText: "9You are about to delete this account with all notes. After this you will be logged out"
+                changePasswordButton: "Patvirtinti pakeitimus",
+                deleteAccountButton: "Ištrinti šią paskyrą",
+                deleteAccountText: "Ar tu tikrai nori ištrinti šią paskyrą su visais užrašais? Po šio veiksmo būsite atjungti."
             }
         }
     },
+    social: {
+        signInGoogleText: "Prisijungti su Google",
+        signInFacebookText: "Prisijungti su Facebook",
+        disabledText: "Ups. Dar ne! Kūrėjai dirba su šia funkcija"
+    },
     titleText: {
-        login: "9Login page",
-        logout: "9Logout page",
-        register: "9Register page",
-        home: "9Home page",
-        about: "9About us page",
-        main: "9Dashboard page",
-        note: "9Preview note page",
-        settings: "9Settings page",
-        tutorial: "9Tutorial page"
+        login: "Prisijungimas",
+        logout: "Atsijungimas",
+        register: "Registracija",
+        home: "Namai",
+        about: "Apie mus",
+        main: "Pagrindinis puslapis",
+        note: "Užrašo peržiūrą",
+        settings: "Nustatymai",
+        tutorial: "Pamoka"
     }
 };

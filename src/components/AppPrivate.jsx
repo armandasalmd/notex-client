@@ -12,11 +12,10 @@ import SettingsPage from "#/pages/private/SettingsPage";
 import LogoutPage from "#/pages/auth/LogoutPage";
 
 import { GlobalUtils, RouteUtils, I18nUtils } from "@utils";
-import { useTranslation } from "react-i18next";
+import { I18n } from "react-redux-i18n";
 import RenderPage from "#/RenderPage";
 
 const AppPrivate = props => {
-    const { t } = useTranslation();
     const noteMenuAvailable = props.location.pathname === RouteUtils.app.private.main.link;
 
     // Similar to componentDidMount and componentDidUpdate:
@@ -45,12 +44,12 @@ const AppPrivate = props => {
                 <Route
                     exact
                     path={RouteUtils.app.private.main.link}
-                    component={RenderPage(NotePage, t(RouteUtils.app.private.note.titleTextKey))}
+                    component={RenderPage(NotePage, I18n.t(RouteUtils.app.private.note.titleTextKey))}
                 />
                 <Route
                     exact
                     path={RouteUtils.app.private.settings.link}
-                    component={RenderPage(SettingsPage, t(RouteUtils.app.private.settings.titleTextKey))}
+                    component={RenderPage(SettingsPage, I18n.t(RouteUtils.app.private.settings.titleTextKey))}
                 />
                 <Route exact path={RouteUtils.app.auth.logout.link} component={LogoutPage} />
                 <Route component={() => <Redirect to="/" />} />

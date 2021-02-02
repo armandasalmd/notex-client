@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useTranslation } from "react-i18next";
+import { I18n } from "react-redux-i18n";
 
 import { GlobalUtils, NoteUtils } from "@utils";
 
@@ -8,8 +8,6 @@ import { EllipsisOutlined, PrinterOutlined, FontColorsOutlined } from "@ant-desi
 import SingleFieldModal from "##/SingleFieldModal";
 
 const NotebookOptions = (props) => {
-    const { t } = useTranslation();
-
     const [modalRenameOpen, setModalRenameOpen] = useState(false);
 
     const handleMenuClick = e => {
@@ -24,10 +22,10 @@ const NotebookOptions = (props) => {
     const menu = (
         <Menu onClick={handleMenuClick}>
             <Menu.Item key="rename" icon={<FontColorsOutlined />}>
-                {t("menu.renameNotebook")}
+                {I18n.t("menu.renameNotebook")}
             </Menu.Item>
             <Menu.Item disabled key="print" icon={<PrinterOutlined />}>
-                {t("menu.printPdf")}
+                {I18n.t("menu.printPdf")}
             </Menu.Item>
         </Menu>
     );
@@ -39,10 +37,10 @@ const NotebookOptions = (props) => {
             </Dropdown>
             <SingleFieldModal
                 extra={{notebookId: GlobalUtils.getValue(props.notebook, NoteUtils.props.notebook.id)}}
-                textPlaceholder={t("modals.renameNote.placeholder")}
+                textPlaceholder={I18n.t("modals.renameNote.placeholder")}
                 onSubmit={submitRename}
                 setVisible={setModalRenameOpen}
-                title={t("modals.renameNote.title")}
+                title={I18n.t("modals.renameNote.title")}
                 text={GlobalUtils.getValue(props.notebook, NoteUtils.props.notebook.title)}
                 visible={modalRenameOpen}
             />

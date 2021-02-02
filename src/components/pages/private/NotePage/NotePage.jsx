@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useTranslation } from "react-i18next";
+import { I18n } from "react-redux-i18n";
 import { useLocation } from "react-router-dom";
-import { RouteUtils, GlobalUtils } from "@utils";
-
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+
+import { RouteUtils, GlobalUtils } from "@utils";
 import { fetchNotebooks, setActiveNote } from "@actions/appActions";
 import { addNewNotebook } from "@actions/noteActions";
 
@@ -21,7 +21,7 @@ const useQuery = () => {
 }
 
 const NotePage = props => {
-    const { t } = useTranslation();
+    
 
     const query = useQuery();
     const [modalAddOpen, setModalAddOpen] = useState(false);
@@ -48,14 +48,14 @@ const NotePage = props => {
 
     const EmptyContainer = () => (
         <div className="content-card flex-center">
-            <Empty description={t("dashboard.introCard.selectNoteText")}>
+            <Empty description={I18n.t("dashboard.introCard.selectNoteText")}>
                 <Button
                     type="primary"
                     onClick={() => {
                         setModalAddOpen(true);
                     }}
                 >
-                    {t("dashboard.introCard.addNotebookButton")}
+                    {I18n.t("dashboard.introCard.addNotebookButton")}
                 </Button>
             </Empty>
         </div>
@@ -83,8 +83,8 @@ const NotePage = props => {
                         </Row>
                     )}
                     <SingleFieldModal
-                        title={t("modals.addNotebook.title")}
-                        textPlaceholder={t("modals.addNotebook.placeholder")}
+                        title={I18n.t("modals.addNotebook.title")}
+                        textPlaceholder={I18n.t("modals.addNotebook.placeholder")}
                         loading={addLoading}
                         visible={modalAddOpen}
                         setVisible={setModalAddOpen}

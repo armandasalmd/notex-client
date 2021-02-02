@@ -1,9 +1,9 @@
 import React from "react";
-import { withTranslation } from "react-i18next";
+import { I18n } from "react-redux-i18n";
 import { Link, withRouter } from "react-router-dom";
-
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+
 import { registerUser } from "@actions/authActions";
 
 import "./RegisterPage.less";
@@ -42,19 +42,18 @@ class RegisterPage extends React.Component {
 
     render() {
         const { errors } = this.state;
-        const { t } = this.props;
 
         return (
             <Spin spinning={this.props.auth.loading} tip="Register in progress">
                 <div className="register-root">
                     <Row justify="center">
                         <div className="content-card">
-                            <h1 className="header header--center-line header--special">{t("register.title")}</h1>
+                            <h1 className="header header--center-line header--special">{I18n.t("register.title")}</h1>
                             <Form style={{ marginTop: "12px" }} layout="vertical" onFinish={this.onSubmit.bind(this)}>
                                 {
                                     <AuthFormItem
                                         name="firstname"
-                                        placeholder={t("register.firstnamePlaceholder")}
+                                        placeholder={I18n.t("register.firstnamePlaceholder")}
                                         prefix={<UserOutlined />}
                                         rules={[requiredRule("firstname")]}
                                         customError={errors.firstname}
@@ -63,7 +62,7 @@ class RegisterPage extends React.Component {
                                 {
                                     <AuthFormItem
                                         name="lastname"
-                                        placeholder={t("register.lastnamePlaceholder")}
+                                        placeholder={I18n.t("register.lastnamePlaceholder")}
                                         prefix={<UserOutlined />}
                                         rules={[requiredRule("lastname")]}
                                         customError={errors.firstname}
@@ -72,7 +71,7 @@ class RegisterPage extends React.Component {
                                 {
                                     <AuthFormItem
                                         name="email"
-                                        placeholder={t("register.emailPlaceholder")}
+                                        placeholder={I18n.t("register.emailPlaceholder")}
                                         prefix={<MailOutlined />}
                                         rules={[requiredRule("email")]}
                                         customError={errors.email}
@@ -81,7 +80,7 @@ class RegisterPage extends React.Component {
                                 {
                                     <AuthFormItem
                                         name="password"
-                                        placeholder={t("register.password1Placeholder")}
+                                        placeholder={I18n.t("register.password1Placeholder")}
                                         prefix={<LockOutlined />}
                                         rules={[requiredRule("password")]}
                                         customError={errors.password}
@@ -90,7 +89,7 @@ class RegisterPage extends React.Component {
                                 {
                                     <AuthFormItem
                                         name="password2"
-                                        placeholder={t("register.password2Placeholder")}
+                                        placeholder={I18n.t("register.password2Placeholder")}
                                         prefix={<LockOutlined />}
                                         rules={[requiredRule("password")]}
                                         customError={errors.password2}
@@ -98,9 +97,9 @@ class RegisterPage extends React.Component {
                                 }
                                 <Form.Item>
                                     <Button type="primary" htmlType="submit" className="register-button">
-                                        {t("register.button")}
+                                        {I18n.t("register.button")}
                                     </Button>
-                                    {t("register.loginTitle")} <Link to="/auth/login">{t("register.loginLinkText")}</Link>
+                                    {I18n.t("register.loginTitle")} <Link to="/auth/login">{I18n.t("register.loginLinkText")}</Link>
                                 </Form.Item>
                             </Form>
                         </div>
@@ -122,6 +121,4 @@ const mapStateToProps = state => ({
     errors: state.errors
 });
 
-const component = connect(mapStateToProps, { registerUser })(withRouter(RegisterPage));
-
-export default withTranslation()(component);
+export default connect(mapStateToProps, { registerUser })(withRouter(RegisterPage));

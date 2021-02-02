@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { useTranslation } from "react-i18next";
+import { I18n } from "react-redux-i18n";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
@@ -14,9 +14,7 @@ import SocialButton from "##/SocialButton";
 
 const SectionSecurityAccount = props => {
     const history = useHistory();
-    const { t } = useTranslation();
     const tBase = "settings.sections.securityAndAccount";
-
     const [showDeleteModal, setShowDeleteModal] = useState(false);
 
     const updatePassword = (values) => {
@@ -31,43 +29,43 @@ const SectionSecurityAccount = props => {
     return (
         <div className="section-security-account">
             <div>
-                <p className="text text--form-label">{t(tBase + ".labels.changePassword")}</p>
+                <p className="text text--form-label">{I18n.t(tBase + ".labels.changePassword")}</p>
                 <Form className="wrap-container" onFinish={updatePassword}>
                     <Form.Item name="currentPassword" help={props.changePasswordErrors.currentPassword} validateStatus={props.changePasswordErrors.currentPassword ? "error": "success"}>
-                        <Input.Password style={{width: 256}} placeholder={t(tBase + ".placeholders.password")} />
+                        <Input.Password style={{width: 256}} placeholder={I18n.t(tBase + ".placeholders.password")} />
                     </Form.Item>
                     <Form.Item name="newPassword1" help={props.changePasswordErrors.newPassword1} validateStatus={props.changePasswordErrors.newPassword1 ? "error": "success"}>
-                        <Input.Password style={{width: 256}} placeholder={t(tBase + ".placeholders.newPassword1")} />
+                        <Input.Password style={{width: 256}} placeholder={I18n.t(tBase + ".placeholders.newPassword1")} />
                     </Form.Item>
                     <Form.Item name="newPassword2" help={props.changePasswordErrors.newPassword2} validateStatus={props.changePasswordErrors.newPassword2 ? "error": "success"}>
-                        <Input.Password style={{width: 256}} placeholder={t(tBase + ".placeholders.newPassword2")} />
+                        <Input.Password style={{width: 256}} placeholder={I18n.t(tBase + ".placeholders.newPassword2")} />
                     </Form.Item>
                     <Form.Item>
-                        <Button htmlType="submit">{t(tBase + ".changePasswordButton")}</Button>
+                        <Button htmlType="submit">{I18n.t(tBase + ".changePasswordButton")}</Button>
                     </Form.Item>
                 </Form>
             </div>
             <section>
-                <p className="text text--form-label">{t(tBase + ".labels.social")}</p>
+                <p className="text text--form-label">{I18n.t(tBase + ".labels.social")}</p>
                 <div className="wrap-container">
                     <SocialButton small width="256px" options={Constants.socialButtonTypes.google} />
                     <SocialButton small width="256px" options={Constants.socialButtonTypes.facebook} />
                 </div>
             </section>
             <section>
-                <p className="text text--form-label">{t(tBase + ".labels.actions")}</p>
+                <p className="text text--form-label">{I18n.t(tBase + ".labels.actions")}</p>
                 <Button icon={<DeleteOutlined />} onClick={() => setShowDeleteModal(true)} danger>
-                    {t(tBase + ".deleteAccountButton")}
+                    {I18n.t(tBase + ".deleteAccountButton")}
                 </Button>
                 <Modal
-                    title={t("common.areYouSure")}
+                    title={I18n.t("common.areYouSure")}
                     visible={showDeleteModal}
                     onOk={deleteAccount}
                     onCancel={() => setShowDeleteModal(false)}
-                    okText={t(tBase + ".deleteAccountButton")}
-                    cancelText={t("common.cancel")}
+                    okText={I18n.t(tBase + ".deleteAccountButton")}
+                    cancelText={I18n.t("common.cancel")}
                 >
-                    <p className="text text--light">{t(tBase + ".deleteAccountText")}</p>
+                    <p className="text text--light">{I18n.t(tBase + ".deleteAccountText")}</p>
                 </Modal>
             </section>
         </div>
@@ -80,7 +78,7 @@ SectionSecurityAccount.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-    changePasswordErrors: state.errors.changePasswordErrors
+    changePasswordErrors: state.errors.changePasswordErrors || {}
 });
 
 export default connect(mapStateToProps, { deleteAccount, tryChangePassword })(SectionSecurityAccount);

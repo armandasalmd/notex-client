@@ -1,9 +1,9 @@
 import React from "react";
-import { withTranslation } from "react-i18next";
+import { I18n } from "react-redux-i18n";
 import { Link } from "react-router-dom";
-
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+
 import { loginUser } from "@actions/authActions";
 
 import "./LoginPage.less";
@@ -50,41 +50,40 @@ class LoginPage extends React.Component {
 
     render() {
         const { errors } = this.state;
-        const { t } = this.props;
 
         return (
             <Spin spinning={this.props.auth.loading} tip="Login in progress">
                 <div className="login-root">
                     <Row justify="center">
                         <div className="content-card">
-                            <h1 className="header header--center-line header--special">{t("login.title")}</h1>
+                            <h1 className="header header--center-line header--special">{I18n.t("login.title")}</h1>
                             <div className="social-button-wrapper">
                                 <SocialButton options={Constants.socialButtonTypes.google} />
                                 <SocialButton options={Constants.socialButtonTypes.facebook} />
                             </div>
-                            <p className="text text--silent text--center" style={{margin: "20px 0"}}>or use your account</p>
+                            <p className="text text--silent text--center" style={{margin: "20px 0"}}>{I18n.t("login.orLabel")}</p>
                             <Form 
                                 layout="vertical"
                                 onFinish={this.onSubmit.bind(this)}>
                                 {<AuthFormItem 
                                     name="email"
-                                    placeholder={t("login.emailPlaceholder")}
+                                    placeholder={I18n.t("login.emailPlaceholder")}
                                     prefix={<MailOutlined />}
                                     rules={[requiredRule("email")]}
                                     customError={errors.firstname}
                                 />}
                                 {<AuthFormItem 
                                     name="password"
-                                    placeholder={t("login.passwordPlaceholder")}
+                                    placeholder={I18n.t("login.passwordPlaceholder")}
                                     prefix={<LockOutlined />}
                                     rules={[requiredRule("password")]}
                                     customError={errors.message}
                                 />}
                                 <Form.Item>
                                     <Button type="primary" htmlType="submit" className="login-button">
-                                        {t("login.button")}
+                                        {I18n.t("login.button")}
                                     </Button>
-                                    {t("login.registerTitle")} <Link to="/auth/register">{t("login.registerLinkText")}</Link>
+                                    {I18n.t("login.registerTitle")} <Link to="/auth/register">{I18n.t("login.registerLinkText")}</Link>
                                 </Form.Item>
                             </Form>
                         </div>
@@ -106,6 +105,4 @@ const mapStateToProps = state => ({
     errors: state.errors
 });
 
-const component = connect(mapStateToProps, { loginUser })(LoginPage);
-
-export default withTranslation()(component);
+export default connect(mapStateToProps, { loginUser })(LoginPage);
