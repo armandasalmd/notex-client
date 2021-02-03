@@ -1,8 +1,8 @@
-import { RouteUtils } from "@utils";
+import { RouteUtils, GlobalUtils, NoteUtils } from "@utils";
 import { ADD_NEW_NOTEBOOK, ADD_NEW_NOTE, DELETE_NOTEBOOK, DELETE_NOTE, EVICT_NOTE, RENAME_NOTEBOOK, RENAME_NOTE, SET_MENU_LOADING } from "@actions/types";
 
 import { closeNotebook, setActiveNote } from "./appActions";
-import { GlobalUtils, NoteUtils } from "@utils";
+import { pushMessage, MESSAGE_TYPES } from "@actions/messageActions";
 
 export const addNewNote = (backpack, noteName, notebookId) => {
     return function (dispatch) {
@@ -30,10 +30,11 @@ export const addNewNote = (backpack, noteName, notebookId) => {
                         dispatch(setActiveNote(backpack, noteId));
                     }
                 })
-                .catch(err => {
-                    // TODO: replace with global error for the user
-                    // dispatch way
-                    console.log(err);
+                .catch(() => {
+                    dispatch(pushMessage("Error. Cannot add your note", MESSAGE_TYPES.error));
+                })
+                .finally(() => {
+                    dispatch(setMenuLoading(false));
                 });
         }
     };
@@ -62,13 +63,12 @@ export const addNewNotebook = (backpack, notebookName, owner) => {
                         dispatch(setActiveNote(backpack, noteId));
                     }
                 })
-                .catch(err => {
-                    // TODO: replace with global error for the user
-                    // dispatch way
-                    console.log(err);
+                .catch(() => {
+                    dispatch(pushMessage("Error. Cannot add new notebook", MESSAGE_TYPES.error));
+                })
+                .finally(() => {
+                    dispatch(setMenuLoading(false));
                 });
-        } else {
-            console.warn("Invalid notebook name or owner");
         }
     };
 };
@@ -95,13 +95,12 @@ export const deleteNotebook = (notebookId, activeNotebookId) => {
                         });
                     }
                 })
-                .catch(err => {
-                    // TODO: replace with global error for the user
-                    // dispatch way
-                    console.log(err);
+                .catch(() => {
+                    dispatch(pushMessage("Error. Cannot delete notebook", MESSAGE_TYPES.error));
+                })
+                .finally(() => {
+                    dispatch(setMenuLoading(false));
                 });
-        } else {
-            console.warn("Invalid notebook name or owner");
         }
     };
 };
@@ -125,10 +124,11 @@ export const deleteNote = noteId => {
                         dispatch(closeNotebook());
                     }
                 })
-                .catch(err => {
-                    // TODO: replace with global error for the user
-                    // dispatch way
-                    console.log(err);
+                .catch(() => {
+                    dispatch(pushMessage("Error. Cannot delete this note", MESSAGE_TYPES.error));
+                })
+                .finally(() => {
+                    dispatch(setMenuLoading(false));
                 });
         }
     };
@@ -150,10 +150,8 @@ export const evictNote = (noteId, newNotebookId) => {
                         });
                     }
                 })
-                .catch(err => {
-                    // TODO: replace with global error for the user
-                    // dispatch way
-                    console.log(err);
+                .catch(() => {
+                    dispatch(pushMessage("Error. Cannot nove your note", MESSAGE_TYPES.error));
                 })
                 .finally(() => {
                     dispatch(setMenuLoading(false));
@@ -184,10 +182,11 @@ export const renameNotebook = (notebookId, newName) => {
                         });
                     }
                 })
-                .catch(err => {
-                    // TODO: replace with global error for the user
-                    // dispatch way
-                    console.log(err);
+                .catch(() => {
+                    dispatch(pushMessage("Error. Cannot do the rename", MESSAGE_TYPES.error));
+                })
+                .finally(() => {
+                    dispatch(setMenuLoading(false));
                 });
         }
     };
@@ -215,10 +214,11 @@ export const renameNote = (noteId, newName) => {
                         });
                     }
                 })
-                .catch(err => {
-                    // TODO: replace with global error for the user
-                    // dispatch way
-                    console.log(err);
+                .catch(() => {
+                    dispatch(pushMessage("Error. Cannot do the rename", MESSAGE_TYPES.error));
+                })
+                .finally(() => {
+                    dispatch(setMenuLoading(false));
                 });
         }
     };

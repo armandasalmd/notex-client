@@ -1,5 +1,6 @@
+import { SET_ACTIVE_NOTE, SAVE_NOTE, SAVE_SPIN_END, SAVE_SPIN_START, CLOSE_NOTEBOOK, FETCH_NOTEBOOKS, SET_EDITOR_TEXT } from "@actions/types";
 import { GlobalUtils, NoteUtils, RouteUtils } from "@utils";
-import { SET_ACTIVE_NOTE, SAVE_NOTE, SAVE_SPIN_START, CLOSE_NOTEBOOK, FETCH_NOTEBOOKS, SET_EDITOR_TEXT } from "@actions/types";
+import { pushMessage, MESSAGE_TYPES } from "@actions/messageActions";
 
 export const setActiveNote = (backpack, noteId) => {
     return function (dispatch) {
@@ -57,23 +58,21 @@ export const fetchNotebooks = () => {
                     console.log("Error while fetching");
                 }
             })
-            .catch(err => {
-                // TODO: replace with global error for the user
-                // dispatch way
-                console.log(err);
+            .catch(() => {
+                dispatch(pushMessage("Error. Cannot retrieve your data", MESSAGE_TYPES.error));
             });
     };
 };
 
 export const saveChanges = (noteId, newText, isAutosave) => {
     return function (dispatch) {
-        dispatch({ type: SAVE_SPIN_START });
         const route = RouteUtils.api.note.saveNote;
         const body = {
             noteId,
             newText
         };
-
+        
+        dispatch({ type: SAVE_SPIN_START });
         RouteUtils.sendApiRequest(route, body)
             .then(res => {
                 if (res.status === 200 && res.data.data) {
@@ -87,10 +86,11 @@ export const saveChanges = (noteId, newText, isAutosave) => {
                     });
                 }
             })
-            .catch(err => {
-                // TODO: replace with global error for the user
-                // dispatch way
-                console.log(err);
+            .catch(() => {
+                dispatch(pushMessage("Error. Note was not saved", MESSAGE_TYPES.error));
+            })
+            .finally(() => {
+                dispatch({ type: SAVE_SPIN_END });
             });
     };
 };

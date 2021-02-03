@@ -10,6 +10,7 @@ import {
     RENAME_NOTEBOOK,
     RENAME_NOTE,
     SAVE_NOTE,
+    SAVE_SPIN_END,
     SAVE_SPIN_START,
     SET_ACTIVE_NOTE,
     SET_EDITOR_TEXT,
@@ -173,6 +174,11 @@ export default function (state = initialState, action) {
                     isAutosaved: action.payload.autosaved
                 };
             }
+        case SAVE_SPIN_END:
+            return {
+                ...state,
+                isSaving: false
+            };
         case SAVE_SPIN_START:
             return {
                 ...state,

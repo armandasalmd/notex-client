@@ -6,6 +6,7 @@ export const FETCH_NOTEBOOKS = "FETCH_NOTEBOOKS";
 export const SET_EDITOR_TEXT = "SET_EDITOR_TEXT";
 export const SAVE_NOTE = "SAVE_NOTE";
 export const SAVE_SPIN_START = "SAVE_SPIN_START";
+export const SAVE_SPIN_END = "SAVE_SPIN_END";
 export const SET_MENU_LOADING = "SET_MENU_LOADING";
 
 // auth actions
