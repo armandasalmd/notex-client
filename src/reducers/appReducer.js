@@ -149,6 +149,7 @@ export default function (state = initialState, action) {
                 selectedNotebook: action.payload.notebook,
                 selectedNote: action.payload.note,
                 isSelected: selected,
+                isAutosaved: false,
                 editorText: newEditorText,
                 wasEverSelected: true
             };
@@ -171,7 +172,10 @@ export default function (state = initialState, action) {
                 return {
                     ...state,
                     isSaving: false,
-                    isAutosaved: action.payload.autosaved
+                    isAutosaved: action.payload.autosaved,
+                    selectedNote: noteObj,
+                    selectedNoteId: GlobalUtils.getValue(noteObj, NoteUtils.props.note.id),
+                    editorText: noteObj[NoteUtils.props.note.text]
                 };
             }
         case SAVE_SPIN_END:

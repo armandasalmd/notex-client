@@ -23,7 +23,7 @@ const NoteDashboard = props => {
     const notebook = props.app.selectedNotebook;
 
     const changesSaved = () => {
-        return props.app.editorText === GlobalUtils.getValue(note, NoteUtils.props.note.text);
+        return (props.app.editorText || "") === (GlobalUtils.getValue(note, NoteUtils.props.note.text) || "");
     };
 
     const copyUrl = () => {

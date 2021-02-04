@@ -8,7 +8,6 @@ import { Drawer, Layout, Menu, Button } from "antd";
 import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
 import BackpackMenu from "#/pages/private/NotePage/Sidebar";
 
-const { SubMenu } = Menu;
 const { Header } = Layout;
 
 const Navbar = ({menuItems, location, ...rest}) => {

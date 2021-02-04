@@ -103,7 +103,7 @@ MceEditor.propTypes = {
 const mapStateToProps = (state) => ({
     autoSaveEnabled: state.settings.appSettings.autoSave,
     selectedNote: state.app.selectedNote,
-    editorText: state.app.editorText,
+    editorText: state.app.editorText || "",
 });
 
 export default connect(mapStateToProps, { setEditorText, saveChanges })(

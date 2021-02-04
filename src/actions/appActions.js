@@ -69,7 +69,7 @@ export const saveChanges = (noteId, newText, isAutosave) => {
         const route = RouteUtils.api.note.saveNote;
         const body = {
             noteId,
-            newText
+            newText: newText === undefined ? "" : newText
         };
         
         dispatch({ type: SAVE_SPIN_START });
