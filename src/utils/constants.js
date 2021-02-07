@@ -1,4 +1,4 @@
-export default {
+const constants = {
     appName: "Notex",
     defaultTitle: "Notex",
     apiHostName: "https://notex-api.herokuapp.com",
@@ -96,3 +96,7 @@ export default {
         toolbar_mode: "sliding"
     }
 };
+
+constants.activeHost = constants.apiHostNameDev;
+
+export default constants;

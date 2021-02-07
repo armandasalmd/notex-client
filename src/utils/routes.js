@@ -2,12 +2,20 @@ import { Constants } from "@utils";
 import axios from "axios";
 
 var RouteUtils = {
-    hostName: Constants.apiHostName.replace(/\/*$/, ""),
+    hostName: Constants.activeHost.replace(/\/*$/, ""),
     api: {
         auth: {
             login: {
                 path: "/api/users/login",
                 method: "POST"
+            },
+            loginFacebook: {
+                path: "/api/users/facebook",
+                method: "GET"
+            },
+            loginGoogle: {
+                path: "/api/users/google",
+                method: "GET"
             },
             register: {
                 path: "/api/users/register",

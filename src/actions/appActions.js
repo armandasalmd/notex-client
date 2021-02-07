@@ -2,43 +2,12 @@ import { SET_ACTIVE_NOTE, SAVE_NOTE, SAVE_SPIN_END, SAVE_SPIN_START, CLOSE_NOTEB
 import { GlobalUtils, NoteUtils, RouteUtils } from "@utils";
 import { pushMessage, MESSAGE_TYPES } from "@actions/messageActions";
 
-export const setActiveNote = (backpack, noteId) => {
-    return function (dispatch) {
-        const notebook = NoteUtils.findNoteParent(noteId, backpack);
-
-        if (notebook) {
-            dispatch({
-                type: SET_ACTIVE_NOTE,
-                payload: {
-                    notebookId: GlobalUtils.getValue(notebook, NoteUtils.props.notebook.id),
-                    noteId: noteId,
-                    notebook: notebook,
-                    note: NoteUtils.findNote(noteId, backpack)
-                }
-            });
-
-            window.history.pushState(RouteUtils.app.private.note.link, "", `?${RouteUtils.app.private.note.queryNames.note}=${noteId}`);
-        } else {
-            window.history.pushState(RouteUtils.app.private.note.link, "", RouteUtils.app.private.note.link);
-        }
-    };
-};
-
 export const closeNotebook = () => {
     return function (dispatch) {
         dispatch({
             type: CLOSE_NOTEBOOK
         });
         window.history.pushState(RouteUtils.app.private.note.link, "", RouteUtils.app.private.note.link);
-    };
-};
-
-export const setEditorText = text => {
-    return function (dispatch) {
-        dispatch({
-            type: SET_EDITOR_TEXT,
-            payload: text
-        });
     };
 };
 
@@ -92,5 +61,36 @@ export const saveChanges = (noteId, newText, isAutosave) => {
             .finally(() => {
                 dispatch({ type: SAVE_SPIN_END });
             });
+    };
+};
+
+export const setActiveNote = (backpack, noteId) => {
+    return function (dispatch) {
+        const notebook = NoteUtils.findNoteParent(noteId, backpack);
+
+        if (notebook) {
+            dispatch({
+                type: SET_ACTIVE_NOTE,
+                payload: {
+                    notebookId: GlobalUtils.getValue(notebook, NoteUtils.props.notebook.id),
+                    noteId: noteId,
+                    notebook: notebook,
+                    note: NoteUtils.findNote(noteId, backpack)
+                }
+            });
+
+            window.history.pushState(RouteUtils.app.private.note.link, "", `?${RouteUtils.app.private.note.queryNames.note}=${noteId}`);
+        } else {
+            window.history.pushState(RouteUtils.app.private.note.link, "", RouteUtils.app.private.note.link);
+        }
+    };
+};
+
+export const setEditorText = text => {
+    return function (dispatch) {
+        dispatch({
+            type: SET_EDITOR_TEXT,
+            payload: text
+        });
     };
 };

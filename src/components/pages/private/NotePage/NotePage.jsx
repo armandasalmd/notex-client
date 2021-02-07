@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
-import { RouteUtils, GlobalUtils } from "@utils";
+import { RouteUtils } from "@utils";
 import { fetchNotebooks, setActiveNote } from "@actions/appActions";
 import { addNewNotebook } from "@actions/noteActions";
 
@@ -41,7 +41,7 @@ const NotePage = props => {
 
     const submitAdd = async submitText => {
         setAddLoading(true);
-        await props.addNewNotebook(props.app.backpack, submitText, GlobalUtils.getValue(props.auth, "user.email"));
+        await props.addNewNotebook(props.app.backpack, submitText);
         setAddLoading(false);
         setModalAddOpen(false);
     };
