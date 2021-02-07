@@ -76,3 +76,24 @@ export const registerUser = (userData, history) => dispatch => {
             });
         });
 };
+
+export const verifyAuth = () => {
+    return function (dispatch) {
+        const route = RouteUtils.api.auth.verifyAuth;
+
+        const onFail = () => {
+            dispatch(logoutUser());
+            window.open(RouteUtils.app.auth.login.link, "_self");
+        };
+
+        RouteUtils.sendApiRequest(route, {})
+            .then(res => {
+                if (!(res.status === 200 && res.data.success === true)) {
+                    onFail();
+                }
+            })
+            .catch(() => {
+                onFail();
+            });
+    };
+}

@@ -9,16 +9,12 @@ var RouteUtils = {
                 path: "/api/users/login",
                 method: "POST"
             },
-            loginFacebook: {
-                path: "/api/users/facebook",
-                method: "GET"
-            },
-            loginGoogle: {
-                path: "/api/users/google",
-                method: "GET"
-            },
             register: {
                 path: "/api/users/register",
+                method: "POST"
+            },
+            verifyAuth: {
+                path: "/api/auth/verify",
                 method: "POST"
             }
         },

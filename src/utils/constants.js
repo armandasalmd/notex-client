@@ -24,14 +24,16 @@ const constants = {
             iconSource: "/images/icons/google_logo.svg",
             textKey: "social.signInGoogleText",
             backgroundColor: "#FFFFFF",
-            textColor: "#6B6B6B"
+            textColor: "#6B6B6B",
+            path: "/api/users/google"
         },
         facebook: {
             title: "Facebook",
             iconSource: "https://static.xx.fbcdn.net/rsrc.php/v3/yN/r/szGrb_tkxMW.png",
             textKey: "social.signInFacebookText",
             backgroundColor: "#5B7DC1",
-            textColor: "#FFFFFF"
+            textColor: "#FFFFFF",
+            path: "/api/users/facebook"
         }
     },
     settingsSections: [
