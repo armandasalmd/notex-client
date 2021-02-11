@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
 import { registerUser } from "@actions/authActions";
+import { clearErrors } from "@actions/errorActions";
 import { GlobalUtils, RouteUtils } from "@utils";
 
 import "./RegisterPage.less";
@@ -71,7 +72,7 @@ const RegisterPage = (props) => {
                                 <Button type="primary" htmlType="submit" className="register-button">
                                     {I18n.t("register.button")}
                                 </Button>
-                                {I18n.t("register.loginTitle")} <Link to="/auth/login">{I18n.t("register.loginLinkText")}</Link>
+                                {I18n.t("register.loginTitle")} <Link to="/auth/login" onClick={props.clearErrors}>{I18n.t("register.loginLinkText")}</Link>
                             </Form.Item>
                         </Form>
                     </div>
@@ -82,6 +83,7 @@ const RegisterPage = (props) => {
 };
 
 RegisterPage.propTypes = {
+    clearErrors: PropTypes.func.isRequired,
     registerUser: PropTypes.func.isRequired,
     auth: PropTypes.object.isRequired,
     errors: PropTypes.object.isRequired
@@ -92,4 +94,4 @@ const mapStateToProps = state => ({
     errors: state.errors
 });
 
-export default connect(mapStateToProps, { registerUser })(withRouter(RegisterPage));
+export default connect(mapStateToProps, { clearErrors, registerUser })(withRouter(RegisterPage));

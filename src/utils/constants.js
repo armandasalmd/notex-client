@@ -25,7 +25,7 @@ const constants = {
             textKey: "social.signInGoogleText",
             backgroundColor: "#FFFFFF",
             textColor: "#6B6B6B",
-            path: "/api/users/google"
+            path: "/api/google"
         },
         facebook: {
             title: "Facebook",
@@ -33,7 +33,7 @@ const constants = {
             textKey: "social.signInFacebookText",
             backgroundColor: "#5B7DC1",
             textColor: "#FFFFFF",
-            path: "/api/users/facebook"
+            path: "/api/facebook"
         }
     },
     settingsSections: [

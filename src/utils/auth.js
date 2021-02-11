@@ -17,7 +17,7 @@ function setAuthHeaderToken(token) {
     }
 }
 
-function resetAuthTokenFromStorage () {
+function resetAuthTokenFromStorage() {
     if (localStorage.jwtToken) {
         const token = localStorage.jwtToken;
 

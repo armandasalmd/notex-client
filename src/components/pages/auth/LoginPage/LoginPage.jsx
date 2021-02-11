@@ -5,15 +5,18 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
 import { loginUser } from "@actions/authActions";
+import { clearErrors } from "@actions/errorActions";
+import { Constants, GlobalUtils, RouteUtils, HistoryUtils } from "@utils";
 
 import "./LoginPage.less";
-import { Constants, GlobalUtils, RouteUtils } from "@utils";
 import { Row, Form, Button, Spin, message } from "antd";
 import { MailOutlined, LockOutlined } from "@ant-design/icons";
 import SocialButton from "##/SocialButton";
 import { AuthFormItem, requiredRule } from "../__components__";
 
 const LoginPage = (props) => {
+    const query = HistoryUtils.useQuery();
+
     const getError = (key) => GlobalUtils.getValue(props.errors, key);
 
     const onLogin = (form) => {
@@ -27,13 +30,22 @@ const LoginPage = (props) => {
     }, [props.auth, props.history]);
 
     useEffect(() => {
-        if (props.location.search.includes("success=true")) {
+        const successMessage = query.get("successMsg");        
+        if (successMessage) {
             message.success({
-                content: "Register successful, please login!",
+                content: successMessage,
                 duration: 4
             });
         }
-    }, [props.location]);
+
+        const errorMessage = query.get("errorMsg");
+        if (errorMessage) {
+            message.error({
+                content: errorMessage,
+                duration: 4
+            });
+        }
+    });
 
     return (
         <Spin spinning={props.auth.loading} tip="Login in progress">
@@ -67,7 +79,7 @@ const LoginPage = (props) => {
                                 <Button type="primary" htmlType="submit" className="login-button">
                                     {I18n.t("login.button")}
                                 </Button>
-                                {I18n.t("login.registerTitle")} <Link to="/auth/register">{I18n.t("login.registerLinkText")}</Link>
+                                {I18n.t("login.registerTitle")} <Link to="/auth/register" onClick={props.clearErrors} >{I18n.t("login.registerLinkText")}</Link>
                             </Form.Item>
                         </Form>
                     </div>
@@ -75,9 +87,10 @@ const LoginPage = (props) => {
             </div>
         </Spin>
     );
-}
+};
 
 LoginPage.propTypes = {
+    clearErrors: PropTypes.func.isRequired,
     loginUser: PropTypes.func.isRequired,
     auth: PropTypes.object.isRequired,
     errors: PropTypes.object.isRequired
@@ -88,4 +101,4 @@ const mapStateToProps = state => ({
     errors: state.errors
 });
 
-export default connect(mapStateToProps, { loginUser })(LoginPage);
+export default connect(mapStateToProps, { clearErrors, loginUser })(LoginPage);

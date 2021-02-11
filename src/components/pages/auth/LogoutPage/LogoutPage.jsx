@@ -18,4 +18,4 @@ LogoutPage.propTypes = {
     logoutUser: PropTypes.func.isRequired
 };
 
-export default connect(() => { return {}; }, { logoutUser })(LogoutPage);
+export default connect(null, { logoutUser })(LogoutPage);

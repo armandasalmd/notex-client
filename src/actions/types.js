@@ -42,4 +42,5 @@ export const REMOVE_MESSAGES_BY_ID = "REMOVE_MESSAGES_BY_ID";
 
 // error reducer
 export const GET_ERRORS = "GET_ERRORS";
+export const CLEAR_ERRORS = "CLEAR_ERRORS";
 export const SET_CHANGE_PASSWORD_ERRORS = "SET_CHANGE_PASSWORD_ERRORS";

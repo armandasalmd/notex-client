@@ -109,6 +109,12 @@ var RouteUtils = {
                 link: "/auth/register",
                 navTextKey: "navText.register",
                 titleTextKey: "titleText.register"
+            },
+            socialLogin: {
+                link: "/auth/setToken",
+                queryNames: {
+                    token: "token"
+                },
             }
         },
         public: {

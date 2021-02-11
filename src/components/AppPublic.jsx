@@ -10,6 +10,7 @@ import AboutPage from "#/pages/public/AboutPage";
 import LandingPage from "#/pages/public/LandingPage";
 import NotFoundPage from "#/pages/public/NotFoundPage";
 import LoginPage from "#/pages/auth/LoginPage";
+import SetTokenPage from "#/pages/auth/SetTokenPage";
 import RegisterPage from "#/pages/auth/RegisterPage";
 
 import { withTitle } from "##/HeadTitle";
@@ -48,6 +49,7 @@ const AppPublic = (props) => {
                         title: I18n.t(RouteUtils.app.auth.login.titleTextKey)
                     })}
                 />
+                <Route exact path={RouteUtils.app.auth.socialLogin.link} component={SetTokenPage} />
                 <Route
                     component={withTitle({
                         component: NotFoundPage,
