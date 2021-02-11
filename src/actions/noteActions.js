@@ -40,12 +40,11 @@ export const addNewNote = (backpack, noteName, notebookId) => {
     };
 };
 
-export const addNewNotebook = (backpack, notebookName, owner) => {
+export const addNewNotebook = (backpack, notebookName) => {
     return function (dispatch) {
-        if (notebookName && owner) {
+        if (notebookName) {
             const route = RouteUtils.api.notebook.addNotebook;
             const dto = {
-                owner: owner,
                 title: notebookName
             };
 

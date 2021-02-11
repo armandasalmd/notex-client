@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { I18n } from "react-redux-i18n";
 import classnames from "classnames";
-import { GlobalUtils } from "@utils";
 
 import { Button } from "antd";
 import { PlusOutlined, CloseOutlined } from "@ant-design/icons";
@@ -17,7 +16,7 @@ const Header = props => {
 
     const submitAdd = async submitText => {
         setAddLoading(true);
-        await props.addNewNotebook(props.backpack, submitText, GlobalUtils.getValue(props.auth, "user.email"));
+        await props.addNewNotebook(props.backpack, submitText);
         setAddLoading(false);
         setModalAddOpen(false);
     };

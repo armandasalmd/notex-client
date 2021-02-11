@@ -1,4 +1,4 @@
-import { GET_ERRORS, SET_CHANGE_PASSWORD_ERRORS } from "@actions/types";
+import { CLEAR_ERRORS, GET_ERRORS, SET_CHANGE_PASSWORD_ERRORS } from "@actions/types";
 
 const initialState = {
     changePasswordErrors: {
@@ -17,6 +17,10 @@ export default function (state = initialState, action) {
             };
         case GET_ERRORS:
             return action.payload;
+        case CLEAR_ERRORS:
+            return {
+                ...initialState
+            };
         default:
             return state;
     }

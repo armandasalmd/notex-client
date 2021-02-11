@@ -1,8 +1,16 @@
 import { Constants } from "@utils";
 import axios from "axios";
 
+function resolveHostName() {
+    let host = process.env.NODE_ENV === "development" 
+        ? Constants.activeHost
+        : Constants.apiHostName;
+
+    return host.replace(/\/*$/, "");
+}
+
 var RouteUtils = {
-    hostName: Constants.apiHostName.replace(/\/*$/, ""),
+    hostName: resolveHostName(),
     api: {
         auth: {
             login: {
@@ -11,6 +19,10 @@ var RouteUtils = {
             },
             register: {
                 path: "/api/users/register",
+                method: "POST"
+            },
+            verifyAuth: {
+                path: "/api/auth/verify",
                 method: "POST"
             }
         },
@@ -105,6 +117,12 @@ var RouteUtils = {
                 link: "/auth/register",
                 navTextKey: "navText.register",
                 titleTextKey: "titleText.register"
+            },
+            socialLogin: {
+                link: "/auth/setToken",
+                queryNames: {
+                    token: "token"
+                },
             }
         },
         public: {

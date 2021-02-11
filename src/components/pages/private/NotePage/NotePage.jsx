@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { I18n } from "react-redux-i18n";
-import { useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
-import { RouteUtils, GlobalUtils } from "@utils";
+import { RouteUtils, HistoryUtils } from "@utils";
 import { fetchNotebooks, setActiveNote } from "@actions/appActions";
 import { addNewNotebook } from "@actions/noteActions";
 
@@ -16,14 +15,8 @@ import SingleFieldModal from "##/SingleFieldModal";
 
 import { Row, Col, Empty, Button } from "antd";
 
-const useQuery = () => {
-    return new URLSearchParams(useLocation().search);
-}
-
 const NotePage = props => {
-    
-
-    const query = useQuery();
+    const query = HistoryUtils.useQuery();
     const [modalAddOpen, setModalAddOpen] = useState(false);
     const [addLoading, setAddLoading] = useState(false);
 
@@ -41,7 +34,7 @@ const NotePage = props => {
 
     const submitAdd = async submitText => {
         setAddLoading(true);
-        await props.addNewNotebook(props.app.backpack, submitText, GlobalUtils.getValue(props.auth, "user.email"));
+        await props.addNewNotebook(props.app.backpack, submitText);
         setAddLoading(false);
         setModalAddOpen(false);
     };
