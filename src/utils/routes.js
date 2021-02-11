@@ -2,7 +2,7 @@ import { Constants } from "@utils";
 import axios from "axios";
 
 function resolveHostName() {
-    let host = process.env.NODE_ENV === "development" 
+    let host = Constants.env === "development" 
         ? Constants.activeHost
         : Constants.apiHostName;
 
@@ -187,5 +187,6 @@ const sendApiRequest = (apiRoute, bodyData) => {
 export default {
     ...RouteUtils,
     sendApiRequest,
-    getMenuItems
+    getMenuItems,
+    resolveHostName
 };

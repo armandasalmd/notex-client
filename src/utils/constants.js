@@ -1,10 +1,11 @@
 const constants = {
     appName: "Notex",
-    defaultTitle: "Notex",
     apiHostName: "https://notex-api.herokuapp.com",
     apiHostNameDev: "http://localhost:3001",
     authTokenType: "Bearer",
     autoSaveTime: 5000,
+    defaultTitle: "Notex",
+    env: process.env.NODE_ENV,
 
     accessLevels: {
         public: {
@@ -99,6 +100,6 @@ const constants = {
     }
 };
 
-constants.activeHost = constants.apiHostNameDev;
+constants.activeHost = constants.apiHostName;
 
 export default constants;
