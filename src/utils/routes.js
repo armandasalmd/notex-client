@@ -1,8 +1,16 @@
 import { Constants } from "@utils";
 import axios from "axios";
 
+function resolveHostName() {
+    let host = process.env.NODE_ENV === "development" 
+        ? Constants.activeHost
+        : Constants.apiHostName;
+
+    return host.replace(/\/*$/, "");
+}
+
 var RouteUtils = {
-    hostName: Constants.activeHost.replace(/\/*$/, ""),
+    hostName: resolveHostName(),
     api: {
         auth: {
             login: {
