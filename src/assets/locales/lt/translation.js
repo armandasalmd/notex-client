@@ -259,6 +259,18 @@ export default {
                     social: "Susieti su socialiniu tinklu",
                     actions: "Pavojingi veiksmai"
                 },
+                google: {
+                    link: "Susieti su Google",
+                    unlink: "Atsieti su Google paskyra"
+                },
+                facebook: {
+                    link: "Susieti su Facebook",
+                    unlink: "Atsieti su Facebook paskyra"
+                },
+                passwordWarning: {
+                    message: "Slaptažodžio pakeisti negalima",
+                    description: "Jūsų paskyra buvo sukurta naudojantis socialinėmis paskyromis, todėl jūs neturite slaptažodžio"
+                },
                 placeholders: {
                     password: "Senas slaptažodis",
                     newPassword1: "Naujas slaptažodis",

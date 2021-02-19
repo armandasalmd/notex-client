@@ -12,6 +12,7 @@ import {
     SET_CHANGE_PASSWORD_ERRORS,
     SET_PERSONAL_DETAILS_LOADING,
     SET_SECURITY_SETTINGS_LOADING,
+    UNLINK_SOCIAL_ACCOUNT
 } from "./types";
 import { setMenuLoading } from "./noteActions";
 import { logoutUser } from "./authActions";
@@ -247,13 +248,36 @@ export const tryChangePassword = (values) => {
                 }
             })
             .catch((err) => {
-                dispatch(
-                    pushMessage("Something failed!", MESSAGE_TYPES.error)
-                );
-                console.log(err);
+                dispatch(pushMessage("Something failed!", MESSAGE_TYPES.error));
             })
             .finally(() => {
                 dispatch(setSecuritySettingsLoading(false));
             });
     }
+};
+
+export const unlinkSocialAccount = (socialAccountType) => {
+    return function (dispatch) {
+        const route = RouteUtils.api.settings.unlinkSocialAccount;
+
+        dispatch(setSecuritySettingsLoading(true));
+        RouteUtils.sendApiRequest(route, { strategyToUnlink: socialAccountType })
+            .then((res) => {
+                if (res.status === 200 && res.data.success === true) {
+                    dispatch({
+                        type: UNLINK_SOCIAL_ACCOUNT,
+                        payload: socialAccountType
+                    });
+                    dispatch(pushMessage("Account unlinked successfully", MESSAGE_TYPES.success));
+                } else if (res.data.errorMessage) {
+                    dispatch(pushMessage(res.data.errorMessage, MESSAGE_TYPES.warn));
+                }
+            })
+            .catch(() => {
+                dispatch(pushMessage("Something failed!", MESSAGE_TYPES.error));
+            })
+            .finally(() => {
+                dispatch(setSecuritySettingsLoading(false));
+            });
+    };
 };

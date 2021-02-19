@@ -98,6 +98,10 @@ var RouteUtils = {
             savePersonalDetails: {
                 path: "/api/settings/savePersonalDetails",
                 method: "POST"
+            },
+            unlinkSocialAccount: {
+                path: "/api/auth/unlinkSocialAccount",
+                method: "POST"
             }
         }
     },

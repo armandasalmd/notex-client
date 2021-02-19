@@ -7,6 +7,7 @@ import {
     SET_SECURITY_SETTINGS_LOADING,
     SETTINGS_CHANGE_AUTO_SAVE,
     SETTINGS_CHANGE_CLOSE_ON_CLICK,
+    UNLINK_SOCIAL_ACCOUNT
 } from "@actions/types";
 
 const initialState = {
@@ -23,8 +24,8 @@ const initialState = {
         avatarUrl: "",
     },
     securitySettings: {
-        linked: false,
-        provider: null,
+        authStrategies: [],
+        canChangePassword: true,
     },
     initialised: false,
     loadingStates: {
@@ -52,8 +53,8 @@ export default function (state = initialState, action) {
                 loadingStates: {
                     appSettings: false,
                     personalDetails: false,
-                    securitySettings: false
-                }
+                    securitySettings: false,
+                },
             };
         case SETTINGS_SAVE_PERSONAL_DETAILS:
             return {
@@ -92,6 +93,12 @@ export default function (state = initialState, action) {
             };
 
             return { ...state };
+        case UNLINK_SOCIAL_ACCOUNT:
+            state.securitySettings.authStrategies = state.securitySettings.authStrategies.filter((item) => {
+                return item !== action.payload;
+            });
+
+            return state;
         default:
             return state;
     }

@@ -282,6 +282,18 @@ export default {
                     social: "Link social account",
                     actions: "Dangerous actions"
                 },
+                google: {
+                    link: "Link to Google",
+                    unlink: "Unlink Google account"
+                },
+                facebook: {
+                    link: "Link to Facebook",
+                    unlink: "Unlink Facebook account"
+                },
+                passwordWarning: {
+                    message: "You cannot change your password",
+                    description: "Your account was created using social media account and you have no password set"
+                },
                 placeholders: {
                     password: "Old password",
                     newPassword1: "New Password",

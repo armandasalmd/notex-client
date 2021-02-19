@@ -9,8 +9,7 @@ import AppPublic from "#/AppPublic";
 import AppPrivate from "#/AppPrivate";
 
 const AuthSwitch = (props) => {
-    const { component: Component, auth, ...rest } = props;
-
+    const { auth, ...rest } = props;
     useEffect(() => {
         if (auth.isAuthenticated) {
             props.verifyAuth();
@@ -18,25 +17,26 @@ const AuthSwitch = (props) => {
     });
 
     return (
-        <Route {...rest} render={
-            function (props) {
+        <Route
+            {...rest}
+            render={function (props) {
                 if (auth.isAuthenticated === true) {
                     return <AppPrivate {...props} />;
                 } else {
                     return <AppPublic {...props} />;
                 }
-            }
-        } />
+            }}
+        />
     );
-}
+};
 
 AuthSwitch.propTypes = {
     auth: PropTypes.object.isRequired,
-    verifyAuth: PropTypes.func.isRequired
+    verifyAuth: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
-    auth: state.auth
+const mapStateToProps = (state) => ({
+    auth: state.auth,
 });
 
 export default connect(mapStateToProps, { verifyAuth })(AuthSwitch);

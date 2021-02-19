@@ -5,12 +5,12 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
 import { tryChangePassword, deleteAccount } from "@actions/settingsActions";
-import { Constants, RouteUtils } from "@utils";
+import { RouteUtils } from "@utils";
 
 import "./SectionSecurityAccount.less";
-import { Button, Modal, Input, Form } from "antd";
+import { Alert, Button, Modal, Input, Form } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
-import SocialButton from "##/SocialButton";
+import { SocialAccounts } from "./__components__";
 
 const SectionSecurityAccount = props => {
     const history = useHistory();
@@ -26,31 +26,42 @@ const SectionSecurityAccount = props => {
         history.push(RouteUtils.app.public.landing.link);
     };
 
+    const ChangePasswordForm = () => (
+        <Form className="wrap-container" onFinish={updatePassword}>
+            <Form.Item name="currentPassword" help={props.changePasswordErrors.currentPassword} validateStatus={props.changePasswordErrors.currentPassword ? "error": "success"}>
+                <Input.Password style={{width: 256}} placeholder={I18n.t(tBase + ".placeholders.password")} />
+            </Form.Item>
+            <Form.Item name="newPassword1" help={props.changePasswordErrors.newPassword1} validateStatus={props.changePasswordErrors.newPassword1 ? "error": "success"}>
+                <Input.Password style={{width: 256}} placeholder={I18n.t(tBase + ".placeholders.newPassword1")} />
+            </Form.Item>
+            <Form.Item name="newPassword2" help={props.changePasswordErrors.newPassword2} validateStatus={props.changePasswordErrors.newPassword2 ? "error": "success"}>
+                <Input.Password style={{width: 256}} placeholder={I18n.t(tBase + ".placeholders.newPassword2")} />
+            </Form.Item>
+            <Form.Item>
+                <Button htmlType="submit">{I18n.t(tBase + ".changePasswordButton")}</Button>
+            </Form.Item>
+        </Form>
+    );
+
     return (
         <div className="section-security-account">
             <div>
                 <p className="text text--form-label">{I18n.t(tBase + ".labels.changePassword")}</p>
-                <Form className="wrap-container" onFinish={updatePassword}>
-                    <Form.Item name="currentPassword" help={props.changePasswordErrors.currentPassword} validateStatus={props.changePasswordErrors.currentPassword ? "error": "success"}>
-                        <Input.Password style={{width: 256}} placeholder={I18n.t(tBase + ".placeholders.password")} />
-                    </Form.Item>
-                    <Form.Item name="newPassword1" help={props.changePasswordErrors.newPassword1} validateStatus={props.changePasswordErrors.newPassword1 ? "error": "success"}>
-                        <Input.Password style={{width: 256}} placeholder={I18n.t(tBase + ".placeholders.newPassword1")} />
-                    </Form.Item>
-                    <Form.Item name="newPassword2" help={props.changePasswordErrors.newPassword2} validateStatus={props.changePasswordErrors.newPassword2 ? "error": "success"}>
-                        <Input.Password style={{width: 256}} placeholder={I18n.t(tBase + ".placeholders.newPassword2")} />
-                    </Form.Item>
-                    <Form.Item>
-                        <Button htmlType="submit">{I18n.t(tBase + ".changePasswordButton")}</Button>
-                    </Form.Item>
-                </Form>
+                {
+                    props.data.canChangePassword === true ? 
+                        <ChangePasswordForm /> : 
+                        <Alert
+                            style={{ marginBottom: 24 }}
+                            message={I18n.t(tBase + ".passwordWarning.message")}
+                            description={I18n.t(tBase + ".passwordWarning.description")}
+                            type="warning"
+                            showIcon
+                        />
+                }
             </div>
             <section>
                 <p className="text text--form-label">{I18n.t(tBase + ".labels.social")}</p>
-                <div className="wrap-container">
-                    <SocialButton small width="256px" options={Constants.socialButtonTypes.google} />
-                    <SocialButton small width="256px" options={Constants.socialButtonTypes.facebook} />
-                </div>
+                <SocialAccounts linkedProviders={props.data.authStrategies} />
             </section>
             <section>
                 <p className="text text--form-label">{I18n.t(tBase + ".labels.actions")}</p>
@@ -74,6 +85,7 @@ const SectionSecurityAccount = props => {
 
 SectionSecurityAccount.propTypes = {
     changePasswordErrors: PropTypes.object.isRequired,
+    data: PropTypes.object.isRequired,
     deleteAccount: PropTypes.func.isRequired
 };
 

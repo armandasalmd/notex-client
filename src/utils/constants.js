@@ -100,6 +100,6 @@ const constants = {
     }
 };
 
-constants.activeHost = constants.apiHostName;
+constants.activeHost = constants.apiHostNameDev;
 
 export default constants;
