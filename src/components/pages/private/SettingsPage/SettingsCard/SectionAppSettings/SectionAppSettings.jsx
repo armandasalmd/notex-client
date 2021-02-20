@@ -3,7 +3,7 @@ import { I18n } from "react-redux-i18n";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
-import { I18nUtils } from "@utils";
+import { I18nUtils, RouteUtils } from "@utils";
 import {
     changeAutoSave,
     changeCloseOnClick,
@@ -40,6 +40,10 @@ const SectionAppSettings = (props) => {
         props.changeAutoSave(checked);
     };
 
+    const exportBackpack = () => {
+        RouteUtils.downloadFile(RouteUtils.api.settings.backpackExport);
+    };
+
     return (
         <div className="section-app-settings">
             <section>
@@ -66,7 +70,7 @@ const SectionAppSettings = (props) => {
                     {I18n.t(tBase + ".labels.exportImport")}
                 </p>
                 <Space>
-                    <Button disabled icon={<DownloadOutlined />}>
+                    <Button onClick={exportBackpack} icon={<DownloadOutlined />}>
                         {I18n.t(tBase + ".exportButton")}
                     </Button>
                     <Upload>

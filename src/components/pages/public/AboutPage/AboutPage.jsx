@@ -19,7 +19,7 @@ const About = () => {
 
     return (
         <>
-            <div className="about-page" style={{ marginBottom: '48px' }}>
+            <div className="about-page">
                 <div className="about-image"/>
                 <div className="about-content">
                     <div className="section">

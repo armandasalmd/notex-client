@@ -4,7 +4,7 @@ import LandingShowcase from "#/thirdParty/LandingShowcase";
 
 const LandingPage = () => {
     return (
-        <div>
+        <div style={{background: "white"}}>
             <LandingShowcase />
         </div>
     );
