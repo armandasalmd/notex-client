@@ -12,7 +12,8 @@ import {
     SET_CHANGE_PASSWORD_ERRORS,
     SET_PERSONAL_DETAILS_LOADING,
     SET_SECURITY_SETTINGS_LOADING,
-    UNLINK_SOCIAL_ACCOUNT
+    UNLINK_SOCIAL_ACCOUNT,
+    UPDATE_AVATAR
 } from "./types";
 import { setMenuLoading } from "./noteActions";
 import { logoutUser } from "./authActions";
@@ -281,3 +282,13 @@ export const unlinkSocialAccount = (socialAccountType) => {
             });
     };
 };
+
+export const updateAvatar = (avatarUrl) => {
+    return function (dispatch) {
+        dispatch({
+            type: UPDATE_AVATAR,
+            payload: avatarUrl
+        });
+        dispatch(pushMessage("Picture saved", MESSAGE_TYPES.success));
+    };
+}

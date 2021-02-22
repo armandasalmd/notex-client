@@ -18,9 +18,9 @@ function setAuthHeaderToken(token) {
 }
 
 function resetAuthTokenFromStorage() {
-    if (localStorage.jwtToken) {
-        const token = localStorage.jwtToken;
+    const token = getJwtToken();
 
+    if (token) {
         if (typeof token === "string" && token.startsWith(Constants.authTokenType)) {
             let decoded;
             try {
@@ -39,12 +39,18 @@ function resetAuthTokenFromStorage() {
                 return;
             }
         }
+
         store.dispatch(logoutUser());
         window.location.href = RouteUtils.app.public.landing.link;
     }
 }
 
+function getJwtToken() {
+    return localStorage.jwtToken;
+}
+
 export default {
-    setAuthHeaderToken,
-    resetAuthTokenFromStorage
+    getJwtToken,
+    resetAuthTokenFromStorage,
+    setAuthHeaderToken
 };

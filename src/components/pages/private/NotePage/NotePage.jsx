@@ -3,7 +3,7 @@ import { I18n } from "react-redux-i18n";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
-import { RouteUtils, HistoryUtils } from "@utils";
+import { GlobalUtils, RouteUtils, HistoryUtils } from "@utils";
 import { fetchNotebooks, setActiveNote } from "@actions/appActions";
 import { addNewNotebook } from "@actions/noteActions";
 
@@ -25,8 +25,10 @@ const NotePage = props => {
             props.fetchNotebooks();
         } else {
             const noteId = query.get(RouteUtils.app.private.note.queryNames.note);
-            
-            if (!props.app.wasEverSelected && noteId) {
+
+            if (!noteId && GlobalUtils.hasLength(props.app.selectedNoteId)) {
+                window.history.pushState(RouteUtils.app.private.note.link, "", `?${RouteUtils.app.private.note.queryNames.note}=${props.app.selectedNoteId}`);
+            } else if (!props.app.wasEverSelected && noteId) {
                 props.setActiveNote(props.app.backpack, noteId);
             }
         }

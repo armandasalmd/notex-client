@@ -7,7 +7,8 @@ import {
     SET_SECURITY_SETTINGS_LOADING,
     SETTINGS_CHANGE_AUTO_SAVE,
     SETTINGS_CHANGE_CLOSE_ON_CLICK,
-    UNLINK_SOCIAL_ACCOUNT
+    UNLINK_SOCIAL_ACCOUNT,
+    UPDATE_AVATAR
 } from "@actions/types";
 
 const initialState = {
@@ -99,6 +100,12 @@ export default function (state = initialState, action) {
             });
 
             return state;
+        case UPDATE_AVATAR:
+            state.personalDetails.avatarUrl = action.payload;
+
+            return {
+                ...state
+            };
         default:
             return state;
     }

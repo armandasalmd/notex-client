@@ -1,4 +1,4 @@
-import { Constants } from "@utils";
+import { Constants, GlobalUtils } from "@utils";
 import axios from "axios";
 
 function resolveHostName() {
@@ -108,6 +108,10 @@ var RouteUtils = {
                 path: "/api/auth/unlinkSocialAccount",
                 method: "POST",
             },
+            uploadAvatar: {
+                path: "/api/settings/uploadAvatar",
+                method: "POST"
+            }
         },
     },
     app: {
@@ -174,8 +178,14 @@ var RouteUtils = {
     },
 };
 
-const _resolveUrl = (path) => {
-    return path.startsWith("http") ? path : RouteUtils.hostName + path;
+const resolveUrl = (path) => {
+    if (typeof path === "object" && path.path !== undefined) {
+        path = path.path;
+    }
+
+    if (GlobalUtils.hasLength(path)) {
+        return path.startsWith("http") ? path : RouteUtils.hostName + path;
+    }
 };
 
 const getMenuItems = (isAuth) => {
@@ -197,7 +207,7 @@ const getMenuItems = (isAuth) => {
 const sendApiRequest = (apiRoute, bodyData) => {
     return axios({
         method: apiRoute.method || "GET",
-        url: _resolveUrl(apiRoute.path) || "/",
+        url: resolveUrl(apiRoute.path) || "/",
         data: bodyData || {},
     });
 };
@@ -205,7 +215,7 @@ const sendApiRequest = (apiRoute, bodyData) => {
 const downloadFile = async (apiRoute) => {
     await axios({
         method: apiRoute.method,
-        url: _resolveUrl(apiRoute.path),
+        url: resolveUrl(apiRoute.path),
         responseType: "blob",
     }).then((response) => {
         console.log(response.headers)
@@ -249,4 +259,5 @@ export default {
     sendApiRequest,
     getMenuItems,
     resolveHostName,
+    resolveUrl
 };
