@@ -179,6 +179,10 @@ var RouteUtils = {
 };
 
 const resolveUrl = (path) => {
+    if (path === null) {
+        return undefined;
+    }
+
     if (typeof path === "object" && path.path !== undefined) {
         path = path.path;
     }
