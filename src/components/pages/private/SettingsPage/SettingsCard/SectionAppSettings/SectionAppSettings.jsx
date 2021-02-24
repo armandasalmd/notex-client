@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { I18n } from "react-redux-i18n";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
-import { I18nUtils, RouteUtils } from "@utils";
+import { AuthUtils, GlobalUtils, I18nUtils, RouteUtils } from "@utils";
+import { fetchNotebooks } from "@actions/appActions";
 import {
     changeAutoSave,
     changeCloseOnClick,
@@ -23,6 +24,7 @@ const { Option } = Select;
 
 const SectionAppSettings = (props) => {
     const tBase = "settings.sections.appSettings";
+    const [fileList, setFileList] = useState([]);
 
     const deleteBackpack = () => {
         props.deleteBackpack();
@@ -42,6 +44,36 @@ const SectionAppSettings = (props) => {
 
     const exportBackpack = () => {
         RouteUtils.downloadFile(RouteUtils.api.settings.backpackExport);
+    };
+
+    const handleImport = (info) => {
+        const importSuccess = GlobalUtils.getValue(info, "file.response.success", false);
+
+        if (importSuccess) {
+            props.fetchNotebooks();
+        } else {
+            let fileList = [...info.fileList].slice(-5);
+    
+            fileList = fileList.map((file) => {
+                if (file.response) {
+                    file.url = file.response.url;
+                }
+    
+                return file;
+            });
+    
+            setFileList(fileList);
+        }
+    };
+
+    const importUploadOptions = {
+        accept: "application/json",
+        action: RouteUtils.resolveUrl(RouteUtils.api.settings.backpackImport),
+        fileList: fileList,
+        headers: {"Authorization": AuthUtils.getJwtToken()},
+        onChange: handleImport,
+        multiple: false,
+        name: "import"
     };
 
     return (
@@ -69,12 +101,12 @@ const SectionAppSettings = (props) => {
                 <p className="text text--form-label">
                     {I18n.t(tBase + ".labels.exportImport")}
                 </p>
-                <Space>
+                <Space align="start">
                     <Button onClick={exportBackpack} icon={<DownloadOutlined />}>
                         {I18n.t(tBase + ".exportButton")}
                     </Button>
-                    <Upload>
-                        <Button disabled icon={<UploadOutlined />}>
+                    <Upload {...importUploadOptions}>
+                        <Button icon={<UploadOutlined />}>
                             {I18n.t(tBase + ".importButton")}
                         </Button>
                     </Upload>
@@ -120,9 +152,8 @@ SectionAppSettings.propTypes = {
     changeAutoSave: PropTypes.func.isRequired,
     changeCloseOnClick: PropTypes.func.isRequired,
     changeLanguage: PropTypes.func.isRequired,
-    deleteBackpack: PropTypes.func.isRequired
+    deleteBackpack: PropTypes.func.isRequired,
+    fetchNotebooks: PropTypes.func.isRequired
 };
 
-const mapStateToProps = () => ({});
-
-export default connect(mapStateToProps, { changeAutoSave, changeCloseOnClick, changeLanguage, deleteBackpack })(SectionAppSettings);
+export default connect(null, { changeAutoSave, changeCloseOnClick, changeLanguage, deleteBackpack, fetchNotebooks })(SectionAppSettings);

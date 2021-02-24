@@ -17,14 +17,11 @@ export const fetchNotebooks = () => {
 
         RouteUtils.sendApiRequest(route, {})
             .then(res => {
-                if (res.status === 200 && res.data.data) {
+                if (res.data.data) {
                     dispatch({
                         type: FETCH_NOTEBOOKS,
                         payload: res.data.data
                     });
-                } else {
-                    // TODO: replace with global error for the user
-                    console.log("Error while fetching");
                 }
             })
             .catch(() => {

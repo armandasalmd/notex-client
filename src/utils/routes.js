@@ -76,6 +76,10 @@ var RouteUtils = {
                 path: "/api/settings/backpack/export",
                 method: "GET",
             },
+            backpackImport: {
+                path: "/api/settings/backpack/import",
+                method: "POST",
+            },
             changeLanguage: {
                 path: "/api/settings/changeLanguage",
                 method: "POST",
@@ -222,7 +226,6 @@ const downloadFile = async (apiRoute) => {
         url: resolveUrl(apiRoute.path),
         responseType: "blob",
     }).then((response) => {
-        console.log(response.headers)
         let fileName = response.headers["content-disposition"].split(
             "filename="
         )[1];

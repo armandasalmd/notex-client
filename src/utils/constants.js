@@ -102,6 +102,6 @@ const constants = {
 
 // Point PROD server: constants.apiHostName
 // Point DEV server: constants.apiHostNameDev
-constants.activeHost = constants.apiHostName;
+constants.activeHost = constants.apiHostNameDev;
 
 export default constants;
