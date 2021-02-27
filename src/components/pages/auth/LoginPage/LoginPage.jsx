@@ -36,14 +36,14 @@ const LoginPage = (props) => {
                 content: successMessage,
                 duration: 4
             });
-        }
-
-        const errorMessage = query.get("errorMsg");
-        if (errorMessage) {
-            message.error({
-                content: errorMessage,
-                duration: 4
-            });
+        } else {
+            const errorMessage = query.get("errorMsg");
+            if (errorMessage) {
+                message.error({
+                    content: errorMessage,
+                    duration: 4
+                });
+            }
         }
     });
 
