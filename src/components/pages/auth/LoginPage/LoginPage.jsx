@@ -30,7 +30,8 @@ const LoginPage = (props) => {
     }, [props.auth, props.history]);
 
     useEffect(() => {
-        const successMessage = query.get("successMsg");        
+        const successMessage = query.get("successMsg");
+
         if (successMessage) {
             message.success({
                 content: successMessage,
