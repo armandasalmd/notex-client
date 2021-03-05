@@ -38,7 +38,7 @@ export default class Home extends React.Component {
                 this.setState({
                     show: true
                 });
-            }, 500);
+            }, 300);
         }
     }
 

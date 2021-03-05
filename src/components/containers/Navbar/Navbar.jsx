@@ -6,7 +6,8 @@ import { I18n } from "react-redux-i18n";
 
 import "./Navbar.less";
 import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
-import { Button, Select } from "antd";
+import { Button } from "antd";
+import LanguagePicker from "##/LanguagePicker";
 
 const NavbarHamburger = props => {
     const { enabled, onClick, menuCollapsed } = props;
@@ -23,7 +24,7 @@ const NavbarHamburger = props => {
 
 const NavbarMenu = props => {
     const { menuItems, activeKey } = props;
-    
+
     const menuElements = menuItems.map(item => {
         const classes = classnames(["navbar__menuItem"], {
             "navbar__menuItem--active": activeKey !== undefined && activeKey === item.link
@@ -38,21 +39,20 @@ const NavbarMenu = props => {
         );
     });
 
-    return (
-        <ul className="navbar__menu">
-            {menuElements}
-        </ul>
-    );
+    return <ul className="navbar__menu">{menuElements}</ul>;
 };
 
-// const NavbarLanguagePicker = props => {
+const NavbarLanguagePicker = props => {
+    const classes = classnames(["navbar__languagePicker"], {
+        "navbar__languagePicker--hidden": !props.enabled
+    });
 
-//     return (
-//         <div className="navbar__languagePicker">
-//             Picker
-//         </div>
-//     );
-// };
+    return (
+        <div className={classes}>
+            <LanguagePicker />
+        </div>
+    );
+};
 
 const Navbar = props => {
     const { enableLanguagePicker, menuItems } = props;
@@ -68,6 +68,7 @@ const Navbar = props => {
             </Link>
 
             <NavbarMenu menuItems={menuItems} activeKey={path} />
+            <NavbarLanguagePicker selectedLanguage={"lt"} enabled />
         </div>
     );
 };

@@ -4,8 +4,9 @@ import { I18n } from "react-redux-i18n";
 import { I18nUtils } from "@utils";
 
 import "./Footer.less";
-import { Row, Col, Button, Dropdown, Menu } from "antd";
-import { TwitterOutlined, FacebookOutlined, LinkedinOutlined, GlobalOutlined } from '@ant-design/icons';
+import { Row, Col } from "antd";
+import { TwitterOutlined, FacebookOutlined, LinkedinOutlined } from '@ant-design/icons';
+import LanguagePicker from "##/LanguagePicker";
 
 const FooterAbout = () => {
     return (
@@ -17,25 +18,6 @@ const FooterAbout = () => {
         </Col>
     );
 };
-
-// const FooterCategories = () => {
-//     const categories = I18nUtils.tObject(I18n, "footer.categories.items", []);
-
-//     const items = (categories || []).map((item, i) => (
-//         <li key={i}>
-//             <a href={item.link}>{I18n.t(item.titleTextKey)}</a>
-//         </li>
-//     ));
-
-//     return (
-//         <Col xs={12} md={6}>
-//             <h6>{I18n.t("footer.categories.title")}</h6>
-//             <ul className="footer-links">
-//                 {items}
-//             </ul>
-//         </Col>
-//     );
-// };
 
 const FooterLinks = () => {
     const categories = I18nUtils.tObject(I18n, "footer.quickLinks.items", []);
@@ -89,33 +71,10 @@ const FooterSocial = () => {
 };
 
 const FooterLanguage = () => {
-    const language = I18nUtils.getPreferredLanguage();
-
-    const onChange = (e) => {
-        if (language !== e.key) {
-            I18nUtils.saveLanguageLocally(e.key);
-            window.location.reload();
-        }
-    }
-
-    const languageMenuItems = Object.values(I18nUtils.languages).map((language) => {
-        return (
-            <Menu.Item key={language.value} >
-                {language.value.toUpperCase()}
-            </Menu.Item>
-        );
-    });
-
-    const languageMenu = <Menu onClick={onChange}>{languageMenuItems}</Menu>;
-
     return (
         <Col xs={12} md={6}>
             <h6>{I18n.t("footer.languageHeader")}</h6>
-            <Dropdown overlay={languageMenu}>
-                <Button>
-                    <GlobalOutlined />{language.toUpperCase()}
-                </Button>
-            </Dropdown>
+            <LanguagePicker />
         </Col>
     );
 };
