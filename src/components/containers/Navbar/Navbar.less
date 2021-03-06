@@ -84,10 +84,11 @@
         }
 
         .@{navbar}__menuItemText {
-            margin: 0 20px;
+            margin: 0 12px;
             padding: 0;
             font-size: 14px;
             color: @shade80;
+            white-space: nowrap;
 
             &:hover {
                 color: lighten(@primary-color, 10%);
@@ -129,4 +130,26 @@
 		top: 0;
 	}
 
+    @media screen and (max-width: @xs + 64px) {
+        &__brand {
+            display: none;
+        }
+    }
+
+    @media screen and (max-width: @sm + 64px) {
+        &__name {
+            display: none;
+        }
+    }
+
+    @media screen and (max-width: @sm) {
+        padding: 0 (@navbar-padding-x / 2);
+    }
+
+
+    @media screen and (min-width: @lg) {
+        &__hamburger {
+            display: none;
+        }
+    }
 }

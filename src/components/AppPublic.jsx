@@ -19,7 +19,7 @@ import { RouteUtils } from "@utils";
 const AppPublic = (props) => {
     return (
         <>
-            <Navbar menuItems={RouteUtils.getMenuItems(props.auth.isAuthenticated)} />
+            <Navbar menuItems={RouteUtils.getMenuItems(props.auth.isAuthenticated)} enableLanguagePicker />
             <Switch>
                 <Route
                     exact path={RouteUtils.app.public.landing.link}
