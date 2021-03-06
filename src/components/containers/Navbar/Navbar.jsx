@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Link, withRouter } from "react-router-dom";
 import classnames from "classnames";
 import PropTypes from "prop-types";
 import { I18n } from "react-redux-i18n";
 
 import "./Navbar.less";
-import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
-import { Button, Drawer } from "antd";
+import { MenuUnfoldOutlined, MenuFoldOutlined, BellOutlined, UserOutlined } from "@ant-design/icons";
+import { Avatar, Badge, Button, Drawer } from "antd";
 import LanguagePicker from "##/LanguagePicker";
 import BackpackMenu from "#/pages/private/NotePage/Sidebar";
 
@@ -65,21 +65,105 @@ const NavbarLanguagePicker = (props) => {
     );
 };
 
-// const NavbarActions = (props) => {
+const NotificationOverlay = (props) => {
+    return (
+        <div id={props.id} className="navbar__actionItemOverlay content-card">
+            NotificationOverlay
+        </div>
+    );
+};
 
+const NavbarNotificationBell = (props) => {
+    const { onClick, open } = props;
 
-//     return (
-//         <div>
-//             Navbar actions
-//         </div>
-//     );
-// };
+    return (
+        <div className="navbar__actionItem">
+            <div className="navbar__actionItemContent" onClick={onClick}>
+                <Badge count={5} size="default">
+                    <BellOutlined style={{ fontSize: 20 }} />
+                </Badge>
+            </div>
+            { open && <NotificationOverlay id="notificationOverlay" /> }
+        </div>
+    );
+};
+
+const PersonaOverlay = (props) => {
+    return (
+        <div id={props.id} className="navbar__actionItemOverlay content-card">
+            PersonaOverlay
+        </div>
+    );
+};
+
+const NavbarPersona = (props) => {
+    const { onClick, open, profileUrl } = props;
+
+    return (
+        <div id="navbarPersona" className="navbar__actionItem">
+            <div className="navbar__actionItemContent" onClick={onClick}>
+                {profileUrl !== undefined ? <Avatar src={profileUrl} /> : <UserOutlined />}
+            </div>
+            { open && <PersonaOverlay id="personaOverlay" /> }
+        </div>
+    );
+};
+
+function useOutsideClick(ref, callback) {
+    useEffect(() => {
+        document.addEventListener("mousedown", callback)
+        return () => {
+            document.removeEventListener("mousedown", callback);
+        };
+    }, [ref, callback]);
+}
+
+const NavbarActions = (props) => {
+    const wrapperRef = useRef(null);
+    const [notificationOpen, setNotificationOpen] = useState(false);
+    const [personaOpen, setPersonaOpen] = useState(false);
+
+    const notificationClick = () => {
+        if (personaOpen === true) {
+            setPersonaOpen(false);
+        }
+
+        setNotificationOpen(!notificationOpen);
+    };
+
+    const personaClick = () => {
+        if (notificationOpen === true) {
+            setNotificationOpen(false);
+        }
+
+        setPersonaOpen(!personaOpen);
+    };
+
+    function handleClickOutside(event) {
+        if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+            if (notificationOpen === true) {
+                setNotificationOpen(false);
+            } else if (personaOpen === true) {
+                setPersonaOpen(false);
+            }
+        }
+    }
+
+    useOutsideClick(wrapperRef, handleClickOutside);
+
+    return (
+        <div ref={wrapperRef} className="navbar__actions">
+            <NavbarNotificationBell open={notificationOpen} onClick={notificationClick} />
+            <NavbarPersona open={personaOpen} onClick={personaClick} />
+        </div>
+    );
+};
 
 const Navbar = (props) => {
-    const { enableLanguagePicker, menuItems, hamburgerEnabled, hamburgerMenuData } = props;
+    const { enableLanguagePicker, enableNavbarActions, menuItems, hamburgerEnabled, hamburgerMenuData } = props;
     const path = props.location.pathname;
     const classes = classnames(["navbar"], {
-        "navbar--sticky": props.isSticky === undefined ? true : props.isSticky
+        "navbar--sticky": props.isSticky === undefined ? true : props.isSticky,
     });
 
     return (
@@ -91,8 +175,11 @@ const Navbar = (props) => {
                 <span className="navbar__name">{I18n.t("appName")}</span>
             </Link>
 
-            <NavbarMenu menuItems={menuItems} activeKey={path} />
-            <NavbarLanguagePicker enabled={enableLanguagePicker} />
+            <div className="navbar__menuContainer">
+                <NavbarMenu menuItems={menuItems} activeKey={path} />
+                {enableNavbarActions && <NavbarActions />}
+                {enableLanguagePicker && <NavbarLanguagePicker enabled />}
+            </div>
         </div>
     );
 };

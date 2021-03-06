@@ -39,7 +39,7 @@ const AppPrivate = props => {
 
     return (
         <>
-            <Navbar hamburgerEnabled={noteMenuAvailable} menuItems={RouteUtils.getMenuItems(props.auth.isAuthenticated)} />
+            <Navbar enableNavbarActions hamburgerEnabled={noteMenuAvailable} menuItems={RouteUtils.getMenuItems(props.auth.isAuthenticated)} />
             <Switch>
                 <Route
                     exact

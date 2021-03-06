@@ -1,6 +1,7 @@
 @import "@styles/Variables.less";
 
 @navbar: navbar;
+@hover-color: lighten(@primary-color, 10%);
 
 .@{navbar} {
 	height: @navbar-heigth;
@@ -52,75 +53,111 @@
         }
     }
 
-    &__menu {
-        margin: 0;
+    &__menuContainer {
         grid-column: 3;
         display: flex;
         justify-content: flex-end;
+        flex-wrap: nowrap;
         
-        .@{navbar}__languagePicker {
-            background-color: lightgreen;
-        }
+        .@{navbar}__menu {
+            margin: 0;
 
-        .@{navbar}__menuItem {
-            line-height: @navbar-heigth;
-            list-style-type: none;
-            height: @navbar-heigth;
-            vertical-align: bottom;            
-            user-select: none;
-            font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","Roboto","Oxygen","Ubuntu","Cantarell","Fira Sans","Droid Sans","Helvetica Neue",sans-serif;
+            .@{navbar}__menuItem {
+                line-height: @navbar-heigth;
+                list-style-type: none;
+                height: @navbar-heigth;
+                vertical-align: bottom;            
+                user-select: none;
+                font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","Roboto","Oxygen","Ubuntu","Cantarell","Fira Sans","Droid Sans","Helvetica Neue",sans-serif;
+                display: inline-block;
 
-            &--active {
-                font-weight: 500;
-
-                .@{navbar}__menuItemText {
-                    color: lighten(@primary-color, 10%);
-
-                    &::after {
-                        opacity: 1;
+                &--active {
+                    font-weight: 500;
+    
+                    .@{navbar}__menuItemText {
+                        color: @hover-color;
+    
+                        &::after {
+                            opacity: 1;
+                        }
                     }
+                }
+            }
+
+            .@{navbar}__menuItemText {
+                margin: 0 12px;
+                padding: 0;
+                font-size: 14px;
+                color: @shade80;
+                white-space: nowrap;
+    
+                &:hover {
+                    color: @hover-color;
+                }
+    
+                &::after {
+                    content: "";
+                    display: block;
+                    width: 100%;
+                    height: @navbar-underline-height;
+                    background: @primary-color;
+                    position: relative;
+                    bottom: @navbar-underline-height;
+                    transition: 0.3s;
+                    opacity: 0;
+                }
+    
+                &:hover::after {
+                    opacity: 1;
                 }
             }
         }
 
-        .@{navbar}__menuItemText {
-            margin: 0 12px;
-            padding: 0;
-            font-size: 14px;
-            color: @shade80;
-            white-space: nowrap;
-
-            &:hover {
-                color: lighten(@primary-color, 10%);
-            }
-
-            &::after {
-                content: "";
-                display: block;
-                width: 100%;
-                height: @navbar-underline-height;
-                background: @primary-color;
-                position: relative;
-                bottom: @navbar-underline-height;
-                transition: 0.3s;
-                opacity: 0;
-            }
-
-            &:hover::after {
-                opacity: 1;
+        .@{navbar}__languagePicker {
+            margin-left: 16px;
+            grid-column: 4;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+    
+            &--hidden {
+                display: none;
             }
         }
-    }
 
-    &__languagePicker {
-        margin: 0 0 0 16px;
-        grid-column: 4;
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
+        .@{navbar}__actions {
+            display: flex;
+            align-items: center;
+            margin-left: 16px;
+            
+            .@{navbar}__actionItem {
+                position: relative;
+                
+                &:not(:last-child) {
+                    margin-right: 28px;
+                }
+            }
 
-        &--hidden {
-            display: none;
+            .@{navbar}__actionItemContent {
+                cursor: pointer;
+                font-size: 20px;
+                color: @shade80;
+                user-select: none;
+
+                &:hover {
+                    color: @hover-color;
+                }
+            }
+
+            .@{navbar}__actionItemOverlay {
+                position: absolute;
+                top: @navbar-heigth - 12px;
+                right: 0;
+
+                background-color: #d2d2d2;
+                width: 330px;
+                height: 200px;
+            }
         }
     }
 
