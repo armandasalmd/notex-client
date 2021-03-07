@@ -205,8 +205,7 @@ const getMenuItems = (isAuth) => {
     ];
     const onlineLinks = [
         RouteUtils.app.private.main,
-        RouteUtils.app.private.settings,
-        RouteUtils.app.auth.logout,
+        RouteUtils.app.private.settings
     ];
 
     return isAuth ? onlineLinks : offlineLinks;

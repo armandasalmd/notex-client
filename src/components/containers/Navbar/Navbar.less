@@ -58,6 +58,17 @@
         display: flex;
         justify-content: flex-end;
         flex-wrap: nowrap;
+        align-items: center;
+
+        .@{navbar}__dropdownMenu {
+            cursor: pointer;
+            font-size: @navbar-icon-font-size;
+            margin-right: 8px;
+
+            &:hover {
+                color: @hover-color;
+            }
+        }
         
         .@{navbar}__menu {
             margin: 0;
@@ -100,7 +111,7 @@
                     display: block;
                     width: 100%;
                     height: @navbar-underline-height;
-                    background: @primary-color;
+                    background: @navbar-underline-color;
                     position: relative;
                     bottom: @navbar-underline-height;
                     transition: 0.3s;
@@ -129,34 +140,36 @@
             display: flex;
             align-items: center;
             margin-left: 16px;
-            
+
             .@{navbar}__actionItem {
                 position: relative;
                 
                 &:not(:last-child) {
                     margin-right: 28px;
                 }
-            }
-
-            .@{navbar}__actionItemContent {
-                cursor: pointer;
-                font-size: 20px;
-                color: @shade80;
-                user-select: none;
-
-                &:hover {
-                    color: @hover-color;
+    
+                .@{navbar}__actionItemContent {
+                    cursor: pointer;
+                    font-size: @navbar-icon-font-size;
+                    color: @shade80;
+                    user-select: none;
+        
+                    &:hover {
+                        color: @hover-color;
+                    }
                 }
-            }
+        
+                .@{navbar}__actionItemOverlay {
+                    position: absolute;
+                    top: @navbar-heigth - 32px;
+                    right: -8px;
+                    box-shadow: @navbar-action-overlay-shadow;
+                    border-radius: 4px;
+                    background-color: @navbar-background;
 
-            .@{navbar}__actionItemOverlay {
-                position: absolute;
-                top: @navbar-heigth - 12px;
-                right: 0;
-
-                background-color: #d2d2d2;
-                width: 330px;
-                height: 200px;
+                    width: 250px;
+                    max-width: 250px;
+                }
             }
         }
     }
@@ -166,12 +179,6 @@
 		position: sticky;
 		top: 0;
 	}
-
-    @media screen and (max-width: @xs + 64px) {
-        &__brand {
-            display: none;
-        }
-    }
 
     @media screen and (max-width: @sm + 64px) {
         &__name {
