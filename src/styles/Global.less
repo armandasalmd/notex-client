@@ -5,6 +5,7 @@
 @import "./Text/Header.less";
 @import "./Text/Text.less";
 @import "./Text/Title.less";
+@import "./Persona/Persona.less";
 
 @card: content-card;
 @header: header;
@@ -50,6 +51,11 @@ code {
     }
 }
 
+.divider {
+    height: 1px;
+    background: @shade30;
+}
+
 .footer {
     background-color: #e1e7e7;
     width: 100%;
@@ -70,15 +76,15 @@ code {
     }
 }
 
-.navbar {
-    background-color: @background-color;
-    height: @navbar-heigth;
-    padding: 0;
-    z-index: 3;
-    -moz-box-shadow: 3px 3px 16px rgba(182, 182, 182, 0.5);
-    -webkit-box-shadow: 3px 3px 16px rgba(182, 182, 182, 0.5);
-    box-shadow: 3px 3px 16px rgba(182, 182, 182, 0.5);
-}
+// .navbar {
+//     background-color: @background-color;
+//     height: @navbar-heigth;
+//     padding: 0;
+//     z-index: 3;
+//     -moz-box-shadow: 3px 3px 16px rgba(182, 182, 182, 0.5);
+//     -webkit-box-shadow: 3px 3px 16px rgba(182, 182, 182, 0.5);
+//     box-shadow: 3px 3px 16px rgba(182, 182, 182, 0.5);
+// }
 
 .scroll-container {
     overflow-y: auto;
@@ -95,10 +101,6 @@ code {
         position: sticky;
         top: 0px;
     }
-}
-
-#root, .app {
-    height: 100%;
 }
 
 .full-width {

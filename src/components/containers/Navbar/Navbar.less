@@ -1,0 +1,199 @@
+@import "@styles/Variables.less";
+
+@navbar: navbar;
+@hover-color: lighten(@primary-color, 10%);
+
+.@{navbar} {
+	height: @navbar-heigth;
+    background: @navbar-background;
+    z-index: @navbar-layer;
+    padding: 0 @navbar-padding-x;
+
+    -moz-box-shadow: @navbar-shadow;
+    -webkit-box-shadow: @navbar-shadow;
+    box-shadow: @navbar-shadow;
+
+    display: grid;
+    grid-template-columns: auto auto 1fr auto;
+    grid-template-rows: 1fr;
+
+    &__hamburger {
+        grid-column: 1;
+        margin-right: 12px;
+        display: flex;
+        align-items: center;
+
+        &--hidden {
+            display: none;
+        }
+    }
+
+    &__brand {
+        grid-column: 2;
+        display: flex;
+        align-items: center;
+
+        .@{navbar}__logo {
+			width: @navbar-heigth * 0.9;
+			height: @navbar-heigth * 0.9;
+        }
+
+        .@{navbar}__name {
+            margin-left: 8px;
+
+            font-weight: bold;
+            font-family: 'Bellota', cursive, sans-serif;
+            font-size: xx-large;
+        
+            background: -webkit-linear-gradient(#284850, #2577c4);
+            user-select: none;            
+            background-clip: unset;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    }
+
+    &__menuContainer {
+        grid-column: 3;
+        display: flex;
+        justify-content: flex-end;
+        flex-wrap: nowrap;
+        align-items: center;
+
+        .@{navbar}__dropdownMenu {
+            cursor: pointer;
+            font-size: @navbar-icon-font-size;
+            margin-right: 8px;
+
+            &:hover {
+                color: @hover-color;
+            }
+        }
+        
+        .@{navbar}__menu {
+            margin: 0;
+
+            .@{navbar}__menuItem {
+                line-height: @navbar-heigth;
+                list-style-type: none;
+                height: @navbar-heigth;
+                vertical-align: bottom;            
+                user-select: none;
+                font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","Roboto","Oxygen","Ubuntu","Cantarell","Fira Sans","Droid Sans","Helvetica Neue",sans-serif;
+                display: inline-block;
+
+                &--active {
+                    font-weight: 500;
+    
+                    .@{navbar}__menuItemText {
+                        color: @hover-color;
+    
+                        &::after {
+                            opacity: 1;
+                        }
+                    }
+                }
+            }
+
+            .@{navbar}__menuItemText {
+                margin: 0 12px;
+                padding: 0;
+                font-size: 14px;
+                color: @shade80;
+                white-space: nowrap;
+    
+                &:hover {
+                    color: @hover-color;
+                }
+    
+                &::after {
+                    content: "";
+                    display: block;
+                    width: 100%;
+                    height: @navbar-underline-height;
+                    background: @navbar-underline-color;
+                    position: relative;
+                    bottom: @navbar-underline-height;
+                    transition: 0.3s;
+                    opacity: 0;
+                }
+    
+                &:hover::after {
+                    opacity: 1;
+                }
+            }
+        }
+
+        .@{navbar}__languagePicker {
+            margin-left: 16px;
+            grid-column: 4;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+    
+            &--hidden {
+                display: none;
+            }
+        }
+
+        .@{navbar}__actions {
+            display: flex;
+            align-items: center;
+            margin-left: 16px;
+
+            .@{navbar}__actionItem {
+                position: relative;
+                
+                &:not(:last-child) {
+                    margin-right: 28px;
+                }
+    
+                .@{navbar}__actionItemContent {
+                    cursor: pointer;
+                    font-size: @navbar-icon-font-size;
+                    color: @shade80;
+                    user-select: none;
+        
+                    &:hover {
+                        color: @hover-color;
+                    }
+                }
+        
+                .@{navbar}__actionItemOverlay {
+                    position: absolute;
+                    top: @navbar-heigth - 32px;
+                    right: -8px;
+                    box-shadow: @navbar-action-overlay-shadow;
+                    border-radius: 4px;
+                    background-color: @navbar-background;
+
+                    width: 250px;
+                    max-width: 250px;
+                }
+            }
+        }
+    }
+
+	&--sticky {
+		position: -webkit-sticky;
+		position: sticky;
+		top: 0;
+	}
+
+    @media screen and (max-width: @sm + 64px) {
+        &__name {
+            display: none;
+        }
+    }
+
+    @media screen and (max-width: @sm) {
+        padding: 0 (@navbar-padding-x / 2);
+    }
+
+
+    @media screen and (min-width: @lg) {
+        &__hamburger {
+            display: none;
+        }
+    }
+}

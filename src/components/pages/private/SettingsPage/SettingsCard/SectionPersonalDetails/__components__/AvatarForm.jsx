@@ -47,6 +47,7 @@ const AvatarForm = (props) => {
                     className="avatar"
                     src={RouteUtils.resolveUrl(props.data.avatarUrl)}
                     icon={<UserOutlined />}
+                    style={{ backgroundColor: "#d4be92" }}
                     size={108}
                 />
                 <Space direction="vertical">

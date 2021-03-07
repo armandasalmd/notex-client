@@ -1,7 +1,7 @@
 import { RouteUtils } from "@utils";
 
 export default {
-    appName: "Notex LT",
+    appName: "Notex",
     about: {
         sectionAbout: {
             title: "Apie ką yra ši svetainė?",

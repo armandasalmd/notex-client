@@ -1,0 +1,42 @@
+@import "@styles/Variables.less";
+
+@persona: persona;
+
+@avatar-size: 40px;
+
+.@{persona} {
+    padding: 16px 14px;
+    display: flex;
+
+    &__avatar {
+        border-radius: 50%;
+        min-width: @avatar-size;
+        width: @avatar-size;
+        height: @avatar-size;
+    }
+
+    &__info {
+        margin-top: -4px;
+        margin-left: 10px;
+        overflow: hidden;
+
+        .@{persona}__name {
+            margin: 0;
+            color: @primary-color;
+            font-weight: 500;
+            font-size: 16px;
+
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+    
+        .@{persona}__mail {
+            margin: 0;
+
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+    }
+}
