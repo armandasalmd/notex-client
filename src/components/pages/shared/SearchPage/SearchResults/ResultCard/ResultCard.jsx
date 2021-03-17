@@ -14,8 +14,6 @@ const ResultCard = (props) => {
     matchingTags = matchingTags || [];
     // love is only enabled if user is authorised
 
-    console.log(selected);
-
     function toggleLoved() {
         GlobalUtils.callIfFunction(onLovedChange, !loved);
     }
