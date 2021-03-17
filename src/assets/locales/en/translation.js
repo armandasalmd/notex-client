@@ -218,13 +218,14 @@ export default {
         }
     },
     navText: {
+        about: "About us",
         login: "Login",
         logout: "Logout",
         register: "Register",
         home: "Home",
-        about: "About us",
         main: "Dashboard",
         note: "Preview note",
+        search: "Article search",
         settings: "Settings",
         tutorial: "Tutorial"
     },
@@ -319,6 +320,7 @@ export default {
         main: "Dashboard page",
         note: "Preview note page",
         settings: "Settings page",
+        search: "Search for articles",
         tutorial: "Tutorial page"
     }
 };

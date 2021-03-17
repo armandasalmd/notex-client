@@ -1,10 +1,16 @@
 import React from "react";
 
-const SearchPage = () => {
+import "./SearchPage.less";
+import SearchBanner from "./SearchBanner";
+import SearchHeader from "./SearchHeader";
+import SearchResults from "./SearchResults";
 
+const SearchPage = () => {
     return (
-        <div>
-            Search page
+        <div className="searchPage">
+            <SearchBanner />
+            <SearchHeader />
+            <SearchResults />
         </div>
     );
 };

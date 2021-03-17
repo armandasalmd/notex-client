@@ -1,0 +1,117 @@
+@import "@styles/Variables.less";
+@import "@styles/Placeholders.less";
+
+@root: resultCard;
+
+.@{root} {
+    .cardBase();
+
+    padding: (2 * @default-margin / 3) @default-margin;
+    position: relative;
+
+    &__tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-bottom: 12px;
+
+        // ANTD OVERRIDE
+        .ant-tag {
+            margin-right: 0;
+        }
+    }
+
+    &__title {
+        font-family: @raleway-font;
+        font-weight: 600;
+        font-size: 16px;
+
+        &:hover {
+            cursor: pointer;
+            text-decoration: underline;
+            user-select: none;
+        }
+    }
+
+    &__description {
+        color: @shade70;
+    }
+
+    &__info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .@{root}__infoItems > * {
+            display: inline-flex;
+
+            &:not(:first-child) {
+                margin-left: 12px;
+            }
+        }
+
+        .@{root}__infoIcon {
+            font-size: 1.4em;
+            margin-right: 8px;
+            color: @shade50;
+        }
+
+        .@{root}__love {
+            display: inline-flex;
+            font-size: 1.6em;
+            color: @shade50;
+
+            &:hover {
+                cursor: pointer;
+                user-select: none;
+            }
+
+            &--active {
+                color: @primary-color;
+            }
+        }
+    }
+
+    &__footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .@{root}__author {
+
+        }
+
+        .@{root}__rating {
+
+        }
+    }
+
+    &__extraLabel {
+        position: absolute;
+        top: (2 * @default-margin / 3);
+        right: -12px;
+        font-size: 14px;
+        background: @primary-color;
+        padding: 0 @default-margin;
+        border-radius: 2px;
+        color: white;
+    }
+
+    &--selected {
+        border-left: 6px solid @primary-color;
+    }
+    
+    &--secondary {
+        &.@{root}--selected {
+            border-left: 6px solid @secondary-color;
+        }
+
+        .@{root}__love {
+            color: @secondary-color;
+        }
+
+        .@{root}__extraLabel {
+            background: @secondary-color;
+        }
+    }
+}

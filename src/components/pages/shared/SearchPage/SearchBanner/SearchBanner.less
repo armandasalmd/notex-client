@@ -1,0 +1,96 @@
+@import "@styles/Variables.less";
+
+@root: searchBanner;
+
+.@{root} {
+    @banner-blackout-color: rgba(58, 49, 25, 0.35);
+    @banner-image: url("/images/search-banner.jpg");
+    @search-box-background: rgba(199, 190, 168, 0.39);
+    @text-color: white;
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 36px 0 18px 0;
+
+    background: linear-gradient(0deg, @banner-blackout-color, @banner-blackout-color), @banner-image;
+    background-position: center;
+    background-size: cover;
+    
+    &__title {
+        color: @text-color;
+        font-family: "Bellota", @backup-fonts;
+        font-size: 36px;
+        font-weight: 600;
+        margin-bottom: 24px;
+        padding: 0 10%;
+        text-align: center;
+    }
+    
+    &__description {
+        color: @text-color;
+        font-family: "Raleway", @backup-fonts;
+        font-size: 20px;
+        font-weight: 400;
+        padding: 0 10%;
+        text-align: center;
+    }
+
+    &__search {
+        width: 84%;
+        max-width: 940px;
+        border-radius: 12px;
+        background: @search-box-background;
+        margin-bottom: 24px;
+        padding: 16px 16px 32px 16px;
+        position: relative;
+
+        .@{root}__searchInput {
+            min-height: 32px;
+            width: 50%;
+            display: inline-block;
+        }
+        
+        .@{root}__tagInput {
+            min-height: 32px;
+            width: 50%;
+            display: inline-block;
+        }
+
+        .@{root}__searchButton {
+            @button-background: #FFC32B;
+            @button-text: #464545;
+            @button-height: 38px;
+
+            height: @button-height;
+            border-radius: 12px;
+            outline: none;
+            border: none;
+            padding: 0 16px;
+            color: @button-text;
+            background: @button-background;
+            font-weight: 500;
+            font-size: 16px;
+            position: absolute;
+            bottom: -(@button-height / 2);
+            left: 50%;
+            transform: translateX(-50%);
+            
+            &:hover {
+                cursor: pointer;
+                box-shadow: 0px 0px 8px @button-background;
+            }
+        }
+    }
+}
+
+@media (max-width: @md) {
+    .@{root}__searchInput, .@{root}__tagInput {
+        display: block !important;
+        width: 100% !important;
+
+        &:not(:first-child) {
+            margin-top: 8px;
+        }
+    }
+}

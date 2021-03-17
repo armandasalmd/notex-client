@@ -1,0 +1,31 @@
+@import "@styles/Variables.less";
+
+@root: filterList;
+
+.@{root} {
+
+    &__title {
+        color: @primary-color;
+        font-family: @raleway-font;
+        font-weight: 400;
+        font-size: 16px;
+        border-bottom: 2px solid #d2d2d2;
+        display: inline;
+    }
+    
+    &__list {
+        margin-top: 8px;
+        list-style-type: none;
+
+        .@{root}__item {
+            font-weight: 400;
+            user-select: none;
+        }
+
+        .@{root}__item:hover {
+            cursor: pointer;
+            font-weight: 600;
+            color: @primary-color;
+        }
+    }
+}

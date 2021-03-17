@@ -1,0 +1,32 @@
+@import "@styles/Variables.less";
+
+@root: searchResults;
+
+.@{root} {
+    @space-around: 10%;
+
+    &__cards {
+        @cardsPerRow: 2;
+
+        display: grid;
+        grid-template-columns: repeat(@cardsPerRow, 1fr);
+        gap: 20px;
+    }
+
+    &__pagination {
+        margin-top: 16px;
+        display: flex;
+        justify-content: flex-end;
+
+        // ANTD OVERRIDE
+        .ant-pagination-options-size-changer.ant-select {
+            margin-right: 0;
+        }
+    }
+}
+
+@media (max-width: @lg) {
+    .@{root}__cards {
+        grid-template-columns: 1fr;
+    }
+}

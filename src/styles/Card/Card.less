@@ -1,0 +1,78 @@
+@import "@styles/Variables.less";
+@import "@styles/Placeholders.less";
+
+@root: card;
+@separatorColor: @shade30;
+@defaultMargin: 16px;
+
+.@{root} {
+    .cardBase();
+
+    // <start>__ELEMENTS</start>
+    &__content {
+        padding: @defaultMargin;
+    }
+
+    &__footer {
+        @spacing: @defaultMargin / 2;
+
+        padding: @defaultMargin;
+        border-top: 1px solid @separatorColor;
+        display: flex;
+        justify-content: flex-end;
+        gap: @spacing;
+
+        &--actionButtons {
+            padding: @spacing;
+        }
+
+        &--borderless {
+            border-top: none;
+        }
+    }
+
+    &__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid @separatorColor;
+        padding: (@defaultMargin * 2 / 3) @defaultMargin;
+
+        &--separatorNone {
+            border-bottom: none;
+        }
+
+        &--separatorSpiked {
+            padding: @defaultMargin @defaultMargin (@defaultMargin * 1.5) @defaultMargin;
+            border-bottom: none;
+            .spikedBorder();
+        }
+
+        &--separatorDashed {
+            border-bottom: none;
+            .dashedBorder();
+        }
+    }
+
+    &__title,
+    &__titleActions {
+        font-size: 22px;
+        display: inline-block;
+
+        &--small {
+            font-size: 16px;
+        }
+    }
+    // <end>__ELEMENTS</end>
+
+    // <start> --MODIFIERS </start>
+
+    &--padded {
+        padding: @defaultMargin;
+    }
+
+    &--wrap {
+        display: inline-block;
+    }
+    // <end> --MODIFIERS </end>
+}

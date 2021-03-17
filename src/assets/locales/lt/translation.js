@@ -202,6 +202,7 @@ export default {
         about: "Apie mus",
         main: "Užrašai",
         note: "Peržiūrėti užrašą",
+        search: "Straipsniai",
         settings: "Nustatymai",
         tutorial: "Pamoka"
     },
@@ -296,6 +297,7 @@ export default {
         main: "Pagrindinis puslapis",
         note: "Užrašo peržiūrą",
         settings: "Nustatymai",
+        search: "Ieškok straipsnių",
         tutorial: "Pamoka"
     }
 };

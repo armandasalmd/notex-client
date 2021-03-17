@@ -10,6 +10,7 @@ import AppPrivate from "#/AppPrivate";
 
 const AuthSwitch = (props) => {
     const { auth, ...rest } = props;
+
     useEffect(() => {
         if (auth.isAuthenticated) {
             props.verifyAuth();

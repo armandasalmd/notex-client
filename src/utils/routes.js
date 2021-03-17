@@ -2,10 +2,7 @@ import { Constants, GlobalUtils } from "@utils";
 import axios from "axios";
 
 function resolveHostName() {
-    let host =
-        Constants.env === "development"
-            ? Constants.activeHost
-            : Constants.apiHostName;
+    let host = Constants.env === "development" ? Constants.activeHost : Constants.apiHostName;
 
     return host.replace(/\/*$/, "");
 }
@@ -114,8 +111,8 @@ var RouteUtils = {
             },
             uploadAvatar: {
                 path: "/api/settings/uploadAvatar",
-                method: "POST"
-            }
+                method: "POST",
+            },
         },
     },
     app: {
@@ -143,15 +140,15 @@ var RouteUtils = {
             },
         },
         public: {
-            landing: {
-                link: "/",
-                navTextKey: "navText.home",
-                titleTextKey: "titleText.home",
-            },
             about: {
                 link: "/about",
                 navTextKey: "navText.about",
                 titleTextKey: "titleText.about",
+            },
+            landing: {
+                link: "/",
+                navTextKey: "navText.home",
+                titleTextKey: "titleText.home",
             },
             tutorial: {
                 link: "/tutorial",
@@ -179,6 +176,13 @@ var RouteUtils = {
                 titleTextKey: "titleText.settings",
             },
         },
+        shared: {
+            search: {
+                link: "/search",
+                navTextKey: "navText.search",
+                titleTextKey: "titleText.search",
+            },
+        },
     },
 };
 
@@ -199,14 +203,12 @@ const resolveUrl = (path) => {
 const getMenuItems = (isAuth) => {
     const offlineLinks = [
         RouteUtils.app.public.landing,
+        RouteUtils.app.shared.search,
         RouteUtils.app.public.about,
         RouteUtils.app.auth.login,
         RouteUtils.app.auth.register,
     ];
-    const onlineLinks = [
-        RouteUtils.app.private.main,
-        RouteUtils.app.private.settings
-    ];
+    const onlineLinks = [RouteUtils.app.private.main, RouteUtils.app.shared.search, RouteUtils.app.private.settings];
 
     return isAuth ? onlineLinks : offlineLinks;
 };
@@ -224,39 +226,34 @@ const downloadFile = async (apiRoute) => {
         method: apiRoute.method,
         url: resolveUrl(apiRoute.path),
         responseType: "blob",
-    }).then((response) => {
-        let fileName = response.headers["content-disposition"].split(
-            "filename="
-        )[1];
-        if (window.navigator && window.navigator.msSaveOrOpenBlob) {
-            // IE variant
-            window.navigator.msSaveOrOpenBlob(
-                new Blob([response.data], {
-                    type:
-                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                }),
-                fileName
-            );
-        } else {
-            const url = window.URL.createObjectURL(
-                new Blob([response.data], {
-                    type:
-                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                })
-            );
-            const link = document.createElement("a");
-            link.href = url;
-            link.setAttribute(
-                "download",
-                response.headers["content-disposition"].split("filename=")[1]
-            );
-            document.body.appendChild(link);
-            link.click();
-        }
-    }).catch((err) => {
-        console.error("Cannot download file");
-        console.error(err);
-    });
+    })
+        .then((response) => {
+            let fileName = response.headers["content-disposition"].split("filename=")[1];
+            if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+                // IE variant
+                window.navigator.msSaveOrOpenBlob(
+                    new Blob([response.data], {
+                        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                    }),
+                    fileName
+                );
+            } else {
+                const url = window.URL.createObjectURL(
+                    new Blob([response.data], {
+                        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                    })
+                );
+                const link = document.createElement("a");
+                link.href = url;
+                link.setAttribute("download", response.headers["content-disposition"].split("filename=")[1]);
+                document.body.appendChild(link);
+                link.click();
+            }
+        })
+        .catch((err) => {
+            console.error("Cannot download file");
+            console.error(err);
+        });
 };
 
 export default {
@@ -265,5 +262,5 @@ export default {
     sendApiRequest,
     getMenuItems,
     resolveHostName,
-    resolveUrl
+    resolveUrl,
 };
