@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import classnames from "classnames";
 
 import { GlobalUtils } from "@utils";
@@ -8,7 +9,7 @@ import { ReadOutlined, EyeOutlined, HistoryOutlined, HeartOutlined, HeartFilled 
 import { Rate, Tag } from "antd";
 
 const ResultCard = (props) => {
-    const { extraLabel, selected, color, onClick, onLovedChange, data } = props;
+    const { extraLabel, selected, color, onLovedChange, data } = props;
     let { tags, matchingTags, title, description, readTime, views, timeAgo, author, rating, loved } = data || {};
 
     matchingTags = matchingTags || [];
@@ -35,7 +36,7 @@ const ResultCard = (props) => {
             <div className="resultCard__tags">
                 {tagElements}
             </div>
-            <h1 className="resultCard__title" onClick={GlobalUtils.callIfFunction(onClick)}>{title}</h1>
+            <Link to="/article" className="resultCard__title">{title}</Link>
             <p className="resultCard__description">{description}</p>
             <div className="resultCard__info">
                 <div className="resultCard__infoItems">

@@ -177,6 +177,13 @@ var RouteUtils = {
             },
         },
         shared: {
+            article: {
+                link: "/article",
+                titleTextKey: "titleText.search",
+                queryNames: {
+                    id: "id",
+                }
+            },
             search: {
                 link: "/search",
                 navTextKey: "navText.search",
