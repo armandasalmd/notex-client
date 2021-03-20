@@ -7,7 +7,7 @@ import { Pagination } from "antd";
 import fakeSearchResults from "../../../../../assets/fakeData/searchResults.json";
 
 const SearchResults = () => {
-    const resultCards = fakeSearchResults.map((item, index) => <ResultCard key={index} selected={!!item.extraLabel} extraLabel={item.extraLabel} color="secondary" data={item} onLovedChange={() => {}} />)
+    const resultCards = fakeSearchResults.map((item, index) => <ResultCard key={index} selected={!!item.extraLabel} extraLabel={item.extraLabel} data={item} onLovedChange={() => {}} />)
 
     return (
         <div className="searchResults">

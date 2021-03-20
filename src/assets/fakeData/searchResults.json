@@ -97,5 +97,77 @@
         "rating": 3.2,
         "author": "Theresa Webb",
         "loved": false
+    },
+    {
+        "tags": ["Hello world", "Miami"],
+        "matchingTags": ["Geekblue"],
+        "title": "Getting started with Azure",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam, purus sit amet luctus venenatis, lectus magna fringilla",
+        "readTime": "14 mins",
+        "views": "128 views",
+        "timeAgo": "3 months ago",
+        "rating": 3.2,
+        "author": "Kristin Watson",
+        "loved": true
+    },
+    {
+        "tags": ["Hello world", "Miami", "Geekblue"],
+        "matchingTags": ["Geekblue", "Miami"],
+        "title": "Visual designer guide",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam, purus sit amet luctus venenatis, lectus magna fringilla",
+        "readTime": "3 mins",
+        "views": "1,228 views",
+        "timeAgo": "8 hours ago",
+        "rating": 4.5,
+        "author": "Savannah Nguyen",
+        "loved": false
+    },
+    {
+        "tags": ["Hello world", "Miami"],
+        "matchingTags": ["Geekblue"],
+        "title": "Getting started with Azure",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam, purus sit amet luctus venenatis, lectus magna fringilla",
+        "readTime": "14 mins",
+        "views": "128 views",
+        "timeAgo": "3 months ago",
+        "rating": 3.2,
+        "author": "Kristin Watson",
+        "loved": true
+    },
+    {
+        "tags": ["Hello world", "Miami", "Geekblue"],
+        "matchingTags": ["Geekblue", "Miami"],
+        "title": "Visual designer guide",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam, purus sit amet luctus venenatis, lectus magna fringilla",
+        "readTime": "3 mins",
+        "views": "1,228 views",
+        "timeAgo": "8 hours ago",
+        "rating": 4.5,
+        "author": "Savannah Nguyen",
+        "loved": false
+    },
+    {
+        "tags": ["Hello world", "Miami"],
+        "matchingTags": ["Geekblue"],
+        "title": "Getting started with Azure",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam, purus sit amet luctus venenatis, lectus magna fringilla",
+        "readTime": "14 mins",
+        "views": "128 views",
+        "timeAgo": "3 months ago",
+        "rating": 3.2,
+        "author": "Kristin Watson",
+        "loved": true
+    },
+    {
+        "tags": ["Hello world", "Miami", "Geekblue"],
+        "matchingTags": ["Geekblue", "Miami"],
+        "title": "Visual designer guide",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam, purus sit amet luctus venenatis, lectus magna fringilla",
+        "readTime": "3 mins",
+        "views": "1,228 views",
+        "timeAgo": "8 hours ago",
+        "rating": 4.5,
+        "author": "Savannah Nguyen",
+        "loved": false
     }
 ]
