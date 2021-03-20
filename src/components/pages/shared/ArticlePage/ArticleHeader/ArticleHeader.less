@@ -1,0 +1,56 @@
+@import "@styles/Variables.less";
+@import "@styles/Placeholders.less";
+
+@root: articleHeader;
+
+@text-width: 40%;
+
+.@{root} {
+    &__button {
+        margin-bottom: @unit;
+        height: 34px;
+        padding: 0 @unit;
+        background: fade(#fff5df, 70%);
+        border: none;
+        outline: none;
+        font-size: 1.1em;
+        border-radius: 4px;
+        
+        &:hover {
+            background: fade(#ffffff, 70%);
+            cursor: pointer;
+            color: @primary-color;
+        }
+    }
+
+    &__title, &__description {
+        color: white;
+        width: @text-width;
+        font-family: @raleway-font;
+    }
+    
+    &__title {
+        font-size: 24px;
+        .lineClamp(2);
+    }
+    
+    &__description {
+        font-size: 14px;
+        .lineClamp(3);
+        margin-bottom: @unit * 2;
+    }
+    
+    &--darkText {
+        .@{root}__title, .@{root}__description {
+            color: @text-color;
+        }
+    }
+}
+
+@media (max-width: @lg) {
+    .@{root} {
+        &__title, &__description {
+            width: inherit;
+        }
+    }
+}

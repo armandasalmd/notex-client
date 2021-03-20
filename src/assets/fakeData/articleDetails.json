@@ -1,0 +1,23 @@
+{
+    "details": {
+        "published": "2020-02-18",
+        "updated": "2020-02-19",
+        "viewsCount": "12",
+        "reviews": {
+            "rating": 3.2,
+            "voteCount": 51
+        }
+    },
+    "author": {
+        "name": "John Welston",
+        "email": "mechanic.shiskin@yahoo.com",
+        "phone": "+370 630 65 987"
+    },
+    "tags": [
+        { "color": "blue", "value": "Fix finished" },
+        { "color": "orange", "value": "Engineering" },
+        { "color": "red", "value": "Owner" },
+        { "color": "green", "value": "Javascript" },
+        { "color": "blue", "value": "Beginner level" }
+    ]
+}

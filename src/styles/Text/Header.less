@@ -1,12 +1,15 @@
+@import "@styles/Variables.less";
+@import "@styles/Placeholders.less";
+
+@header: header;
+
 .@{header} {
+    .ellipsis();
     font-family: "Raleway", sans-serif;
     font-size: 1.4em;
     color: @primary-color;
     position: relative;
     display: inline-block;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
     max-width: 100%;
 
     &::after {
@@ -42,7 +45,6 @@
     }
 
     &--center-line::after {
-        color: #994456;
         left: calc((100% - @header-line-width) / 2);
     }
 }

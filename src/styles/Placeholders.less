@@ -16,6 +16,19 @@
 
 .cardBase() {
     background: @card-background-color;
-    border-radius: 8px;
+    border-radius: 4px;
     box-shadow: @default-box-shadow;
+}
+
+.ellipsis() {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.lineClamp(@lineCount: 2) {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: @lineCount;
+    -webkit-box-orient: vertical;
 }
