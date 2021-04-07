@@ -8,6 +8,13 @@
     ],
     "rewrites": [
       {
+        "source": "/testService",
+        "run": {
+          "serviceId": "notex-api-service",
+          "region": "europe-west2"
+        }
+      },
+      {
         "source": "**",
         "destination": "/index.html"
       }
