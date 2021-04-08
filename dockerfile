@@ -9,7 +9,7 @@ RUN sudo yarn install --immutable
 
 COPY ./ /app/
 
-RUN yarn build
+RUN sudo yarn build
 
 FROM nginx:1.15.8-alpine
 
