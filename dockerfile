@@ -5,7 +5,7 @@ WORKDIR /app
 COPY package*.json /app/
 
 RUN curl -o- -L https://yarnpkg.com/install.sh | bash
-RUN yarn install --immutable
+RUN yarn install --immutable --silent
 
 COPY ./ /app/
 
