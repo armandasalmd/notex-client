@@ -1,4 +1,8 @@
 version: 2.1
+
+orbs:
+    docker: circleci/docker@0.5.13
+
 jobs:
     build:
         docker:
@@ -23,15 +27,21 @@ jobs:
             - run:
                 name: Build
                 command: CI=false yarn build
-            - run:
-                name: Firebase Deploy
-                command: ./node_modules/.bin/firebase deploy --token "$FIREBASE_TOKEN" --only hosting
 workflows:
-    firebase_deploy:
+    build_deploy:
         jobs:
             - build:
-                context: Firebase
                 filters:
                     branches:
                         only:
-                            - master
+                            - feature/docker-hosting
+            - docker/publish:
+                context: Docker
+                image: armandasalmd/notex-client
+                dockerfile: dockerfile
+                requires:
+                    - build
+                filters:
+                    branches:
+                        only:
+                            - feature/docker-hosting
