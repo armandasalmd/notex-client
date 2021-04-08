@@ -1,14 +1,15 @@
-FROM node:11.1.0-alpine as build
+FROM circleci/python:3.7.2-node as build
 
 WORKDIR /app
 
 COPY package*.json /app/
 
-RUN npm install
+RUN curl -o- -L https://yarnpkg.com/install.sh | bash
+RUN yarn install --immutable
 
 COPY ./ /app/
 
-RUN npm run build
+RUN yarn build
 
 FROM nginx:1.15.8-alpine
 

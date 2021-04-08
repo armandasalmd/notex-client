@@ -38,6 +38,7 @@ workflows:
             - docker/publish:
                 context: Docker
                 image: armandasalmd/notex-client
+                tag: latest
                 dockerfile: dockerfile
                 requires:
                     - build
