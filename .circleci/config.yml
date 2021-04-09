@@ -28,7 +28,7 @@ jobs:
             - run:
                 name: Build
                 command: CI=false yarn build
-    deploy_to_heroku:
+    deploy:
         executor: heroku/default
         steps:
             - checkout
@@ -47,7 +47,7 @@ workflows:
                     branches:
                         only:
                             - feature/docker-hosting
-            - deploy_to_heroku:
+            - deploy:
                 filters:
                     branches:
                         only:
