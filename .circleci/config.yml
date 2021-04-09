@@ -33,6 +33,12 @@ jobs:
         steps:
             - checkout
             - heroku/install
+            - heroku/push-docker-image:
+                app-name: notex-client
+                process-types: web
+            - heroku/release-docker-image:
+                app-name: notex-client
+                process-types: web
 workflows:
     build_deploy:
         jobs:
