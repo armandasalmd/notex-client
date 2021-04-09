@@ -40,6 +40,7 @@ workflows:
     build_deploy:
         jobs:
             - docker/publish:
+                context: Heroku
                 filters:
                     branches:
                         only:
@@ -51,13 +52,13 @@ workflows:
                 docker-username: _
                 docker-password: $HEROKU_API_KEY
             - deploy:
+                context: Heroku
                 filters:
                     branches:
                         only:
                             - feature/docker-hosting   
                 requires:
                     - docker/publish
-                context: Heroku
             # - build:
             #     filters:
             #         branches:
