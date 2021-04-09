@@ -28,40 +28,44 @@ jobs:
             - run:
                 name: Build
                 command: CI=false yarn build
-    # deploy:
-    #     executor: heroku/default
-    #     steps:
-    #         - checkout
-    #         - heroku/install
-    #         - docker/publish:
-    #             context: Heroku
-    #             registry: registry.heroku.com
-    #             docker-username: armandasalmd
-    #             docker-password: $HEROKU_API_KEY
-    #         - heroku/push-docker-image:
-    #             app-name: notex-client
-    #             process-types: web
-    #         - heroku/release-docker-image:
-    #             app-name: notex-client
-    #             process-types: web
+    deploy:
+        executor: heroku/default
+        steps:
+            - checkout
+            - heroku/install
+            - docker/publish:
+                image: notex-client
+                tag: latest
+                context: Heroku
+                registry: registry.heroku.com
+                docker-username: _
+                docker-password: $HEROKU_API_KEY
+            - heroku/release-docker-image:
+                app-name: notex-client
+                process-types: web
 workflows:
     build_deploy:
         jobs:
+            - deploy:
+                filters:
+                    branches:
+                        only:
+                            - feature/docker-hosting        
             # - build:
             #     filters:
             #         branches:
             #             only:
             #                 - feature/docker-hosting
-            - heroku/push-docker-image:
-                app-name: notex-client
-                pre-deploy:
-                    - run:
-                        name: Login to docker service
-                        command: docker login --username=_ --password=$HEROKU_API_KEY registry.heroku.com
-                filters:
-                    branches:
-                        only:
-                            - feature/docker-hosting
-                # requires:
-                #     - build
-                context: Heroku
+            # - heroku/push-docker-image:
+            #     app-name: notex-client
+            #     pre-deploy:
+            #         - run:
+            #             name: Login to docker service
+            #             command: docker login --username=_ --password=$HEROKU_API_KEY registry.heroku.com
+            #     filters:
+            #         branches:
+            #             only:
+            #                 - feature/docker-hosting
+            #     # requires:
+            #     #     - build
+            #     context: Heroku
