@@ -28,17 +28,22 @@ jobs:
             - run:
                 name: Build
                 command: CI=false yarn build
-    deploy:
-        executor: heroku/default
-        steps:
-            - checkout
-            - heroku/install
-            - heroku/push-docker-image:
-                app-name: notex-client
-                process-types: web
-            - heroku/release-docker-image:
-                app-name: notex-client
-                process-types: web
+    # deploy:
+    #     executor: heroku/default
+    #     steps:
+    #         - checkout
+    #         - heroku/install
+    #         - docker/publish:
+    #             context: Heroku
+    #             registry: registry.heroku.com
+    #             docker-username: armandasalmd
+    #             docker-password: $HEROKU_API_KEY
+    #         - heroku/push-docker-image:
+    #             app-name: notex-client
+    #             process-types: web
+    #         - heroku/release-docker-image:
+    #             app-name: notex-client
+    #             process-types: web
 workflows:
     build_deploy:
         jobs:
@@ -47,7 +52,8 @@ workflows:
                     branches:
                         only:
                             - feature/docker-hosting
-            - deploy:
+            - heroku/push-docker-image:
+                app-name: notex-client
                 filters:
                     branches:
                         only:
