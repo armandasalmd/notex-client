@@ -47,17 +47,21 @@ jobs:
 workflows:
     build_deploy:
         jobs:
-            - build:
-                filters:
-                    branches:
-                        only:
-                            - feature/docker-hosting
+            # - build:
+            #     filters:
+            #         branches:
+            #             only:
+            #                 - feature/docker-hosting
             - heroku/push-docker-image:
                 app-name: notex-client
+                pre-deploy:
+                    - run:
+                        name: Login to docker service
+                        command: docker login --username=_ --password=$HEROKU_API_KEY registry.heroku.com
                 filters:
                     branches:
                         only:
                             - feature/docker-hosting
-                requires:
-                    - build
+                # requires:
+                #     - build
                 context: Heroku
