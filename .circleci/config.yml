@@ -46,11 +46,24 @@ jobs:
 workflows:
     build_deploy:
         jobs:
+            - docker/publish:
+                filters:
+                    branches:
+                        only:
+                            - feature/docker-hosting
+                image: notex-client
+                tag: latest
+                context: Heroku
+                registry: registry.heroku.com
+                docker-username: _
+                docker-password: $HEROKU_API_KEY
             - deploy:
                 filters:
                     branches:
                         only:
-                            - feature/docker-hosting        
+                            - feature/docker-hosting   
+                requires:
+                    - docker/publish
             # - build:
             #     filters:
             #         branches:
