@@ -33,13 +33,6 @@ jobs:
         steps:
             - checkout
             - heroku/install
-            - docker/publish:
-                image: notex-client
-                tag: latest
-                context: Heroku
-                registry: registry.heroku.com
-                docker-username: _
-                docker-password: $HEROKU_API_KEY
             - heroku/release-docker-image:
                 app-name: notex-client
                 process-types: web
@@ -64,6 +57,7 @@ workflows:
                             - feature/docker-hosting   
                 requires:
                     - docker/publish
+                context: Heroku
             # - build:
             #     filters:
             #         branches:
