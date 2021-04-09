@@ -2,6 +2,7 @@ version: 2.1
 
 orbs:
     docker: circleci/docker@0.5.13
+    heroku: circleci/heroku@1.2.6
 
 jobs:
     build:
@@ -27,6 +28,17 @@ jobs:
             - run:
                 name: Build
                 command: CI=false yarn build
+    deploy_to_heroku:
+        executor: heroku/default
+        steps:
+            - checkout
+            - heroku/install
+            - heroku/push-docker-image:
+                - app-name: notex-client
+                - process-types: web
+            - heroku/release-docker-image:
+                - app-name: notex-client
+                - process-types: web
 workflows:
     build_deploy:
         jobs:
@@ -35,14 +47,11 @@ workflows:
                     branches:
                         only:
                             - feature/docker-hosting
-            - docker/publish:
-                context: Docker
-                image: armandasalmd/notex-client
-                tag: latest
-                dockerfile: dockerfile
-                requires:
-                    - build
+            - deploy_to_heroku:
                 filters:
                     branches:
                         only:
                             - feature/docker-hosting
+                requires:
+                    - build
+                context: Heroku
