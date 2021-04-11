@@ -45,7 +45,6 @@ workflows:
                     branches:
                         only:
                             - feature/docker-hosting
-                api-key: HEROKU_API_KEY
                 app-name: notex-client
             # - docker/publish:
             #     context: Heroku
