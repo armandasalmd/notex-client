@@ -43,6 +43,7 @@ jobs:
                     login _
                     password $HEROKU_API_KEY
                 EOF
+            - heroku/check-authentication
             - heroku/push-docker-image:
                 app-name: notex-client
                 api-key: HEROKU_API_KEY
