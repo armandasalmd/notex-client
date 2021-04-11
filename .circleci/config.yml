@@ -35,7 +35,7 @@ jobs:
             - checkout
             - run: docker login -u _ -p $HEROKU_API_KEY registry.heroku.com
             - run: |
-                cat >~/.netrc <<EOF
+                cat >~/.netrc \<<EOF
                 machine api.heroku.com
                     login _
                     password $HEROKU_API_KEY
