@@ -31,23 +31,27 @@ jobs:
     deploy:
         executor: heroku/default
         steps:
-            - checkout
             - heroku/install
+            - checkout
+            - run: docker login -u _ -p $HEROKU_API_KEY registry.heroku.com
+            - heroku/push-docker-image:
+                app-name: notex-client
+                api-key: HEROKU_API_KEY
+                process-types: web
             - heroku/release-docker-image:
                 app-name: notex-client
+                api-key: HEROKU_API_KEY
                 process-types: web
+    
 workflows:
     build_deploy:
         jobs:
-            - heroku/push-docker-image:
+            - deploy:
                 context: Heroku
                 filters:
                     branches:
                         only:
                             - feature/docker-hosting
-                app-name: notex-client
-                pre-deploy:
-                    - run: docker login -u _ -p $HEROKU_API_KEY registry.heroku.com
             # - docker/publish:
             #     context: Heroku
             #     filters:
