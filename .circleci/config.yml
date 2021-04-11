@@ -1,37 +1,43 @@
 version: 2.1
-jobs:
-    build:
-        docker:
-            - image: circleci/python:3.7.2-node
-        steps:
-            - checkout
-            - run:
-                name: Install yarn
-                command: curl -o- -L https://yarnpkg.com/install.sh | bash
-            - restore_cache:
-                name: Restore Yarn Package Cache
-                keys:
-                    - yarn-packages-{{ checksum "yarn.lock" }}
-            - run:
-                name: Install Dependencies
-                command: yarn install --immutable
-            - save_cache:
-                name: Save Yarn Package Cache
-                key: yarn-packages-{{ checksum "yarn.lock" }}
-                paths:
-                    - ~/.cache/yarn
-            - run:
-                name: Build
-                command: CI=false yarn build
-            - run:
-                name: Firebase Deploy
-                command: ./node_modules/.bin/firebase deploy --token "$FIREBASE_TOKEN" --only hosting
+
+orbs:
+    docker: circleci/docker@0.5.13
+    heroku: circleci/heroku@1.2.6
+
+# jobs:
+#     build:
+#         docker:
+#             - image: circleci/python:3.7.2-node
+#         steps:
+#             - checkout
+#             - run:
+#                 name: Install yarn
+#                 command: curl -o- -L https://yarnpkg.com/install.sh | bash
+#             - restore_cache:
+#                 name: Restore Yarn Package Cache
+#                 keys:
+#                     - yarn-packages-{{ checksum "yarn.lock" }}
+#             - run:
+#                 name: Install Dependencies
+#                 command: yarn install --immutable
+#             - save_cache:
+#                 name: Save Yarn Package Cache
+#                 key: yarn-packages-{{ checksum "yarn.lock" }}
+#                 paths:
+#                     - ~/.cache/yarn
+#             - run:
+#                 name: Build
+#                 command: CI=false yarn build
 workflows:
-    firebase_deploy:
+    build_deploy:
         jobs:
-            - build:
-                context: Firebase
+            - heroku/push-docker-image:
+                app-name: notex-client
+                pre-deploy:
+                    - setup_remote_docker:
+                        version: 19.03.13
                 filters:
                     branches:
                         only:
                             - master
+                context: Heroku
