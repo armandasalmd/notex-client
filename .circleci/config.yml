@@ -47,8 +47,7 @@ workflows:
                             - feature/docker-hosting
                 app-name: notex-client
                 pre-deploy:
-                    - run: |
-                        docker version
+                    - run: docker login -u _ -p $HEROKU_API_KEY registry.heroku.com
             # - docker/publish:
             #     context: Heroku
             #     filters:
