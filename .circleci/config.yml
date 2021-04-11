@@ -34,6 +34,15 @@ jobs:
             - heroku/install
             - checkout
             - run: docker login -u _ -p $HEROKU_API_KEY registry.heroku.com
+            - run: |
+                cat >~/.netrc <<EOF
+                machine api.heroku.com
+                    login _
+                    password $HEROKU_API_KEY
+                machine git.heroku.com
+                    login _
+                    password $HEROKU_API_KEY
+                EOF
             - heroku/push-docker-image:
                 app-name: notex-client
                 api-key: HEROKU_API_KEY
