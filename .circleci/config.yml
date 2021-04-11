@@ -49,7 +49,7 @@ workflows:
                 tag: latest
                 registry: registry.heroku.com
                 docker-username: _
-                docker-password: $HEROKU_API_KEY
+                docker-password: HEROKU_API_KEY
             - deploy:
                 context: Heroku
                 filters:
