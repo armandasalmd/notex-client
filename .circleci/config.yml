@@ -33,6 +33,8 @@ jobs:
         steps:
             - heroku/install
             - checkout
+            - setup_remote_docker:
+                version: 19.03.13
             # - run: docker login -u _ -p $HEROKU_API_KEY registry.heroku.com
             - heroku/check-authentication
             - heroku/push-docker-image:
