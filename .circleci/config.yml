@@ -37,13 +37,13 @@ jobs:
                 version: 19.03.13
             # - run: docker login -u _ -p $HEROKU_API_KEY registry.heroku.com
             - heroku/check-authentication
-            - run: ls
-            - run: docker login -u _ -p $HEROKU_API_KEY registry.heroku.com
-            - run: docker build -f ./Dockerfile -t registry.heroku.com/notex-client/web .
-            # - heroku/push-docker-image:
-            #     app-name: notex-client
-            #     api-key: HEROKU_API_KEY
-            #     process-types: web
+            # - run: ls
+            # - run: docker login -u _ -p $HEROKU_API_KEY registry.heroku.com
+            # - run: docker build -f ./Dockerfile -t registry.heroku.com/notex-client/web .
+            - heroku/push-docker-image:
+                app-name: notex-client
+                api-key: HEROKU_API_KEY
+                process-types: web
             - heroku/release-docker-image:
                 app-name: notex-client
                 api-key: HEROKU_API_KEY
