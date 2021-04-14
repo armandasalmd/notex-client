@@ -2,12 +2,11 @@ import { Constants, GlobalUtils } from "@utils";
 import axios from "axios";
 
 function resolveHostName() {
-    let host =
-        Constants.env === "development"
-            ? Constants.activeHost
-            : Constants.apiHostName;
-
-    return host.replace(/\/*$/, "");
+    if (Constants.env === "development") {
+        return Constants.activeHost.replace(/\/*$/, "");
+    } else {
+        return ""; // intentionally left blank
+    }
 }
 
 var RouteUtils = {
