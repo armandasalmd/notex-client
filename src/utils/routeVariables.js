@@ -165,6 +165,11 @@ export default {
                 navTextKey: "navText.settings",
                 titleTextKey: "titleText.settings",
             },
+            articleManagement: {
+                link: "/articleManagement",
+                navTextKey: "navText.articleManagement",
+                titleTextKey: "titleText.articleManagement",
+            }
         },
         shared: {
             article: {

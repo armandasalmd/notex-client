@@ -6,13 +6,13 @@ var BackendServers = {
         prodHost: "https://notex-api.herokuapp.com",
         devHost: "http://localhost:3001",
         prefix: "/api",
-        preferDevHost: true
+        preferDevHost: false
     },
     nexus: {
         prodHost: "https://notex-nexus.herokuapp.com",
         devHost: "https://localhost:49153",
         prefix: "/nexus",
-        preferDevHost: true
+        preferDevHost: false
     }
 };
 
@@ -55,6 +55,7 @@ const getMenuItems = (isAuth) => {
     const onlineLinks = [
         RouteVariables.app.private.main, 
         RouteVariables.app.shared.search, 
+        RouteVariables.app.private.articleManagement,
         RouteVariables.app.private.settings
     ];
 

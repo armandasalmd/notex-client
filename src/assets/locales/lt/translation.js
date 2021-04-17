@@ -195,11 +195,12 @@ export default {
         }
     },
     navText: {
+        about: "Apie mus",
+        articleManagement: "Straipsnių valdymas",
         login: "Prisijungti",
         logout: "Atsijungti",
         register: "Registruotis",
         home: "Namai",
-        about: "Apie mus",
         main: "Užrašai",
         note: "Peržiūrėti užrašą",
         search: "Straipsniai",
@@ -289,11 +290,12 @@ export default {
         disabledText: "Ups. Dar ne! Kūrėjai dirba su šia funkcija"
     },
     titleText: {
+        about: "Apie mus",
+        articleManagement: "Straipsnių valdymas",
         login: "Prisijungimas",
         logout: "Atsijungimas",
         register: "Registracija",
         home: "Namai",
-        about: "Apie mus",
         main: "Pagrindinis puslapis",
         note: "Užrašo peržiūrą",
         settings: "Nustatymai",

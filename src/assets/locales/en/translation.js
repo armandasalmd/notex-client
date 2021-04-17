@@ -219,6 +219,7 @@ export default {
     },
     navText: {
         about: "About us",
+        articleManagement: "Article management",
         login: "Login",
         logout: "Logout",
         register: "Register",
@@ -312,11 +313,12 @@ export default {
         disabledText: "Ups. Not yet! Wait for this feature to arrive"
     },
     titleText: {
+        about: "About us page",
+        articleManagement: "Article management page",
         login: "Login page",
         logout: "Logout page",
         register: "Register page",
         home: "Home page",
-        about: "About us page",
         main: "Dashboard page",
         note: "Preview note page",
         settings: "Settings page",
