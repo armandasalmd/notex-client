@@ -11,7 +11,7 @@ const SocialButton = props => {
     const onClick = typeof props.onClick === "function"
         ? props.onClick
         : () => {
-            window.open(RouteUtils.resolveHostName() + options.path, "_self");
+            window.open(RouteUtils.resolveHostName(RouteUtils.servers.notexMain) + options.path, "_self");
         };
 
     const style = { backgroundColor: options.backgroundColor, color: options.textColor, fontWeight: "medium", width: props.width ? props.width : "100%" };

@@ -1,4 +1,4 @@
-import { RouteUtils } from "@utils";
+import { RouteVariables } from "@utils";
 
 export default {
     appName: "Notex",
@@ -115,16 +115,16 @@ export default {
         categories: {
             title: "Kategorijos",
             items: [
-                RouteUtils.app.public.landing
+                RouteVariables.app.public.landing
             ]
         },
         quickLinks: {
             title: "Svarbios nuorodos",
             items: [
-                RouteUtils.app.public.landing,
-                RouteUtils.app.auth.login,
-                RouteUtils.app.auth.register,
-                RouteUtils.app.public.about
+                RouteVariables.app.public.landing,
+                RouteVariables.app.auth.login,
+                RouteVariables.app.auth.register,
+                RouteVariables.app.public.about
             ]
         },
         copyright: "Copyright © 2020 Coventry, Armandas Barkauskas",
