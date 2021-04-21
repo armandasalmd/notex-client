@@ -116,6 +116,10 @@ export default {
             search: {
                 path: "/nexus/articleManagement",
                 method: "POST"
+            },
+            deleteCollection: {
+                path: "/nexus/articleCollection",
+                method: "DELETE"
             }
         }
     },

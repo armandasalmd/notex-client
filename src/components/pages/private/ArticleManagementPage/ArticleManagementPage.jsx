@@ -62,6 +62,27 @@ const ArticleManagementPage = () => {
     const onCloseAddCollection = () => {
         setAddCollectionOpen(false);
     };
+    
+    const onDelete = (identifier) => {
+        if (identifier) {
+            setSearching(true);
+            ArticleManagementUtils.deleteCollectionApiCall(identifier)
+                .then((res) => {
+                    if (res.data.success) {
+                        setSearchData(searchData.filter(collection => {
+                            return GlobalUtils.getValue(collection, "articleCollectionGuid") !== identifier;
+                        }));
+
+                        message.success("Article collection deleted");
+                    } else {
+                        message.error(res.message || "Error occured");
+                    }
+                })
+                .finally(() => {
+                    setSearching(false);
+                });
+        }
+    };
 
     useEffect(() => {
         if (!GlobalUtils.hasLength(searchData) && !searching) {
@@ -80,7 +101,7 @@ const ArticleManagementPage = () => {
                     <SummarySearch onSearch={onSearch} searching={searching} />
                 </div>
                 <div className="card__content">
-                    <SummaryTable searching={searching} tableData={ArticleManagementUtils.responseToTableData(searchData)} />
+                    <SummaryTable onDelete={onDelete} searching={searching} tableData={ArticleManagementUtils.responseToTableData(searchData)} />
                 </div>
             </div>
             <CreateCollectionModal loading={addCollectionLoading} metaData={createCollectionMetaData} visible={addCollectionOpen} onClose={onCloseAddCollection} onSubmit={onAddCollectionSubmit} />

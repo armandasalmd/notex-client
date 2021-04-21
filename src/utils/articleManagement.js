@@ -65,6 +65,13 @@ const articleManagementSearchApiCall = async (searchValue) => {
     return GlobalUtils.getValue(response, "data.articleCollectionSummaries", []);
 };
 
+const deleteCollectionApiCall = async (collectionUID) => {
+    const route = RouteUtils.api.articleManagement.deleteCollection;
+    route.path += "?identifier=" + collectionUID;
+
+    return RouteUtils.sendApiRequest(route);
+};
+
 const sourceNotebooksToTreeData = (sourceNotebooks) => {
     if (GlobalUtils.hasLength(sourceNotebooks)) {
         const convertBase = (item) => {
@@ -91,6 +98,7 @@ export default {
     articleSummaryModel,
     collectionSummaryModel,
     createCollectionApiCall,
+    deleteCollectionApiCall,
     fetchCreateCollectionMetaData,
     responseToTableData,
     sourceNotebooksToTreeData
