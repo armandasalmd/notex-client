@@ -10,9 +10,9 @@ var BackendServers = {
     },
     nexus: {
         prodHost: "https://notex-nexus.herokuapp.com",
-        devHost: "https://localhost:49153",
+        devHost: "https://localhost:49161",
         prefix: "/nexus",
-        preferDevHost: false
+        preferDevHost: true
     }
 };
 

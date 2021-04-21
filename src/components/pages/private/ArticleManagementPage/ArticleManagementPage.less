@@ -10,14 +10,15 @@
         margin-bottom: @unit * 0.5;
         display: flex;
         justify-content: space-between;
-
+        flex-wrap: wrap;
     }
     
     &__body {
+        margin-bottom: 2 * @unit;
+
         @{root}__searchLabel {
             display: inline-block;
         }
-
     }
 
 }

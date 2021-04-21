@@ -104,6 +104,20 @@ export default {
                 method: "POST",
             },
         },
+        articleManagement: {
+            getCreateCollectionMetaData: {
+                path: "/nexus/articleManagement/getCreateArticleCollectionMetaData",
+                method: "GET",
+            },
+            createCollection: {
+                path: "/nexus/articleCollection/create",
+                method: "POST"
+            },
+            search: {
+                path: "/nexus/articleManagement",
+                method: "POST"
+            }
+        }
     },
     app: {
         auth: {
