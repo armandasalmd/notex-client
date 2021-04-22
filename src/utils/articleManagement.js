@@ -24,7 +24,10 @@ const responseToTableData = (responseObject) => {
                 title: GlobalUtils.getValue(entry, collectionSummaryModel.title, "No title"),
                 lastUpdate: GlobalUtils.getValue(entry, collectionSummaryModel.lastUpdate, "NaN"),
                 isCollection: !GlobalUtils.getValue(entry, collectionSummaryModel.isArticleAsCollection, false),
-                status: GlobalUtils.getValue(entry, collectionSummaryModel.accessStatus, 0).toString(),
+                status: {
+                    identifier: GlobalUtils.getValue(entry, collectionSummaryModel.identifier, null),
+                    value: GlobalUtils.getValue(entry, collectionSummaryModel.accessStatus, 0).toString()
+                },
                 actions: {
                     identifier: GlobalUtils.getValue(entry, collectionSummaryModel.identifier, null)
                 },
@@ -72,6 +75,16 @@ const deleteCollectionApiCall = async (collectionUID) => {
     return RouteUtils.sendApiRequest(route);
 };
 
+const changeAccessLevelApiCall = async (identifier, newAccessStatus, isCollection) => {
+    const request = { 
+        isCollection, 
+        identifier, 
+        newAccessStatus: parseInt(newAccessStatus)
+    };
+
+    return RouteUtils.sendApiRequest(RouteUtils.api.articleManagement.changeAccessLevel, request);
+};
+
 const sourceNotebooksToTreeData = (sourceNotebooks) => {
     if (GlobalUtils.hasLength(sourceNotebooks)) {
         const convertBase = (item) => {
@@ -96,6 +109,7 @@ const sourceNotebooksToTreeData = (sourceNotebooks) => {
 export default {
     articleManagementSearchApiCall,
     articleSummaryModel,
+    changeAccessLevelApiCall,
     collectionSummaryModel,
     createCollectionApiCall,
     deleteCollectionApiCall,

@@ -120,6 +120,10 @@ export default {
             deleteCollection: {
                 path: "/nexus/articleCollection",
                 method: "DELETE"
+            },
+            changeAccessLevel: {
+                path: "/nexus/articleManagement/changeAccessStatus",
+                method: "PUT"
             }
         }
     },

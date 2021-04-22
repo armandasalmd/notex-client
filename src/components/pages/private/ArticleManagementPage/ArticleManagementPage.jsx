@@ -10,7 +10,7 @@ import CreateCollectionModal from "../CreateCollectionModal";
 
 const ArticleManagementPage = () => {
     const [ searching, setSearching ] = useState(false);
-    const [ searchData, setSearchData ] = useState([]);
+    const [ searchData, setSearchData ] = useState(null);
 
     const [ addCollectionOpen, setAddCollectionOpen ] = useState(false);
     const [ addCollectionLoading, setAddCollectionLoading ] = useState(false);
@@ -24,6 +24,35 @@ const ArticleManagementPage = () => {
             ArticleManagementUtils.articleManagementSearchApiCall(searchValue)
                 .then((data) => {
                     setSearchData(data);
+                })
+                .catch(() => {
+                    setSearchData([]);
+                    message.error("Cannot connect to server");
+                })
+                .finally(() => setSearching(false));
+        }
+    };
+
+    const onAccessStatusChange = (accessStatus, identifier) => {
+        if (accessStatus && identifier) {
+            setSearching(true);
+
+            ArticleManagementUtils.changeAccessLevelApiCall(identifier, accessStatus, true)
+                .then((res) => {
+                    if (res.data.success) {
+                        message.success("Status saved");
+
+                        if (GlobalUtils.hasLength(searchData)) {
+                            let collection = searchData.find(o => o.articleCollectionGuid === identifier);
+
+                            collection.accessStatus = accessStatus;
+                        }
+                    } else {
+                        message.error("Cannot change publication status");
+                    }
+                })
+                .catch(() => {
+                    message.error("Cannot change publication status");
                 })
                 .finally(() => setSearching(false));
         }
@@ -85,7 +114,7 @@ const ArticleManagementPage = () => {
     };
 
     useEffect(() => {
-        if (!GlobalUtils.hasLength(searchData) && !searching) {
+        if (searchData === null && !searching) {
             onSearch("");
         }
     });
@@ -101,7 +130,7 @@ const ArticleManagementPage = () => {
                     <SummarySearch onSearch={onSearch} searching={searching} />
                 </div>
                 <div className="card__content">
-                    <SummaryTable onDelete={onDelete} searching={searching} tableData={ArticleManagementUtils.responseToTableData(searchData)} />
+                    <SummaryTable onAccessStatusChange={onAccessStatusChange} onDelete={onDelete} searching={searching} tableData={ArticleManagementUtils.responseToTableData(searchData)} />
                 </div>
             </div>
             <CreateCollectionModal loading={addCollectionLoading} metaData={createCollectionMetaData} visible={addCollectionOpen} onClose={onCloseAddCollection} onSubmit={onAddCollectionSubmit} />

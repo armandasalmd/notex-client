@@ -7,7 +7,7 @@ import SummaryExpandedRow from "./SummaryExpandedRow";
 
 const { Option } = Select;
 
-const getTableColumns = (onEdit, onDelete) => {
+const getTableColumns = (onEdit, onDelete, onAccessStatusChange) => {
     return [
         { 
             title: "Title",
@@ -31,13 +31,19 @@ const getTableColumns = (onEdit, onDelete) => {
         {
             title: "Status",
             dataIndex: "status",
-            render: (data) => (
-                <Select value={data}>
-                    <Option value="0">Published</Option>
-                    <Option value="1">Unlisted</Option>
-                    <Option value="2">Private</Option>
-                </Select>
-            ),
+            render: (data) => {
+                const onChangeFn = (value) => {
+                    onAccessStatusChange(value, data.identifier);
+                };
+
+                return (
+                    <Select onChange={onChangeFn} value={data.value}>
+                        <Option value="0">Published</Option>
+                        <Option value="1">Unlisted</Option>
+                        <Option value="2">Private</Option>
+                    </Select>
+                );
+            },
             filters: [
                 { text: "Published", value: "0" },
                 { text: "Unlisted", value: "1" },
@@ -55,7 +61,7 @@ const getTableColumns = (onEdit, onDelete) => {
 };
 
 const SummaryTable = (props) => {
-    const { tableData, searching, onEdit, onDelete } = props;
+    const { tableData, searching, onEdit, onDelete, onAccessStatusChange } = props;
     
     const resultsCountLabel = (tableData) => {
         const count = (tableData && Array.isArray(tableData)) ? tableData.length : 0;
@@ -66,7 +72,7 @@ const SummaryTable = (props) => {
         <div className="summaryTable">
             <Table
                 title={() => resultsCountLabel(tableData)}
-                columns={getTableColumns(onEdit, onDelete)}
+                columns={getTableColumns(onEdit, onDelete, onAccessStatusChange)}
                 loading={searching}
                 size="middle"
                 expandable={{
