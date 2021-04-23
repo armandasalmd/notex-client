@@ -124,6 +124,13 @@ export default {
             changeAccessLevel: {
                 path: "/nexus/articleManagement/changeAccessStatus",
                 method: "PUT"
+            },
+            getEditArticlePageModel: {
+                path: "/nexus/articleManagement/editCollection",
+                method: "GET",
+                queryNames: {
+                    identifier: "identifier",
+                }
             }
         }
     },
@@ -191,6 +198,16 @@ export default {
                 link: "/articleManagement",
                 navTextKey: "navText.articleManagement",
                 titleTextKey: "titleText.articleManagement",
+                useStartWithMatch: true
+            },
+            editArticle: {
+                link: "/articleManagement/edit/:collection/:article?",
+                navTextKey: "navText.editArticle",
+                titleTextKey: "titleText.editArticle",
+                paramNames: {
+                    collectionIdentifier: "collection",
+                    articleIdentifier: "article"
+                }
             }
         },
         shared: {

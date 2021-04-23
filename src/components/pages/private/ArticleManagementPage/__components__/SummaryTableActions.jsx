@@ -1,16 +1,24 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 
-import { GlobalUtils } from "@utils";
+import { GlobalUtils, RouteVariables } from "@utils";
 
 import { Button, Space, Popconfirm } from "antd";
 import { EditFilled, DeleteOutlined } from "@ant-design/icons";
 
 const SummaryTableActions = (props) => {
-    const { identifier, onEdit, onDelete } = props;
+    const history = useHistory();
+    const { identifier, onDelete } = props;
+    
+    const onEdit = (collectionIdentifier) => {
+        const route = RouteVariables.app.private.editArticle;
+        const link = route.link.replace(":" + route.paramNames.collectionIdentifier, collectionIdentifier).replace("/:" + route.paramNames.articleIdentifier, "");
+        history.push(link);
+    };
 
     return (
         <Space>
-            <Button onClick={() => GlobalUtils.callIfFunction(onEdit, identifier)} icon={<EditFilled style={{color: "#828282"}} />}>Edit</Button>
+            <Button onClick={() => onEdit(identifier)} icon={<EditFilled style={{color: "#828282"}} />}>Edit</Button>
             <Popconfirm 
                 title="Are you sure to delete this item?" 
                 onConfirm={() => GlobalUtils.callIfFunction(onDelete, identifier)} 

@@ -4,6 +4,7 @@ import { combineReducers } from "redux";
 import { i18nReducer } from "react-redux-i18n";
 import appReducer from "./appReducer";
 import authReducer from "./authReducer";
+import editArticleReducer from "./editArticleReducer";
 import errorReducer from "./errorReducer";
 import messageReducer from "./messageReducer";
 import settingsReducer from "./settingsReducer";
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
     i18n: i18nReducer,
     app: appReducer,
     auth: authReducer,
+    editArticle: editArticleReducer,
     errors: errorReducer,
     settings: settingsReducer,
     message: messageReducer

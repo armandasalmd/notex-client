@@ -323,6 +323,7 @@ export default {
         note: "Preview note page",
         settings: "Settings page",
         search: "Search for articles",
-        tutorial: "Tutorial page"
+        tutorial: "Tutorial page",
+        editArticle: "Edit article collection"
     }
 };

@@ -23,7 +23,6 @@ export const DELETE_NOTEBOOK = "DELETE_NOTEBOOK";
 export const RENAME_NOTE = "RENAME_NOTE";
 export const RENAME_NOTEBOOK = "RENAME_NOTEBOOK";
 export const EVICT_NOTE = "EVICT_NOTE";
-// export const CHANGE_ACCESS_LEVEL = "CHANGE_ACCESS_LEVEL";
 
 // settings reducer
 export const SETTINGS_INIT = "SETTINGS_INIT";
@@ -47,5 +46,5 @@ export const GET_ERRORS = "GET_ERRORS";
 export const CLEAR_ERRORS = "CLEAR_ERRORS";
 export const SET_CHANGE_PASSWORD_ERRORS = "SET_CHANGE_PASSWORD_ERRORS";
 
-// article collection reducer
-export const SET_NOTEBOOKS_SOURCE_META_DATA = "SET_NOTEBOOKS_SOURCE_META_DATA";
+// edit article reducer
+export const SET_ACTIVE_EDIT_COLLECTION = "SET_ACTIVE_EDIT_COLLECTION";

@@ -62,10 +62,22 @@ const getMenuItems = (isAuth) => {
     return isAuth ? onlineLinks : offlineLinks;
 };
 
-const sendApiRequest = (apiRoute, bodyData) => {
+const sendApiRequest = (apiRoute, bodyData, queryParams) => {
+    let url = resolveUrl(apiRoute.path) || "/";
+
+    if (queryParams && typeof queryParams === "object") {
+        let queryString = "?";
+        
+        for (let key in queryParams) {
+            queryString += `${key}=${queryParams[key]}`;
+        }
+
+        url += queryString;
+    }
+
     return axios({
         method: apiRoute.method || "GET",
-        url: resolveUrl(apiRoute.path) || "/",
+        url,
         data: bodyData || {},
     });
 };

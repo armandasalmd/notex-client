@@ -1,13 +1,12 @@
 import React from "react";
 
-import { Select, Table } from "antd";
+import { Table } from "antd";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
+import ArticleAccessPicker from "##/ArticleAccessPicker";
 import SummaryTableActions from "./SummaryTableActions";
 import SummaryExpandedRow from "./SummaryExpandedRow";
 
-const { Option } = Select;
-
-const getTableColumns = (onEdit, onDelete, onAccessStatusChange) => {
+const getTableColumns = (onDelete, onAccessStatusChange) => {
     return [
         { 
             title: "Title",
@@ -36,13 +35,7 @@ const getTableColumns = (onEdit, onDelete, onAccessStatusChange) => {
                     onAccessStatusChange(value, data.identifier);
                 };
 
-                return (
-                    <Select onChange={onChangeFn} value={data.value}>
-                        <Option value="0">Published</Option>
-                        <Option value="1">Unlisted</Option>
-                        <Option value="2">Private</Option>
-                    </Select>
-                );
+                return <ArticleAccessPicker onChange={onChangeFn} value={data.value} />;
             },
             filters: [
                 { text: "Published", value: "0" },
@@ -55,13 +48,13 @@ const getTableColumns = (onEdit, onDelete, onAccessStatusChange) => {
         {
             title: "Actions",
             dataIndex: "actions",
-            render: (data) => <SummaryTableActions onEdit={onEdit} onDelete={onDelete} identifier={data ? data.identifier : null} />
+            render: (data) => <SummaryTableActions onDelete={onDelete} identifier={data ? data.identifier : null} />
         },
     ];
 };
 
 const SummaryTable = (props) => {
-    const { tableData, searching, onEdit, onDelete, onAccessStatusChange } = props;
+    const { tableData, searching, onDelete, onAccessStatusChange } = props;
     
     const resultsCountLabel = (tableData) => {
         const count = (tableData && Array.isArray(tableData)) ? tableData.length : 0;
@@ -72,7 +65,7 @@ const SummaryTable = (props) => {
         <div className="summaryTable">
             <Table
                 title={() => resultsCountLabel(tableData)}
-                columns={getTableColumns(onEdit, onDelete, onAccessStatusChange)}
+                columns={getTableColumns(onDelete, onAccessStatusChange)}
                 loading={searching}
                 size="middle"
                 expandable={{

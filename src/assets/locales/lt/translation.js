@@ -300,6 +300,7 @@ export default {
         note: "Užrašo peržiūrą",
         settings: "Nustatymai",
         search: "Ieškok straipsnių",
-        tutorial: "Pamoka"
+        tutorial: "Pamoka",
+        editArticle: "Straipsnių redagavimas"
     }
 };

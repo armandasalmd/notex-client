@@ -3,6 +3,8 @@ import classnames from "classnames";
 import { Link } from "react-router-dom";
 import { I18n } from "react-redux-i18n";
 
+import { GlobalUtils } from "@utils";
+
 import NavbarDropdownMenu from "./NavbarDropdownMenu";
 
 const NavbarMenu = (props) => {
@@ -18,10 +20,18 @@ const NavbarMenu = (props) => {
         return () => mediaQuery.removeListener(setMQuery);
     }, []);
 
+    const isActive = (activeKey, navItem) => {
+        if (GlobalUtils.getValue(navItem, "useStartWithMatch", false)) {
+            return activeKey.startsWith(navItem.link);
+        } else {
+            return activeKey === navItem.link;
+        }
+    };
+
     if (mQuery.matches) {
         var menuElements = menuItems.map((item) => {
             const classes = classnames(["navbar__menuItem"], {
-                "navbar__menuItem--active": activeKey !== undefined && activeKey === item.link,
+                "navbar__menuItem--active": activeKey !== undefined && isActive(activeKey, item),
             });
 
             return (

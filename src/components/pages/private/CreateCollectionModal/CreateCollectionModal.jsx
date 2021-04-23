@@ -43,7 +43,7 @@ const CreateCollectionModal = (props) => {
                 </Button>,
                 <Button key="submit" type="primary" loading={loading} onClick={() => form.submit()}>
                     Create collection
-                </Button>,
+                </Button>
             ]}
         >
             <Form form={form} layout="vertical" onFinish={handleSubmit} initialValues={initialValues}>
