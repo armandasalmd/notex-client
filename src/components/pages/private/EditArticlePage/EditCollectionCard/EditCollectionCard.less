@@ -1,0 +1,22 @@
+@import "@styles/Variables.less";
+
+@root: editCollectionCard;
+
+.@{root} {
+    .card__header {
+        display: block;
+    }
+
+    // &__details {
+
+    // }
+
+    &__actions {
+        display: flex;
+        justify-content: flex-end;
+
+        .@{root}__action:not(:first-child) {
+            margin-left: @unit * 0.5;
+        }
+    }
+}

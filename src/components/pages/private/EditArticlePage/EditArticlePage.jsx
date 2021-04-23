@@ -6,7 +6,10 @@ import PropTypes from "prop-types";
 import { initialiseEditCollection } from "@actions/editArticleActions";
 import { GlobalUtils, RouteVariables } from "@utils";
 
+import "./EditArticlePage.less";
 import { ArrowLeftOutlined } from "@ant-design/icons";
+import EditCollectionCard from "./EditCollectionCard";
+import EditArticleCard from "./EditArticleCard";
 
 const EditArticlePage = (props) => {
     const { initialiseEditCollection } = props;
@@ -27,14 +30,21 @@ const EditArticlePage = (props) => {
     }, [params, initialiseEditCollection, selectedCollectionId]);
     
     return (
-        <div>
-            <button className="ghostButton ghostButton--silent" onClick={returnToMenu}>
-                <span className="ghostButton__icon">
-                    <ArrowLeftOutlined />
-                </span>
-                Management menu
-            </button>    
-            <p>{selectedCollectionId}</p>
+        <div className="editArticle">
+            <div className="editArticle__backButton">
+                <button className="ghostButton ghostButton--silent" onClick={returnToMenu}>
+                    <span className="ghostButton__icon">
+                        <ArrowLeftOutlined />
+                    </span>
+                    Management menu
+                </button>
+            </div>
+            <div className="editArticle__header">
+                <h1 className="header">Edit collection and articles</h1>
+            </div>
+            <EditCollectionCard />
+            <div className="editArticle__separator"/>
+            <EditArticleCard />
         </div>
     );
 };
