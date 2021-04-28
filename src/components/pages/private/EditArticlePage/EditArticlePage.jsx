@@ -23,11 +23,13 @@ const EditArticlePage = (props) => {
     useEffect(() => {
         const pageRoute = RouteVariables.app.private.editArticle;
         const collectionParameter = GlobalUtils.getValue(params, pageRoute.paramNames.collectionIdentifier, null);
-
+        
         if (GlobalUtils.hasLength(collectionParameter) && selectedCollectionId !== collectionParameter) {
-            initialiseEditCollection(collectionParameter);
+            const articleParameter = GlobalUtils.getValue(params, pageRoute.paramNames.articleIdentifier, null);
+
+            initialiseEditCollection(collectionParameter, articleParameter, history);
         }
-    }, [params, initialiseEditCollection, selectedCollectionId]);
+    }, [params, initialiseEditCollection, selectedCollectionId, history]);
     
     return (
         <div className="editArticle">

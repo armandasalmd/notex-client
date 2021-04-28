@@ -3,10 +3,11 @@ import {
     SET_EDIT_ARTICLE,
     SET_ARTICLE_CARD_LOADING,
     SET_COLLECTION_CARD_LOADING,
+    UPDATE_ACCESS_STATUS,
 } from "@actions/types";
 import { pushMessage, MESSAGE_TYPES } from "@actions/messageActions";
 
-import { RouteUtils, GlobalUtils } from "@utils";
+import { RouteUtils, GlobalUtils, EditArticleUtils } from "@utils";
 
 const setArticleCardLoading = (loading) => (dispatch) => {
     dispatch({
@@ -22,7 +23,7 @@ const setCollectionCardLoading = (loading) => (dispatch) => {
     });
 };
 
-export const initialiseEditCollection = (collectionIdentifier) => (dispatch) => {
+export const initialiseEditCollection = (collectionIdentifier, optionalArticleIdentifier, history) => (dispatch) => {
     const route = RouteUtils.api.articleManagement.getEditCollectionPageModel;
 
     const query = {
@@ -43,17 +44,39 @@ export const initialiseEditCollection = (collectionIdentifier) => (dispatch) => 
                         ...res.data,
                     },
                 });
+
+                // optionally set selected article after collection load
+                if (optionalArticleIdentifier) {
+                    const indexInCollection = GlobalUtils.getValue(res.data, "articleSummaries", []).findIndex((item) => {
+                        return GlobalUtils.getValue(item, EditArticleUtils.articleSummaryModel.identifier, null) === optionalArticleIdentifier;
+                    });
+
+                    if (indexInCollection >= 0) {
+                        dispatch(setEditArticle(optionalArticleIdentifier));
+                    } else if (history) {
+                        history.replace(RouteUtils.app.private.editArticle.link.replace(/\/:.*/, "") + "/" + collectionIdentifier);
+                    }
+                }
             } else {
                 onFail();
             }
         })
         .catch(onFail)
-        .finally(() => {
-            dispatch(setCollectionCardLoading(false));
-        });
+        .finally(() => dispatch(setCollectionCardLoading(false)));
 };
 
 export const setEditArticle = (articleIdentifier) => (dispatch) => {
+    if (articleIdentifier === null) {
+        dispatch({
+            type: SET_EDIT_ARTICLE,
+            payload: {
+                identifier: "",
+                data: {}
+            },
+        });
+        return;
+    }
+
     const route = RouteUtils.api.articleManagement.getEditArticlePageModel;
 
     const query = {
@@ -80,7 +103,41 @@ export const setEditArticle = (articleIdentifier) => (dispatch) => {
             }
         })
         .catch(onFail)
-        .finally(() => {
-            dispatch(setArticleCardLoading(false));
-        });
+        .finally(() => dispatch(setArticleCardLoading(false)));
+};
+
+export const changeAccess = (identifier, newAccessStatus, isCollection) => (dispatch) => {
+    const onFail = () => dispatch(pushMessage("Cannot change access status", MESSAGE_TYPES.error));
+
+    if (!identifier || !newAccessStatus) {
+        onFail();
+        return;
+    }
+
+    const route = RouteUtils.api.articleManagement.changeAccessLevel;
+    const request = {
+        isCollection,
+        identifier,
+        newAccessStatus: parseInt(newAccessStatus)
+    };
+
+    dispatch(setCollectionCardLoading(true));
+
+    RouteUtils.sendApiRequest(route, request)
+        .then((res) => {
+            if (res.data.success) {
+                dispatch({
+                    type: UPDATE_ACCESS_STATUS,
+                    payload: {
+                        isCollection,
+                        identifier,
+                        newAccessStatus
+                    }
+                })
+            } else {
+                onFail();
+            }
+        })
+        .catch(onFail)
+        .finally(() => dispatch(setCollectionCardLoading(false)));
 };

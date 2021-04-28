@@ -13,7 +13,7 @@ import NoteSettings from "./NoteSettings";
 import TabbedEditor from "./TabbedEditor";
 import ReadMode from "./ReadMode";
 import { ShareAltOutlined, CloseOutlined, SaveOutlined, HighlightOutlined, ControlOutlined, AlignLeftOutlined } from "@ant-design/icons";
-import { Breadcrumb, Button, Col, Row, Tabs, Tooltip, message } from "antd";
+import { Breadcrumb, Button, Col, Row, Tabs, Tooltip, Space, message } from "antd";
 
 const { TabPane } = Tabs;
 
@@ -39,36 +39,38 @@ const NoteDashboard = props => {
         <div className="note-root">
             <div className="content-card">
                 <Row className="note-row-toolbar" justify="space-between">
-                    <Col className="note-row-toolbar-breadcrumb">
+                    <Col>
                         <Breadcrumb>
                             <Breadcrumb.Item>{GlobalUtils.getValue(notebook, NoteUtils.props.notebook.title)}</Breadcrumb.Item>
                             <Breadcrumb.Item>{GlobalUtils.getValue(note, NoteUtils.props.note.title)}</Breadcrumb.Item>
                         </Breadcrumb>
                     </Col>
-                    <Col className="note-row-toolbar-actions">
-                        <Button
-                            loading={props.app.isSaving}
-                            disabled={changesSaved()}
-                            onClick={onSave}
-                            className="action-save"
-                            type="primary"
-                            shape="round"
-                            icon={<SaveOutlined />}
-                        >
-                            {I18n.t(`${tBase}.toolbar.save`)}
-                        </Button>
-                        <Tooltip placement="bottom" title={I18n.t(`${tBase}.toolbar.shareTooltip`)}>
-                            <Button onClick={copyUrl} className="action-share" type="primary" ghost shape="circle" icon={<ShareAltOutlined />}></Button>
-                        </Tooltip>
-                        <Tooltip placement="bottom" title={I18n.t(`${tBase}.toolbar.closeNote`)}>
+                    <Col>
+                        <Space>
                             <Button
-                                className="action-close"
-                                danger
-                                shape="circle"
-                                icon={<CloseOutlined />}
-                                onClick={() => props.closeNotebook()}
-                            ></Button>
-                        </Tooltip>
+                                loading={props.app.isSaving}
+                                disabled={changesSaved()}
+                                onClick={onSave}
+                                className="action-save"
+                                type="primary"
+                                shape="round"
+                                icon={<SaveOutlined />}
+                            >
+                                {I18n.t(`${tBase}.toolbar.save`)}
+                            </Button>
+                            <Tooltip placement="bottom" title={I18n.t(`${tBase}.toolbar.shareTooltip`)}>
+                                <Button onClick={copyUrl} className="action-share" type="primary" ghost shape="circle" icon={<ShareAltOutlined />}></Button>
+                            </Tooltip>
+                            <Tooltip placement="bottom" title={I18n.t(`${tBase}.toolbar.closeNote`)}>
+                                <Button
+                                    className="action-close"
+                                    danger
+                                    shape="circle"
+                                    icon={<CloseOutlined />}
+                                    onClick={() => props.closeNotebook()}
+                                ></Button>
+                            </Tooltip>
+                        </Space>
                     </Col>
                 </Row>
                 <Row className="note-row-title">

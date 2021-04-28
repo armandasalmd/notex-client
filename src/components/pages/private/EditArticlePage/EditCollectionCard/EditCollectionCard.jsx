@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
-import { EditArticleUtils } from "@utils";
-import { setEditArticle } from "@actions/editArticleActions";
+import { EditArticleUtils, GlobalUtils } from "@utils";
+import { setEditArticle, changeAccess } from "@actions/editArticleActions";
 
 import "./EditCollectionCard.less";
 import { Button, Spin } from "antd";
@@ -11,11 +11,11 @@ import { PlusOutlined } from "@ant-design/icons";
 import { EditCollectionActions, EditCollectionDetails, ArticlesTable } from "./__components__";
 
 const EditCollectionCard = (props) => {
-    const [ addArticleOpen, setAddArticleOpen ] = useState(false);
+    const [addArticleOpen, setAddArticleOpen] = useState(false);
 
     const actions = {
         onAccessChange: (value) => {
-            console.log(value, props.collectionId);
+            props.changeAccess(props.collectionId, value, true);
         },
         onRemoveCollection: () => {
             console.log("Delete collection", props.collectionId);
@@ -27,7 +27,9 @@ const EditCollectionCard = (props) => {
 
     const articleActions = {
         onEdit: (identifier) => {
-            props.setEditArticle(identifier)
+            if (props.selectedArticleId !== identifier) {
+                props.setEditArticle(identifier)
+            }
         },
         onSync: (identifier) => {
             console.log("Sync", identifier);
@@ -35,8 +37,8 @@ const EditCollectionCard = (props) => {
         onDelete: (identifier) => {
             console.log("Remove", identifier);
         },
-        onAccessStatusChange: (identifier) => {
-            console.log("Access change", identifier);
+        onAccessStatusChange: (value, identifier) => {
+            props.changeAccess(identifier, value, false);
         }
     };
 
@@ -53,7 +55,7 @@ const EditCollectionCard = (props) => {
                 <div className="card__header card__header--separatorDashed">
                     <div className="editCollectionCard__header">
                         <h3 className="editCollectionCard__title">Collection settings</h3>
-                        <EditCollectionActions {...actions} />
+                        <EditCollectionActions accessStatus={GlobalUtils.getValue(props.collection, EditArticleUtils.collectionSummaryModel.accessStatus)} {...actions} />
                     </div>
                     <EditCollectionDetails
                         loading={props.loading}
@@ -78,15 +80,18 @@ const EditCollectionCard = (props) => {
 
 EditCollectionCard.propTypes = {
     loading: PropTypes.bool.isRequired,
+    selectedArticleId: PropTypes.string.isRequired,
     collection: PropTypes.object.isRequired,
     collectionId: PropTypes.string.isRequired,
-    setEditArticle: PropTypes.func.isRequired
+    setEditArticle: PropTypes.func.isRequired,
+    changeAccess: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
     loading: state.editArticle.collectionCardLoading,
+    selectedArticleId: state.editArticle.selectedArticleId,
     collectionId: state.editArticle.selectedCollectionId,
     collection: state.editArticle.selectedCollection
 });
 
-export default connect(mapStateToProps, { setEditArticle })(EditCollectionCard);
+export default connect(mapStateToProps, { setEditArticle, changeAccess })(EditCollectionCard);

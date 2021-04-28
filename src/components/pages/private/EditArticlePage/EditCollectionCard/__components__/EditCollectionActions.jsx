@@ -7,7 +7,7 @@ import { SyncOutlined, DeleteOutlined } from "@ant-design/icons";
 import ArticleAccessPicker from "##/ArticleAccessPicker";
 
 const EditCollectionInfo = (props) => {
-    const { onAccessChange, onRemoveCollection, onSync } = props;
+    const { onAccessChange, onRemoveCollection, onSync, accessStatus } = props;
 
     return (
         <div className="editCollectionCard__actions" style={{marginTop: 4}}>
@@ -24,7 +24,7 @@ const EditCollectionInfo = (props) => {
                 <Button onClick={() => GlobalUtils.callIfFunction(onSync)} icon={<SyncOutlined />}>Sync all articles</Button>
             </span>
             <span className="editCollectionCard__action">
-                <ArticleAccessPicker onChange={(value) => GlobalUtils.callIfFunction(onAccessChange, value)} value="1" />
+                <ArticleAccessPicker onChange={(value) => GlobalUtils.callIfFunction(onAccessChange, value)} value={accessStatus || "0"} />
             </span>
         </div>
     );

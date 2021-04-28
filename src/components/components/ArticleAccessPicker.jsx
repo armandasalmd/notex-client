@@ -6,7 +6,7 @@ const { Option } = Select;
 
 const ArticleAccessPicker = (props) => {
     return (
-        <Select onChange={props.onChange} value={props.value}>
+        <Select onChange={props.onChange} value={props.value.toString()}>
             <Option value="0">Published</Option>
             <Option value="1">Unlisted</Option>
             <Option value="2">Private</Option>

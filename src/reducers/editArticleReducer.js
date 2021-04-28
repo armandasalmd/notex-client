@@ -3,7 +3,10 @@ import {
     SET_EDIT_ARTICLE,
     SET_ARTICLE_CARD_LOADING,
     SET_COLLECTION_CARD_LOADING,
+    UPDATE_ACCESS_STATUS,
 } from "@actions/types";
+
+import { EditArticleUtils, GlobalUtils } from "@utils";
 
 const initialState = {
     articleCardLoading: false,
@@ -37,7 +40,7 @@ export default function (state = initialState, action) {
             const newState = {
                 ...state,
                 selectedArticleId: action.payload.identifier,
-                selectedArticle: action.payload.article,
+                selectedArticle: action.payload.data,
             };
 
             if (Array.isArray(action.payload.sourceNotebooksMetaData)) {
@@ -45,6 +48,32 @@ export default function (state = initialState, action) {
             }
 
             return newState;
+        }
+        case UPDATE_ACCESS_STATUS: {
+            if (action.payload.isCollection) {
+                state.selectedCollection = {
+                    ...state.selectedCollection,
+                    [EditArticleUtils.collectionSummaryModel.accessStatus]: action.payload.newAccessStatus
+                };
+            } else {
+                const articleSummaries = GlobalUtils.getValue(
+                    state.selectedCollection, 
+                    EditArticleUtils.collectionSummaryModel.articleSummaries, 
+                    []
+                );
+
+                const articleIndex = articleSummaries.findIndex(item => GlobalUtils.getValue(item, EditArticleUtils.articleSummaryModel.identifier) === action.payload.identifier);
+
+                if (articleIndex >= 0) {
+                    articleSummaries[articleIndex][EditArticleUtils.articleSummaryModel.accessStatus] = action.payload.newAccessStatus;
+
+                    state.selectedCollection = {
+                        ...state.selectedCollection
+                    };
+                }
+            }
+
+            return state;
         }
         default:
             return state;
