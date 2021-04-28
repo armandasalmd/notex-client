@@ -13,7 +13,7 @@ import EditArticleCard from "./EditArticleCard";
 
 const EditArticlePage = (props) => {
     const { initialiseEditCollection } = props;
-    const { selectedCollectionId } = props.data;
+    const { selectedCollectionId, selectedArticleId } = props.data;
     
     const history = useHistory();
     const params = useParams();
@@ -24,7 +24,7 @@ const EditArticlePage = (props) => {
         const pageRoute = RouteVariables.app.private.editArticle;
         const collectionParameter = GlobalUtils.getValue(params, pageRoute.paramNames.collectionIdentifier, null);
 
-        if (!GlobalUtils.hasLength(selectedCollectionId) && GlobalUtils.hasLength(collectionParameter)) {
+        if (GlobalUtils.hasLength(collectionParameter) && selectedCollectionId !== collectionParameter) {
             initialiseEditCollection(collectionParameter);
         }
     }, [params, initialiseEditCollection, selectedCollectionId]);
@@ -43,8 +43,13 @@ const EditArticlePage = (props) => {
                 <h1 className="header">Edit collection and articles</h1>
             </div>
             <EditCollectionCard />
-            <div className="editArticle__separator"/>
-            <EditArticleCard />
+            {
+                selectedArticleId && 
+                <>
+                    <div className="editArticle__separator"/>
+                    <EditArticleCard />
+                </>
+            }
         </div>
     );
 };

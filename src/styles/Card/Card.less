@@ -3,20 +3,20 @@
 
 @root: card;
 @separatorColor: @shade30;
-@defaultMargin: 16px;
+@unit: 16px;
 
 .@{root} {
     .cardBase();
 
     // <start>__ELEMENTS</start>
     &__content {
-        padding: @defaultMargin;
+        padding: @unit;
     }
 
     &__footer {
-        @spacing: @defaultMargin / 2;
+        @spacing: @unit / 2;
 
-        padding: @defaultMargin;
+        padding: @unit;
         border-top: 1px solid @separatorColor;
         display: flex;
         justify-content: flex-end;
@@ -36,14 +36,14 @@
         align-items: center;
         justify-content: space-between;
         border-bottom: 1px solid @separatorColor;
-        padding: (@defaultMargin * 2 / 3) @defaultMargin;
+        padding: (@unit * 2 / 3) @unit;
 
         &--separatorNone {
             border-bottom: none;
         }
 
         &--separatorSpiked {
-            padding: @defaultMargin @defaultMargin (@defaultMargin * 1.5) @defaultMargin;
+            padding: @unit @unit (@unit * 1.5) @unit;
             border-bottom: none;
             .spikedBorder();
         }
@@ -68,7 +68,7 @@
     // <start> --MODIFIERS </start>
 
     &--padded {
-        padding: @defaultMargin;
+        padding: @unit;
     }
 
     &--wrap {

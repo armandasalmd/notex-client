@@ -1,50 +1,92 @@
-import React from "react";
+import React, { useState } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 
-import { GlobalUtils } from "@utils";
+import { EditArticleUtils } from "@utils";
+import { setEditArticle } from "@actions/editArticleActions";
 
 import "./EditCollectionCard.less";
-import { Button, Popconfirm } from "antd";
-import { SyncOutlined, DeleteOutlined } from "@ant-design/icons";
-import ArticleAccessPicker from "##/ArticleAccessPicker";
+import { Button, Spin } from "antd";
+import { PlusOutlined } from "@ant-design/icons";
+import { EditCollectionActions, EditCollectionDetails, ArticlesTable } from "./__components__";
 
-const EditCollectionCard = () => {
-    const onAccessChange = (value) => {
-        console.log(value);
+const EditCollectionCard = (props) => {
+    const [ addArticleOpen, setAddArticleOpen ] = useState(false);
+
+    const actions = {
+        onAccessChange: (value) => {
+            console.log(value, props.collectionId);
+        },
+        onRemoveCollection: () => {
+            console.log("Delete collection", props.collectionId);
+        },
+        onSync: () => {
+            console.log("On sync", props.collectionId);
+        }
     };
 
-    const onRemoveCollection = () => {
-        console.log("Delete collection");
+    const articleActions = {
+        onEdit: (identifier) => {
+            props.setEditArticle(identifier)
+        },
+        onSync: (identifier) => {
+            console.log("Sync", identifier);
+        },
+        onDelete: (identifier) => {
+            console.log("Remove", identifier);
+        },
+        onAccessStatusChange: (identifier) => {
+            console.log("Access change", identifier);
+        }
     };
+
+    const onDetailsChange = (title, description) => {
+        console.log(title, description);
+    };
+
+    const onOpenAddArticle = () => setAddArticleOpen(true);
+    const rawArticles = EditArticleUtils.getArticlesFromResponse(props.collection);
 
     return (
-        <div className="card editCollectionCard">
-            <div className="card__header card__header--separatorDashed">
-                <h3 className="title title--light">Collection settings</h3>
-                <div className="editCollectionCard__details">
-                    Details
+        <Spin spinning={props.loading}>
+            <div className="card editCollectionCard">
+                <div className="card__header card__header--separatorDashed">
+                    <div className="editCollectionCard__header">
+                        <h3 className="editCollectionCard__title">Collection settings</h3>
+                        <EditCollectionActions {...actions} />
+                    </div>
+                    <EditCollectionDetails
+                        loading={props.loading}
+                        onDetailsChange={onDetailsChange}
+                        title={EditArticleUtils.getCollectionTitle(props.collection)}
+                        description={EditArticleUtils.getCollectionDescription(props.collection)} />
                 </div>
-                <div className="editCollectionCard__actions">
-                    <span className="editCollectionCard__action">
-                        <ArticleAccessPicker onChange={onAccessChange} value="1" />
-                    </span>
-                    <span className="editCollectionCard__action">
-                        <Button icon={<SyncOutlined />}>Sync all articles</Button>
-                    </span>
-                    <span className="editCollectionCard__action">
-                        <Popconfirm 
-                            title="This is cannot be undone. Article data will also be removed!" 
-                            onConfirm={() => GlobalUtils.callIfFunction(onRemoveCollection)} 
-                            okText="Yes" cancelText="No">
-                            <Button danger icon={<DeleteOutlined />}>Remove collection</Button>
-                        </Popconfirm>
-                    </span>
+                <div className="card__content">
+                    <div className="editCollectionCard__header">
+                        <span>
+                            <h3 className="editCollectionCard__title">Articles in collection</h3>
+                            <p className="editCollectionCard__description">Select article from table to preview</p>
+                        </span>
+                        <Button type="primary" className="editCollectionCard__button" onClick={onOpenAddArticle} icon={<PlusOutlined />}>Add new article</Button>
+                    </div>
+                    <ArticlesTable rawArticles={rawArticles} actions={articleActions} className="editCollectionCard__articlesTable" />
                 </div>
             </div>
-            <div className="card__content">
-                <h3 className="title title--light">Articles in collection</h3>
-            </div>
-        </div>
+        </Spin>
     );
 };
 
-export default EditCollectionCard;
+EditCollectionCard.propTypes = {
+    loading: PropTypes.bool.isRequired,
+    collection: PropTypes.object.isRequired,
+    collectionId: PropTypes.string.isRequired,
+    setEditArticle: PropTypes.func.isRequired
+};
+
+const mapStateToProps = state => ({
+    loading: state.editArticle.collectionCardLoading,
+    collectionId: state.editArticle.selectedCollectionId,
+    collection: state.editArticle.selectedCollection
+});
+
+export default connect(mapStateToProps, { setEditArticle })(EditCollectionCard);

@@ -125,11 +125,19 @@ export default {
                 path: "/nexus/articleManagement/changeAccessStatus",
                 method: "PUT"
             },
-            getEditArticlePageModel: {
+            getEditCollectionPageModel: {
                 path: "/nexus/articleManagement/editCollection",
                 method: "GET",
                 queryNames: {
                     identifier: "identifier",
+                }
+            },
+            getEditArticlePageModel: {
+                path: "/nexus/articleManagement/editArticle",
+                method: "GET",
+                queryNames: {
+                    identifier: "identifier",
+                    includeMetaData: "includeMetaData"
                 }
             }
         }
@@ -212,10 +220,10 @@ export default {
         },
         shared: {
             article: {
-                link: "/article",
+                link: "/article/:identifier",
                 titleTextKey: "titleText.search",
-                queryNames: {
-                    id: "id",
+                paramNames: {
+                    identifier: "identifier"
                 }
             },
             search: {

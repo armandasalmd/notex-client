@@ -20,7 +20,7 @@ const SummaryTableActions = (props) => {
         <Space>
             <Button onClick={() => onEdit(identifier)} icon={<EditFilled style={{color: "#828282"}} />}>Edit</Button>
             <Popconfirm 
-                title="Are you sure to delete this item?" 
+                title="Are you sure to remove this item?" 
                 onConfirm={() => GlobalUtils.callIfFunction(onDelete, identifier)} 
                 okText="Yes" cancelText="No">
                 <Button danger icon={<DeleteOutlined />}>Remove</Button>

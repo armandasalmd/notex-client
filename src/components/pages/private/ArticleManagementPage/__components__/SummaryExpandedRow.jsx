@@ -1,6 +1,7 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
-import { ArticleManagementUtils, GlobalUtils } from "@utils";
+import { ArticleManagementUtils, GlobalUtils, RouteVariables } from "@utils";
 
 import "./SummaryExpandedRow.less";
 import { Popconfirm } from "antd";
@@ -8,22 +9,30 @@ import { EditFilled, DeleteOutlined, SyncOutlined } from "@ant-design/icons";
 
 const SummaryArticle = (props) => {
     const title = GlobalUtils.getValue(props.article, ArticleManagementUtils.articleSummaryModel.title, "");
+    const identifier = GlobalUtils.getValue(props.article, ArticleManagementUtils.articleSummaryModel.identifier, "");
 
     const onEdit = () => {
-        console.log("Edit");
+        console.log("Edit", identifier);
     };
 
     const onRemove = () => {
-        console.log("Remove");
+        console.log("Remove", identifier);
     };
 
     const onSync = () => {
-        console.log("Sync article");
+        console.log("Sync article", identifier);
+    };
+
+    
+    const getArticleLink = () => {
+        const route = RouteVariables.app.shared.article;
+        
+        return route.link.replace(":" + route.paramNames.identifier, identifier)
     };
 
     return (
         <article>
-            <p className="articleSummary__articleTitle">{title}</p>
+            <Link to={getArticleLink} target="_blank"><p className="articleSummary__articleTitle">{title}</p></Link>
             <div className="articleSummary__articleActions">
                 <EditFilled className="icon" onClick={onEdit} />
                 <SyncOutlined className="icon" onClick={onSync} />

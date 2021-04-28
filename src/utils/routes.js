@@ -69,10 +69,10 @@ const sendApiRequest = (apiRoute, bodyData, queryParams) => {
         let queryString = "?";
         
         for (let key in queryParams) {
-            queryString += `${key}=${queryParams[key]}`;
+            queryString += `${key}=${queryParams[key]}&`;
         }
 
-        url += queryString;
+        url += queryString.slice(0, -1);
     }
 
     return axios({
