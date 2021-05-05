@@ -109,6 +109,10 @@ export default {
                 path: "/nexus/articleManagement/getCreateArticleCollectionMetaData",
                 method: "GET",
             },
+            getCreateArticleMetaData: {
+                path: "/nexus/articleManagement/getCreateArticleMetaData",
+                method: "GET",
+            },
             createCollection: {
                 path: "/nexus/articleCollection/create",
                 method: "POST"
@@ -119,6 +123,10 @@ export default {
             },
             deleteCollection: {
                 path: "/nexus/articleCollection",
+                method: "DELETE"
+            },
+            deleteArticle: {
+                path: "/nexus/article",
                 method: "DELETE"
             },
             changeAccessLevel: {
@@ -146,10 +154,15 @@ export default {
             },
             syncCollection: {
                 path: "/nexus/articleCollection/sync",
-                method: "POST",
-                queryNames: {
-                    identifier: "identifier"
-                }
+                method: "POST"
+            },
+            syncArticle: {
+                path: "/nexus/article/sync",
+                method: "POST"
+            },
+            createArticle: {
+                path: "/nexus/article/create",
+                method: "POST"
             }
         }
     },

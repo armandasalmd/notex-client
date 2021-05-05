@@ -4,8 +4,6 @@ import { ArticleManagementUtils } from "@utils";
 
 import { TreeSelect } from "antd";
 
-const { SHOW_PARENT } = TreeSelect;
-
 const TreeSelectNotes = (props) => {
     const { notebooksMetaData, value, setValue } = props;
 
@@ -14,7 +12,7 @@ const TreeSelectNotes = (props) => {
         value,
         onChange: setValue,
         treeCheckable: true,
-        showCheckedStrategy: SHOW_PARENT,
+        showCheckedStrategy: TreeSelect.SHOW_CHILD,
         placeholder: "Select existing notes to inherit",
         style: {
             width: "100%",

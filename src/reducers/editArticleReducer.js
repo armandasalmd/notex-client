@@ -1,11 +1,14 @@
 import {
+    APPEND_ARTICLE,
     DELETE_AND_CLOSE_COLLECTION,
     INITIALISE_EDIT_COLLECTION,
     SET_EDIT_ARTICLE,
     SET_ARTICLE_CARD_LOADING,
+    SET_BACKPACK_METADATA,
     SET_COLLECTION_CARD_LOADING,
     UPDATE_ACCESS_STATUS,
     UPDATE_COLLECTION_DETAILS,
+    DELETE_ARTICLE,
 } from "@actions/types";
 
 import { EditArticleUtils, GlobalUtils } from "@utils";
@@ -22,6 +25,40 @@ const initialState = {
 
 export default function (state = initialState, action) {
     switch (action.type) {
+        case APPEND_ARTICLE: {
+            const updatedCollection = { ...state.selectedCollection };
+            const articles = updatedCollection[EditArticleUtils.collectionSummaryModel.articleSummaries];
+
+            if (Array.isArray(articles)) {
+                articles.push(action.payload);
+            }
+
+            return {
+                ...state,
+                selectedCollection: updatedCollection
+            };
+        }
+        case DELETE_ARTICLE: {
+            const updatedCollection = { ...state.selectedCollection };
+            const summariesName = EditArticleUtils.collectionSummaryModel.articleSummaries
+
+            let articles = updatedCollection[summariesName];
+            if (Array.isArray(articles) && typeof action.payload === "string") {
+                updatedCollection[summariesName] = articles.filter((o) => {
+                    return o[EditArticleUtils.articleSummaryModel.identifier] !== action.payload;
+                });
+            }
+
+            return {
+                ...state,
+                selectedCollection: updatedCollection
+            };
+        }
+        case SET_BACKPACK_METADATA:
+            return {
+                ...state,
+                backpackMetaData: action.payload
+            };
         case DELETE_AND_CLOSE_COLLECTION:
             return {
                 ...initialState
@@ -49,7 +86,7 @@ export default function (state = initialState, action) {
                 selectedArticle: action.payload.data,
             };
 
-            if (Array.isArray(action.payload.sourceNotebooksMetaData)) {
+            if (Array.isArray(action.payload.data.sourceNotebooksMetaData)) {
                 newState.backpackMetaData = action.payload.sourceNotebooksMetaData;
             }
 

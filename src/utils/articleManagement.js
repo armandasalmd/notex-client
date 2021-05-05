@@ -39,6 +39,13 @@ const responseToTableData = (responseObject) => {
     return result;
 };
 
+const fetchCreateArticleMetaData = async () => {
+    const route = RouteUtils.api.articleManagement.getCreateArticleMetaData;
+    const response = await RouteUtils.sendApiRequest(route, {});
+
+    return GlobalUtils.getValue(response, "data.sourceNotebooks", []);
+};
+
 const fetchCreateCollectionMetaData = async () => {
     const route = RouteUtils.api.articleManagement.getCreateCollectionMetaData;
     const response = await RouteUtils.sendApiRequest(route, {});
@@ -84,13 +91,12 @@ const changeAccessLevelApiCall = async (identifier, newAccessStatus, isCollectio
     return RouteUtils.sendApiRequest(RouteUtils.api.articleManagement.changeAccessLevel, request);
 };
 
-const sourceNotebooksToTreeData = (sourceNotebooks) => {
+const sourceNotebooksToTreeData = (sourceNotebooks, isCascader = false) => {
     if (GlobalUtils.hasLength(sourceNotebooks)) {
         const convertBase = (item) => {
             return {
-                title: item.title,
-                value: item.identifier,
-                key: item.identifier
+                [isCascader ? "label" : "title"]: item.title,
+                value: item.identifier
             };
         };
 
@@ -112,6 +118,7 @@ export default {
     collectionSummaryModel,
     createCollectionApiCall,
     deleteCollectionApiCall,
+    fetchCreateArticleMetaData,
     fetchCreateCollectionMetaData,
     responseToTableData,
     sourceNotebooksToTreeData

@@ -128,7 +128,7 @@ const ArticleManagementPage = () => {
         <div className="articleManagement">
             <div className="articleManagement__header">
                 <h1 className="header">Article management</h1>
-                <Button onClick={onOpenAddCollection} icon={<PlusOutlined />}>Add new collection</Button>
+                <Button type="primary" onClick={onOpenAddCollection} icon={<PlusOutlined />}>Add new collection</Button>
             </div>
             <div className="articleManagement__body card">
                 <div className="card__header card__header--separatorSpiked">

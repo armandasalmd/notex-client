@@ -5,7 +5,10 @@ import {
     SET_COLLECTION_CARD_LOADING,
     UPDATE_ACCESS_STATUS,
     UPDATE_COLLECTION_DETAILS,
-    DELETE_AND_CLOSE_COLLECTION
+    DELETE_AND_CLOSE_COLLECTION,
+    SET_BACKPACK_METADATA,
+    APPEND_ARTICLE,
+    DELETE_ARTICLE
 } from "@actions/types";
 import { pushMessage, MESSAGE_TYPES } from "@actions/messageActions";
 
@@ -193,21 +196,75 @@ export const deleteAndCloseCollection = (identifier, history) => (dispatch) => {
         .finally(() => dispatch(setCollectionCardLoading(false)));
 };
 
-export const syncCollection = (identifier) => (dispatch) => {
+export const syncResource = (identifier, isCollection = true) => (dispatch) => {
     if (!identifier) return;
 
     const onFail = () => dispatch(pushMessage("Synchronise operation unsuccessful", MESSAGE_TYPES.error));
-    const route = RouteUtils.api.articleManagement.syncCollection;
+    const route = isCollection ? 
+        RouteUtils.api.articleManagement.syncCollection : 
+        RouteUtils.api.articleManagement.syncArticle;
     dispatch(setCollectionCardLoading(true));
 
     RouteUtils.sendApiRequest(route, {}, { identifier })
         .then((res) => {
             if (res.data?.success) {
-                dispatch(pushMessage("All articles synchronised", MESSAGE_TYPES.success))
+                const message = isCollection ? "All articles synchronised" : "Article synchronised";
+                dispatch(pushMessage(message, MESSAGE_TYPES.success))
             } else {
                 onFail();
             }
         })
         .catch(onFail)
         .finally(() => dispatch(setCollectionCardLoading(false)));
+};
+
+export const fetchBackpackMetaData = () => (dispatch) => {
+    const onFail = () => dispatch(pushMessage("Failed to get source notes", MESSAGE_TYPES.error));
+
+    RouteUtils.sendApiRequest(RouteUtils.api.articleManagement.getCreateArticleMetaData)
+        .then((res) => {
+            if (res.data?.sourceNotebooks) {
+                dispatch({
+                    type: SET_BACKPACK_METADATA,
+                    payload: res.data?.sourceNotebooks
+                });
+            } else {
+                onFail();
+            }
+        })
+        .catch(onFail);
+};
+
+export const createArticle = (requestData) => async (dispatch) => {
+    if (typeof requestData !== "object") return;
+
+    const route = RouteUtils.api.articleManagement.createArticle;
+    const response = await RouteUtils.sendApiRequest(route, {
+        ...requestData,
+        articleAccessStatus: requestData.articleAccessStatus ? parseInt(requestData.articleAccessStatus) : 0
+    });
+
+    if (response.data) {
+        dispatch({
+            type: APPEND_ARTICLE,
+            payload: response.data 
+        });
+    }
+
+    return response.data;
+};
+
+export const deleteArticle = (identifier) => async (dispatch) => {
+    const response = await RouteUtils.sendApiRequest(
+        RouteUtils.api.articleManagement.deleteArticle, 
+        null, 
+        { identifier }
+    );
+
+    dispatch({
+        type: DELETE_ARTICLE,
+        payload: identifier
+    });
+
+    return response.data;
 };
