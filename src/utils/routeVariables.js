@@ -139,6 +139,10 @@ export default {
                     identifier: "identifier",
                     includeMetaData: "includeMetaData"
                 }
+            },
+            updateCollectionDetails: {
+                path: "/nexus/articleCollection/updateArticleCollection",
+                method: "POST"
             }
         }
     },

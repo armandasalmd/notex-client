@@ -4,6 +4,7 @@ import {
     SET_ARTICLE_CARD_LOADING,
     SET_COLLECTION_CARD_LOADING,
     UPDATE_ACCESS_STATUS,
+    UPDATE_COLLECTION_DETAILS,
 } from "@actions/types";
 
 import { EditArticleUtils, GlobalUtils } from "@utils";
@@ -73,6 +74,22 @@ export default function (state = initialState, action) {
                 }
             }
 
+            return state;
+        }
+        case UPDATE_COLLECTION_DETAILS: {
+            if (action.payload.identifier) {
+                const newCollection = { ...state.selectedCollection };
+                
+                if (GlobalUtils.hasLength(action.payload.title)) {
+                    newCollection[EditArticleUtils.collectionSummaryModel.title] = action.payload.title;
+                }
+                if (GlobalUtils.hasLength(action.payload.description)) {
+                    newCollection[EditArticleUtils.collectionSummaryModel.description] = action.payload.description;
+                }
+                
+                state.selectedCollection = newCollection;
+            }
+            
             return state;
         }
         default:

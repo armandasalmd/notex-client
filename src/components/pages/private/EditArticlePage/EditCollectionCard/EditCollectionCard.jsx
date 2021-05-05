@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
 import { EditArticleUtils, GlobalUtils } from "@utils";
-import { setEditArticle, changeAccess } from "@actions/editArticleActions";
+import { setEditArticle, changeAccess, updateCollectionDetails } from "@actions/editArticleActions";
 
 import "./EditCollectionCard.less";
 import { Button, Spin } from "antd";
@@ -43,7 +43,7 @@ const EditCollectionCard = (props) => {
     };
 
     const onDetailsChange = (title, description) => {
-        console.log(title, description);
+        props.updateCollectionDetails(props.collectionId, title, description);
     };
 
     const onOpenAddArticle = () => setAddArticleOpen(true);
@@ -84,7 +84,8 @@ EditCollectionCard.propTypes = {
     collection: PropTypes.object.isRequired,
     collectionId: PropTypes.string.isRequired,
     setEditArticle: PropTypes.func.isRequired,
-    changeAccess: PropTypes.func.isRequired
+    changeAccess: PropTypes.func.isRequired,
+    updateCollectionDetails: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -94,4 +95,4 @@ const mapStateToProps = state => ({
     collection: state.editArticle.selectedCollection
 });
 
-export default connect(mapStateToProps, { setEditArticle, changeAccess })(EditCollectionCard);
+export default connect(mapStateToProps, { setEditArticle, changeAccess, updateCollectionDetails })(EditCollectionCard);

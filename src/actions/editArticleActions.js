@@ -4,6 +4,7 @@ import {
     SET_ARTICLE_CARD_LOADING,
     SET_COLLECTION_CARD_LOADING,
     UPDATE_ACCESS_STATUS,
+    UPDATE_COLLECTION_DETAILS,
 } from "@actions/types";
 import { pushMessage, MESSAGE_TYPES } from "@actions/messageActions";
 
@@ -133,7 +134,34 @@ export const changeAccess = (identifier, newAccessStatus, isCollection) => (disp
                         identifier,
                         newAccessStatus
                     }
-                })
+                });
+            } else {
+                onFail();
+            }
+        })
+        .catch(onFail)
+        .finally(() => dispatch(setCollectionCardLoading(false)));
+};
+
+export const updateCollectionDetails = (identifier, title, description) => (dispatch) => {
+    const onFail = () => dispatch(pushMessage("Update was not complete", MESSAGE_TYPES.error));
+
+    const route = RouteUtils.api.articleManagement.updateCollectionDetails;
+    const request = { 
+        articleCollectionGuid: identifier,
+        title,
+        description
+    };
+
+    dispatch(setCollectionCardLoading(true));
+    
+    RouteUtils.sendApiRequest(route, request)
+        .then((res) => {
+            if (res.data.success) {
+                dispatch({
+                    type: UPDATE_COLLECTION_DETAILS,
+                    payload: { identifier, title, description }
+                });
             } else {
                 onFail();
             }
