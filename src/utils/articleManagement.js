@@ -23,7 +23,7 @@ const responseToTableData = (responseObject) => {
                 key: GlobalUtils.getValue(entry, collectionSummaryModel.identifier, index),
                 title: GlobalUtils.getValue(entry, collectionSummaryModel.title, "No title"),
                 lastUpdate: GlobalUtils.getValue(entry, collectionSummaryModel.lastUpdate, "NaN"),
-                isCollection: !GlobalUtils.getValue(entry, collectionSummaryModel.isArticleAsCollection, false),
+                count: GlobalUtils.getValue(entry, collectionSummaryModel.articleSummaries, [])?.length ?? 0,
                 status: {
                     identifier: GlobalUtils.getValue(entry, collectionSummaryModel.identifier, null),
                     value: GlobalUtils.getValue(entry, collectionSummaryModel.accessStatus, 0).toString()

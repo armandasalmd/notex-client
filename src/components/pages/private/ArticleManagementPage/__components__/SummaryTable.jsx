@@ -1,7 +1,6 @@
 import React from "react";
 
 import { Table } from "antd";
-import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import ArticleAccessPicker from "##/ArticleAccessPicker";
 import SummaryTableActions from "./SummaryTableActions";
 import SummaryExpandedRow from "./SummaryExpandedRow";
@@ -16,16 +15,9 @@ const getTableColumns = (onDelete, onAccessStatusChange) => {
         },
         { title: "Last update", dataIndex: "lastUpdate", key: "lastUpdate" },
         { 
-            title: "Collection", 
-            dataIndex: "isCollection",
-            filters: [
-                { text: "True", value: true },
-                { text: "False", value: false }
-            ],
-            onFilter: (value, record) => record.isCollection === value,
-            render: (data) => data ? 
-                <CheckOutlined style={{fontSize: 18, color: "#07987E"}} /> : 
-                <CloseOutlined style={{fontSize: 16, color: "#C4C4C4"}} />
+            title: "Articles", 
+            dataIndex: "count",
+            sorter: (a, b) => a.count < b.count ? -1 : 1
         },
         {
             title: "Status",
@@ -70,7 +62,7 @@ const SummaryTable = (props) => {
                 size="middle"
                 expandable={{
                     expandedRowRender: (record) => <SummaryExpandedRow articleSummaries={record.articles} />,
-                    rowExpandable: (record) => !!record.isCollection,
+                    rowExpandable: (record) => record.count > 0,
                 }}
                 dataSource={tableData}
                 scroll={{
