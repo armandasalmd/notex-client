@@ -1,9 +1,10 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
 import { EditArticleUtils, GlobalUtils } from "@utils";
-import { setEditArticle, changeAccess, updateCollectionDetails } from "@actions/editArticleActions";
+import { setEditArticle, changeAccess, updateCollectionDetails, deleteAndCloseCollection } from "@actions/editArticleActions";
 
 import "./EditCollectionCard.less";
 import { Button, Spin } from "antd";
@@ -11,6 +12,7 @@ import { PlusOutlined } from "@ant-design/icons";
 import { EditCollectionActions, EditCollectionDetails, ArticlesTable } from "./__components__";
 
 const EditCollectionCard = (props) => {
+    const history = useHistory();
     const [addArticleOpen, setAddArticleOpen] = useState(false);
 
     const actions = {
@@ -18,7 +20,7 @@ const EditCollectionCard = (props) => {
             props.changeAccess(props.collectionId, value, true);
         },
         onRemoveCollection: () => {
-            console.log("Delete collection", props.collectionId);
+            props.deleteAndCloseCollection(props.collectionId, history);
         },
         onSync: () => {
             console.log("On sync", props.collectionId);
@@ -35,7 +37,7 @@ const EditCollectionCard = (props) => {
             console.log("Sync", identifier);
         },
         onDelete: (identifier) => {
-            console.log("Remove", identifier);
+            console.log("Delete collection", identifier);
         },
         onAccessStatusChange: (value, identifier) => {
             props.changeAccess(identifier, value, false);
@@ -85,7 +87,8 @@ EditCollectionCard.propTypes = {
     collectionId: PropTypes.string.isRequired,
     setEditArticle: PropTypes.func.isRequired,
     changeAccess: PropTypes.func.isRequired,
-    updateCollectionDetails: PropTypes.func.isRequired
+    updateCollectionDetails: PropTypes.func.isRequired,
+    deleteAndCloseCollection: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -95,4 +98,6 @@ const mapStateToProps = state => ({
     collection: state.editArticle.selectedCollection
 });
 
-export default connect(mapStateToProps, { setEditArticle, changeAccess, updateCollectionDetails })(EditCollectionCard);
+export default connect(mapStateToProps, { 
+    setEditArticle, changeAccess, updateCollectionDetails, deleteAndCloseCollection 
+})(EditCollectionCard);

@@ -1,4 +1,5 @@
 import {
+    DELETE_AND_CLOSE_COLLECTION,
     INITIALISE_EDIT_COLLECTION,
     SET_EDIT_ARTICLE,
     SET_ARTICLE_CARD_LOADING,
@@ -21,6 +22,10 @@ const initialState = {
 
 export default function (state = initialState, action) {
     switch (action.type) {
+        case DELETE_AND_CLOSE_COLLECTION:
+            return {
+                ...initialState
+            }
         case SET_ARTICLE_CARD_LOADING:
             return {
                 ...state,

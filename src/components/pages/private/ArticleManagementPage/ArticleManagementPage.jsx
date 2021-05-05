@@ -62,11 +62,16 @@ const ArticleManagementPage = () => {
         setAddCollectionLoading(true);
 
         ArticleManagementUtils.createCollectionApiCall(formData)
-            .then(() => {
-                message.success("New collection added successfully");
+            .then((res) => {
+                if (res.data && Array.isArray(searchData)) {
+                    searchData.push(res.data);
+                    message.success("New collection added successfully");
+                } else {
+                    message.warn("Cannot update view. Try to refresh the page");
+                }
             })
             .catch(() => {
-                message.error("Cannot create new collection. Try again.");
+                message.error("Cannot create new collection. Try again");
             })
             .finally(() => {
                 setAddCollectionLoading(false);

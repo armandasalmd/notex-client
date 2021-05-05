@@ -69,10 +69,9 @@ const articleManagementSearchApiCall = async (searchValue) => {
 };
 
 const deleteCollectionApiCall = async (collectionUID) => {
-    const route = RouteUtils.api.articleManagement.deleteCollection;
-    route.path += "?identifier=" + collectionUID;
-
-    return RouteUtils.sendApiRequest(route);
+    return RouteUtils.sendApiRequest(RouteUtils.api.articleManagement.deleteCollection, {}, {
+        identifier: collectionUID
+    });
 };
 
 const changeAccessLevelApiCall = async (identifier, newAccessStatus, isCollection) => {

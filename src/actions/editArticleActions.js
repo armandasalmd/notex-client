@@ -5,10 +5,11 @@ import {
     SET_COLLECTION_CARD_LOADING,
     UPDATE_ACCESS_STATUS,
     UPDATE_COLLECTION_DETAILS,
+    DELETE_AND_CLOSE_COLLECTION
 } from "@actions/types";
 import { pushMessage, MESSAGE_TYPES } from "@actions/messageActions";
 
-import { RouteUtils, GlobalUtils, EditArticleUtils } from "@utils";
+import { ArticleManagementUtils, RouteUtils, GlobalUtils, EditArticleUtils } from "@utils";
 
 const setArticleCardLoading = (loading) => (dispatch) => {
     dispatch({
@@ -161,6 +162,30 @@ export const updateCollectionDetails = (identifier, title, description) => (disp
                 dispatch({
                     type: UPDATE_COLLECTION_DETAILS,
                     payload: { identifier, title, description }
+                });
+            } else {
+                onFail();
+            }
+        })
+        .catch(onFail)
+        .finally(() => dispatch(setCollectionCardLoading(false)));
+};
+
+export const deleteAndCloseCollection = (identifier, history) => (dispatch) => {
+    if (!identifier) {
+        return;
+    }
+
+    const onFail = () => dispatch(pushMessage("Delete operation unsuccessful", MESSAGE_TYPES.error));
+    dispatch(setCollectionCardLoading(true));
+
+    ArticleManagementUtils.deleteCollectionApiCall(identifier)
+        .then((res) => {
+            if (res.data.success) {
+                history.replace(RouteUtils.app.private.articleManagement.link);
+                dispatch({
+                    type: DELETE_AND_CLOSE_COLLECTION,
+                    payload: identifier
                 });
             } else {
                 onFail();
