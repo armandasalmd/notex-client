@@ -47,6 +47,10 @@ const EditCollectionCard = (props) => {
             props.syncResource(identifier, false);
         },
         onDelete: (identifier) => {
+            if (identifier === props.selectedArticleId) {
+                props.setEditArticle(null);
+            }
+
             props.deleteArticle(identifier)
                 .then((data) => {
                     if (data?.success) {

@@ -64,6 +64,12 @@ const createCollectionApiCall = async (formData) => {
     return RouteUtils.sendApiRequest(RouteUtils.api.articleManagement.createCollection, request);
 };
 
+const syncArticleApiCall = async (identifier) => {
+    const route = RouteUtils.api.articleManagement.syncArticle;
+
+    return RouteUtils.sendApiRequest(route, null, { identifier });
+}
+
 const articleManagementSearchApiCall = async (searchValue) => {
     const request = {
         pageNumber: 1,
@@ -121,5 +127,6 @@ export default {
     fetchCreateArticleMetaData,
     fetchCreateCollectionMetaData,
     responseToTableData,
-    sourceNotebooksToTreeData
+    sourceNotebooksToTreeData,
+    syncArticleApiCall
 };

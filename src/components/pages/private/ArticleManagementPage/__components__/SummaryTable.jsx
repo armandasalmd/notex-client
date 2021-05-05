@@ -61,7 +61,7 @@ const SummaryTable = (props) => {
                 loading={searching}
                 size="middle"
                 expandable={{
-                    expandedRowRender: (record) => <SummaryExpandedRow articleSummaries={record.articles} />,
+                    expandedRowRender: (record) => <SummaryExpandedRow collectionId={record.key} articleSummaries={record.articles} />,
                     rowExpandable: (record) => record.count > 0,
                 }}
                 dataSource={tableData}

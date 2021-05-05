@@ -4,11 +4,12 @@ import copy from 'copy-to-clipboard';
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
-import { setEditArticle } from "@actions/editArticleActions";
+import { RouteVariables } from "@utils";
+import { setEditArticle, syncResource } from "@actions/editArticleActions";
 
 import "./EditArticleCard.less";
-import { Button, Row, Col, Tooltip, Space, Spin, message } from "antd";
-import { ShareAltOutlined, CloseOutlined, SaveOutlined } from "@ant-design/icons";
+import { Row, Spin, message } from "antd";
+import { Toolbar } from "./__components__";
 
 const EditArticleCard = (props) => {
     const thisRef = useRef(null);
@@ -17,9 +18,13 @@ const EditArticleCard = (props) => {
         onSave: () => {
             console.log("Save");
         },
+        onSync: () => {
+            props.syncResource(props.articleId, false, true);
+        },
         onCopyUrl: () => {
-            const url = window.location.origin + (window.location.pathname + "/" + props.articleId).replace("//", "/");
-            
+            const route = RouteVariables.app.shared.article;
+            const url = window.location.origin + route.link.replace(":" + route.paramNames.identifier, props.articleId);
+
             copy(url);
             message.success(I18n.t("common.urlCopy"));
         },
@@ -38,35 +43,7 @@ const EditArticleCard = (props) => {
         <Spin spinning={props.loading}>
             <div ref={thisRef} className="card editArticleCard" style={{height: 250}}>
                 <div className="card__content">
-                    <Row className="note-row-toolbar" justify="space-between">
-                        <Col>
-                            <h3 className="title title--light">Article settings</h3>
-                        </Col>
-                        <Col>
-                            <Space>
-                                <Button
-                                    loading={props.loading}
-                                    onClick={actions.onSave}
-                                    type="primary"
-                                    shape="round"
-                                    icon={<SaveOutlined />}
-                                >
-                                    {I18n.t("dashboard.noteCard.toolbar.save")}
-                                </Button>
-                                <Tooltip placement="bottom" title={I18n.t("dashboard.noteCard.toolbar.shareTooltip")}>
-                                    <Button onClick={actions.onCopyUrl} className="action-share" type="primary" ghost shape="circle" icon={<ShareAltOutlined />}></Button>
-                                </Tooltip>
-                                <Tooltip placement="bottom" title={I18n.t("dashboard.noteCard.toolbar.closeNote")}>
-                                    <Button
-                                        danger
-                                        shape="circle"
-                                        icon={<CloseOutlined />}
-                                        onClick={actions.onClose}
-                                    ></Button>
-                                </Tooltip>
-                            </Space>
-                        </Col>
-                    </Row>
+                    <Toolbar loading={props.loading} actions={actions} />
                     <Row>
                         <p>Some content</p>
                     </Row>
@@ -80,7 +57,8 @@ EditArticleCard.propTypes = {
     loading: PropTypes.bool.isRequired,
     article: PropTypes.object.isRequired,
     articleId: PropTypes.string.isRequired,
-    setEditArticle: PropTypes.func.isRequired
+    setEditArticle: PropTypes.func.isRequired,
+    syncResource: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -89,4 +67,4 @@ const mapStateToProps = state => ({
     article: state.editArticle.selectedArticle
 });
 
-export default connect(mapStateToProps, { setEditArticle })(EditArticleCard);
+export default connect(mapStateToProps, { setEditArticle, syncResource })(EditArticleCard);

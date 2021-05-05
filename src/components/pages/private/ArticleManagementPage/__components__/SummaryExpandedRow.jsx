@@ -1,53 +1,68 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-import { ArticleManagementUtils, GlobalUtils, RouteVariables } from "@utils";
+import { ArticleManagementUtils, GlobalUtils, RouteUtils } from "@utils";
 
 import "./SummaryExpandedRow.less";
-import { Popconfirm } from "antd";
-import { EditFilled, DeleteOutlined, SyncOutlined } from "@ant-design/icons";
+import { message } from "antd";
+import { EditFilled, SyncOutlined } from "@ant-design/icons";
 
 const SummaryArticle = (props) => {
-    const title = GlobalUtils.getValue(props.article, ArticleManagementUtils.articleSummaryModel.title, "");
-    const identifier = GlobalUtils.getValue(props.article, ArticleManagementUtils.articleSummaryModel.identifier, "");
+    const { article, collectionId } = props;
+    const [syncEnabled, setSyncEnabled] = useState(true);
 
-    const onEdit = () => {
-        console.log("Edit", identifier);
-    };
-
-    const onRemove = () => {
-        console.log("Remove", identifier);
-    };
+    const title = GlobalUtils.getValue(article, ArticleManagementUtils.articleSummaryModel.title, "");
+    const identifier = GlobalUtils.getValue(article, ArticleManagementUtils.articleSummaryModel.identifier, "");
 
     const onSync = () => {
-        console.log("Sync article", identifier);
-    };
+        if (syncEnabled) {
+            const key = "1";
+            message.loading({ content: 'Synchronisation in progress', key });
+            setSyncEnabled(false);
 
+            ArticleManagementUtils.syncArticleApiCall(identifier)
+                .then(() => message.success({  content: "Synchronisation successfull", key }))
+                .catch(() => message.error({ content: "Synchronisation failed", key }))
+                .finally(() => setTimeout(() => setSyncEnabled(true), 10000));
+        }
+    };
     
     const getArticleLink = () => {
-        const route = RouteVariables.app.shared.article;
+        const route = RouteUtils.app.shared.article;
         
         return route.link.replace(":" + route.paramNames.identifier, identifier)
     };
+
+    const editArticleLink = (() => {
+        const route = RouteUtils.app.private.editArticle;
+
+        if (collectionId && identifier) {
+            return route.link.replace(/\/:.*/, "/") + collectionId + "/" + identifier;
+        }
+    })();
 
     return (
         <article>
             <Link to={getArticleLink} target="_blank"><p className="articleSummary__articleTitle">{title}</p></Link>
             <div className="articleSummary__articleActions">
-                <EditFilled className="icon" onClick={onEdit} />
-                <SyncOutlined className="icon" onClick={onSync} />
-                <Popconfirm title="Are you sure to delete this item?" onConfirm={onRemove} okText="Yes" cancelText="No">
-                    <DeleteOutlined className="icon icon--delete" />
-                </Popconfirm>
+                { 
+                    !!editArticleLink && 
+                    <Link to={editArticleLink}>
+                        <EditFilled className="icon" />
+                    </Link>
+                }
+                {
+                    syncEnabled &&
+                    <SyncOutlined className="icon" onClick={onSync} />
+                }
             </div>
         </article>
     );
 };
 
 const SummaryExpandedRow = (props) => {
-    const { articleSummaries = [] } = props;
-
-    const summaries = articleSummaries.map((article, index) => <SummaryArticle key={index} article={article} />);
+    const { articleSummaries = [], collectionId } = props;
+    const summaries = articleSummaries.map((article, index) => <SummaryArticle collectionId={collectionId} key={index} article={article} />);
 
     return (
         <div className="articleSummary">

@@ -196,14 +196,16 @@ export const deleteAndCloseCollection = (identifier, history) => (dispatch) => {
         .finally(() => dispatch(setCollectionCardLoading(false)));
 };
 
-export const syncResource = (identifier, isCollection = true) => (dispatch) => {
+export const syncResource = (identifier, isCollection = true, callingFromEditCard = false) => (dispatch) => {
     if (!identifier) return;
 
     const onFail = () => dispatch(pushMessage("Synchronise operation unsuccessful", MESSAGE_TYPES.error));
     const route = isCollection ? 
         RouteUtils.api.articleManagement.syncCollection : 
         RouteUtils.api.articleManagement.syncArticle;
-    dispatch(setCollectionCardLoading(true));
+    const loadingFn = callingFromEditCard ? setArticleCardLoading : setCollectionCardLoading;
+
+    dispatch(loadingFn(true));
 
     RouteUtils.sendApiRequest(route, {}, { identifier })
         .then((res) => {
@@ -215,7 +217,7 @@ export const syncResource = (identifier, isCollection = true) => (dispatch) => {
             }
         })
         .catch(onFail)
-        .finally(() => dispatch(setCollectionCardLoading(false)));
+        .finally(() => dispatch(loadingFn(false)));
 };
 
 export const fetchBackpackMetaData = () => (dispatch) => {
