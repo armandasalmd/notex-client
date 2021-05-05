@@ -143,6 +143,13 @@ export default {
             updateCollectionDetails: {
                 path: "/nexus/articleCollection/updateArticleCollection",
                 method: "POST"
+            },
+            syncCollection: {
+                path: "/nexus/articleCollection/sync",
+                method: "POST",
+                queryNames: {
+                    identifier: "identifier"
+                }
             }
         }
     },

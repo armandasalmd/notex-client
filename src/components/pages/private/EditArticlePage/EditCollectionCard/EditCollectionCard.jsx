@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
 import { EditArticleUtils, GlobalUtils } from "@utils";
-import { setEditArticle, changeAccess, updateCollectionDetails, deleteAndCloseCollection } from "@actions/editArticleActions";
+import { setEditArticle, changeAccess, updateCollectionDetails, deleteAndCloseCollection, syncCollection } from "@actions/editArticleActions";
 
 import "./EditCollectionCard.less";
 import { Button, Spin } from "antd";
@@ -23,7 +23,7 @@ const EditCollectionCard = (props) => {
             props.deleteAndCloseCollection(props.collectionId, history);
         },
         onSync: () => {
-            console.log("On sync", props.collectionId);
+            props.syncCollection(props.collectionId);
         }
     };
 
@@ -88,7 +88,8 @@ EditCollectionCard.propTypes = {
     setEditArticle: PropTypes.func.isRequired,
     changeAccess: PropTypes.func.isRequired,
     updateCollectionDetails: PropTypes.func.isRequired,
-    deleteAndCloseCollection: PropTypes.func.isRequired
+    deleteAndCloseCollection: PropTypes.func.isRequired,
+    syncCollection: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -99,5 +100,9 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, { 
-    setEditArticle, changeAccess, updateCollectionDetails, deleteAndCloseCollection 
+    setEditArticle,
+    changeAccess,
+    updateCollectionDetails,
+    deleteAndCloseCollection,
+    syncCollection
 })(EditCollectionCard);

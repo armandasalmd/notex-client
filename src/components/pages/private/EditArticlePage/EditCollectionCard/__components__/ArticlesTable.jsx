@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { GlobalUtils, EditArticleUtils, RouteVariables } from "@utils";
 
 import { Button, Table } from "antd";
+import { LinkOutlined } from "@ant-design/icons";
 import ArticleAccessPicker from "##/ArticleAccessPicker";
 import ArticlesTableActions from "./ArticlesTableActions";
 
@@ -20,7 +21,7 @@ const getTableColumns = (actionEvents) => {
                 const route = RouteVariables.app.shared.article;
                 const link = route.link.replace(":" + route.paramNames.identifier, data.identifier)
                 return (
-                    <Link target="_blank" to={link}><Button type="link">{data.value}</Button></Link>
+                    <Link target="_blank" to={link}><Button type="link" icon={<LinkOutlined />}>{data.value}</Button></Link>
                 );
             }
         },

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { GlobalUtils } from "@utils";
 
@@ -7,6 +7,7 @@ import { SyncOutlined, DeleteOutlined } from "@ant-design/icons";
 import ArticleAccessPicker from "##/ArticleAccessPicker";
 
 const EditCollectionInfo = (props) => {
+    const [syncDisabled, setSyncDisabled] = useState(false);
     const { onAccessChange, onRemoveCollection, onSync, accessStatus } = props;
 
     return (
@@ -21,7 +22,13 @@ const EditCollectionInfo = (props) => {
                 </Popconfirm>
             </span>
             <span className="editCollectionCard__action">
-                <Button onClick={() => GlobalUtils.callIfFunction(onSync)} icon={<SyncOutlined />}>Sync all articles</Button>
+                <Button disabled={syncDisabled} onClick={() => {
+                    setSyncDisabled(true);
+                    GlobalUtils.callIfFunction(onSync);
+                    setTimeout(() => {
+                        setSyncDisabled(false);
+                    }, 10000);
+                }} icon={<SyncOutlined />}>Sync all articles</Button>
             </span>
             <span className="editCollectionCard__action">
                 <ArticleAccessPicker onChange={(value) => GlobalUtils.callIfFunction(onAccessChange, value)} value={accessStatus || "0"} />

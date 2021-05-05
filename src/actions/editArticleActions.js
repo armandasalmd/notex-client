@@ -172,9 +172,7 @@ export const updateCollectionDetails = (identifier, title, description) => (disp
 };
 
 export const deleteAndCloseCollection = (identifier, history) => (dispatch) => {
-    if (!identifier) {
-        return;
-    }
+    if (!identifier) return;
 
     const onFail = () => dispatch(pushMessage("Delete operation unsuccessful", MESSAGE_TYPES.error));
     dispatch(setCollectionCardLoading(true));
@@ -187,6 +185,25 @@ export const deleteAndCloseCollection = (identifier, history) => (dispatch) => {
                     type: DELETE_AND_CLOSE_COLLECTION,
                     payload: identifier
                 });
+            } else {
+                onFail();
+            }
+        })
+        .catch(onFail)
+        .finally(() => dispatch(setCollectionCardLoading(false)));
+};
+
+export const syncCollection = (identifier) => (dispatch) => {
+    if (!identifier) return;
+
+    const onFail = () => dispatch(pushMessage("Synchronise operation unsuccessful", MESSAGE_TYPES.error));
+    const route = RouteUtils.api.articleManagement.syncCollection;
+    dispatch(setCollectionCardLoading(true));
+
+    RouteUtils.sendApiRequest(route, {}, { identifier })
+        .then((res) => {
+            if (res.data?.success) {
+                dispatch(pushMessage("All articles synchronised", MESSAGE_TYPES.success))
             } else {
                 onFail();
             }
