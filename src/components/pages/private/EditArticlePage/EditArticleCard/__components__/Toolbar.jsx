@@ -2,10 +2,10 @@ import React from "react";
 import { I18n } from "react-redux-i18n";
 
 import { Row, Col, Space, Button, Tooltip } from "antd";
-import { ShareAltOutlined, CloseOutlined, SaveOutlined, SyncOutlined } from "@ant-design/icons";
+import { ShareAltOutlined, CloseOutlined, SyncOutlined } from "@ant-design/icons";
 
 const Toolbar = (props) => {
-    const { loading, actions } = props;
+    const { actions } = props;
 
     return (
         <Row justify="space-between">
@@ -14,15 +14,6 @@ const Toolbar = (props) => {
             </Col>
             <Col>
                 <Space>
-                    <Button
-                        loading={loading}
-                        onClick={actions.onSave}
-                        type="primary"
-                        shape="round"
-                        icon={<SaveOutlined />}
-                    >
-                        {I18n.t("dashboard.noteCard.toolbar.save")}
-                    </Button>
                     <Button
                         onClick={actions.onSync}
                         type="primary"

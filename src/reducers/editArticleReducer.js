@@ -83,7 +83,7 @@ export default function (state = initialState, action) {
             const newState = {
                 ...state,
                 selectedArticleId: action.payload.identifier,
-                selectedArticle: action.payload.data,
+                selectedArticle: action.payload.data.article,
             };
 
             if (Array.isArray(action.payload.data.sourceNotebooksMetaData)) {

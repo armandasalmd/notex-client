@@ -91,7 +91,7 @@ export const setEditArticle = (articleIdentifier) => (dispatch) => {
 
     const onFail = () => dispatch(pushMessage("Cannot edit selected article", MESSAGE_TYPES.error));
 
-    dispatch(setArticleCardLoading(true));
+    dispatch(setCollectionCardLoading(true));
 
     RouteUtils.sendApiRequest(route, {}, query)
         .then((res) => {
@@ -108,7 +108,7 @@ export const setEditArticle = (articleIdentifier) => (dispatch) => {
             }
         })
         .catch(onFail)
-        .finally(() => dispatch(setArticleCardLoading(false)));
+        .finally(() => dispatch(setCollectionCardLoading(false)));
 };
 
 export const changeAccess = (identifier, newAccessStatus, isCollection) => (dispatch) => {
@@ -267,6 +267,22 @@ export const deleteArticle = (identifier) => async (dispatch) => {
         type: DELETE_ARTICLE,
         payload: identifier
     });
+
+    return response.data;
+};
+
+export const saveArticleDetails = (requestData) => async (dispatch) => {
+    if (typeof requestData !== "object") return;
+
+    dispatch(setArticleCardLoading(true));
+    const route = RouteUtils.api.articleManagement.saveArticle;
+    const response = await RouteUtils.sendApiRequest(route, {
+        ...requestData,
+        accessStatus: parseInt(requestData.articleAccessStatus) || 2,
+        ext_SourceNoteId: requestData.sourceNoteId
+    });
+    
+    dispatch(setArticleCardLoading(false));
 
     return response.data;
 };

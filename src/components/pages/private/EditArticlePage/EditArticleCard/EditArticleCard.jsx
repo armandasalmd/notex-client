@@ -5,19 +5,16 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
 import { RouteVariables } from "@utils";
-import { setEditArticle, syncResource } from "@actions/editArticleActions";
+import { setEditArticle, syncResource, saveArticleDetails } from "@actions/editArticleActions";
 
 import "./EditArticleCard.less";
-import { Row, Spin, message } from "antd";
-import { Toolbar } from "./__components__";
+import { Spin, message } from "antd";
+import { ArticleDetailsForm, Toolbar } from "./__components__";
 
 const EditArticleCard = (props) => {
     const thisRef = useRef(null);
 
     const actions = {
-        onSave: () => {
-            console.log("Save");
-        },
         onSync: () => {
             props.syncResource(props.articleId, false, true);
         },
@@ -33,6 +30,20 @@ const EditArticleCard = (props) => {
         }
     };
 
+    const onSave = (formData) => {
+        formData.articleGuid = props.articleId;
+
+        props.saveArticleDetails(formData)
+            .then((data) => {
+                if (data?.success) {
+                    message.success("Successfully updated");
+                }
+            })
+            .catch(() => {
+                message.error("Cannot update article");
+            });
+    };
+
     useEffect(() => {
         if (thisRef && thisRef.current) {
             thisRef.current.scrollIntoView();
@@ -41,12 +52,10 @@ const EditArticleCard = (props) => {
 
     return (
         <Spin spinning={props.loading}>
-            <div ref={thisRef} className="card editArticleCard" style={{height: 250}}>
+            <div ref={thisRef} className="card editArticleCard">
                 <div className="card__content">
                     <Toolbar loading={props.loading} actions={actions} />
-                    <Row>
-                        <p>Some content</p>
-                    </Row>
+                    <ArticleDetailsForm article={props.article} className="editArticleCard__form" sourceMetaData={props.backpackMetaData} onSubmit={onSave} />
                 </div>
             </div>
         </Spin>
@@ -58,13 +67,19 @@ EditArticleCard.propTypes = {
     article: PropTypes.object.isRequired,
     articleId: PropTypes.string.isRequired,
     setEditArticle: PropTypes.func.isRequired,
-    syncResource: PropTypes.func.isRequired
+    syncResource: PropTypes.func.isRequired,
+    saveArticleDetails: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
     loading: state.editArticle.articleCardLoading,
     articleId: state.editArticle.selectedArticleId,
-    article: state.editArticle.selectedArticle
+    article: state.editArticle.selectedArticle,
+    backpackMetaData: state.editArticle.backpackMetaData
 });
 
-export default connect(mapStateToProps, { setEditArticle, syncResource })(EditArticleCard);
+export default connect(mapStateToProps, { 
+    setEditArticle,
+    syncResource,
+    saveArticleDetails
+})(EditArticleCard);

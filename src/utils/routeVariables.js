@@ -103,6 +103,10 @@ export default {
                 path: "/api/settings/uploadAvatar",
                 method: "POST",
             },
+            uploadCover: {
+                path: "http://localhost:3001/api/upload/image",
+                method: "POST"
+            }
         },
         articleManagement: {
             getCreateCollectionMetaData: {
@@ -162,6 +166,10 @@ export default {
             },
             createArticle: {
                 path: "/nexus/article/create",
+                method: "POST"
+            },
+            saveArticle: {
+                path: "/nexus/articleManagement/saveArticleSettings",
                 method: "POST"
             }
         }
