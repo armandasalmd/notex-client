@@ -1,44 +1,27 @@
-import React, { useEffect } from "react";
+import React from "react";
+import { I18n } from "react-redux-i18n";
 import { Route, Switch, Redirect } from "react-router-dom";
-import { setLocale } from "react-redux-i18n";
-
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { initSettings } from "@actions/settingsActions";
 
 import Navbar from "#/containers/Navbar";
 import NotePage from "#/pages/private/NotePage";
 import SettingsPage from "#/pages/private/SettingsPage";
+import ArticleManagementPage from "#/pages/private/ArticleManagementPage";
+import EditArticlePage from "#/pages/private/EditArticlePage";
 import LogoutPage from "#/pages/auth/LogoutPage";
-
-import { GlobalUtils, RouteUtils, I18nUtils } from "@utils";
-import { I18n } from "react-redux-i18n";
+import { sharedRoutes } from "#/AppShared";
 import RenderPage from "#/RenderPage";
+import InitAppPrivate from "#/InitAppPrivate";
+
+import { RouteUtils } from "@utils";
 
 const AppPrivate = props => {
     const noteMenuAvailable = props.location.pathname === RouteUtils.app.private.main.link;
 
-    // Similar to componentDidMount and componentDidUpdate:
-    useEffect(() => {
-        if (props.settings.initialised === false) {
-            props.initSettings();
-        }
-    });
-
-    // Similar to componentDidMount and componentDidUpdate:
-    useEffect(() => {
-        if (props.settings.initialised === true) {
-            const lang = GlobalUtils.getValue(props, "settings.appSettings.preferredLanguage", I18nUtils.DEFAULT_LANGUAGE);
-    
-            if (GlobalUtils.hasLength(lang) && lang !== props.currentLanguage) {
-                I18nUtils.saveLanguageLocally(lang); // save to localStorage
-                props.setLocale(lang); // swap render language object
-            }
-        }
-    });
-
     return (
         <>
+            <InitAppPrivate />
             <Navbar enableNavbarActions hamburgerEnabled={noteMenuAvailable} menuItems={RouteUtils.getMenuItems(props.auth.isAuthenticated)} />
             <Switch>
                 <Route
@@ -51,7 +34,18 @@ const AppPrivate = props => {
                     path={RouteUtils.app.private.settings.link}
                     component={RenderPage(SettingsPage, I18n.t(RouteUtils.app.private.settings.titleTextKey))}
                 />
+                <Route
+                    exact
+                    path={RouteUtils.app.private.articleManagement.link}
+                    component={RenderPage(ArticleManagementPage, I18n.t(RouteUtils.app.private.articleManagement.titleTextKey))}
+                />
+                <Route
+                    exact
+                    path={RouteUtils.app.private.editArticle.link}
+                    component={RenderPage(EditArticlePage, I18n.t(RouteUtils.app.private.editArticle.titleTextKey))}
+                />
                 <Route exact path={RouteUtils.app.auth.logout.link} component={LogoutPage} />
+                {sharedRoutes()}
                 <Route component={() => <Redirect to="/" />} />
             </Switch>
         </>
@@ -59,17 +53,11 @@ const AppPrivate = props => {
 };
 
 AppPrivate.propTypes = {
-    auth: PropTypes.object.isRequired,
-    currentLanguage: PropTypes.string.isRequired,
-    settings: PropTypes.object.isRequired,
-    setLocale: PropTypes.func.isRequired,
-    initSettings: PropTypes.func.isRequired
+    auth: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-    auth: state.auth,
-    currentLanguage: state.i18n.locale,
-    settings: state.settings
+    auth: state.auth
 });
 
-export default connect(mapStateToProps, { setLocale, initSettings })(AppPrivate);
+export default connect(mapStateToProps, {})(AppPrivate);

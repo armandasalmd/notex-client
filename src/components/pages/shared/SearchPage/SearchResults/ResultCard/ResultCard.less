@@ -1,0 +1,122 @@
+@import "@styles/Variables.less";
+@import "@styles/Placeholders.less";
+
+@root: resultCard;
+
+.@{root} {
+    @lighten-primary-color: lighten(@primary-color, 10%);
+
+    .cardBase();
+
+    padding: (2 * @unit / 3) @unit;
+    position: relative;
+
+    &__tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-bottom: 12px;
+
+        // ANTD OVERRIDE
+        .ant-tag {
+            margin-right: 0;
+        }
+    }
+
+    &__title {
+        font-family: @raleway-font;
+        font-weight: 600;
+        font-size: 16px;
+        color: @shade90;
+
+        &:hover {
+            cursor: pointer;
+            text-decoration: underline;
+            user-select: none;
+        }
+    }
+
+    &__description {
+        color: @shade70;
+    }
+
+    &__info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        
+        .@{root}__infoItems > * {
+            display: inline-flex;
+            gap: 10px;
+
+            &:not(:last-child) {
+                margin-right: 12px;
+            }
+        }
+
+        .@{root}__infoIcon {
+            font-size: 1.4em;
+            margin-right: 8px;
+            color: @shade50;
+        }
+
+        .@{root}__love {
+            display: inline-flex;
+            font-size: 1.6em;
+            color: @shade50;
+
+            &:hover {
+                cursor: pointer;
+                user-select: none;
+            }
+
+            &--active {
+                color: @lighten-primary-color;
+            }
+        }
+    }
+
+    &__footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap-reverse;
+
+        .@{root}__author {
+            white-space: nowrap;
+        }
+        
+        .@{root}__rating {
+            white-space: nowrap;
+        }
+    }
+
+    &__extraLabel {
+        position: absolute;
+        top: (2 * @unit / 3);
+        right: -12px;
+        font-size: 14px;
+        background: @lighten-primary-color;
+        padding: 0 @unit;
+        border-radius: 2px;
+        color: white;
+    }
+    
+    &--secondary {
+        &.@{root}--selected {
+            border-left: 6px solid @secondary-color;
+        }
+
+        .@{root}__love--active {
+            color: @secondary-color;
+        }
+
+        .@{root}__extraLabel {
+            background: @secondary-color;
+        }
+    }
+    
+    &--selected {
+        border-left: 6px solid @lighten-primary-color;
+    }
+}

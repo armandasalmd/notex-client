@@ -1,0 +1,47 @@
+@import "@styles/Variables.less";
+
+@root: editCollectionCard;
+
+.@{root} {
+    .card__header {
+        display: block;
+    }
+
+    &__details {
+        margin-top: @unit * 0.5;
+    }
+
+    &__actions {
+        display: flex;
+        justify-content: flex-end;
+        flex-wrap: wrap;
+        gap: @unit * 0.5;
+    }
+
+    &__header {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: @unit * 0.5;
+
+        .@{root}__title {
+            font-family: @raleway-font;
+            font-size: 1.2em;
+            font-weight: 500;
+            color: @shade80;
+            margin-bottom: 0;
+        }
+        
+        .@{root}__description {
+            margin-top: @unit * -0.25;
+            color: @text-silent-color;
+            font-size: 1em;
+        }
+
+        // .@{root}__button {}
+    }
+
+    &__articlesTable {
+        margin-top: @unit;
+    }
+}

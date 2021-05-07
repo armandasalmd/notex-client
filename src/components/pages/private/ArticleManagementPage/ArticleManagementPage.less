@@ -1,0 +1,30 @@
+@import "@styles/Variables.less";
+
+@root: articleManagement;
+
+.@{root} {
+    margin: 0 10%;
+
+    &__header {
+        margin-top: @unit * 1.2;
+        margin-bottom: @unit * 0.5;
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
+    
+    &__body {
+        margin-bottom: 2 * @unit;
+
+        @{root}__searchLabel {
+            display: inline-block;
+        }
+    }
+}
+
+@media (max-width: @lg) {
+    .@{root} {
+        margin-left: @unit;
+        margin-right: @unit;
+    }
+}

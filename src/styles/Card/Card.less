@@ -1,0 +1,78 @@
+@import "@styles/Variables.less";
+@import "@styles/Placeholders.less";
+
+@root: card;
+@separatorColor: @shade30;
+@unit: 16px;
+
+.@{root} {
+    .cardBase();
+
+    // <start>__ELEMENTS</start>
+    &__content {
+        padding: @unit;
+    }
+
+    &__footer {
+        @spacing: @unit / 2;
+
+        padding: @unit;
+        border-top: 1px solid @separatorColor;
+        display: flex;
+        justify-content: flex-end;
+        gap: @spacing;
+
+        &--actionButtons {
+            padding: @spacing;
+        }
+
+        &--borderless {
+            border-top: none;
+        }
+    }
+
+    &__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid @separatorColor;
+        padding: (@unit * 2 / 3) @unit;
+
+        &--separatorNone {
+            border-bottom: none;
+        }
+
+        &--separatorSpiked {
+            padding: @unit @unit (@unit * 1.5) @unit;
+            border-bottom: none;
+            .spikedBorder();
+        }
+
+        &--separatorDashed {
+            border-bottom: none;
+            .dashedBorder();
+        }
+    }
+
+    &__title,
+    &__titleActions {
+        font-size: 22px;
+        display: inline-block;
+
+        &--small {
+            font-size: 16px;
+        }
+    }
+    // <end>__ELEMENTS</end>
+
+    // <start> --MODIFIERS </start>
+
+    &--padded {
+        padding: @unit;
+    }
+
+    &--wrap {
+        display: inline-block;
+    }
+    // <end> --MODIFIERS </end>
+}

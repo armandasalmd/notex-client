@@ -1,0 +1,40 @@
+@import "@styles/Variables.less";
+
+@root: articleSummary;
+
+.@{root} {
+    margin-left: @unit * 2;
+
+    &__title {
+        font-size: 15px;
+        margin-bottom: @unit * 0.5;
+    }
+
+    &__articles {
+        display: flex;
+        flex-flow: column;
+
+        article {
+            display: flex;
+        }
+    }
+
+    &__articleTitle {
+        font-size: 15px;
+        color: @info;
+    }
+
+    &__articleActions {
+        margin-left: @unit;
+        
+        & > .icon {
+            font-size: 16px;
+            margin-left: @unit / 2;
+            color: @shade80;
+        }
+
+        & > .icon--delete {
+            color: @fail;
+        }
+    }
+}

@@ -1,0 +1,55 @@
+@import "@styles/Variables.less";
+
+@root: editArticle;
+
+.@{root} {
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-bottom: 2 * @unit;
+    display: grid;
+
+    &__backButton {
+        margin-top: @unit;
+    }
+
+    &__header {
+        margin-top: @unit * 0.7;
+    }
+    
+    &__separator {
+        @color: @shade30;
+
+        margin: @unit 0;
+        background: @color;
+        height: 2.5 * @unit;
+        justify-self: center;
+        width: 2px;
+        position: relative;
+
+        &::before, &::after {
+            background: @color;
+            content: "";
+            border-radius: 50%;
+            display: block;
+            height: 0.5 * @unit;
+            width: 0.5 * @unit;
+            left: -0.25 * @unit + 1px;
+            position: absolute;
+        }
+        
+        &::before {
+            top: -0.25 * @unit;
+        }
+        
+        &::after {
+            bottom: -0.25 * @unit;
+        }
+    }
+}
+
+@media (max-width: @lg) {
+    .@{root} {
+        margin-left: @unit;
+        margin-right: @unit;
+    }
+}

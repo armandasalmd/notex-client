@@ -1,0 +1,34 @@
+@import "@styles/Variables.less";
+
+.dashedBorder(@color: @separatorColor) {
+    background-image: linear-gradient(to right, @color 50%, rgba(255, 255, 255, 0) 0%);
+    background-position: bottom;
+    background-size: 18px 1px;
+    background-repeat: repeat-x;
+}
+
+.spikedBorder(@spikeSize: auto) {
+    background-image: url("/images/spike.svg");
+    background-position: bottom;
+    background-size: auto @spikeSize;
+    background-repeat: repeat-x;
+}
+
+.cardBase() {
+    background: @card-background-color;
+    border-radius: 4px;
+    box-shadow: @default-box-shadow;
+}
+
+.ellipsis() {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.lineClamp(@lineCount: 2) {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: @lineCount;
+    -webkit-box-orient: vertical;
+}

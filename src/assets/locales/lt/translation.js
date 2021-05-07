@@ -1,4 +1,4 @@
-import { RouteUtils } from "@utils";
+import { RouteVariables } from "@utils";
 
 export default {
     appName: "Notex",
@@ -115,16 +115,16 @@ export default {
         categories: {
             title: "Kategorijos",
             items: [
-                RouteUtils.app.public.landing
+                RouteVariables.app.public.landing
             ]
         },
         quickLinks: {
             title: "Svarbios nuorodos",
             items: [
-                RouteUtils.app.public.landing,
-                RouteUtils.app.auth.login,
-                RouteUtils.app.auth.register,
-                RouteUtils.app.public.about
+                RouteVariables.app.public.landing,
+                RouteVariables.app.auth.login,
+                RouteVariables.app.auth.register,
+                RouteVariables.app.public.about
             ]
         },
         copyright: "Copyright © 2020 Coventry, Armandas Barkauskas",
@@ -195,13 +195,15 @@ export default {
         }
     },
     navText: {
+        about: "Apie mus",
+        articleManagement: "Straipsnių valdymas",
         login: "Prisijungti",
         logout: "Atsijungti",
         register: "Registruotis",
         home: "Namai",
-        about: "Apie mus",
         main: "Užrašai",
         note: "Peržiūrėti užrašą",
+        search: "Straipsniai",
         settings: "Nustatymai",
         tutorial: "Pamoka"
     },
@@ -288,14 +290,17 @@ export default {
         disabledText: "Ups. Dar ne! Kūrėjai dirba su šia funkcija"
     },
     titleText: {
+        about: "Apie mus",
+        articleManagement: "Straipsnių valdymas",
         login: "Prisijungimas",
         logout: "Atsijungimas",
         register: "Registracija",
         home: "Namai",
-        about: "Apie mus",
         main: "Pagrindinis puslapis",
         note: "Užrašo peržiūrą",
         settings: "Nustatymai",
-        tutorial: "Pamoka"
+        search: "Ieškok straipsnių",
+        tutorial: "Pamoka",
+        editArticle: "Straipsnių redagavimas"
     }
 };

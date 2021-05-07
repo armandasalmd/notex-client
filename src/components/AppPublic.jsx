@@ -5,13 +5,14 @@ import { Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
-import Navbar from "#/containers/Navbar";
 import AboutPage from "#/pages/public/AboutPage";
 import LandingPage from "#/pages/public/LandingPage";
-import NotFoundPage from "#/pages/public/NotFoundPage";
 import LoginPage from "#/pages/auth/LoginPage";
-import SetTokenPage from "#/pages/auth/SetTokenPage";
+import Navbar from "#/containers/Navbar";
+import NotFoundPage from "#/pages/public/NotFoundPage";
 import RegisterPage from "#/pages/auth/RegisterPage";
+import SetTokenPage from "#/pages/auth/SetTokenPage";
+import { sharedRoutes } from "#/AppShared";
 
 import { withTitle } from "##/HeadTitle";
 import { RouteUtils } from "@utils";
@@ -50,6 +51,7 @@ const AppPublic = (props) => {
                     })}
                 />
                 <Route exact path={RouteUtils.app.auth.socialLogin.link} component={SetTokenPage} />
+                {sharedRoutes()}
                 <Route
                     component={withTitle({
                         component: NotFoundPage,

@@ -2,14 +2,14 @@
 @import "./Variables.less";
 @import "./Form.less";
 
+@import "./Card/Card.less";
+@import "./GhostButton/GhostButton.less";
 @import "./Text/Header.less";
+@import "./Persona/Persona.less";
 @import "./Text/Text.less";
 @import "./Text/Title.less";
-@import "./Persona/Persona.less";
 
 @card: content-card;
-@header: header;
-@text: text;
 
 body {
     margin: 0;
@@ -18,6 +18,10 @@ body {
         sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+
+p {
+    margin: 0;
 }
 
 code {
@@ -76,16 +80,6 @@ code {
     }
 }
 
-// .navbar {
-//     background-color: @background-color;
-//     height: @navbar-heigth;
-//     padding: 0;
-//     z-index: 3;
-//     -moz-box-shadow: 3px 3px 16px rgba(182, 182, 182, 0.5);
-//     -webkit-box-shadow: 3px 3px 16px rgba(182, 182, 182, 0.5);
-//     box-shadow: 3px 3px 16px rgba(182, 182, 182, 0.5);
-// }
-
 .scroll-container {
     overflow-y: auto;
     height: @body-heigth;
@@ -93,7 +87,7 @@ code {
 
 .@{card} {
     box-shadow: @default-box-shadow;
-    background: @background-color;
+    background: @card-background-color;
     border-radius: @card-border-radius;
 
     &--sticky {
@@ -169,6 +163,10 @@ code {
     .ant-menu-item:not(:last-child) {
         margin-bottom: 0;
     }
+}
+
+.ant-menu-sub.ant-menu-inline {
+    background: rgba(0, 0, 0, 0);
 }
 
 .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item-selected {

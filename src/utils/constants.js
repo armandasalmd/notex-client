@@ -1,7 +1,5 @@
 const constants = {
     appName: "Notex",
-    apiHostName: "https://notex-api.herokuapp.com",
-    apiHostNameDev: "http://localhost:3001",
     authTokenType: "Bearer",
     autoSaveTime: 5000,
     defaultTitle: "Notex",
@@ -99,9 +97,5 @@ const constants = {
         toolbar_mode: "sliding"
     }
 };
-
-// Point PROD server: constants.apiHostName
-// Point DEV server: constants.apiHostNameDev
-constants.activeHost = constants.apiHostName;
 
 export default constants;

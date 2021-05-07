@@ -1,4 +1,4 @@
-import { RouteUtils } from "@utils";
+import { RouteVariables } from "@utils";
 
 export default {
     appName: "Notex",
@@ -118,16 +118,16 @@ export default {
         categories: {
             title: "Categories",
             items: [
-                RouteUtils.app.public.landing
+                RouteVariables.app.public.landing
             ]
         },
         quickLinks: {
             title: "Quick links",
             items: [
-                RouteUtils.app.public.landing,
-                RouteUtils.app.auth.login,
-                RouteUtils.app.auth.register,
-                RouteUtils.app.public.about
+                RouteVariables.app.public.landing,
+                RouteVariables.app.auth.login,
+                RouteVariables.app.auth.register,
+                RouteVariables.app.public.about
             ]
         },
         copyright: "Copyright © 2020 Coventry, Armandas Barkauskas",
@@ -218,13 +218,15 @@ export default {
         }
     },
     navText: {
+        about: "About us",
+        articleManagement: "Article management",
         login: "Login",
         logout: "Logout",
         register: "Register",
         home: "Home",
-        about: "About us",
         main: "Dashboard",
         note: "Preview note",
+        search: "Article search",
         settings: "Settings",
         tutorial: "Tutorial"
     },
@@ -311,14 +313,17 @@ export default {
         disabledText: "Ups. Not yet! Wait for this feature to arrive"
     },
     titleText: {
+        about: "About us page",
+        articleManagement: "Article management page",
         login: "Login page",
         logout: "Logout page",
         register: "Register page",
         home: "Home page",
-        about: "About us page",
         main: "Dashboard page",
         note: "Preview note page",
         settings: "Settings page",
-        tutorial: "Tutorial page"
+        search: "Search for articles",
+        tutorial: "Tutorial page",
+        editArticle: "Edit article collection"
     }
 };
