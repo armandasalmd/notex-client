@@ -76,10 +76,20 @@
             left: 50%;
             transform: translateX(-50%);
             
-            &:hover {
+            &:hover:not(&--loading) {
                 cursor: pointer;
                 box-shadow: 0px 0px 8px @button-background;
             }
+
+            &--loading {
+                background: @sand-background-color;
+                color: @shade60;
+            }
+        }
+
+        .@{root}__searchButtonText {
+            margin-left: @unit * 0.5;
+            display: inline;
         }
     }
 }

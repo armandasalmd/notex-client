@@ -20,12 +20,16 @@
         .@{root}__item {
             font-weight: 400;
             user-select: none;
-        }
 
-        .@{root}__item:hover {
-            cursor: pointer;
-            font-weight: 600;
-            color: @primary-color;
+            &:hover, &--selected {
+                cursor: pointer;
+                font-weight: 600;
+                color: @primary-color;
+            }
+
+            &--selected {
+                text-decoration: underline;
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
 @import "@styles/Variables.less";
+@import "@styles/Placeholders.less";
 
 @root: searchResults;
 
@@ -11,6 +12,12 @@
         display: grid;
         grid-template-columns: repeat(@cardsPerRow, 1fr);
         gap: 20px;
+    }
+
+    &__empty {
+        .cardBase();
+
+        padding: @unit * 2 0;
     }
 
     &__pagination {
