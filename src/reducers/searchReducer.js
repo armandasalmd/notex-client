@@ -31,7 +31,6 @@ const initialState = {
     results: [],
     loading: false,
     pageMetaData: {
-        currentPage: 0,
         pagesCount: 0,
         totalResultsFound: 0
     }

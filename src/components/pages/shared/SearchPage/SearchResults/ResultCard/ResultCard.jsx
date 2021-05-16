@@ -2,17 +2,15 @@ import React from "react";
 import { Link } from "react-router-dom";
 import classnames from "classnames";
 
-import { GlobalUtils } from "@utils";
+import { GlobalUtils, SearchUtils } from "@utils";
 
 import "./ResultCard.less";
 import { ReadOutlined, EyeOutlined, HistoryOutlined, HeartOutlined, HeartFilled } from "@ant-design/icons";
 import { Rate, Tag } from "antd";
 
 const ResultCard = (props) => {
-    const { extraLabel, selected, color, onLovedChange, data } = props;
-    let { tags, matchingTags, title, description, readTime, views, timeAgo, author, rating, loved } = data || {};
-
-    matchingTags = matchingTags || [];
+    const { extraLabel, selected, color, onLovedChange, data, searchTags } = props;
+    let { tags, title, description, readTime, views, lastUpdated, authorName, rating, loved, identifier } = data || {};
     // love is only enabled if user is authorised
 
     function toggleLoved() {
@@ -29,29 +27,37 @@ const ResultCard = (props) => {
     })
 
     const tagColor = "geekblue";
-    const tagElements = (tags || []).map((tag, index) => <Tag key={index} color={matchingTags.includes(tag) ? tagColor : undefined}>{tag}</Tag>);
+    const tagElements = (tags || []).map((tag, index) => <Tag key={index} color={searchTags.includes(tag) ? tagColor : undefined}>{tag}</Tag>);
 
     return (
         <div className={baseClasses}>
-            <div className="resultCard__tags">
-                {tagElements}
-            </div>
-            <Link to="/article" className="resultCard__title">{title}</Link>
+            {
+                GlobalUtils.hasLength(tagElements) &&
+                <div className="resultCard__tags">
+                    {tagElements}
+                </div>
+            }
+                <p className="resultCard__title">
+                    <Link to={SearchUtils.pathToArticle(identifier)}>
+                        {title}
+                    </Link>
+                </p>
             <p className="resultCard__description">{description}</p>
             <div className="resultCard__info">
                 <div className="resultCard__infoItems">
                     {
-                        readTime &&
-                        <span><ReadOutlined className="resultCard__infoIcon" />{readTime}</span>
+                        <span>
+                            <ReadOutlined className="resultCard__infoIcon" />{readTime ? 0 : readTime} {readTime > 1 ? "mins": "min"}
+                        </span>
                     }
                     {
-                        views &&
-                        <span><EyeOutlined className="resultCard__infoIcon" />{views}</span>
+                        <span>
+                            <EyeOutlined className="resultCard__infoIcon" />{views ? 0 : views} {"views"}
+                        </span>
                     }
-                    {
-                        timeAgo &&
-                        <span><HistoryOutlined className="resultCard__infoIcon" />{timeAgo}</span>
-                    }
+                    <span>
+                        <HistoryOutlined className="resultCard__infoIcon" />{SearchUtils.toDisplayTime(lastUpdated)}
+                    </span>
                 </div>
                 {
                     onLovedChange &&
@@ -64,15 +70,15 @@ const ResultCard = (props) => {
             </div>
             <div className="resultCard__footer">
                 {
-                    author &&
-                    <span className="resultCard__author">by {author}</span>
+                    authorName &&
+                    <span className="resultCard__author">by {authorName}</span>
                 }
-                {
-                    rating &&
-                    <div className="resultCard__rating">
-                        {rating} <Rate disabled defaultValue={rating} />
-                    </div>
-                }
+                <div className="resultCard__rating">
+                    {
+                        rating > 0 && <span style={{marginRight: 8}}>{rating}</span>
+                    }
+                    <Rate disabled defaultValue={rating} />
+                </div>
             </div>
             {
                 extraLabel &&

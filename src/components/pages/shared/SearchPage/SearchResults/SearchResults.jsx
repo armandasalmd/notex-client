@@ -6,45 +6,81 @@ import { GlobalUtils } from "@utils";
 
 import "./SearchResults.less";
 import ResultCard from "./ResultCard";
+import SkeletonLoading from "./SkeletonLoading";
 import { Pagination, Empty } from "antd";
 
-import fakeSearchResults from "../../../../../assets/fakeData/searchResults.json";
+function createResultCard(item, index, searchTags) {
+    const isCollection = GlobalUtils.getValue(item, "isCollection", false);
+    const isYourArticle = GlobalUtils.getValue(item, "isYourArticle", false);
+    let color, label;
+    
+    if (isCollection) {
+        color = "secondary";
+        label = "Article collection";
+    } else if (isYourArticle) {
+        color = "primary";
+        label = "Your article";
+    }
+
+    return (
+        <ResultCard
+            key={index}
+            selected={isCollection || isYourArticle}
+            color={color}
+            extraLabel={label}
+            searchTags={searchTags}
+            data={item}
+        />
+    );
+}
 
 const SearchResults = (props) => {
-    const { results } = props;
-    
-    const resultCards = fakeSearchResults.map((item, index) => <ResultCard key={index} selected={!!item.extraLabel} extraLabel={item.extraLabel} data={item} onLovedChange={() => {}} />)
+    const { results, loading, page, searchTags } = props;
+
+    const resultCards = results.map((item, index) => createResultCard(item, index, searchTags));
     const isEmpty = !GlobalUtils.hasLength(results);
+
+    console.log(results);
 
     return (
         <div className="searchResults">
-            { 
-                isEmpty &&
+            {loading && <SkeletonLoading cardCount={page.pageSize} />}
+            {isEmpty && !loading && (
                 <div className="searchResults__empty">
                     <Empty description="No results found!" />
                 </div>
-            }
-            { 
-                !isEmpty && 
+            )}
+            {!isEmpty && !loading && (
                 <>
-                    <div className="searchResults__cards">
-                        {resultCards}
-                    </div>
+                    <div className="searchResults__cards">{resultCards}</div>
                     <div className="searchResults__pagination">
-                        <Pagination defaultCurrent={1} total={50} defaultPageSize={20} />
+                        <Pagination
+                            defaultCurrent={page.currentPage}
+                            total={page.totalResultsFound}
+                            pageSize={page.pageSize}
+                        />
                     </div>
                 </>
-            }
+            )}
         </div>
     );
 };
 
 SearchResults.propTypes = {
-    results: PropTypes.array.isRequired
+    results: PropTypes.array.isRequired,
+    searchTags: PropTypes.array.isRequired,
+    loading: PropTypes.bool.isRequired,
+    page: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = state => ({
-    results: state.search.results
+const mapStateToProps = (state) => ({
+    results: state.search.results,
+    loading: state.search.loading,
+    page: {
+        ...state.search.options.page,
+        ...state.search.pageMetaData,
+    },
+    searchTags: state.search.options.search.searchTags
 });
 
 export default connect(mapStateToProps, {})(SearchResults);

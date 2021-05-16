@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import { GlobalUtils, EditArticleUtils, RouteVariables } from "@utils";
+import { GlobalUtils, EditArticleUtils, SearchUtils } from "@utils";
 
 import { Button, Table } from "antd";
 import { LinkOutlined } from "@ant-design/icons";
@@ -17,13 +17,7 @@ const getTableColumns = (actionEvents) => {
             dataIndex: "title",
             key: "title",
             sorter: (a, b) => a.title < b.title ? -1 : 1,
-            render: (data) => {
-                const route = RouteVariables.app.shared.article;
-                const link = route.link.replace(":" + route.paramNames.identifier, data.identifier)
-                return (
-                    <Link target="_blank" to={link}><Button type="link" icon={<LinkOutlined />}>{data.value}</Button></Link>
-                );
-            }
+            render: (data) => <Link target="_blank" to={SearchUtils.pathToArticle(data.identifier)}><Button type="link" icon={<LinkOutlined />}>{data.value}</Button></Link>
         },
         {
             title: "Last update",

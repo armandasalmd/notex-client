@@ -64,10 +64,23 @@ const searchFilters = [
     },
 ];
 
+const toDisplayTime = (universalTimeString) => {
+    return "5 mins ago";
+};
+
+const pathToArticle = (identifier) => {
+    if (!identifier) return "/";
+    const route = RouteUtils.app.shared.article;
+
+    return route.link.replace(":" + route.paramNames.identifier, identifier);
+}
+
 export default {
     PublishDateEnum,
     ReadDurationEnum,
     MinimumRatingEnum,
     searchAsync,
-    searchFilters
+    searchFilters,
+    pathToArticle,
+    toDisplayTime
 };

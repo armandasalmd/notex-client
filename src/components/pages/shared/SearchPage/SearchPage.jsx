@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
@@ -20,6 +20,10 @@ const SearchPage = (props) => {
 
         props.search(options);
     };
+    
+    useEffect(() => {
+        onSearch(); // initial load
+    });
 
     return (
         <div className="searchPage">
