@@ -7,15 +7,13 @@ import { GlobalUtils, SearchUtils } from "@utils";
 import "./ResultCard.less";
 import { ReadOutlined, EyeOutlined, HistoryOutlined, HeartOutlined, HeartFilled } from "@ant-design/icons";
 import { Rate, Tag } from "antd";
+import CollectionArticlesMenu from "./CollectionArticlesMenu";
 
 const ResultCard = (props) => {
     const { extraLabel, selected, color, onLovedChange, data, searchTags } = props;
-    let { tags, title, description, readTime, views, lastUpdated, authorName, rating, loved, identifier } = data || {};
-    // love is only enabled if user is authorised
+    let { tags, title, description, readTime, views, lastUpdated, authorName, rating, loved, identifier, articlesInCollection, isCollection } = data || {};
 
-    function toggleLoved() {
-        GlobalUtils.callIfFunction(onLovedChange, !loved);
-    }
+    const toggleLoved = () => GlobalUtils.callIfFunction(onLovedChange, !loved);
 
     const lovedClasses = classnames("resultCard__love", {
         "resultCard__love--active": loved
@@ -29,6 +27,20 @@ const ResultCard = (props) => {
     const tagColor = "geekblue";
     const tagElements = (tags || []).map((tag, index) => <Tag key={index} color={searchTags.includes(tag) ? tagColor : undefined}>{tag}</Tag>);
 
+    let titleComponent;
+
+    if (isCollection) {
+        titleComponent = <CollectionArticlesMenu title={title} items={articlesInCollection} />;
+    } else {
+        titleComponent = (
+            <p className="resultCard__title">
+                <Link to={SearchUtils.pathToArticle(identifier)}>
+                    {title}
+                </Link>
+            </p>
+        );
+    }
+
     return (
         <div className={baseClasses}>
             {
@@ -37,11 +49,7 @@ const ResultCard = (props) => {
                     {tagElements}
                 </div>
             }
-                <p className="resultCard__title">
-                    <Link to={SearchUtils.pathToArticle(identifier)}>
-                        {title}
-                    </Link>
-                </p>
+            {titleComponent}
             <p className="resultCard__description">{description}</p>
             <div className="resultCard__info">
                 <div className="resultCard__infoItems">

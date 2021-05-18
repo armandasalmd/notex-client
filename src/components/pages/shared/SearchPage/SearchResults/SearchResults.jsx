@@ -35,12 +35,13 @@ function createResultCard(item, index, searchTags) {
 }
 
 const SearchResults = (props) => {
-    const { results, loading, page, searchTags } = props;
+    const { results, loading, page, searchTags, onSearch } = props;
 
     const resultCards = results.map((item, index) => createResultCard(item, index, searchTags));
     const isEmpty = !GlobalUtils.hasLength(results);
 
-    console.log(results);
+    const onPageChange = (page, pageSize) => GlobalUtils.callIfFunction(onSearch, page, pageSize);
+    const onPageSizeChange = (_, pageSize) => GlobalUtils.callIfFunction(onSearch, 1, pageSize);
 
     return (
         <div className="searchResults">
@@ -55,9 +56,12 @@ const SearchResults = (props) => {
                     <div className="searchResults__cards">{resultCards}</div>
                     <div className="searchResults__pagination">
                         <Pagination
-                            defaultCurrent={page.currentPage}
+                            current={page.pageNumber}
                             total={page.totalResultsFound}
                             pageSize={page.pageSize}
+                            onChange={onPageChange}
+                            onPageSizeChange={onPageSizeChange}
+                            showSizeChanger
                         />
                     </div>
                 </>

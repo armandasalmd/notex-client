@@ -24,6 +24,8 @@ export const search = (options) => (dispatch) => {
     SearchUtils.searchAsync(options || {})
         .then((res) => {
             if (res.data) {
+                res.data.pageSize = options.pageSize;
+                
                 dispatch({
                     type: POST_SEARCH,
                     payload: res.data

@@ -16,7 +16,7 @@ const SearchBanner = (props) => {
 
     const handleSearch = () => {
         if (!loading) {
-            onSearch();
+            onSearch(1);
         }
     };
 

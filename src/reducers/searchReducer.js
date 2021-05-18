@@ -62,16 +62,19 @@ export default function (state = initialState, action) {
             };
             return { ...state };
         }
-        case POST_SEARCH:
+        case POST_SEARCH: {
+            state.options.page.pageNumber = GlobalUtils.getValue(action.payload, "currentPage", 1);
+            state.options.page.pageSize = GlobalUtils.getValue(action.payload, "pageSize", 10);
+
             return {
                 ...state,
                 results: GlobalUtils.getValue(action.payload, "searchItems", initialState.results),
                 pageMetaData: {
-                    currentPage: GlobalUtils.getValue(action.payload, "currentPage", 1),
                     pagesCount: GlobalUtils.getValue(action.payload, "pagesCount", 1),
                     totalResultsFound: GlobalUtils.getValue(action.payload, "totalResultsFound", 0)
                 }
             };
+        }
         default:
             return state;
     }

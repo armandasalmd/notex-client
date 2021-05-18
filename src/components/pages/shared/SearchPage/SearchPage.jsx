@@ -10,12 +10,19 @@ import SearchHeader from "./SearchHeader";
 import SearchResults from "./SearchResults";
 
 const SearchPage = (props) => {
-    
-    const onSearch = () => {
+    const onSearch = (pageNumber, pageSize) => {
+        let storePageNumber = props.options.page.pageNumber;
+        let storePageSize = props.options.page.pageSize;
+
+        if (storePageNumber === pageNumber && storePageSize === pageSize) {
+            return;
+        }
+
         const options = {
             ...props.options.search,
             ...props.options.filters,
-            ...props.options.page
+            pageNumber: typeof pageNumber === "number" ? pageNumber : storePageNumber,
+            pageSize: typeof pageSize === "number" ? pageSize : storePageSize
         };
 
         props.search(options);
@@ -29,7 +36,7 @@ const SearchPage = (props) => {
         <div className="searchPage">
             <SearchBanner onSearch={onSearch} />
             <SearchHeader />
-            <SearchResults />
+            <SearchResults onSearch={onSearch} />
         </div>
     );
 };
