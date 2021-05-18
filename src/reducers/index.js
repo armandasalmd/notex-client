@@ -7,6 +7,7 @@ import authReducer from "./authReducer";
 import editArticleReducer from "./editArticleReducer";
 import errorReducer from "./errorReducer";
 import messageReducer from "./messageReducer";
+import searchReducer from "./searchReducer";
 import settingsReducer from "./settingsReducer";
 
 const rootReducer = combineReducers({
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
     auth: authReducer,
     editArticle: editArticleReducer,
     errors: errorReducer,
+    search: searchReducer,
     settings: settingsReducer,
     message: messageReducer
 });

@@ -172,6 +172,12 @@ export default {
                 path: "/nexus/articleManagement/saveArticleSettings",
                 method: "POST"
             }
+        },
+        articles: {
+            search: {
+                path: "/nexus/search",
+                method: "POST"
+            }
         }
     },
     app: {

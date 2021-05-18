@@ -12,12 +12,8 @@ const SearchTags = (props) => {
         children.push(<Option key={tag}>{tag}</Option>);
     }
 
-    function handleChange(value) {
-        console.log(`selected ${value}`);
-    }
-
     return (
-        <Select mode="tags" style={{ width: "100%" }} placeholder="Preferred article tags" onChange={handleChange}>
+        <Select mode="tags" style={{ width: "100%" }} placeholder="Preferred article tags" onChange={props.onChange}>
             {children}
         </Select>
     );

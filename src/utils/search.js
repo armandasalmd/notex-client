@@ -1,0 +1,121 @@
+import { RouteUtils } from "@utils";
+
+const PublishDateEnum = Object.freeze({
+    NONE: 0,
+    LAST_HOUR: 1,
+    TODAY: 2,
+    THIS_WEEK: 3,
+    THIS_MONTH: 4,
+    THIS_YEAR: 5
+});
+
+const ReadDurationEnum = Object.freeze({
+    NONE: 0,
+    SHORT: 1,
+    MEDIUM: 2,
+    LONG: 3
+});
+
+const MinimumRatingEnum = Object.freeze({
+    NONE: 0,
+    AT_LEAST_1_5: 1,
+    AT_LEAST_2_5: 2,
+    AT_LEAST_3_5: 3,
+    AT_LEAST_4_5: 4
+});
+
+const searchAsync = (options) => {
+    return RouteUtils.sendApiRequest(RouteUtils.api.articles.search, options);
+};
+
+const searchFilters = [
+    {
+        name: "Publish date",
+        reduxName: "publishDateFilter",
+        defaultValue: PublishDateEnum.NONE,
+        options: [
+            { name: "Last hour", value: PublishDateEnum.LAST_HOUR },
+            { name: "Today", value: PublishDateEnum.TODAY },
+            { name: "This week", value: PublishDateEnum.THIS_WEEK },
+            { name: "This month", value: PublishDateEnum.THIS_MONTH },
+            { name: "This year", value: PublishDateEnum.THIS_YEAR }
+        ]
+    },
+    {
+        name: "Read duration",
+        reduxName: "readDurationFilter",
+        defaultValue: ReadDurationEnum.NONE,
+        options: [
+            { name: "Short (< 4 minutes)", value: ReadDurationEnum.SHORT },
+            { name: "Medium (4 - 20 minutes)", value: ReadDurationEnum.MEDIUM },
+            { name: "Long (> 20 minutes)", value: ReadDurationEnum.LONG }
+        ]
+    },
+    {
+        name: "Minimum rating",
+        reduxName: "minimumRatingFilter",
+        defaultValue: MinimumRatingEnum.NONE,
+        options: [
+            { name: "4.5 star", value: MinimumRatingEnum.AT_LEAST_4_5 },
+            { name: "3.5 star", value: MinimumRatingEnum.AT_LEAST_3_5 },
+            { name: "2.5 star", value: MinimumRatingEnum.AT_LEAST_2_5 },
+            { name: "1.5 star", value: MinimumRatingEnum.AT_LEAST_1_5 }
+        ]
+    },
+];
+
+const searchItemProps = {
+    childItems: "articlesInCollection",
+    childItem: {
+        identifier: "identifier",
+        title: "title"
+    },
+    authorName: "authorName",
+    description: "description",
+    identifier: "identifier",
+    isCollection: "isCollection",
+    isYourArticle: "isYourArticle",
+    lastUpdated: "lastUpdated",
+    rating: "rating",
+    readTime: "readTime",
+    tags: "tags",
+    title: "title",
+    views: "views"
+};
+
+const toDisplayTime = (date) => {
+    date = typeof date === "object" ? date : new Date(date);
+    
+    const intervals = [
+        { label: "year", seconds: 31536000 },
+        { label: "month", seconds: 2592000 },
+        { label: "week", seconds: 604800 },
+        { label: "day", seconds: 86400 },
+        { label: "hour", seconds: 3600 },
+        { label: "minute", seconds: 60 },
+        { label: "second", seconds: 1 }
+    ];
+    const seconds = Math.floor((Date.now() - date.getTime()) / 1000);
+    const interval = intervals.find(i => i.seconds < seconds);
+    const count = Math.floor(seconds / interval.seconds);
+
+    return `${count} ${interval.label}${count !== 1 ? "s" : ""} ago`;
+};
+
+const pathToArticle = (identifier) => {
+    if (!identifier) return "/";
+    const route = RouteUtils.app.shared.article;
+
+    return route.link.replace(":" + route.paramNames.identifier, identifier);
+}
+
+export default {
+    PublishDateEnum,
+    ReadDurationEnum,
+    MinimumRatingEnum,
+    searchAsync,
+    searchFilters,
+    searchItemProps,
+    pathToArticle,
+    toDisplayTime
+};

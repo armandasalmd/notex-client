@@ -7,6 +7,7 @@ export { default as HistoryUtils } from "./history";
 export { default as NoteUtils } from "./note";
 export { default as RouteVariables } from "./routeVariables";
 export { default as RouteUtils } from "./routes";
+export { default as SearchUtils } from "./search";
 
 // dependant exports
 export { default as I18nUtils } from "./i18n";

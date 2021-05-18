@@ -11,11 +11,16 @@
     padding: (2 * @unit / 3) @unit;
     position: relative;
 
+    &:hover {
+        box-shadow: @default-box-shadow-strong;
+    }
+
     &__tags {
         display: flex;
         flex-wrap: wrap;
         gap: 6px;
-        margin-bottom: 12px;
+        margin-top: 4px;
+        margin-bottom: 8px;
 
         // ANTD OVERRIDE
         .ant-tag {
@@ -27,12 +32,17 @@
         font-family: @raleway-font;
         font-weight: 600;
         font-size: 16px;
-        color: @shade90;
+        color: @primary-color;
+        display: inline-block;
 
         &:hover {
             cursor: pointer;
             text-decoration: underline;
             user-select: none;
+        }
+
+        &:first-child {
+            margin-top: 34px;
         }
     }
 
@@ -43,11 +53,12 @@
     &__info {
         display: flex;
         justify-content: space-between;
-        align-items: center;
-        
+        align-items: baseline;
+        margin-top: @unit * 0.75;
+
         .@{root}__infoItems > * {
             display: inline-flex;
-            gap: 10px;
+            align-items: flex-start;
 
             &:not(:last-child) {
                 margin-right: 12px;
