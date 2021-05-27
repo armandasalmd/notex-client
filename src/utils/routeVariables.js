@@ -104,7 +104,7 @@ export default {
                 method: "POST",
             },
             uploadCover: {
-                path: "http://localhost:3001/api/upload/image",
+                path: "/api/upload/image",
                 method: "POST"
             }
         },
