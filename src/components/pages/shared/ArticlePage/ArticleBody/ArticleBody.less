@@ -1,6 +1,40 @@
 @import "@styles/Variables.less";
+@import "../ArticlePage.less";
 
-@root: articleBody;
+@root: articlePageBody;
 
 .@{root} {
+    @imageOversizing: 8%;
+
+    padding: 2 * @unit @articlePageHorizontalPadding;
+
+    &__coverImage {
+        width: 100% + @imageOversizing * 2;
+        margin-bottom: 2 * @unit;
+        transform: translateX(-7%);
+    }
+}
+
+@media (max-width: @md) {
+    @horizontal-padding: @articlePageHorizontalPaddingMedium;
+
+    .@{root} {
+        padding-left: @horizontal-padding;
+        padding-right: @horizontal-padding;
+    }
+}
+
+@media (max-width: @sm) {
+    @horizontal-padding: @articlePageHorizontalPaddingSmall;
+
+    .@{root} {
+        padding-top: @unit * 2;
+        padding-left: @horizontal-padding;
+        padding-right: @horizontal-padding;
+
+        &__coverImage {
+            width: 100%;
+            transform: none;
+        }
+    }
 }

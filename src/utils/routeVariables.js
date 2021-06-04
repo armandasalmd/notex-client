@@ -174,6 +174,13 @@ export default {
             }
         },
         articles: {
+            read: {
+                path: "/nexus/article/read/:article",
+                method: "GET",
+                paramNames: {
+                    articleIdentifier: "article"
+                }
+            },
             search: {
                 path: "/nexus/search",
                 method: "POST"

@@ -1,2 +1,1 @@
-import ArticleBody from "./ArticleBody";
-export default ArticleBody;
+export { default } from "./ArticleBody";

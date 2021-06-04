@@ -1,38 +1,31 @@
 import React from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 
-import ArticleBody from "./ArticleBody";
-import ArticleDetails from "./ArticleDetails";
+import { BackTop } from "antd";
 import ArticleHeader from "./ArticleHeader";
-import ArticleSuggestions from "./ArticleSuggestions";
-import { Image } from "antd";
+import ArticleBody from "./ArticleBody";
+import ArticleFooter from "./ArticleFooter";
+import Footer from "#/containers/Footer";
 
-import "./ArticlePage.less";
-
-const ArticlePage = (props) => {
-    let { coverImage } = props;
-
-    coverImage = "/images/sample-article-cover.jpg";
-
+export const ArticlePage = (props) => {
     return (
         <div className="articlePage">
-            {
-                coverImage &&
-                <Image preview={false} className="articlePage__cover" src={coverImage} />
-            }
-            <div className="articlePage__header">
-                <ArticleHeader darkText={coverImage === undefined} />
-            </div>
-            <div className="articlePage__body">
-                <div className="articlePage__container">
-                    <ArticleBody />
-                </div>
-                <div className="articlePage__sidebar">
-                    <ArticleDetails />
-                    <ArticleSuggestions />
-                </div>
-            </div>
+            <ArticleHeader />
+            <ArticleBody />
+            <ArticleFooter />
+            <Footer />
+            <BackTop />
         </div>
     );
 };
 
-export default ArticlePage;
+ArticlePage.propTypes = {
+    props: PropTypes,
+};
+
+const mapStateToProps = (state) => ({});
+
+const mapDispatchToProps = {};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ArticlePage);

@@ -1,0 +1,58 @@
+@import "@styles/Variables.less";
+@import "../ArticlePage.less";
+
+@root: articlePage__footer;
+
+@footerContent: articlePage__footerContent;
+@footerToolbar: articlePage__footerToolbar;
+@articleListRenderer: articlePage__articleListRenderer;
+
+.@{root} {
+    background: white;
+
+    .@{footerToolbar} {
+        padding: @unit * 0.6 @articlePageHorizontalPadding;
+        background: @background-color;
+        box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.25);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .@{footerContent} {
+        padding: 2 * @unit 10%;
+    }
+}
+
+@media (max-width: @md) {
+    @horizontal-padding: @articlePageHorizontalPaddingMedium;
+
+    .@{root} {
+        .@{footerToolbar} {
+            padding-left: @horizontal-padding;
+            padding-right: @horizontal-padding;
+        }
+
+        .@{footerContent} {
+            padding: 2 * @unit;
+        }
+    }
+}
+
+@media (max-width: @sm) {
+    @horizontal-padding: @articlePageHorizontalPaddingSmall;
+
+    .@{root} {
+        .@{footerToolbar} {
+            padding-left: @horizontal-padding;
+            padding-right: @horizontal-padding;
+
+            flex-wrap: wrap;
+            gap: @unit * 0.5;
+        }
+
+        .@{footerContent} {
+            padding: 2 * @unit @unit;
+        }
+    }
+}

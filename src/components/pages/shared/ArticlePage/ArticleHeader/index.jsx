@@ -1,2 +1,1 @@
-import ArticleHeader from "./ArticleHeader";
-export default ArticleHeader;
+export { default } from "./ArticleHeader";

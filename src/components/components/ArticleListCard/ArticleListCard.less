@@ -1,0 +1,85 @@
+@import "@styles/Variables.less";
+@import "@styles/Placeholders.less";
+
+@root: articleListCard;
+
+.@{root} {   
+    @iconColor: @shade80;
+    @borderStyle: 1px solid @shade20;
+    @borderStyleHover: 1px solid @shade30;
+
+    display: flex;
+    background: @card-background-color;
+    border: @borderStyle;
+    
+    &:hover {
+        box-shadow: @default-box-shadow;
+        border: @borderStyleHover;
+    }
+
+    &__cover {
+        width: 220px;
+        border-right: @borderStyle;
+    }
+
+    &__content {
+        display: flex;
+        padding: @unit; 
+    }
+
+    &__details {
+        .@{root}__title {
+            .lineClamp(2);
+
+            font-family: @raleway-font;
+            font-weight: 600;
+        }
+
+        .@{root}__description {
+            .lineClamp(3);
+
+            font-size: 14px;
+        }
+        
+        .@{root}__info {
+            margin-top: @unit * 0.25;
+            display: flex;
+            gap: @unit;
+            
+            .@{root}__infoItem {
+                font-size: 16px;
+                color: @iconColor;
+
+                > *:nth-child(2) {
+                    margin-left: @unit * 0.5;
+                }
+            }
+        }
+    }
+
+    &__actions {
+        display: flex;
+        align-items: center;
+        gap: @unit;
+        margin-left: @unit;
+        font-size: 20px;
+        color: @iconColor;
+
+        > *:hover {
+            color: @secondary-color;
+        }
+    }
+
+}
+
+@media (max-width: @lg) {
+    .@{root} {
+        flex-flow: column;
+
+        &__cover {
+            width: 100%;
+            height: 220px;
+            border-right: none;
+        }
+    }
+}

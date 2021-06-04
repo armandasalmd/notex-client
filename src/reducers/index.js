@@ -7,6 +7,7 @@ import authReducer from "./authReducer";
 import editArticleReducer from "./editArticleReducer";
 import errorReducer from "./errorReducer";
 import messageReducer from "./messageReducer";
+import readingReducer from "./readingReducer";
 import searchReducer from "./searchReducer";
 import settingsReducer from "./settingsReducer";
 
@@ -16,9 +17,10 @@ const rootReducer = combineReducers({
     auth: authReducer,
     editArticle: editArticleReducer,
     errors: errorReducer,
+    message: messageReducer,
+    reading: readingReducer,
     search: searchReducer,
     settings: settingsReducer,
-    message: messageReducer
 });
 
 const reducerWithReset = (state, action) => {

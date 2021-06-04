@@ -1,11 +1,13 @@
 @import "@styles/Variables.less";
 
 @ghostButton: ghostButton;
+@ghostButtonGroup: ghostButtonGroup;
+@borderRadius: @unit * 0.25;
 
 .@{ghostButton} {
     @background-color: fade(#FFF2D2, 70%);
     @silent-background-color: fade(@shade10, 70%);
-    @selected-color: #c9b789;
+    @selected-color: darken(@background-color, 20%);
 
     height: 34px;
     padding: 0 @unit;
@@ -13,7 +15,8 @@
     border: 1px solid @background-color;
     outline: none;
     font-size: 1.1em;
-    border-radius: 4px;
+    border-radius: @borderRadius;
+    white-space: nowrap;
     
     &__icon {
         margin-right: @unit / 2;
@@ -34,15 +37,38 @@
         }
     }
 
+    &--noText > &__icon {
+        margin-right: 0;
+    }
+
     &--selected {
         border: 1px solid @selected-color !important;
         
         &:hover {
-            color: darken(@selected-color, 30%);
+            background: @background-color;
+            border: 1px solid darken(@selected-color, 20%) !important;
+            color: darken(@secondary-color, 10%);
         }
     }
 
     &--silent {
         background: @silent-background-color;
+        border-color: darken(@silent-background-color, 10%);
+    }
+}
+
+.@{ghostButtonGroup} {
+    display: flex;
+
+    .@{ghostButton} {
+        border-radius: 0;
+    }
+
+    .@{ghostButton}:first-child {
+        border-radius: @borderRadius 0 0 @borderRadius;
+    }
+
+    .@{ghostButton}:last-child {
+        border-radius: 0 @borderRadius @borderRadius 0;
     }
 }

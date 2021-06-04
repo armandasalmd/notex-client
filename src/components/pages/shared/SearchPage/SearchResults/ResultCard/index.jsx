@@ -1,2 +1,1 @@
-import ResultCard from "./ResultCard";
-export default ResultCard;
+export { default } from "./ResultCard";
