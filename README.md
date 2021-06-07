@@ -1,3 +1,6 @@
+LIVE: https://notex-app.com/
+STAGING: http://notex-client.herokuapp.com
+
 ## Notex frontend application
 
 **_Folder structure_**
