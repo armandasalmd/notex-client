@@ -2,6 +2,7 @@ LIVE: https://notex-app.com/
 
 STAGING: http://notex-client.herokuapp.com
 - At the moment working with new feature articles and collections 
+- KanBan board https://github.com/armandasalmd/notex-client/projects/3
 
 ## Notex frontend application
 
