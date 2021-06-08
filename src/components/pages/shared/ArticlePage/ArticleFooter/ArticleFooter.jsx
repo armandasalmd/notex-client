@@ -24,7 +24,7 @@ export const ArticleFooter = (props) => {
     };
 
     return (
-        <div className="articlePage__footer">
+        <div className="articlePage__footer" id="footer-toolbar">
             <FooterToolbar className="articlePage__footerToolbar" 
                 tabs={collections} 
                 selectedTab={tabCollection} 
@@ -38,7 +38,7 @@ export const ArticleFooter = (props) => {
 };
 
 ArticleFooter.propTypes = {
-    data: PropTypes.array.isRequired
+    data: PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state) => ({

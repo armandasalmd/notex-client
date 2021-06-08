@@ -10,6 +10,10 @@ export default {
             args[0](...args.splice(1));
         }
     },
+    getRandomNumber(min, max) {
+        // Returns a random number between min (inclusive) and max (exclusive)
+        return Math.round(Math.random() * (max - min) + min);
+    },
     getValue: (target, path, defaultValue, pathSeparator = ".") => {
         if (!target || typeof path !== "string") {
             return defaultValue;
@@ -19,6 +23,12 @@ export default {
     },
     hasLength: (object) => {
         return typeof object === "string" || Array.isArray(object) ? object.length > 0 : false;
+    },
+    isGuid: (value) => {
+        let regex = /^[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}$/i;
+        let match = regex.exec(value);
+        
+        return match != null;
     },
     toDisplayDate: (date) => {
         if (date instanceof Date) {

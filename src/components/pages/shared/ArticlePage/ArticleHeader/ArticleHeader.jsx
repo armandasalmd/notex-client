@@ -9,17 +9,19 @@ import HeaderToolbar from "./HeaderToolbar";
 export const ArticleHeader = (props) => {
     return (
         <div className="articlePage__header">
-            <ArticleDetails />
+            <ArticleDetails loading={props.loading} />
             <HeaderToolbar />
         </div>
     );
 };
 
 ArticleHeader.propTypes = {
-    props: PropTypes,
+    loading: PropTypes.bool.isRequired,
 };
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+    loading: state.reading.state.loading,
+});
 
 const mapDispatchToProps = {};
 

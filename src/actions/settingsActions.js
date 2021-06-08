@@ -40,7 +40,7 @@ export const changeAutoSave = (value) => {
             dispatch(setAppSettingsLoading(true));
             RouteUtils.sendApiRequest(route, { autoSaveValue: value })
                 .then((res) => {
-                    if (res.status === 200 && res.data.success === true) {
+                    if (res.data.success === true) {
                         dispatch({
                             type: SETTINGS_CHANGE_AUTO_SAVE,
                             payload: value,
@@ -51,7 +51,6 @@ export const changeAutoSave = (value) => {
                     dispatch(
                         pushMessage("Something failed!", MESSAGE_TYPES.error)
                     );
-                    console.log(err);
                 })
                 .finally(() => {
                     dispatch(setAppSettingsLoading(false));

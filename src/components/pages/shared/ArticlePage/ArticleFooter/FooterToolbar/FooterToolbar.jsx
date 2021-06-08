@@ -10,11 +10,11 @@ const FooterToolbar = (props) => {
     const tabElements = !tabs ? [] : Object.values(tabs).map((tab) => {
         let classes = classnames("ghostButton", selectedTab === tab ? "ghostButton--selected" : "ghostButton--silent");
 
-        return <button className={classes} onClick={setSelectedTab.bind(this, tab)}>{tab.buttonText}</button>
+        return <button key={tab.reduxKey} className={classes} onClick={setSelectedTab.bind(this, tab)}>{tab.buttonText}</button>
     });
 
     return (
-        <div className={className} id="footer-toolbar">
+        <div className={className}>
             <Voting />
             <Space>
                 {tabElements}

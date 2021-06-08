@@ -1,5 +1,5 @@
 import React from "react";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
 import ArticleListCard from "##/ArticleListCard";
@@ -32,15 +32,15 @@ export const ArticleListRenderer = (props) => {
                 </Col>
             </Row>
             <Row justify="center">
-                <button onClick={onLoadMore} class="ghostButton ghostButton--silent">Load more...</button>
+                <button onClick={onLoadMore} className="ghostButton ghostButton--silent">Load more...</button>
             </Row>
         </div>
     );
 };
 
-ArticleListRenderer.propTypes = {
-    props: PropTypes,
-};
+// ArticleListRenderer.propTypes = {
+//     props: PropTypes,
+// };
 
 const mapStateToProps = (state) => ({});
 

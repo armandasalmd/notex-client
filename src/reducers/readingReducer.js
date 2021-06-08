@@ -1,6 +1,4 @@
-import {} from "@actions/types";
-
-import { ReadingUtils } from "@utils";
+import { INIT_READING_DATA } from "@actions/types";
 
 const initialState = {
     header: {
@@ -25,14 +23,35 @@ const initialState = {
         suggestedArticles: [],
     },
     state: {
-        footerTabSelection: ReadingUtils.FOOTER_SECTIONS.CollectionArticles,
         isBookmarked: false,
         yourVoteStatus: 0,
-    },
+        loading: true
+    }
 };
 
 export default function (state = initialState, { type, payload }) {
     switch (type) {
+        case INIT_READING_DATA: {
+            const { coverImageSource, text, ...rest } = payload.articleDetails;
+            
+            state.header = {
+                articleAuthor: payload.articleAuthor,
+                ...rest
+            };
+            state.body = {
+                coverImageSource,
+                text
+            };
+            state.footer = {
+                articlesInCollection: payload.articlesInCollection,
+                suggestedArticles: payload.suggestedArticles
+            };
+            state.state.loading = false;
+
+            return {
+                ...state,
+            };
+        }
         default:
             return state;
     }

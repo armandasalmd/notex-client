@@ -2,23 +2,40 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
+import { GlobalUtils } from "@utils";
+
 import "./ArticleBody.less";
+import { Skeleton } from "antd";
 import TextRendering from "##/TextRendering";
 
 export const ArticleBody = (props) => {
+
+    const getSkeletons = (skeletonCount) => {
+        let skeletons = [];
+
+        for (let i = 0; i < skeletonCount; i++) {
+            skeletons.push(<Skeleton key={i} active paragraph={{rows: GlobalUtils.getRandomNumber(2, 8)}}></Skeleton>)
+        }
+
+        return skeletons;
+    }
+
     return (
         <div className="articlePageBody">
-            <img className="articlePageBody__coverImage" alt="cover" src="/images/sample-article-cover.jpg" />
-            <TextRendering />
+            {props.loading && getSkeletons(4)}
+            {!props.loading && <img className="articlePageBody__coverImage" alt="cover" src="/images/sample-article-cover.jpg" />}
+            {!props.loading && <TextRendering />} 
         </div>
     );
 };
 
 ArticleBody.propTypes = {
-    props: PropTypes,
+    loading: PropTypes.bool.isRequired,
 };
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+    loading: state.reading.state.loading,
+});
 
 const mapDispatchToProps = {};
 

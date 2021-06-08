@@ -11,10 +11,10 @@ const HeaderToolbar = () => {
         let element = document.getElementById("footer-toolbar");
         
         if (element) {
-            element.scrollIntoView({ behavior: "smooth" });
+            let y = element.getBoundingClientRect().top + window.pageYOffset - 64;
+            window.scrollTo({ top: y, behavior: "smooth" });
         }
     };
-    
 
     return (
         <div className="headerToolbar">

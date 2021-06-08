@@ -1,8 +1,3 @@
-const FOOTER_SECTIONS = {
-	CollectionArticles: "COLLECTION_ARTICLES",
-	SuggestedArticles: "SUGGESTED_ARTICLES"
-};
-
 const footerCollections = {
     articlesInCollection: {
         title: "Articles in collection",
@@ -17,6 +12,5 @@ const footerCollections = {
 };
 
 export default {
-	footerCollections,
-    FOOTER_SECTIONS
+	footerCollections
 };
