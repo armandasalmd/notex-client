@@ -1,4 +1,7 @@
 import React from "react";
+import { useSelector } from "react-redux";
+
+import { GlobalUtils } from "@utils";
 
 import "./ArticleDetails.less";
 import { Avatar, Skeleton, Tag } from "antd";
@@ -14,32 +17,42 @@ const DetailsLoading = () => {
 };
 
 const ArticleDetails = (props) => {
-    const { loading } = props;
+    const loading = useSelector((state) => state.reading.state.loading);
+    const details = useSelector((state) => state.reading.header);
+
+    const tagElements = Array.isArray(details.tags)
+        ? details.tags.map((tag, index) => <Tag key={index} color="geekblue">{tag}</Tag>)
+        : [];
 
     const detailsElement = (
         <div className="articleDetails">
-            <h1 className="articleDetails__title">Speed up your Next.js application with Redis</h1>
+            <h1 className="articleDetails__title">{details.title}</h1>
             <div className="articleDetails__metaData metaData">
-                <Avatar className="metaData__authorAvatar" size={36} src="https://notex-profile-pictures.s3.eu-west-2.amazonaws.com/p-60363fb8d039ab0015223123-1622372344097" icon={<UserOutlined />} />
-                <p className="metaData__authorName">by <span className="metaData__authorName--highlight">James Williams</span></p>
+                <Avatar
+                    className="metaData__authorAvatar"
+                    size={36}
+                    src={details.articleAuthor.profileImage}
+                    icon={<UserOutlined />}
+                />
+                <p className="metaData__authorName">
+                    by <span className="metaData__authorName--highlight">{details.articleAuthor.fullName}</span>
+                </p>
                 <div className="metaData__itemList">
+                    <div className="metaData__item">{GlobalUtils.toDisplayTime(details.updatedOn)}</div>
                     <div className="metaData__item">
-                        8 days ago
+                        {details.readingDuration} min{details.readingDuration > 1 ? "s" : ""} read
                     </div>
                     <div className="metaData__item">
-                        2 min read
-                    </div>
-                    <div className="metaData__item">
-                        1,1K views
+                        {GlobalUtils.toDisplayViews(details.viewsCount)} view{details.viewsCount > 1 ? "s" : ""}
                     </div>
                 </div>
             </div>
             <div className="articleDetails__tagList">
-                <Tag color="geekblue">JavaScript</Tag>
-                <Tag color="geekblue">Beginner level</Tag>
-                <Tag color="geekblue">Engineering</Tag>
+                {tagElements}
             </div>
-            <h2 className="articleDetails__description">This page contains all information related to a particular order. View order details, leavve a review, track the status and directly message the repair center</h2>
+            <h2 className="articleDetails__description">
+                {details.description}
+            </h2>
         </div>
     );
 

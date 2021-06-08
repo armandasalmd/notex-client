@@ -34,11 +34,11 @@ const info = (text) => show(text, MESSAGE_TYPES.info);
 const success = (text) => show(text, MESSAGE_TYPES.success);
 const warning = (text) => show(text, MESSAGE_TYPES.warning);
 
-const handleDispatch = (dispatchFn, action, errorMessage, logError = false) => {
-    handleDispatched(dispatchFn(action), errorMessage, logError);
+const handleDispatch = (dispatchFn, action, errorMessage, onError, logError = false) => {
+    handleDispatched(dispatchFn(action), errorMessage, onError, logError);
 };
 
-const handleDispatched = (action, errorMessage, logError = false) => {
+const handleDispatched = (action, errorMessage, onError, logError = false) => {
     if (GlobalUtils.isPromise(action)) {
         errorMessage = typeof errorMessage === "string" ? errorMessage : "Error. Something went wrong";
 
@@ -47,13 +47,17 @@ const handleDispatched = (action, errorMessage, logError = false) => {
                 success(result);
             } else if (result === false) {
                 error(errorMessage);
+
+                GlobalUtils.callIfFunction(onError, result);
             }
         }).catch(errorObject => {
             error(errorMessage);
-
+            
             if (logError) {
                 console.error(errorObject);
             }
+
+            GlobalUtils.callIfFunction(onError, errorObject);
         });
     } else if (_validMessage(action)) {
         success(action);

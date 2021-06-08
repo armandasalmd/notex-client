@@ -1,4 +1,8 @@
 import React from "react";
+import { I18n } from "react-redux-i18n";
+import copy from "copy-to-clipboard";
+
+import { MessageUtils } from "@utils";
 
 import "./HeaderToolbar.less";
 import { BookOutlined, CommentOutlined, LinkOutlined } from "@ant-design/icons";
@@ -16,6 +20,11 @@ const HeaderToolbar = () => {
         }
     };
 
+    const copyUrl = () => {
+        copy(window.location.href);
+        MessageUtils.success(I18n.t("common.urlCopy"));
+    };
+
     return (
         <div className="headerToolbar">
             <Voting />
@@ -28,14 +37,14 @@ const HeaderToolbar = () => {
                         <BookOutlined />
                     </span>
                 </button>
-                <button className="ghostButton ghostButton--noText ghostButton--silent">
+                {/* <button className="ghostButton ghostButton--noText ghostButton--silent">
                     <span className="ghostButton__icon">
                         <CommentOutlined />
                     </span>
-                </button>
+                </button> */}
                 <button className="ghostButton ghostButton--noText ghostButton--silent">
                     <span className="ghostButton__icon">
-                        <LinkOutlined />
+                        <LinkOutlined onClick={copyUrl} />
                     </span>
                 </button>
             </Space>

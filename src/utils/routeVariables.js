@@ -222,6 +222,11 @@ export default {
                 navTextKey: "navText.home",
                 titleTextKey: "titleText.home",
             },
+            notFound: {
+                link: "/error/404",
+                navTextKey: "navText.error.notFound",
+                titleTextKey: "titleText.error.notFound",
+            },
             tutorial: {
                 link: "/tutorial",
                 navTextKey: "navText.tutorial",

@@ -197,6 +197,9 @@ export default {
     navText: {
         about: "Apie mus",
         articleManagement: "Straipsnių valdymas",
+        error: {
+            notFound: "Nerasta - 404"
+        },
         login: "Prisijungti",
         logout: "Atsijungti",
         register: "Registruotis",
@@ -292,6 +295,9 @@ export default {
     titleText: {
         about: "Apie mus",
         articleManagement: "Straipsnių valdymas",
+        error: {
+            notFound: "Nerasti - 404"
+        },
         login: "Prisijungimas",
         logout: "Atsijungimas",
         register: "Registracija",

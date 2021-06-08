@@ -7,7 +7,7 @@ export default {
             functionToCall(...functionArgs);
         }
     },
-    getComponentName: WrappedComponent => {
+    getComponentName: (WrappedComponent) => {
         return WrappedComponent.displayName || WrappedComponent.name || "Component";
     },
     getRandomNumber(min, max) {
@@ -27,7 +27,7 @@ export default {
     isGuid: (value) => {
         let regex = /^[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}$/i;
         let match = regex.exec(value);
-        
+
         return match != null;
     },
     isPromise: (promise) => {
@@ -52,5 +52,45 @@ export default {
         }
 
         return typeof date === "string" ? date : "";
-    }
+    },
+    toDisplayTime: (date) => {
+        if (!date) return "NaN";
+
+        date = typeof date === "object" ? date : new Date(date);
+
+        const intervals = [
+            { label: "year", seconds: 31536000 },
+            { label: "month", seconds: 2592000 },
+            { label: "week", seconds: 604800 },
+            { label: "day", seconds: 86400 },
+            { label: "hour", seconds: 3600 },
+            { label: "minute", seconds: 60 },
+            { label: "second", seconds: 1 },
+        ];
+        const seconds = Math.floor((Date.now() - date.getTime()) / 1000);
+        const interval = intervals.find((i) => i.seconds < seconds);
+        const count = Math.floor(seconds / interval.seconds);
+
+        return `${count} ${interval.label}${count !== 1 ? "s" : ""} ago`;
+    },
+    toDisplayViews: (num) => {
+        const lookup = [
+            { value: 1, symbol: "" },
+            { value: 1e3, symbol: "k" },
+            { value: 1e6, symbol: "M" },
+            { value: 1e9, symbol: "G" },
+            { value: 1e12, symbol: "T" },
+            { value: 1e15, symbol: "P" },
+            { value: 1e18, symbol: "E" },
+        ];
+        const rx = /\.0+$|(\.[0-9]*[1-9])0+$/;
+        let item = lookup
+            .slice()
+            .reverse()
+            .find(function (item) {
+                return num >= item.value;
+            });
+
+        return item ? (num / item.value).toFixed(1).replace(rx, "$1") + item.symbol : "0";
+    },
 };

@@ -220,6 +220,9 @@ export default {
     navText: {
         about: "About us",
         articleManagement: "Article management",
+        error: {
+            notFound: "Not found - 404"
+        },
         login: "Login",
         logout: "Logout",
         register: "Register",
@@ -315,6 +318,9 @@ export default {
     titleText: {
         about: "About us page",
         articleManagement: "Article management page",
+        error: {
+            notFound: "Not found - 404"
+        },
         login: "Login page",
         logout: "Logout page",
         register: "Register page",

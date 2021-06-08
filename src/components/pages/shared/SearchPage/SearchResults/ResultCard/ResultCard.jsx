@@ -64,7 +64,7 @@ const ResultCard = (props) => {
                         </span>
                     }
                     <span>
-                        <HistoryOutlined className="resultCard__infoIcon" />{SearchUtils.toDisplayTime(lastUpdated)}
+                        <HistoryOutlined className="resultCard__infoIcon" />{GlobalUtils.toDisplayTime(lastUpdated)}
                     </span>
                 </div>
                 {

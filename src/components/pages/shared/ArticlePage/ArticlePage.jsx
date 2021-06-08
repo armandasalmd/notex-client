@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
-import { GlobalUtils, MessageUtils } from "@utils";
+import { GlobalUtils, MessageUtils, RouteVariables } from "@utils";
 import { fetchArticleData } from '@actions/readingActions';
 
 import { BackTop } from "antd";
@@ -13,12 +13,18 @@ import Footer from "#/containers/Footer";
 
 export const ArticlePage = (props) => {
     const dispatch = useDispatch();
+    const history = useHistory();
 
     let { identifier } = useParams();
 
     useEffect(() => {
+        const onError = () => history.replace(RouteVariables.app.public.notFound.link);
+
         if (GlobalUtils.isGuid(identifier)) {
-            MessageUtils.handleDispatch(dispatch, fetchArticleData(identifier), "Cannot load article");
+            MessageUtils.handleDispatch(dispatch, fetchArticleData(identifier), "Article not found", onError);
+        } else {
+            MessageUtils.error("Article not found");
+            onError();
         }
     });
 

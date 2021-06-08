@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { GlobalUtils } from "@utils";
 
 import "./ArticleBody.less";
-import { Skeleton } from "antd";
+import { Skeleton, Image } from "antd";
 import TextRendering from "##/TextRendering";
 
 export const ArticleBody = (props) => {
@@ -23,7 +23,7 @@ export const ArticleBody = (props) => {
     return (
         <div className="articlePageBody">
             {props.loading && getSkeletons(4)}
-            {!props.loading && <img className="articlePageBody__coverImage" alt="cover" src="/images/sample-article-cover.jpg" />}
+            {!props.loading && <Image className="articlePageBody__coverImage" alt="cover" src="/images/sample-article-cover.jpg" />}
             {!props.loading && <TextRendering />} 
         </div>
     );
