@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
 import { RouteUtils } from "@utils";
@@ -10,15 +11,17 @@ const __Persona = (props) => {
 
     return (
         <div className="persona">
-            <Avatar
-                className="persona__avatar"
-                size={40}
-                src={RouteUtils.resolveUrl(avatarUrl)}
-                icon={<UserOutlined />}
-                style={{ backgroundColor: "#d4be92" }}
-            />
+            <Link to={RouteUtils.app.private.settings.link}>
+                <Avatar
+                    className="persona__avatar"
+                    size={40}
+                    src={RouteUtils.resolveUrl(avatarUrl)}
+                    icon={<UserOutlined />}
+                    style={{ backgroundColor: "#d4be92" }}
+                />
+            </Link>
             <div className="persona__info">
-                <p className="persona__name">{name}</p>
+                <Link to={RouteUtils.app.private.settings.link}><p className="persona__name">{name}</p></Link>
                 <p className="persona__mail">{email}</p>
             </div>
         </div>
