@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
-import { EditArticleUtils, GlobalUtils } from "@utils";
+import { EditArticleUtils, GlobalUtils, MessageUtils } from "@utils";
 import { 
     setEditArticle,
     changeAccess,
@@ -27,28 +27,28 @@ const EditCollectionCard = (props) => {
 
     const actions = {
         onAccessChange: (value) => {
-            props.changeAccess(props.collectionId, value, true);
+            MessageUtils.handleDispatched(props.changeAccess(props.collectionId, value, true));
         },
         onRemoveCollection: () => {
-            props.deleteAndCloseCollection(props.collectionId, history);
+            MessageUtils.handleDispatched(props.deleteAndCloseCollection(props.collectionId, history));
         },
         onSync: () => {
-            props.syncResource(props.collectionId, true);
+            MessageUtils.handleDispatched(props.syncResource(props.collectionId, true));
         }
     };
 
     const articleActions = {
         onEdit: (identifier) => {
             if (props.selectedArticleId !== identifier) {
-                props.setEditArticle(identifier)
+                MessageUtils.handleDispatched(props.setEditArticle(identifier));
             }
         },
         onSync: (identifier) => {
-            props.syncResource(identifier, false);
+            MessageUtils.handleDispatched(props.syncResource(identifier, false));
         },
         onDelete: (identifier) => {
             if (identifier === props.selectedArticleId) {
-                props.setEditArticle(null);
+                MessageUtils.handleDispatched(props.setEditArticle(null));
             }
 
             props.deleteArticle(identifier)
@@ -62,12 +62,12 @@ const EditCollectionCard = (props) => {
                 });
         },
         onAccessStatusChange: (value, identifier) => {
-            props.changeAccess(identifier, value, false);
+            MessageUtils.handleDispatched(props.changeAccess(identifier, value, false));
         }
     };
 
     const onDetailsChange = (title, description) => {
-        props.updateCollectionDetails(props.collectionId, title, description);
+        MessageUtils.handleDispatched(props.updateCollectionDetails(props.collectionId, title, description));
     };
 
     const onOpenAddArticle = () => setAddArticleOpen(true);
@@ -77,7 +77,7 @@ const EditCollectionCard = (props) => {
 
     useEffect(() => {
         if (backpackMetaData == null) {
-            fetchBackpackMetaData();
+            MessageUtils.handleDispatched(fetchBackpackMetaData());
         }
     }, [backpackMetaData, fetchBackpackMetaData]);
 

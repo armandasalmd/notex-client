@@ -37,10 +37,6 @@ export const DELETE_BACKPACK = "DELETE_BACKPACK";
 export const UNLINK_SOCIAL_ACCOUNT = "UNLINK_SOCIAL_ACCOUNT";
 export const UPDATE_AVATAR = "UPDATE_AVATAR";
 
-// message reducer
-export const PUSH_MESSAGE = "PUSH_MESSAGE";
-export const REMOVE_MESSAGES_BY_ID = "REMOVE_MESSAGES_BY_ID";
-
 // error reducer
 export const GET_ERRORS = "GET_ERRORS";
 export const CLEAR_ERRORS = "CLEAR_ERRORS";

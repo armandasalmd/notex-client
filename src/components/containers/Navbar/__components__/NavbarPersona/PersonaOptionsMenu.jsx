@@ -4,7 +4,7 @@ import { I18n } from "react-redux-i18n";
 import { Link } from "react-router-dom";
 import { changeLanguage } from "@actions/settingsActions";
 
-import { RouteUtils, I18nUtils } from "@utils";
+import { RouteUtils, I18nUtils, MessageUtils } from "@utils";
 import { Menu } from "antd";
 import { LogoutOutlined, GlobalOutlined } from "@ant-design/icons";
 
@@ -19,7 +19,7 @@ const __PersonaOptionsMenu = (props) => {
 
     const onLanguageChange = ({ key }) => {
         if (Object.keys(I18nUtils.languages).includes(key)) {
-            props.changeLanguage(key);
+            MessageUtils.handleDispatched(props.changeLanguage(key));
         }
     };
 

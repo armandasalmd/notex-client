@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
 import { tryChangePassword, deleteAccount } from "@actions/settingsActions";
-import { RouteUtils } from "@utils";
+import { RouteUtils, MessageUtils } from "@utils";
 
 import "./SectionSecurityAccount.less";
 import { Alert, Button, Modal, Input, Form } from "antd";
@@ -18,11 +18,11 @@ const SectionSecurityAccount = props => {
     const [showDeleteModal, setShowDeleteModal] = useState(false);
 
     const updatePassword = (values) => {
-        props.tryChangePassword(values);
+        MessageUtils.handleDispatched(props.tryChangePassword(values));
     };
 
     const deleteAccount = () => {
-        props.deleteAccount();
+        MessageUtils.handleDispatched(props.deleteAccount());
         history.push(RouteUtils.app.public.landing.link);
     };
 

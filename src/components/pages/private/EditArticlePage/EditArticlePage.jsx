@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
 import { initialiseEditCollection } from "@actions/editArticleActions";
-import { GlobalUtils, RouteVariables } from "@utils";
+import { GlobalUtils, RouteVariables, MessageUtils } from "@utils";
 
 import "./EditArticlePage.less";
 import { ArrowLeftOutlined } from "@ant-design/icons";
@@ -27,7 +27,7 @@ const EditArticlePage = (props) => {
         if (GlobalUtils.hasLength(collectionParameter) && selectedCollectionId !== collectionParameter) {
             const articleParameter = GlobalUtils.getValue(params, pageRoute.paramNames.articleIdentifier, null);
 
-            initialiseEditCollection(collectionParameter, articleParameter, history);
+            MessageUtils.handleDispatched(initialiseEditCollection(collectionParameter, articleParameter, history));
         }
     }, [params, initialiseEditCollection, selectedCollectionId, history]);
     

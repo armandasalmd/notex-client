@@ -3,7 +3,7 @@ import { I18n } from "react-redux-i18n";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
-import { AuthUtils, GlobalUtils, I18nUtils, RouteUtils } from "@utils";
+import { AuthUtils, GlobalUtils, I18nUtils, RouteUtils, MessageUtils } from "@utils";
 import { fetchNotebooks } from "@actions/appActions";
 import {
     changeAutoSave,
@@ -27,19 +27,19 @@ const SectionAppSettings = (props) => {
     const [fileList, setFileList] = useState([]);
 
     const deleteBackpack = () => {
-        props.deleteBackpack();
+        MessageUtils.handleDispatched(props.deleteBackpack());
     };
 
     const changeLanguage = (option) => {
-        props.changeLanguage(option);
+        MessageUtils.handleDispatched(props.changeLanguage(option));
     };
 
     const changeCloseMenuPreference = (checked) => {
-        props.changeCloseOnClick(checked);
+        MessageUtils.handleDispatched(props.changeCloseOnClick(checked));
     };
 
     const changeAutoSavePreference = (checked) => {
-        props.changeAutoSave(checked);
+        MessageUtils.handleDispatched(props.changeAutoSave(checked));
     };
 
     const exportBackpack = () => {

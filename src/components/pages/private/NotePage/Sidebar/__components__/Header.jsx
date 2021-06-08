@@ -1,22 +1,24 @@
 import React, { useState } from "react";
 import { I18n } from "react-redux-i18n";
 import classnames from "classnames";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+
+import { MessageUtils } from "@utils";
+import { addNewNotebook } from "@actions/noteActions";
 
 import { Button } from "antd";
 import { PlusOutlined, CloseOutlined } from "@ant-design/icons";
 import SingleFieldModal from "##/SingleFieldModal";
 
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { addNewNotebook } from "@actions/noteActions";
 
 const Header = props => {
     const [modalAddOpen, setModalAddOpen] = useState(false);
     const [addLoading, setAddLoading] = useState(false);
 
-    const submitAdd = async submitText => {
+    const submitAdd = submitText => {
         setAddLoading(true);
-        await props.addNewNotebook(props.backpack, submitText);
+        MessageUtils.handleDispatched(props.addNewNotebook(props.backpack, submitText));
         setAddLoading(false);
         setModalAddOpen(false);
     };

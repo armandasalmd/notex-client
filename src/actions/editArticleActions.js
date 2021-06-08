@@ -10,7 +10,6 @@ import {
     APPEND_ARTICLE,
     DELETE_ARTICLE
 } from "@actions/types";
-import { pushMessage, MESSAGE_TYPES } from "@actions/messageActions";
 
 import { ArticleManagementUtils, RouteUtils, GlobalUtils, EditArticleUtils } from "@utils";
 
@@ -28,49 +27,49 @@ const setCollectionCardLoading = (loading) => (dispatch) => {
     });
 };
 
-export const initialiseEditCollection = (collectionIdentifier, optionalArticleIdentifier, history) => (dispatch) => {
+export const initialiseEditCollection = (collectionIdentifier, optionalArticleIdentifier, history) => async (dispatch) => {
     const route = RouteUtils.api.articleManagement.getEditCollectionPageModel;
 
     const query = {
         [route.queryNames.identifier]: collectionIdentifier,
     };
 
-    const onFail = () => dispatch(pushMessage("Cannot retrieve your data", MESSAGE_TYPES.error));
-
     dispatch(setCollectionCardLoading(true));
 
-    RouteUtils.sendApiRequest(route, {}, query)
-        .then((res) => {
-            if (res.data) {
-                dispatch({
-                    type: INITIALISE_EDIT_COLLECTION,
-                    payload: {
-                        identifier: collectionIdentifier,
-                        ...res.data,
-                    },
+    try {
+        let { data } = await RouteUtils.sendApiRequest(route, {}, query);
+
+        if (data) {
+            dispatch({
+                type: INITIALISE_EDIT_COLLECTION,
+                payload: {
+                    identifier: collectionIdentifier,
+                    ...data,
+                },
+            });
+
+            // optionally set selected article after collection load
+            if (optionalArticleIdentifier) {
+                const indexInCollection = GlobalUtils.getValue(data, "articleSummaries", []).findIndex((item) => {
+                    return GlobalUtils.getValue(item, EditArticleUtils.articleSummaryModel.identifier, null) === optionalArticleIdentifier;
                 });
 
-                // optionally set selected article after collection load
-                if (optionalArticleIdentifier) {
-                    const indexInCollection = GlobalUtils.getValue(res.data, "articleSummaries", []).findIndex((item) => {
-                        return GlobalUtils.getValue(item, EditArticleUtils.articleSummaryModel.identifier, null) === optionalArticleIdentifier;
-                    });
-
-                    if (indexInCollection >= 0) {
-                        dispatch(setEditArticle(optionalArticleIdentifier));
-                    } else if (history) {
-                        history.replace(RouteUtils.app.private.editArticle.link.replace(/\/:.*/, "") + "/" + collectionIdentifier);
-                    }
+                if (indexInCollection >= 0) {
+                    dispatch(setEditArticle(optionalArticleIdentifier));
+                } else if (history) {
+                    history.replace(RouteUtils.app.private.editArticle.link.replace(/\/:.*/, "") + "/" + collectionIdentifier);
                 }
-            } else {
-                onFail();
             }
-        })
-        .catch(onFail)
-        .finally(() => dispatch(setCollectionCardLoading(false)));
+        } else throw new Error();
+    } catch {
+        dispatch(setCollectionCardLoading(false));
+        return false;
+    }
+
+    dispatch(setCollectionCardLoading(false));
 };
 
-export const setEditArticle = (articleIdentifier) => (dispatch) => {
+export const setEditArticle = (articleIdentifier) => async (dispatch) => {
     if (articleIdentifier === null) {
         dispatch({
             type: SET_EDIT_ARTICLE,
@@ -83,40 +82,36 @@ export const setEditArticle = (articleIdentifier) => (dispatch) => {
     }
 
     const route = RouteUtils.api.articleManagement.getEditArticlePageModel;
-
     const query = {
         [route.queryNames.identifier]: articleIdentifier,
         [route.queryNames.includeMetaData]: true,
     };
 
-    const onFail = () => dispatch(pushMessage("Cannot edit selected article", MESSAGE_TYPES.error));
-
     dispatch(setCollectionCardLoading(true));
 
-    RouteUtils.sendApiRequest(route, {}, query)
-        .then((res) => {
-            if (res.data && GlobalUtils.getValue(res.data, "article.identifier", false) === articleIdentifier) {
-                dispatch({
-                    type: SET_EDIT_ARTICLE,
-                    payload: {
-                        identifier: articleIdentifier,
-                        data: res.data,
-                    },
-                });
-            } else {
-                onFail();
-            }
-        })
-        .catch(onFail)
-        .finally(() => dispatch(setCollectionCardLoading(false)));
+    try {
+        const { data } = await RouteUtils.sendApiRequest(route, {}, query);
+
+        if (data && GlobalUtils.getValue(data, "article.identifier", false) === articleIdentifier) {
+            dispatch({
+                type: SET_EDIT_ARTICLE,
+                payload: {
+                    identifier: articleIdentifier,
+                    data: data,
+                },
+            });
+        } else throw new Error();
+    } catch {
+        dispatch(setCollectionCardLoading(false));
+        return false;
+    }
+    
+    dispatch(setCollectionCardLoading(false));
 };
 
-export const changeAccess = (identifier, newAccessStatus, isCollection) => (dispatch) => {
-    const onFail = () => dispatch(pushMessage("Cannot change access status", MESSAGE_TYPES.error));
-
+export const changeAccess = (identifier, newAccessStatus, isCollection) => async (dispatch) => {
     if (!identifier || !newAccessStatus) {
-        onFail();
-        return;
+        return false;
     }
 
     const route = RouteUtils.api.articleManagement.changeAccessLevel;
@@ -128,28 +123,28 @@ export const changeAccess = (identifier, newAccessStatus, isCollection) => (disp
 
     dispatch(setCollectionCardLoading(true));
 
-    RouteUtils.sendApiRequest(route, request)
-        .then((res) => {
-            if (res.data.success) {
-                dispatch({
-                    type: UPDATE_ACCESS_STATUS,
-                    payload: {
-                        isCollection,
-                        identifier,
-                        newAccessStatus
-                    }
-                });
-            } else {
-                onFail();
-            }
-        })
-        .catch(onFail)
-        .finally(() => dispatch(setCollectionCardLoading(false)));
+    try {
+        let { data } = await RouteUtils.sendApiRequest(route, request);
+
+        if (data.success === true) {
+            dispatch({
+                type: UPDATE_ACCESS_STATUS,
+                payload: {
+                    isCollection,
+                    identifier,
+                    newAccessStatus
+                }
+            });
+        } else throw new Error();
+    } catch {
+        dispatch(setCollectionCardLoading(false));
+        return false;
+    }
+
+    dispatch(setCollectionCardLoading(false));
 };
 
-export const updateCollectionDetails = (identifier, title, description) => (dispatch) => {
-    const onFail = () => dispatch(pushMessage("Update was not complete", MESSAGE_TYPES.error));
-
+export const updateCollectionDetails = (identifier, title, description) => async (dispatch) => {
     const route = RouteUtils.api.articleManagement.updateCollectionDetails;
     const request = { 
         articleCollectionGuid: identifier,
@@ -158,83 +153,84 @@ export const updateCollectionDetails = (identifier, title, description) => (disp
     };
 
     dispatch(setCollectionCardLoading(true));
-    
-    RouteUtils.sendApiRequest(route, request)
-        .then((res) => {
-            if (res.data.success) {
-                dispatch({
-                    type: UPDATE_COLLECTION_DETAILS,
-                    payload: { identifier, title, description }
-                });
-            } else {
-                onFail();
-            }
-        })
-        .catch(onFail)
-        .finally(() => dispatch(setCollectionCardLoading(false)));
+
+    try {
+        let { data } = await RouteUtils.sendApiRequest(route, request);
+
+        if (data.success === true) {
+            dispatch({
+                type: UPDATE_COLLECTION_DETAILS,
+                payload: { identifier, title, description }
+            });
+        } else throw new Error();
+    } catch {
+        dispatch(setCollectionCardLoading(false));
+        return false;
+    }
+
+    dispatch(setCollectionCardLoading(false));
 };
 
-export const deleteAndCloseCollection = (identifier, history) => (dispatch) => {
-    if (!identifier) return;
+export const deleteAndCloseCollection = (identifier, history) => async (dispatch) => {
+    if (!identifier) return false;
 
-    const onFail = () => dispatch(pushMessage("Delete operation unsuccessful", MESSAGE_TYPES.error));
     dispatch(setCollectionCardLoading(true));
 
-    ArticleManagementUtils.deleteCollectionApiCall(identifier)
-        .then((res) => {
-            if (res.data.success) {
-                history.replace(RouteUtils.app.private.articleManagement.link);
-                dispatch({
-                    type: DELETE_AND_CLOSE_COLLECTION,
-                    payload: identifier
-                });
-            } else {
-                onFail();
-            }
-        })
-        .catch(onFail)
-        .finally(() => dispatch(setCollectionCardLoading(false)));
+    try {
+        let { data } = await ArticleManagementUtils.deleteCollectionApiCall(identifier);
+
+        if (data.success === true) {
+            history.replace(RouteUtils.app.private.articleManagement.link);
+
+            dispatch({
+                type: DELETE_AND_CLOSE_COLLECTION,
+                payload: identifier
+            });
+        } else throw new Error();
+    } catch {
+        dispatch(setCollectionCardLoading(false));
+        return false;
+    }
+
+    dispatch(setCollectionCardLoading(false));
 };
 
-export const syncResource = (identifier, isCollection = true, callingFromEditCard = false) => (dispatch) => {
-    if (!identifier) return;
+export const syncResource = (identifier, isCollection = true, callingFromEditCard = false) => async (dispatch) => {
+    if (!identifier) return false;
 
-    const onFail = () => dispatch(pushMessage("Synchronise operation unsuccessful", MESSAGE_TYPES.error));
     const route = isCollection ? 
         RouteUtils.api.articleManagement.syncCollection : 
         RouteUtils.api.articleManagement.syncArticle;
     const loadingFn = callingFromEditCard ? setArticleCardLoading : setCollectionCardLoading;
 
     dispatch(loadingFn(true));
+    
+    try {
+        let { data } = await RouteUtils.sendApiRequest(route, {}, { identifier });
 
-    RouteUtils.sendApiRequest(route, {}, { identifier })
-        .then((res) => {
-            if (res.data?.success) {
-                const message = isCollection ? "All articles synchronised" : "Article synchronised";
-                dispatch(pushMessage(message, MESSAGE_TYPES.success))
-            } else {
-                onFail();
-            }
-        })
-        .catch(onFail)
-        .finally(() => dispatch(loadingFn(false)));
+        if (data.success !== true) throw new Error();
+    } catch {
+        dispatch(loadingFn(false));
+        return false;
+    }
+    
+    dispatch(loadingFn(false));
+    return isCollection ? "All articles synchronised" : "Article synchronised";
 };
 
-export const fetchBackpackMetaData = () => (dispatch) => {
-    const onFail = () => dispatch(pushMessage("Failed to get source notes", MESSAGE_TYPES.error));
+export const fetchBackpackMetaData = () => async (dispatch) => {
+    try {
+        let { data } = await RouteUtils.sendApiRequest(RouteUtils.api.articleManagement.getCreateArticleMetaData);
 
-    RouteUtils.sendApiRequest(RouteUtils.api.articleManagement.getCreateArticleMetaData)
-        .then((res) => {
-            if (res.data?.sourceNotebooks) {
-                dispatch({
-                    type: SET_BACKPACK_METADATA,
-                    payload: res.data?.sourceNotebooks
-                });
-            } else {
-                onFail();
-            }
-        })
-        .catch(onFail);
+        if (data.sourceNotebooks) {
+            dispatch({
+                type: SET_BACKPACK_METADATA,
+                payload: data.sourceNotebooks
+            });
+        } else throw new Error();
+    } catch {
+        return false;
+    }
 };
 
 export const createArticle = (requestData) => async (dispatch) => {

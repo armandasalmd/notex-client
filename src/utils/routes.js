@@ -27,7 +27,7 @@ function resolveHostName(server) {
 }
 
 const resolveUrl = (path) => {
-    if (path === null) {
+    if (path == null || path === "") {
         return undefined;
     }
 

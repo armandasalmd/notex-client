@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { I18n } from "react-redux-i18n";
-import { GlobalUtils, NoteUtils } from "@utils";
-
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+
+import { GlobalUtils, NoteUtils, MessageUtils } from "@utils";
 import { setActiveNote } from "@actions/appActions";
 import { addNewNote, deleteNotebook, renameNotebook } from "@actions/noteActions";
 
@@ -21,19 +21,19 @@ const NotebookMenu = props => {
     const [openSubMenus, setOpenSubMenus] = useState([]);
     const [menuWasPreopened, setMenuWasPreopened] = useState(false);
 
-    const submitAddNote = async value => {
+    const submitAddNote = value => {
         setAddNoteLoading(true);
-        await props.addNewNote(props.backpack, value, addNoteNotebookId);
+        MessageUtils.handleDispatched(props.addNewNote(props.backpack, value, addNoteNotebookId));
         setAddNoteLoading(false);
         setModalAddNoteOpen(false);
     };
 
     const submitDelete = notebookId => {
-        props.deleteNotebook(notebookId, props.app.selectedNotebookId);
+        MessageUtils.handleDispatched(props.deleteNotebook(notebookId, props.app.selectedNotebookId));
     };
 
     const submitRename = (notebookId, newTitle) => {
-        props.renameNotebook(notebookId, newTitle);
+        MessageUtils.handleDispatched(props.renameNotebook(notebookId, newTitle));
     };
 
     const handleClick = e => {

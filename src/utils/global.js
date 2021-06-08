@@ -2,13 +2,13 @@ import Constants from "./constants";
 
 export default {
     appName: Constants.appName,
+    callIfFunction: (functionToCall, ...functionArgs) => {
+        if (typeof functionToCall === "function") {
+            functionToCall(...functionArgs);
+        }
+    },
     getComponentName: WrappedComponent => {
         return WrappedComponent.displayName || WrappedComponent.name || "Component";
-    },
-    callIfFunction: (...args) => {
-        if (typeof args[0] === "function") {
-            args[0](...args.splice(1));
-        }
     },
     getRandomNumber(min, max) {
         // Returns a random number between min (inclusive) and max (exclusive)
@@ -29,6 +29,9 @@ export default {
         let match = regex.exec(value);
         
         return match != null;
+    },
+    isPromise: (promise) => {
+        return !!promise && typeof promise.then === "function";
     },
     toDisplayDate: (date) => {
         if (date instanceof Date) {

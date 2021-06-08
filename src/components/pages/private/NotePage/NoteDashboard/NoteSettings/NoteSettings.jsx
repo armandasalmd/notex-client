@@ -1,8 +1,8 @@
 import React from "react";
-import { NoteUtils, GlobalUtils } from "@utils";
-
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+
+import { NoteUtils, GlobalUtils, MessageUtils } from "@utils";
 import { deleteNote, evictNote, renameNote } from "@actions/noteActions";
 
 import "./NoteSettings.less";
@@ -15,11 +15,11 @@ const NoteSettings = props => {
     const notebook = props.app.selectedNotebook;
 
     const onChangeName = newName => {
-        props.renameNote(GlobalUtils.getValue(note, NoteUtils.props.note.id), newName);
+        MessageUtils.handleDispatched(props.renameNote(GlobalUtils.getValue(note, NoteUtils.props.note.id), newName));
     };
 
     const onChangeNotebook = selectedNotebookId => {
-        props.evictNote(GlobalUtils.getValue(note, NoteUtils.props.note.id), selectedNotebookId);
+        MessageUtils.handleDispatched(props.evictNote(GlobalUtils.getValue(note, NoteUtils.props.note.id), selectedNotebookId));
     };
 
     const onChangeAccess = newAccessValue => {
@@ -27,7 +27,7 @@ const NoteSettings = props => {
     };
 
     const onDeleteNote = () => {
-        props.deleteNote(props.app.selectedNoteId);
+        MessageUtils.handleDispatched(props.deleteNote(props.app.selectedNoteId));
     };
 
     return (

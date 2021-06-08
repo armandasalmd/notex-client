@@ -1,12 +1,11 @@
 import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
-
 import { Provider } from "react-redux";
+
 import store from "../store";
 import { AuthUtils } from "@utils";
 
 import AuthSwitch from "#/auth/AuthSwitch";
-import Message from "##/Message";
 import { Layout, message } from "antd";
 
 (function initApp() {
@@ -25,7 +24,6 @@ const App = () => (
             <Layout className="app">
                 <Layout id="root-container">
                     <AuthSwitch />
-                    <Message />
                 </Layout>
             </Layout>
         </Router>

@@ -1,9 +1,8 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
 
-import { GlobalUtils } from "@utils";
+import { GlobalUtils, MessageUtils } from "@utils";
 import { fetchArticleData } from '@actions/readingActions';
 
 import { BackTop } from "antd";
@@ -13,11 +12,13 @@ import ArticleFooter from "./ArticleFooter";
 import Footer from "#/containers/Footer";
 
 export const ArticlePage = (props) => {
+    const dispatch = useDispatch();
+
     let { identifier } = useParams();
 
     useEffect(() => {
         if (GlobalUtils.isGuid(identifier)) {
-            props.fetchArticleData(identifier);
+            MessageUtils.handleDispatch(dispatch, fetchArticleData(identifier), "Cannot load article");
         }
     });
 
@@ -32,14 +33,4 @@ export const ArticlePage = (props) => {
     );
 };
 
-ArticlePage.propTypes = {
-    fetchArticleData: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = (state) => ({});
-
-const mapDispatchToProps = {
-    fetchArticleData,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(ArticlePage);
+export default ArticlePage;

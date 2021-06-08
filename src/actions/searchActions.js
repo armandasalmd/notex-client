@@ -6,7 +6,6 @@ import {
     SEARCH_INCLUDE_COLLECTION,
     SET_SEARCH_FILTER
 } from "@actions/types";
-import { pushMessage, MESSAGE_TYPES } from "@actions/messageActions";
 
 import { SearchUtils } from "@utils";
 
@@ -17,25 +16,26 @@ const setSearchLoading = (loading) => (dispatch) => {
     });
 };
 
-export const search = (options) => (dispatch) => {
-    const onFail = () => dispatch(pushMessage("Something went wrong", MESSAGE_TYPES.error));
-
+export const search = (options) => async (dispatch) => {
     dispatch(setSearchLoading(true));
-    SearchUtils.searchAsync(options || {})
-        .then((res) => {
-            if (res.data) {
-                res.data.pageSize = options.pageSize;
-                
-                dispatch({
-                    type: POST_SEARCH,
-                    payload: res.data
-                });
-            } else {
-                onFail();
-            }
-        })
-        .catch(onFail)
-        .finally(() => dispatch(setSearchLoading(false)));
+    
+    try {
+        let { data } = await SearchUtils.searchAsync(options || {});
+        
+        if (data) {
+            data.pageSize = options.pageSize;
+            
+            dispatch({
+                type: POST_SEARCH,
+                payload: data
+            });
+        } else throw new Error();
+    } catch {
+        dispatch(setSearchLoading(false));
+        return false;
+    }
+
+    dispatch(setSearchLoading(false));
 };
 
 export const setSearchTerm = (searchTerm) => (dispatch) => {

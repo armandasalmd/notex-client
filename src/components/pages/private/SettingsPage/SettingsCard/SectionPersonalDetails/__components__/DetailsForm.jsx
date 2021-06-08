@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import { I18n } from "react-redux-i18n";
 
+import { MessageUtils } from "@utils";
+
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { savePersonalDetails } from "@actions/settingsActions";
@@ -30,7 +32,7 @@ const DetailsForm = (props) => {
     const [form] = Form.useForm();
 
     const onFinish = values => {
-        props.savePersonalDetails(values);
+        MessageUtils.handleDispatched(props.savePersonalDetails(values));
     };
 
     useEffect(() => {

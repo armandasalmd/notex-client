@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
+import { MessageUtils } from "@utils";
 import { search } from "@actions/searchActions";
 
 import "./SearchPage.less";
@@ -25,7 +26,7 @@ const SearchPage = (props) => {
             pageSize: typeof pageSize === "number" ? pageSize : storePageSize
         };
 
-        props.search(options);
+        MessageUtils.handleDispatched(props.search(options));
     };
     
     useEffect(() => {

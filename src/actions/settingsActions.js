@@ -17,7 +17,6 @@ import {
 } from "./types";
 import { setMenuLoading } from "./noteActions";
 import { logoutUser } from "./authActions";
-import { pushMessage, MESSAGE_TYPES } from "./messageActions";
 
 const loadingActionTemplate = (type, payload) => {
     return function (dispatch) {
@@ -32,262 +31,224 @@ export const setPersonalDetailsLoading = (isLoading) =>
 export const setSecuritySettingsLoading = (isLoading) =>
     loadingActionTemplate(SET_SECURITY_SETTINGS_LOADING, isLoading);
 
-export const changeAutoSave = (value) => {
-    return function (dispatch) {
-        if (typeof value === "boolean") {
-            const route = RouteUtils.api.settings.autoSaveChange;
+export const changeAutoSave = (value) => async (dispatch) => {
+    if (typeof value !== "boolean") return false;
 
-            dispatch(setAppSettingsLoading(true));
-            RouteUtils.sendApiRequest(route, { autoSaveValue: value })
-                .then((res) => {
-                    if (res.data.success === true) {
-                        dispatch({
-                            type: SETTINGS_CHANGE_AUTO_SAVE,
-                            payload: value,
-                        });
-                    }
-                })
-                .catch((err) => {
-                    dispatch(
-                        pushMessage("Something failed!", MESSAGE_TYPES.error)
-                    );
-                })
-                .finally(() => {
-                    dispatch(setAppSettingsLoading(false));
-                });
-        }
-    };
-};
+    const route = RouteUtils.api.settings.autoSaveChange;
 
-export const changeCloseOnClick = (value) => {
-    return function (dispatch) {
-        if (typeof value === "boolean") {
-            const route = RouteUtils.api.settings.closeOnClickChange;
+    dispatch(setAppSettingsLoading(true));
 
-            dispatch(setAppSettingsLoading(true));
-            RouteUtils.sendApiRequest(route, { value })
-                .then((res) => {
-                    if (res.status === 200 && res.data.success === true) {
-                        dispatch({
-                            type: SETTINGS_CHANGE_CLOSE_ON_CLICK,
-                            payload: value,
-                        });
-                    }
-                })
-                .catch((err) => {
-                    dispatch(
-                        pushMessage("Something failed!", MESSAGE_TYPES.error)
-                    );
-                    console.log(err);
-                })
-                .finally(() => {
-                    dispatch(setAppSettingsLoading(false));
-                });
-        }
-    };
-};
+    try {
+        let { data } = await RouteUtils.sendApiRequest(route, { autoSaveValue: value });
 
-export const changeLanguage = (languageValue) => {
-    return function (dispatch) {
-        if (languageValue) {
-            const route = RouteUtils.api.settings.changeLanguage;
-
-            dispatch(setAppSettingsLoading(true));
-            RouteUtils.sendApiRequest(route, { languageValue })
-                .then((res) => {
-                    if (res.status === 200 && res.data.success === true) {
-                        dispatch({
-                            type: SETTINGS_CHANGE_LANGUAGE,
-                            payload: languageValue,
-                        });
-
-                        localStorage.setItem(I18nUtils.LOCAL_STORAGE_KEY, languageValue);
-                        dispatch(setLocale(languageValue));
-                    }
-                })
-                .catch((err) => {
-                    dispatch(
-                        pushMessage("Something failed!", MESSAGE_TYPES.error)
-                    );
-                    console.log(err);
-                })
-                .finally(() => {
-                    dispatch(setAppSettingsLoading(false));
-                });
-        }
+        if (data.success === true) {
+            dispatch({
+                type: SETTINGS_CHANGE_AUTO_SAVE,
+                payload: value,
+            });
+        } else throw new Error();
+    } catch {
+        dispatch(setAppSettingsLoading(false));
+        return false;
     }
+
+    dispatch(setAppSettingsLoading(false));
+};
+
+export const changeCloseOnClick = (value) => async (dispatch) => {
+    if (typeof value !== "boolean") return false;
+
+    const route = RouteUtils.api.settings.closeOnClickChange;
+
+    dispatch(setAppSettingsLoading(true));
+
+    try {
+        let { data } = await RouteUtils.sendApiRequest(route, { value });
+
+        if (data.success === true) {
+            dispatch({
+                type: SETTINGS_CHANGE_CLOSE_ON_CLICK,
+                payload: value,
+            });
+        } else throw new Error();
+    } catch {
+        dispatch(setAppSettingsLoading(false));
+        return false;
+    }
+
+    dispatch(setAppSettingsLoading(false));
+};
+
+export const changeLanguage = (languageValue) => async (dispatch) => {
+    if (!languageValue) return false;
+
+    const route = RouteUtils.api.settings.changeLanguage;
+
+    dispatch(setAppSettingsLoading(true));
+
+    try {
+        let { data } = await RouteUtils.sendApiRequest(route, { languageValue });
+
+        if (data.success === true) {
+            dispatch({
+                type: SETTINGS_CHANGE_LANGUAGE,
+                payload: languageValue,
+            });
+        
+            localStorage.setItem(I18nUtils.LOCAL_STORAGE_KEY, languageValue);
+            dispatch(setLocale(languageValue));
+        } else throw new Error();
+    } catch {
+        dispatch(setAppSettingsLoading(false));
+        return false;
+    }
+
+    dispatch(setAppSettingsLoading(false));
 };
 
 export const clearChangePasswordErrors = () => setChangePasswordErrors(undefined);
 
-export const deleteAccount = () => {
-    return function (dispatch) {
-        const route = RouteUtils.api.settings.deleteAccount;
+export const deleteAccount = () => async (dispatch) => {
+    const route = RouteUtils.api.settings.deleteAccount;
 
-        RouteUtils.sendApiRequest(route, {})
-            .then((res) => {
-                if (res.status === 200 && res.data.success === true) {
-                    dispatch(logoutUser());
-                    dispatch(
-                        pushMessage(
-                            "Account was deleted. Good bye!",
-                            MESSAGE_TYPES.info
-                        )
-                    );
-                }
-            })
-            .catch((err) => {
-                dispatch(pushMessage("Something failed!", MESSAGE_TYPES.error));
-                console.log(err);
-            });
-    };
-};
+    try {
+        let { data } = await RouteUtils.sendApiRequest(route, {});
 
-export const deleteBackpack = () => {
-    return function (dispatch) {
-        const route = RouteUtils.api.settings.deleteBackpack;
+        if (data.success === true) {
+            dispatch(logoutUser());
 
-        dispatch(setMenuLoading(true));
-
-        RouteUtils.sendApiRequest(route, {})
-            .then((res) => {
-                if (res.status === 200 && res.data.success === true) {
-                    dispatch({
-                        type: DELETE_BACKPACK,
-                    });
-                }
-            })
-            .catch((err) => {
-                dispatch(pushMessage("Something failed!", MESSAGE_TYPES.error));
-                console.log(err);
-            });
-    };
-};
-
-export const initSettings = () => {
-    return function (dispatch) {
-        const route = RouteUtils.api.settings.getUserSettings;
-
-        RouteUtils.sendApiRequest(route, {})
-            .then((res) => {
-                if (res.status === 200 && res.data) {
-                    dispatch({
-                        type: SETTINGS_INIT,
-                        payload: res.data,
-                    });
-                }
-            })
-            .catch((err) => {
-                dispatch(pushMessage("Something failed!", MESSAGE_TYPES.error));
-                console.log(err);
-            });
-    };
-};
-
-export const savePersonalDetails = (personalDetails) => {
-    return function (dispatch) {
-        if (!personalDetails) {
-            return;
         }
+    } catch {
+        return false;
+    }
 
-        const route = RouteUtils.api.settings.savePersonalDetails;
-
-        dispatch(setPersonalDetailsLoading(true));
-        RouteUtils.sendApiRequest(route, personalDetails)
-            .then((res) => {
-                if (res.status === 200 && res.data) {
-                    dispatch({
-                        type: SETTINGS_SAVE_PERSONAL_DETAILS,
-                        payload: res.data,
-                    });
-                }
-            })
-            .catch((err) => {
-                dispatch(pushMessage("Something failed!", MESSAGE_TYPES.error));
-                console.log(err);
-            })
-            .finally(() => {
-                setTimeout(() => {
-                    dispatch(setPersonalDetailsLoading(false));
-                    dispatch(
-                        pushMessage("Changes saved", MESSAGE_TYPES.success)
-                    );
-                }, 500);
-            });
-    };
+    return "Account was deleted. Good bye!";
 };
 
+export const deleteBackpack = () => async (dispatch) => {
+    const route = RouteUtils.api.settings.deleteBackpack;
 
-export const setChangePasswordErrors = (payload) => {
-    return function (dispatch) {
-        dispatch({
-            type: SET_CHANGE_PASSWORD_ERRORS,
-            payload
-        });
-    };
+    dispatch(setMenuLoading(true));
+    
+    try {
+        let { data } = await RouteUtils.sendApiRequest(route, {});
+        
+        if (data.success === true) {
+            dispatch({
+                type: DELETE_BACKPACK,
+            });
+        } else throw new Error();
+    } catch {
+        dispatch(setMenuLoading(false));
+        return false;
+    }
+
+    dispatch(setMenuLoading(false));
 };
 
-export const tryChangePassword = (values) => {
-    return function (dispatch) {
-        const route = RouteUtils.api.settings.changePassword;
-        const dto = {
-            currentPassword: values.currentPassword || "",
-            newPassword1: values.newPassword1 || "",
-            newPassword2: values.newPassword2 || ""
-        };
+export const initSettings = () => async (dispatch) => {
+    const route = RouteUtils.api.settings.getUserSettings;
 
-        dispatch(setSecuritySettingsLoading(true));
-        RouteUtils.sendApiRequest(route, dto)
-            .then((res) => {
-                if (res.status === 200 && res.data.success === true) {
-                    dispatch(clearChangePasswordErrors());
-                    dispatch(pushMessage("Password changed successfully", MESSAGE_TYPES.success));
-                } else if (res.data.errors) {
-                    dispatch(setChangePasswordErrors(res.data.errors));
-                    dispatch(pushMessage("Password was not changed", MESSAGE_TYPES.warn));
-                }
-            })
-            .catch((err) => {
-                dispatch(pushMessage("Something failed!", MESSAGE_TYPES.error));
-            })
-            .finally(() => {
-                dispatch(setSecuritySettingsLoading(false));
+    try {
+        let { data } = await RouteUtils.sendApiRequest(route, {});
+
+        if (data) {
+            dispatch({
+                type: SETTINGS_INIT,
+                payload: data,
             });
+        } else throw new Error();
+    } catch {
+        return false;
     }
 };
 
-export const unlinkSocialAccount = (socialAccountType) => {
-    return function (dispatch) {
-        const route = RouteUtils.api.settings.unlinkSocialAccount;
+export const savePersonalDetails = (personalDetails) => async (dispatch) => {
+    if (!personalDetails) return false;
 
-        dispatch(setSecuritySettingsLoading(true));
-        RouteUtils.sendApiRequest(route, { strategyToUnlink: socialAccountType })
-            .then((res) => {
-                if (res.status === 200 && res.data.success === true) {
-                    dispatch({
-                        type: UNLINK_SOCIAL_ACCOUNT,
-                        payload: socialAccountType
-                    });
-                    dispatch(pushMessage("Account unlinked successfully", MESSAGE_TYPES.success));
-                } else if (res.data.errorMessage) {
-                    dispatch(pushMessage(res.data.errorMessage, MESSAGE_TYPES.warn));
-                }
-            })
-            .catch(() => {
-                dispatch(pushMessage("Something failed!", MESSAGE_TYPES.error));
-            })
-            .finally(() => {
-                dispatch(setSecuritySettingsLoading(false));
+    const route = RouteUtils.api.settings.savePersonalDetails;
+
+    dispatch(setPersonalDetailsLoading(true));
+
+    try {
+        let { data } = await RouteUtils.sendApiRequest(route, personalDetails);
+
+        if (data) {
+            dispatch({
+                type: SETTINGS_SAVE_PERSONAL_DETAILS,
+                payload: data,
             });
-    };
+        } else throw new Error();
+    } catch {
+        dispatch(setPersonalDetailsLoading(false));
+        return false;
+    }
+    
+    dispatch(setPersonalDetailsLoading(false));
+    return "Changes saved";            
 };
 
-export const updateAvatar = (avatarUrl) => {
-    return function (dispatch) {
-        dispatch({
-            type: UPDATE_AVATAR,
-            payload: avatarUrl
-        });
-        dispatch(pushMessage("Picture saved", MESSAGE_TYPES.success));
+
+export const setChangePasswordErrors = (payload) => (dispatch) => {
+    dispatch({
+        type: SET_CHANGE_PASSWORD_ERRORS,
+        payload
+    });
+};
+
+export const tryChangePassword = (values) => async (dispatch) => {
+    const route = RouteUtils.api.settings.changePassword;
+    const dto = {
+        currentPassword: values.currentPassword || "",
+        newPassword1: values.newPassword1 || "",
+        newPassword2: values.newPassword2 || ""
     };
-}
+
+    dispatch(setSecuritySettingsLoading(true));
+
+    try {
+        let { data } = await RouteUtils.sendApiRequest(route, dto);
+
+        if (data.success === true) {
+            dispatch(clearChangePasswordErrors());
+        } else throw new Error();
+    } catch {
+        dispatch(setSecuritySettingsLoading(false));
+        return false;
+    }
+    
+    dispatch(setSecuritySettingsLoading(false));
+    return "Password changed successfully";
+};
+
+export const unlinkSocialAccount = (socialAccountType) => async (dispatch) => {
+    const route = RouteUtils.api.settings.unlinkSocialAccount;
+    
+    dispatch(setSecuritySettingsLoading(true));
+
+    try {
+        let { data } = await RouteUtils.sendApiRequest(route, { strategyToUnlink: socialAccountType });
+
+        if (data.success === true) {
+            dispatch({
+                type: UNLINK_SOCIAL_ACCOUNT,
+                payload: socialAccountType
+            });
+        } else throw new Error()
+    } catch {
+        dispatch(setSecuritySettingsLoading(false));
+        return false;
+    }
+    
+    dispatch(setSecuritySettingsLoading(false));
+    return "Account unlinked successfully";
+};
+
+export const updateAvatar = (avatarUrl) => (dispatch) => {
+    dispatch({
+        type: UPDATE_AVATAR,
+        payload: avatarUrl
+    });
+
+    return "Picture saved";
+};

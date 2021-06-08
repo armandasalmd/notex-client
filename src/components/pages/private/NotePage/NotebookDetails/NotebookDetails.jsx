@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { I18n } from "react-redux-i18n";
-import { NoteUtils, GlobalUtils } from "@utils";
-
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+
+import { NoteUtils, GlobalUtils, MessageUtils } from "@utils";
 import { addNewNote, deleteNotebook, renameNotebook } from "@actions/noteActions";
 
 import { Row, Button, Popconfirm } from "antd";
@@ -28,19 +28,17 @@ const NotebookDetails = props => {
     const [modalAddNoteOpen, setModalAddNoteOpen] = useState(false);
     const [modalRenameOpen, setModalRenameOpen] = useState(false);
 
-    const submitAddNote = async (value, { notebookId }) => {
-        props.addNewNote(props.app.backpack, value, notebookId);
+    const submitAddNote = (value, { notebookId }) => {
+        MessageUtils.handleDispatched(props.addNewNote(props.app.backpack, value, notebookId));
         setModalAddNoteOpen(false);
     };
     
-    const submitRenameNotebook = async (value, { notebookId }) => {
-        props.renameNotebook(notebookId, value);
+    const submitRenameNotebook = (value, { notebookId }) => {
+        MessageUtils.handleDispatched(props.renameNotebook(notebookId, value));
         setModalRenameOpen(false);
     };
 
-    const onDelete = () => {
-        props.deleteNotebook(props.app.selectedNotebookId, props.app.selectedNotebookId);
-    };
+    const onDelete = () => MessageUtils.handleDispatched(props.deleteNotebook(props.app.selectedNotebookId, props.app.selectedNotebookId));
 
     return (
         <div className="notebook-details-root">

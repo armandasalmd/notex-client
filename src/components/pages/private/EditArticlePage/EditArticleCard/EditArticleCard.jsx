@@ -4,7 +4,7 @@ import copy from 'copy-to-clipboard';
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
-import { RouteVariables } from "@utils";
+import { RouteVariables, MessageUtils } from "@utils";
 import { setEditArticle, syncResource, saveArticleDetails } from "@actions/editArticleActions";
 
 import "./EditArticleCard.less";
@@ -16,7 +16,7 @@ const EditArticleCard = (props) => {
 
     const actions = {
         onSync: () => {
-            props.syncResource(props.articleId, false, true);
+            MessageUtils.handleDispatched(props.syncResource(props.articleId, false, true));
         },
         onCopyUrl: () => {
             const route = RouteVariables.app.shared.article;
@@ -26,7 +26,7 @@ const EditArticleCard = (props) => {
             message.success(I18n.t("common.urlCopy"));
         },
         onClose: () => {
-            props.setEditArticle(null);
+            MessageUtils.handleDispatched(props.setEditArticle(null));
         }
     };
 

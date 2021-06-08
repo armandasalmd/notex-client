@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
 import { updateAvatar } from "@actions/settingsActions";
-import { AuthUtils, RouteUtils, GlobalUtils } from "@utils";
+import { AuthUtils, RouteUtils, GlobalUtils, MessageUtils } from "@utils";
 
 import { Avatar, Button, Space, Upload } from "antd";
 import { UserOutlined, UploadOutlined } from "@ant-design/icons";
@@ -20,7 +20,7 @@ const AvatarForm = (props) => {
             const avatar = GlobalUtils.getValue(info, "file.response.data.avatarUrl", null);
 
             if (avatar) {
-                props.updateAvatar(avatar);
+                MessageUtils.handleDispatched(props.updateAvatar(avatar));
             }
         } else {
             let fileList = [...info.fileList].slice(-1);

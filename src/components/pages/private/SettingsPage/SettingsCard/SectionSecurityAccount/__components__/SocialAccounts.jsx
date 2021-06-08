@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
-import { Constants } from "@utils";
+import { Constants, MessageUtils } from "@utils";
 import { unlinkSocialAccount } from "@actions/settingsActions";
 
 import SocialButton from "##/SocialButton";
@@ -15,7 +15,7 @@ const SocialAccounts = (props) => {
 
     const onUnlinkSocialAccount = (socialAcountType) => {
         if (socialAcountType) {
-            props.unlinkSocialAccount(socialAcountType);
+            MessageUtils.handleDispatched(props.unlinkSocialAccount(socialAcountType));
         }
     };
 

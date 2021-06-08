@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import classnames from "classnames";
-import { Constants, GlobalUtils, NoteUtils } from "@utils";
+import { Constants, GlobalUtils, NoteUtils, MessageUtils } from "@utils";
 
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -44,7 +44,7 @@ const MceEditor = (props) => {
                     setTimeout(() => {
                         // if user saves manually then auto save request is not needed
                         if (!changesSaved(GlobalUtils.getValue(selectedNote, NoteUtils.props.note.text))) {
-                            saveChanges(GlobalUtils.getValue(selectedNote, NoteUtils.props.note.id), content, true);
+                            MessageUtils.handleDispatched(saveChanges(GlobalUtils.getValue(selectedNote, NoteUtils.props.note.id), content, true));
                         }
                     }, Constants.autoSaveTime)
                 );

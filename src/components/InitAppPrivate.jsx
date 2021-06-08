@@ -3,14 +3,14 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { setLocale } from "react-redux-i18n";
 
-import { GlobalUtils, I18nUtils } from "@utils"
+import { GlobalUtils, I18nUtils, MessageUtils } from "@utils"
 import { initSettings } from "@actions/settingsActions";
 
 const InitAppPrivate = (props) => {
     // Similar to componentDidMount and componentDidUpdate:
     useEffect(() => {
         if (props.settings.initialised === false) {
-            props.initSettings();
+            MessageUtils.handleDispatched(props.initSettings());
         }
     });
 

@@ -3,7 +3,7 @@ import { I18n } from "react-redux-i18n";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
-import { GlobalUtils, RouteUtils, HistoryUtils } from "@utils";
+import { GlobalUtils, RouteUtils, HistoryUtils, MessageUtils } from "@utils";
 import { fetchNotebooks, setActiveNote } from "@actions/appActions";
 import { addNewNotebook } from "@actions/noteActions";
 
@@ -36,7 +36,7 @@ const NotePage = props => {
 
     const submitAdd = async submitText => {
         setAddLoading(true);
-        await props.addNewNotebook(props.app.backpack, submitText);
+        MessageUtils.handleDispatched(props.addNewNotebook(props.app.backpack, submitText));
         setAddLoading(false);
         setModalAddOpen(false);
     };
