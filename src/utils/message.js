@@ -34,11 +34,22 @@ const info = (text) => show(text, MESSAGE_TYPES.info);
 const success = (text) => show(text, MESSAGE_TYPES.success);
 const warning = (text) => show(text, MESSAGE_TYPES.warning);
 
-const handleDispatch = (dispatchFn, action, errorMessage, onError, logError = false) => {
-    handleDispatched(dispatchFn(action), errorMessage, onError, logError);
+const handleDispatch = (dispatchFn, action, errorMessage, onError, onFinish, logError = false) => {
+    return handleDispatched(dispatchFn(action), errorMessage, onError, onFinish, logError);
 };
 
-const handleDispatched = (action, errorMessage, onError, logError = false) => {
+const handleDispatchWithLoading = (dispatchFn, action, loadingMessage, errorMessage, onError, onFinish, logError = false) => {
+    const hideFn = message.loading(loadingMessage);
+
+    return handleDispatch(dispatchFn, action, errorMessage, onError, _onFinish, logError);
+
+    function _onFinish() {
+        hideFn();
+        GlobalUtils.callIfFunction(onFinish);
+    }
+};
+
+const handleDispatched = (action, errorMessage, onError, onFinish, logError = false) => {
     if (GlobalUtils.isPromise(action)) {
         errorMessage = typeof errorMessage === "string" ? errorMessage : "Error. Something went wrong";
 
@@ -58,10 +69,14 @@ const handleDispatched = (action, errorMessage, onError, logError = false) => {
             }
 
             GlobalUtils.callIfFunction(onError, errorObject);
+        }).finally(() => {
+            GlobalUtils.callIfFunction(onFinish);
         });
     } else if (_validMessage(action)) {
         success(action);
     }
+
+    return action;
 
     function _validMessage(text) {
         return typeof text === "string" && text.length > 0;
@@ -72,6 +87,7 @@ export default {
     error,
     handleDispatch,
     handleDispatched,
+    handleDispatchWithLoading,
     info,
     MESSAGE_TYPES,
     show,

@@ -24,8 +24,7 @@ const rootReducer = combineReducers({
 const reducerWithReset = (state, action) => {
     if (action.type === USER_LOGOUT) {
         state = {
-            i18n: state.i18n,
-            message: state.messageReducer
+            i18n: state.i18n
         };
     }
     

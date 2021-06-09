@@ -73,7 +73,7 @@ export default {
 
         return `${count} ${interval.label}${count !== 1 ? "s" : ""} ago`;
     },
-    toDisplayViews: (num) => {
+    toDisplayCount: (num) => {
         const lookup = [
             { value: 1, symbol: "" },
             { value: 1e3, symbol: "k" },

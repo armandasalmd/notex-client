@@ -15,10 +15,10 @@ const FooterToolbar = (props) => {
 
     return (
         <div className={className}>
-            <Voting />
             <Space>
                 {tabElements}
             </Space>
+            <Voting />
         </div>
     );
 };

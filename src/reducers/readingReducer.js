@@ -1,4 +1,6 @@
-import { INIT_READING_DATA } from "@actions/types";
+import { BOOKMARK_ARTICLE, CLEAR_READING_DATA, INIT_READING_DATA, SET_ARTICLE_VOTE } from "@actions/types";
+
+import { ReadingUtils } from "@utils";
 
 const initialState = {
     header: {
@@ -25,33 +27,63 @@ const initialState = {
     state: {
         isBookmarked: false,
         yourVoteStatus: 0,
-        loading: true
-    }
+        loading: true,
+    },
+    identifier: ""
 };
 
 export default function (state = initialState, { type, payload }) {
     switch (type) {
+        case BOOKMARK_ARTICLE:
+            state.state.isBookmarked = !!payload;
+            return { ...state };
+        case CLEAR_READING_DATA:
+            return { 
+                ...initialState,
+                state: {
+                    isBookmarked: false,
+                    yourVoteStatus: 0,
+                    loading: true,
+                },
+            };
         case INIT_READING_DATA: {
-            const { coverImageSource, text, ...rest } = payload.articleDetails;
-            
-            state.header = {
-                articleAuthor: payload.articleAuthor,
-                ...rest
-            };
-            state.body = {
-                coverImageSource,
-                text
-            };
-            state.footer = {
-                articlesInCollection: payload.articlesInCollection,
-                suggestedArticles: payload.suggestedArticles
-            };
-            state.state.loading = false;
+            let newState = { ...initialState };
+            const { articleGuid, isBookmarked, coverImageSource, yourVoteStatus, text, ...rest } = payload.articleDetails;
 
-            return {
-                ...state,
+            newState.header = {
+                articleAuthor: payload.articleAuthor,
+                ...rest,
             };
+            newState.body = {
+                coverImageSource,
+                text,
+            };
+            newState.footer = {
+                articlesInCollection: payload.articlesInCollection,
+                suggestedArticles: payload.suggestedArticles,
+            };
+            newState.state.loading = false;
+            newState.state.isBookmarked = isBookmarked;
+            newState.state.yourVoteStatus = yourVoteStatus;
+            newState.identifier = articleGuid;
+
+            return newState;
         }
+        case SET_ARTICLE_VOTE: {
+            const { newVoteType, oldVoteType } = payload;
+
+            state.header = {
+                ...state.header,
+                voteCount: state.header.voteCount + ReadingUtils.calculateVoteSurplus(newVoteType, oldVoteType)
+            };
+            state.state = {
+                ...state.state,
+                yourVoteStatus: newVoteType
+            };
+
+            return { ...state };
+        }
+            
         default:
             return state;
     }

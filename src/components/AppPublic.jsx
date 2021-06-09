@@ -18,6 +18,8 @@ import { withTitle } from "##/HeadTitle";
 import { RouteUtils } from "@utils";
 
 const AppPublic = (props) => {
+    window.scrollTo(0, 0);
+
     return (
         <>
             <Navbar menuItems={RouteUtils.getMenuItems(props.auth.isAuthenticated)} enableLanguagePicker />

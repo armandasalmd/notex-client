@@ -174,6 +174,14 @@ export default {
             }
         },
         articles: {
+            addBookmarks: {
+                path: "/nexus/bookmark/addBulk",
+                method: "POST"
+            },
+            removeBookmarks: {
+                path: "/nexus/bookmark/removeBulk",
+                method: "DELETE"
+            },
             read: {
                 path: "/nexus/article/read/:article",
                 method: "GET",
@@ -183,6 +191,10 @@ export default {
             },
             search: {
                 path: "/nexus/search",
+                method: "POST"
+            },
+            vote: {
+                path: "/nexus/article/vote",
                 method: "POST"
             }
         }

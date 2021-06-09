@@ -1,13 +1,36 @@
-import { INIT_READING_DATA } from "@actions/types";
+import { BOOKMARK_ARTICLE, CLEAR_READING_DATA, INIT_READING_DATA, SET_ARTICLE_VOTE } from "@actions/types";
 
-import { RouteUtils } from "@utils";
+import { RouteUtils, GlobalUtils } from "@utils";
+
+export const bookmarkArticle = (identifier, bookmarkState) => async (dispatch) => {
+    const route = !!bookmarkState ? 
+        RouteUtils.api.articles.addBookmarks :
+        RouteUtils.api.articles.removeBookmarks;
+
+    try {
+        let { data } = await RouteUtils.sendApiRequest(route, {
+            articleGuids: [identifier]
+        });
+
+        dispatch({
+            type: BOOKMARK_ARTICLE,
+            payload: bookmarkState
+        });
+
+        return data.success === true;
+    } catch {
+        return false;
+    }
+};
+
+export const clear = () => (dispatch) => dispatch({ type: CLEAR_READING_DATA });
 
 export const fetchArticleData = (identifier) => async (dispatch) => {
-    const route = RouteUtils.api.articles.read;
+    const routeCopy = { ...RouteUtils.api.articles.read };
 
-    route.path = _getRequestUrl();
+    routeCopy.path = _getRequestUrl();
     
-    let response = await RouteUtils.sendApiRequest(route);
+    let response = await RouteUtils.sendApiRequest(routeCopy);
 
     if (response && typeof response.data === "object") {
         dispatch({
@@ -17,6 +40,33 @@ export const fetchArticleData = (identifier) => async (dispatch) => {
     }
 
     function _getRequestUrl() {
-        return route.path.replace(":" + route.paramNames.articleIdentifier, identifier);
+        return routeCopy.path.replace(":" + routeCopy.paramNames.articleIdentifier, identifier);
+    }
+};
+
+export const submitVote = (identifier, voteType, oldVoteType) => async (dispatch) => {
+    const route = RouteUtils.api.articles.vote;
+
+    voteType = parseInt(voteType);
+
+    if (isNaN(voteType) || !GlobalUtils.isGuid(identifier)) return false; 
+
+    try {
+        let { data } = await RouteUtils.sendApiRequest(route, {
+            articleGuid: identifier,
+            voteTypeToToggle: voteType
+        });
+
+        if (data.success === true && typeof data.data === "number") {
+            dispatch({
+                type: SET_ARTICLE_VOTE,
+                payload: {
+                    newVoteType: data.data,
+                    oldVoteType: oldVoteType
+                }
+            });
+        } else throw new Error();
+    } catch {
+        return false;
     }
 };

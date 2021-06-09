@@ -18,6 +18,7 @@ import { RouteUtils } from "@utils";
 
 const AppPrivate = props => {
     const noteMenuAvailable = props.location.pathname === RouteUtils.app.private.main.link;
+    window.scrollTo(0, 0);
 
     return (
         <>

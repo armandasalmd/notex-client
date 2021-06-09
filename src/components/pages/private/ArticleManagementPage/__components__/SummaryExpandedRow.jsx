@@ -17,7 +17,7 @@ const SummaryArticle = (props) => {
     const onSync = () => {
         if (syncEnabled) {
             const key = "1";
-            message.loading({ content: 'Synchronisation in progress', key });
+            message.loading({ content: "Synchronisation in progress", key });
             setSyncEnabled(false);
 
             ArticleManagementUtils.syncArticleApiCall(identifier)

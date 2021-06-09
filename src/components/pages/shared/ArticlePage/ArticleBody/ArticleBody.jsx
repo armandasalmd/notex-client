@@ -1,6 +1,5 @@
 import React from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 
 import { GlobalUtils } from "@utils";
 
@@ -8,7 +7,9 @@ import "./ArticleBody.less";
 import { Skeleton, Image } from "antd";
 import TextRendering from "##/TextRendering";
 
-export const ArticleBody = (props) => {
+export const ArticleBody = () => {
+    const coverSrc = useSelector((state) => state.reading.body.coverImageSource);
+    const loading = useSelector((state) => state.reading.state.loading);
 
     const getSkeletons = (skeletonCount) => {
         let skeletons = [];
@@ -22,21 +23,11 @@ export const ArticleBody = (props) => {
 
     return (
         <div className="articlePageBody">
-            {props.loading && getSkeletons(4)}
-            {!props.loading && <Image className="articlePageBody__coverImage" alt="cover" src="/images/sample-article-cover.jpg" />}
-            {!props.loading && <TextRendering />} 
+            {loading && getSkeletons(4)}
+            {!loading && typeof coverSrc === "string" && <Image className="articlePageBody__coverImage" alt="cover" src={coverSrc} />}
+            {!loading && <TextRendering />} 
         </div>
     );
 };
 
-ArticleBody.propTypes = {
-    loading: PropTypes.bool.isRequired,
-};
-
-const mapStateToProps = (state) => ({
-    loading: state.reading.state.loading,
-});
-
-const mapDispatchToProps = {};
-
-export default connect(mapStateToProps, mapDispatchToProps)(ArticleBody);
+export default ArticleBody;

@@ -43,7 +43,7 @@ const ArticleDetails = (props) => {
                         {details.readingDuration} min{details.readingDuration > 1 ? "s" : ""} read
                     </div>
                     <div className="metaData__item">
-                        {GlobalUtils.toDisplayViews(details.viewsCount)} view{details.viewsCount > 1 ? "s" : ""}
+                        {GlobalUtils.toDisplayCount(details.viewsCount)} view{details.viewsCount > 1 ? "s" : ""}
                     </div>
                 </div>
             </div>
