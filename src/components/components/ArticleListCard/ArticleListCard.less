@@ -19,7 +19,14 @@
 
     &__cover {
         width: 220px;
+        height: 174px;
+        object-fit: cover;
+        -o-object-fit: cover;
         border-right: @borderStyle;
+
+        &:hover {
+            cursor: pointer;
+        }
     }
 
     &__content {
@@ -28,11 +35,20 @@
     }
 
     &__details {
+        display: grid;
+        grid-template-rows: auto auto 1fr;
+
         .@{root}__title {
             .lineClamp(2);
 
             font-family: @raleway-font;
             font-weight: 600;
+
+            &:hover {
+                text-decoration: underline;
+                color: @primary-color;
+                cursor: pointer;
+            }
         }
 
         .@{root}__description {
@@ -44,6 +60,7 @@
         .@{root}__info {
             margin-top: @unit * 0.25;
             display: flex;
+            align-items: flex-end;
             gap: @unit;
             
             .@{root}__infoItem {

@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
 
 import { GlobalUtils, ReadingUtils } from "@utils";
+import { selectFooterTab } from "@actions/readingActions";
 
 import "./ArticleFooter.less";
 import { ArticleListRenderer } from "../__components__";
@@ -10,18 +10,15 @@ import FooterToolbar from "./FooterToolbar";
 
 const { footerCollections: collections } = ReadingUtils;
 
-export const ArticleFooter = (props) => {
-    const getCollectionData = (collection) => GlobalUtils.getValue(props.data, collection.reduxKey, []);
+export const ArticleFooter = () => {
+    const dispatch = useDispatch();
+    const data = useSelector((state) => state.reading.footer);
 
-    const [tabCollection, setTabCollection] = useState((function () {
-        let data = getCollectionData(collections.articlesInCollection);
+    const tabCollection = useSelector((state) => state.reading.state.readNextTab);
+    const setTabCollection = (tab) => dispatch(selectFooterTab(tab));
 
-        return GlobalUtils.hasLength(data) ? collections.articlesInCollection : collections.suggestedArticles;
-    })());
-
-    const getSelectedCollectionData = () => {
-        return getCollectionData(tabCollection);
-    };
+    const getCollectionData = (collection) => GlobalUtils.getValue(data, collection.reduxKey, []);
+    const getSelectedCollectionData = () => getCollectionData(tabCollection);
 
     return (
         <div className="articlePage__footer" id="footer-toolbar">
@@ -30,21 +27,11 @@ export const ArticleFooter = (props) => {
                 selectedTab={tabCollection} 
                 setSelectedTab={setTabCollection} />
             <div className="articlePage__footerContent">
-                <h1 className="header">{tabCollection.title}</h1>
+                <h1 className="header">{GlobalUtils.getValue(tabCollection, "title", "Unknown title")}</h1>
                 <ArticleListRenderer source={getSelectedCollectionData()} />
             </div>
         </div>
     );
 };
 
-ArticleFooter.propTypes = {
-    data: PropTypes.object.isRequired
-};
-
-const mapStateToProps = (state) => ({
-    data: state.reading.footer
-});
-
-const mapDispatchToProps = {};
-
-export default connect(mapStateToProps, mapDispatchToProps)(ArticleFooter);
+export default ArticleFooter;

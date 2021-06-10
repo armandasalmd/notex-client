@@ -2,6 +2,7 @@ const constants = {
     appName: "Notex",
     authTokenType: "Bearer",
     autoSaveTime: 5000,
+    defaultArticleCover: "/images/default-cover.jpg",
     defaultTitle: "Notex",
     env: process.env.NODE_ENV,
 

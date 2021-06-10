@@ -1,4 +1,10 @@
-import { BOOKMARK_ARTICLE, CLEAR_READING_DATA, INIT_READING_DATA, SET_ARTICLE_VOTE } from "@actions/types";
+import {
+    BOOKMARK_ARTICLE,
+    CLEAR_READING_DATA,
+    INIT_READING_DATA,
+    SET_ARTICLE_VOTE,
+    SELECT_READING_FOOTER_TAB,
+} from "@actions/types";
 
 import { ReadingUtils } from "@utils";
 
@@ -28,8 +34,9 @@ const initialState = {
         isBookmarked: false,
         yourVoteStatus: 0,
         loading: true,
+        readNextTab: ReadingUtils.footerCollections.articlesInCollection,
     },
-    identifier: ""
+    identifier: "",
 };
 
 export default function (state = initialState, { type, payload }) {
@@ -38,17 +45,13 @@ export default function (state = initialState, { type, payload }) {
             state.state.isBookmarked = !!payload;
             return { ...state };
         case CLEAR_READING_DATA:
-            return { 
-                ...initialState,
-                state: {
-                    isBookmarked: false,
-                    yourVoteStatus: 0,
-                    loading: true,
-                },
+            return {
+                ...initialState
             };
         case INIT_READING_DATA: {
             let newState = { ...initialState };
-            const { articleGuid, isBookmarked, coverImageSource, yourVoteStatus, text, ...rest } = payload.articleDetails;
+            const { articleGuid, isBookmarked, coverImageSource, yourVoteStatus, text, ...rest } =
+                payload.articleDetails;
 
             newState.header = {
                 articleAuthor: payload.articleAuthor,
@@ -74,16 +77,21 @@ export default function (state = initialState, { type, payload }) {
 
             state.header = {
                 ...state.header,
-                voteCount: state.header.voteCount + ReadingUtils.calculateVoteSurplus(newVoteType, oldVoteType)
+                voteCount: state.header.voteCount + ReadingUtils.calculateVoteSurplus(newVoteType, oldVoteType),
             };
             state.state = {
                 ...state.state,
-                yourVoteStatus: newVoteType
+                yourVoteStatus: newVoteType,
             };
 
             return { ...state };
         }
-            
+        case SELECT_READING_FOOTER_TAB:
+            state.state = {
+                ...state.state,
+                readNextTab: payload,
+            };
+            return { ...state };
         default:
             return state;
     }

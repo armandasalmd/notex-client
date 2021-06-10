@@ -33,6 +33,9 @@ export default {
     isPromise: (promise) => {
         return !!promise && typeof promise.then === "function";
     },
+    pluralise: (word, count) => {
+        return parseInt(count) > 1 ? word : word + "s";
+    },
     toDisplayDate: (date) => {
         if (date instanceof Date) {
             let Y = date.getFullYear(),

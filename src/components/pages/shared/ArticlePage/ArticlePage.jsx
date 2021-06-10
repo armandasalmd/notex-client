@@ -11,7 +11,7 @@ import ArticleBody from "./ArticleBody";
 import ArticleFooter from "./ArticleFooter";
 import Footer from "#/containers/Footer";
 
-export const ArticlePage = (props) => {
+export const ArticlePage = () => {
     const dispatch = useDispatch();
     const history = useHistory();
 
@@ -23,10 +23,12 @@ export const ArticlePage = (props) => {
         const onError = () => history.replace(RouteVariables.app.public.notFound.link);
 
         if (GlobalUtils.isGuid(identifier)) {
-            if (GlobalUtils.isGuid(storeIdentifier) && storeIdentifier !== identifier) {
-                dispatch(clearReadingData());
-            } else {
-                MessageUtils.handleDispatch(dispatch, fetchArticleData(identifier), "Article not found", onError);
+            if (storeIdentifier !== identifier) {
+                if (GlobalUtils.isGuid(storeIdentifier)) {
+                    dispatch(clearReadingData());
+                } else {
+                    MessageUtils.handleDispatch(dispatch, fetchArticleData(identifier), "Article not found", onError);
+                }
             }
         } else {
             MessageUtils.error("Article not found");
