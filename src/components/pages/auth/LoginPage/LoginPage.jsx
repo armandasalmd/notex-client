@@ -37,6 +37,7 @@ const LoginPage = (props) => {
                 content: successMessage,
                 duration: 4
             });
+            query.delete("successMsg");
         } else {
             const errorMessage = query.get("errorMsg");
             if (errorMessage) {

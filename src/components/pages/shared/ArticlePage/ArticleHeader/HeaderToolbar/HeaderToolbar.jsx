@@ -9,12 +9,13 @@ import { bookmarkArticle } from "@actions/readingActions";
 import "./HeaderToolbar.less";
 import { BookOutlined, BookFilled, LinkOutlined } from "@ant-design/icons";
 import { Voting } from "../../__components__";
-import { Space, Tooltip } from "antd";
+import { notification, Space, Tooltip } from "antd";
 
 const HeaderToolbar = () => {
     const dispatch = useDispatch();
     const bookmarked = useSelector((state) => state.reading.state.isBookmarked);
     const identifier = useSelector((state) => state.reading.identifier);
+    const isAuthenticated = useSelector((state) => state.auth.identifier);
 
     const copyUrl = () => {
         copy(window.location.href);
@@ -31,12 +32,19 @@ const HeaderToolbar = () => {
     };
 
     const toggleBookmark = () => {
-        MessageUtils.handleDispatchWithLoading(
-            dispatch,
-            bookmarkArticle(identifier, !bookmarked),
-            "Setting bookmark...",
-            "Cannot change bookmark state"
-        );
+        if (isAuthenticated) {
+            MessageUtils.handleDispatchWithLoading(
+                dispatch,
+                bookmarkArticle(identifier, !bookmarked),
+                "Setting bookmark...",
+                "Cannot change bookmark state"
+            );
+        } else {
+            notification.info({
+                message: "Cannot add to bookmarks",
+                description: "Please login to continue...",
+            });
+        }
     };
 
     const bookmarkTitle = bookmarked ? "Remove article bookmark" : "Bookmark this article";

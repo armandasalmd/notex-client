@@ -10,6 +10,7 @@ import TextRendering from "##/TextRendering";
 export const ArticleBody = () => {
     const coverSrc = useSelector((state) => state.reading.body.coverImageSource);
     const loading = useSelector((state) => state.reading.state.loading);
+    const text = useSelector((state) => state.reading.body.text);
 
     const getSkeletons = (skeletonCount) => {
         let skeletons = [];
@@ -25,7 +26,7 @@ export const ArticleBody = () => {
         <div className="articlePageBody">
             {loading && getSkeletons(4)}
             {!loading && typeof coverSrc === "string" && <Image className="articlePageBody__coverImage" alt="cover" src={coverSrc} />}
-            {!loading && <TextRendering />} 
+            {!loading && <TextRendering source={text} />} 
         </div>
     );
 };

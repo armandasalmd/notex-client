@@ -27,7 +27,7 @@ export const ArticleFooter = () => {
                 selectedTab={tabCollection} 
                 setSelectedTab={setTabCollection} />
             <div className="articlePage__footerContent">
-                <h1 className="header">{GlobalUtils.getValue(tabCollection, "title", "Unknown title")}</h1>
+                <h1 className="header">{tabCollection.title}</h1>
                 <ArticleListRenderer source={getSelectedCollectionData()} />
             </div>
         </div>
