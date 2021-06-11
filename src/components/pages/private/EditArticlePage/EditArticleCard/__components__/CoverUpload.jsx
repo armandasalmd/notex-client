@@ -34,17 +34,31 @@ const CoverUpload = (props) => {
     const [fileList, setFileList] = useState(imageSource ? [createUploadFile(imageSource)] : []);
 
     const handleChange = (info) => {
-        const uploadSuccess = GlobalUtils.getValue(info, "file.response.success", false);
-
-        if (uploadSuccess) {
+        if (info.file.status === "done") {
             const source = GlobalUtils.getValue(info, "file.response.data", null);
             
             setFileList([...info.fileList].slice(-1));
             setLoading(false);
             setImageUrl(source);
             GlobalUtils.callIfFunction(onChange, source);
-        } else {
+        } else if (info.file.status === "uploading") {
             setLoading(true);
+        }
+
+        _updateFileList();
+
+        function _updateFileList() {
+            let fileList = [...info.fileList].slice(-1);
+    
+            fileList = fileList.map((file) => {
+                if (file.response) {
+                    file.url = file.response.url;
+                }
+    
+                return file;
+            });
+    
+            setFileList(fileList);
         }
     };
 
@@ -58,6 +72,7 @@ const CoverUpload = (props) => {
         <div className="editArticleCard__upload">
             <div className="editArticleCard__uploadMain">
                 <Upload
+                    accept="image/png, image/jpeg"
                     action={RouteUtils.resolveUrl(RouteUtils.api.settings.uploadCover)}
                     name="image"
                     fileList={fileList}
@@ -68,7 +83,6 @@ const CoverUpload = (props) => {
                         showRemoveIcon: true,
                     }}
                     listType="picture-card"
-                    maxCount={1}
                     beforeUpload={beforeUpload}
                     onChange={handleChange}
                     onPreview={() => setPreviewVisible(true)}

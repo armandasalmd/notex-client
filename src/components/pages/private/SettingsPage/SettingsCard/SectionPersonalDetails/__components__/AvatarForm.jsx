@@ -22,7 +22,11 @@ const AvatarForm = (props) => {
             if (avatar) {
                 MessageUtils.handleDispatched(props.updateAvatar(avatar));
             }
-        } else {
+        }
+
+        _updateFileList();
+
+        function _updateFileList() {
             let fileList = [...info.fileList].slice(-1);
     
             fileList = fileList.map((file) => {
