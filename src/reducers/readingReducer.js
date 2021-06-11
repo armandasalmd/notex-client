@@ -46,7 +46,11 @@ export default function (state = initialState, { type, payload }) {
             return { ...state };
         case CLEAR_READING_DATA:
             return {
-                ...initialState
+                ...initialState,
+                state: {
+                    ...state.state,
+                    loading: true
+                }
             };
         case INIT_READING_DATA: {
             let newState = { ...initialState };

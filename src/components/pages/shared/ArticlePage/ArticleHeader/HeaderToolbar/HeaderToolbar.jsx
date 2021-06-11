@@ -15,7 +15,7 @@ const HeaderToolbar = () => {
     const dispatch = useDispatch();
     const bookmarked = useSelector((state) => state.reading.state.isBookmarked);
     const identifier = useSelector((state) => state.reading.identifier);
-    const isAuthenticated = useSelector((state) => state.auth.identifier);
+    const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
     const copyUrl = () => {
         copy(window.location.href);
@@ -32,7 +32,7 @@ const HeaderToolbar = () => {
     };
 
     const toggleBookmark = () => {
-        if (isAuthenticated) {
+        if (isAuthenticated === true) {
             MessageUtils.handleDispatchWithLoading(
                 dispatch,
                 bookmarkArticle(identifier, !bookmarked),

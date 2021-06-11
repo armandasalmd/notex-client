@@ -34,18 +34,17 @@ const CoverUpload = (props) => {
     const [fileList, setFileList] = useState(imageSource ? [createUploadFile(imageSource)] : []);
 
     const handleChange = (info) => {
-        if (info.file.status === "uploading") {
-            setLoading(true);
-            return;
-        }
+        const uploadSuccess = GlobalUtils.getValue(info, "file.response.success", false);
 
-        if (info.file.status === "done") {
+        if (uploadSuccess) {
             const source = GlobalUtils.getValue(info, "file.response.data", null);
-
+            
             setFileList([...info.fileList].slice(-1));
             setLoading(false);
             setImageUrl(source);
             GlobalUtils.callIfFunction(onChange, source);
+        } else {
+            setLoading(true);
         }
     };
 

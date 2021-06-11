@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-import { ArticleManagementUtils, EditArticleUtils, GlobalUtils } from "@utils";
+import { ArticleManagementUtils, EditArticleUtils, GlobalUtils, MessageUtils } from "@utils";
 
 import { SaveOutlined } from "@ant-design/icons";
 import { Button, Row, Form, Input, Select, Cascader } from "antd";
@@ -32,11 +32,15 @@ const ArticleDetailsForm = (props) => {
     useEffect(() => {
         if (sourceMetaData && article.sourceNoteId && form) {
             const noteParentId = EditArticleUtils.findNoteParentIdInMetaData(sourceMetaData, article.sourceNoteId);
-    
-            form.setFields([{
-                name: "sourceNoteId",
-                value: noteParentId? [noteParentId, article.sourceNoteId] : null
-            }]);
+
+            if (GlobalUtils.hasLength(noteParentId)) {
+                form.setFields([{
+                    name: "sourceNoteId",
+                    value: noteParentId? [noteParentId, article.sourceNoteId] : null
+                }]);
+            } else {
+                MessageUtils.warning("Source article was removed. Please choose new source!");
+            }
         }
     }, [sourceMetaData, article, form]);
 

@@ -61,9 +61,10 @@ const responseToTableData = (rawArticles) => {
 const findNoteParentIdInMetaData = (metaData, noteId) => {
     if (noteId && Array.isArray(metaData)) {
         const nb = metaData.find(nbMeta => nbMeta.notes.find(ntMeta => ntMeta.identifier === noteId));
-        return nb.identifier;
+
+        return GlobalUtils.getValue(nb, "identifier");
     }
-}
+};
 
 export default {
     articleSummaryModel,

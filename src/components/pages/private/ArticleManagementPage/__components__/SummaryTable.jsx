@@ -1,5 +1,7 @@
 import React from "react";
 
+import { GlobalUtils } from "@utils";
+
 import { Table } from "antd";
 import ArticleAccessPicker from "##/ArticleAccessPicker";
 import SummaryTableActions from "./SummaryTableActions";
@@ -34,7 +36,7 @@ const getTableColumns = (onDelete, onAccessStatusChange) => {
                 { text: "Unlisted", value: "1" },
                 { text: "Private", value: "2" }
             ],
-            onFilter: (value, record) => record.status === value,
+            onFilter: (value, record) => GlobalUtils.getValue(record, "status.value") === value,
             sorter: (a, b) => a.status < b.status ? -1 : 1
         },
         {
