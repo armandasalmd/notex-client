@@ -73,7 +73,7 @@ const syncArticleApiCall = async (identifier) => {
 const articleManagementSearchApiCall = async (searchValue) => {
     const request = {
         pageNumber: 1,
-        pageSize: 10000,
+        pageSize: 1000,
         filter: searchValue || ""
     };
     const response = await RouteUtils.sendApiRequest(RouteUtils.api.articleManagement.search, request);

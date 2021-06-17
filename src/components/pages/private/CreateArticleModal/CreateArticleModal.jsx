@@ -97,6 +97,4 @@ CreateCollectionModal.propTypes = {
     createArticle: PropTypes.func.isRequired
 };
 
-const mapStateToProps = state => ({});
-
-export default connect(mapStateToProps, { createArticle })(CreateCollectionModal);
+export default connect(null, { createArticle })(CreateCollectionModal);

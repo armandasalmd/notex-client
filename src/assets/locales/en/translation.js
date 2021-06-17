@@ -220,6 +220,7 @@ export default {
     navText: {
         about: "About us",
         articleManagement: "Article management",
+        bookmarks: "My bookmarks",
         error: {
             notFound: "Not found - 404"
         },

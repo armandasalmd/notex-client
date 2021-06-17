@@ -197,6 +197,7 @@ export default {
     navText: {
         about: "Apie mus",
         articleManagement: "Straipsnių valdymas",
+        bookmarks: "Išsaugoti straipsniai",
         error: {
             notFound: "Nerasta - 404"
         },

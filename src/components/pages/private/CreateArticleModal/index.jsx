@@ -1,2 +1,1 @@
-import CreateArticleModal from "./CreateArticleModal";
-export default CreateArticleModal;
+export { default } from "./CreateArticleModal";

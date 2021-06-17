@@ -2,6 +2,7 @@ import {
     BOOKMARK_ARTICLE,
     CLEAR_READING_DATA,
     INIT_READING_DATA,
+    RESET_BOOKMARKS_CACHE,
     SET_ARTICLE_VOTE,
     SELECT_READING_FOOTER_TAB,
 } from "@actions/types";
@@ -19,6 +20,10 @@ export const bookmarkArticle = (identifier, bookmarkState) => async (dispatch) =
         dispatch({
             type: BOOKMARK_ARTICLE,
             payload: bookmarkState,
+        });
+        
+        dispatch({
+            type: RESET_BOOKMARKS_CACHE
         });
 
         if (data.success !== true) return false;

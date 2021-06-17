@@ -9,7 +9,7 @@ export const ArticleListRenderer = (props) => {
     const { source } = props;
 
     if (!GlobalUtils.hasLength(source)) {
-        return <Empty style={{ marginTop: 16 }} description="No articles found" />;
+        return <Empty style={{ marginTop: 16, marginBottom: 16 }} description="No articles found" />;
     }
 
     const cards = source.map((article, index) => {

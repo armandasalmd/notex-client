@@ -22,10 +22,14 @@ export const ArticleBody = () => {
         return skeletons;
     }
 
+    const imageWrapper = <div className="articlePageBody__coverImage">
+        <Image alt="cover" src={coverSrc} />
+    </div>;
+
     return (
         <div className="articlePageBody">
             {loading && getSkeletons(4)}
-            {!loading && typeof coverSrc === "string" && <Image className="articlePageBody__coverImage" alt="cover" src={coverSrc} />}
+            {!loading && typeof coverSrc === "string" && imageWrapper}
             {!loading && <TextRendering source={text} />} 
         </div>
     );

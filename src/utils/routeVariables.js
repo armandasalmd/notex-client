@@ -178,9 +178,9 @@ export default {
                 path: "/nexus/bookmark/addBulk",
                 method: "POST"
             },
-            removeBookmarks: {
-                path: "/nexus/bookmark/removeBulk",
-                method: "DELETE"
+            bookmarkedArticles: {
+                path: "/nexus/bookmark/getUserBookmarksViewModel",
+                method: "POST"
             },
             read: {
                 path: "/nexus/article/read/:article",
@@ -188,6 +188,10 @@ export default {
                 paramNames: {
                     articleIdentifier: "article"
                 }
+            },
+            removeBookmarks: {
+                path: "/nexus/bookmark/removeBulk",
+                method: "DELETE"
             },
             search: {
                 path: "/nexus/search",

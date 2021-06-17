@@ -70,7 +70,7 @@ const NavbarActions = () => {
     return (
         <div ref={wrapperRef} className="navbar__actions">
             {/* <NavbarNotificationBell open={notificationOpen} onClick={notificationClick} /> */}
-            <NavbarPersona open={personaOpen} onClick={personaClick} />
+            <NavbarPersona open={personaOpen} setOpen={setPersonaOpen} onClick={personaClick} />
         </div>
     );
 };

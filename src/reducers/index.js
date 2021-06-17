@@ -4,6 +4,7 @@ import { combineReducers } from "redux";
 import { i18nReducer } from "react-redux-i18n";
 import appReducer from "./appReducer";
 import authReducer from "./authReducer";
+import bookmarkReducer from "./bookmarkReducer";
 import editArticleReducer from "./editArticleReducer";
 import errorReducer from "./errorReducer";
 import readingReducer from "./readingReducer";
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
     i18n: i18nReducer,
     app: appReducer,
     auth: authReducer,
+    bookmark: bookmarkReducer,
     editArticle: editArticleReducer,
     errors: errorReducer,
     reading: readingReducer,

@@ -1,0 +1,19 @@
+@import "@styles/Variables.less";
+
+@drawerWrapperSelector: #bookmarks-drawer .ant-drawer-content-wrapper;
+
+@{drawerWrapperSelector} {
+    width: 40% !important;
+}
+
+@media only screen and (max-width: @xl) {
+    @{drawerWrapperSelector} {
+        width: 60% !important;
+    }
+}
+
+@media only screen and (max-width: @lg) {
+    @{drawerWrapperSelector} {
+        width: 90% !important;
+    }
+}

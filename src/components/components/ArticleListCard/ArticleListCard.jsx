@@ -1,15 +1,17 @@
 import React from "react";
+import classnames from "classnames";
 import { useHistory } from "react-router-dom";
 
 import { Constants, GlobalUtils, MessageUtils, SearchUtils } from "@utils";
 
 import "./ArticleListCard.less";
+import { Popconfirm } from "antd";
 import { UpSquareOutlined, EyeOutlined, ReadOutlined, SelectOutlined, CloseCircleOutlined } from "@ant-design/icons";
 
 const ArticleListCard = (props) => {
     const history = useHistory();
 
-    const { onClose, onSelect, articleData } = props;
+    const { onClose, onSelect, articleData, small } = props;
 
     if (!articleData) return null;
 
@@ -35,8 +37,21 @@ const ArticleListCard = (props) => {
         }
     };
 
+    const classes = classnames("articleListCard", {
+        "articleListCard--small": small === true
+    });
+
+    let closeElement = null;
+    if (typeof onClose === "function") {
+        closeElement = (
+            <Popconfirm placement="left" title="Do you want to remove this bookmark?" onConfirm={onClose.bind(this, articleData)} okText="Yes" cancelText="No">
+                <CloseCircleOutlined />
+            </Popconfirm>
+        );
+    }
+
     return (
-        <div className="articleListCard">
+        <div className={classes}>
             <img
                 className="articleListCard__cover"
                 onClick={handleClick}
@@ -67,8 +82,8 @@ const ArticleListCard = (props) => {
                     </div>
                 </div>
                 <div className="articleListCard__actions">
-                    {typeof onSelect === "function" && <SelectOutlined onClick={onSelect} />}
-                    {typeof onClose === "function" && <CloseCircleOutlined onClick={onClose} />}
+                    {typeof onSelect === "function" && <SelectOutlined onClick={onSelect.bind(this, articleData)} />}
+                    {closeElement}
                 </div>
             </div>
         </div>
