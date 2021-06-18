@@ -7,11 +7,11 @@ import { Avatar } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 
 const __Persona = (props) => {
-    const { name, email, avatarUrl } = props;
+    const { name, email, avatarUrl, onClick } = props;
 
     return (
         <div className="persona">
-            <Link to={RouteUtils.app.private.settings.link}>
+            <Link onClick={onClick} to={RouteUtils.app.private.settings.link}>
                 <Avatar
                     className="persona__avatar"
                     size={40}
@@ -21,7 +21,7 @@ const __Persona = (props) => {
                 />
             </Link>
             <div className="persona__info">
-                <Link to={RouteUtils.app.private.settings.link}><p className="persona__name">{name}</p></Link>
+                <Link onClick={onClick} to={RouteUtils.app.private.settings.link}><p className="persona__name">{name}</p></Link>
                 <p className="persona__mail">{email}</p>
             </div>
         </div>

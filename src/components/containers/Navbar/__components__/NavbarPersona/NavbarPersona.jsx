@@ -19,13 +19,17 @@ const NavbarPersona = (props) => {
         setOverlayOpen(false);
         setBookmarkDrawerOpen(true);
     };
+    
+    const onProfileClick = () => {
+        setOverlayOpen(false);
+    };
 
     return (
         <div id="navbarPersona" className="navbar__actionItem">
             <div className="navbar__actionItemContent" onClick={onClick}>
                 <UserOutlined />
             </div>
-            {open && <PersonaOverlay onBookmarkClick={onBookmarkItemClick} id="personaOverlay" />}
+            {open && <PersonaOverlay onProfileClick={onProfileClick} onBookmarkClick={onBookmarkItemClick} id="personaOverlay" />}
             {bookmarkDrawerOpen && <BookmarksDrawer visible={bookmarkDrawerOpen} setVisible={setBookmarkDrawerOpen} />}
         </div>
     );
