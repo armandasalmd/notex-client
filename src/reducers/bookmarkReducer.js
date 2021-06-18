@@ -20,13 +20,15 @@ const initialState = {
 export default function (state = initialState, { type, payload }) {
     switch (type) {
         case RESET_BOOKMARKS_CACHE: {
-            return {
+            let temp ={
                 ...state,
-                bookmarks: initialState.bookmarks,
+                bookmarks: {},
                 page: {
                     ...initialState.page
                 }
             };
+            console.log("RESET", temp);
+            return temp;
         }
         case SET_BOOKMARKS_ACTIVE_PAGE:
             return {

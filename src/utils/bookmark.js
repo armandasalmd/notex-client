@@ -1,6 +1,6 @@
 import { GlobalUtils } from "@utils";
 
-const DEFAULT_PAGE_SIZE = 2;
+const DEFAULT_PAGE_SIZE = 5;
 
 const getPageBookmarks = (stateBookmarks, pageNumber, pageSize = DEFAULT_PAGE_SIZE) => {
     if (typeof stateBookmarks === "object") {

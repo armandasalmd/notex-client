@@ -5,16 +5,25 @@ import { useHistory } from "react-router-dom";
 import { Constants, GlobalUtils, MessageUtils, SearchUtils } from "@utils";
 
 import "./ArticleListCard.less";
-import { Popconfirm } from "antd";
-import { UpSquareOutlined, EyeOutlined, ReadOutlined, SelectOutlined, CloseCircleOutlined } from "@ant-design/icons";
+import { Popconfirm, Tooltip } from "antd";
+import { UpSquareOutlined, EyeOutlined, ReadOutlined, BookOutlined, BookFilled, CloseCircleOutlined } from "@ant-design/icons";
+import EmptyArticleListCard from "./EmptyArticleListCard";
 
 const ArticleListCard = (props) => {
     const history = useHistory();
 
-    const { onClose, onSelect, articleData, small } = props;
+    const { onClose, onBookmark, articleData, small } = props;
 
-    if (!articleData) return null;
+    if (GlobalUtils.isEmpty(GlobalUtils.getValue(articleData, "title"))) {
+        const closeFn = typeof onClose === "function" ? onClose.bind(this, articleData) : null;
 
+        return <EmptyArticleListCard title="Article is unavailable" description="It might be removed or marked as private" small articleData={articleData} onClose={closeFn} />;
+    }
+
+    const classes = classnames("articleListCard", {
+        "articleListCard--small": small === true
+    });
+    
     const { 
         coverSource,
         description,
@@ -28,7 +37,7 @@ const ArticleListCard = (props) => {
     const handleClick = () => {
         if (GlobalUtils.isGuid(identifier)) {
             if (typeof onSelect === "function") {
-                onSelect(articleData);
+                onBookmark(articleData);
             } else {
                 history.push(SearchUtils.pathToArticle(identifier));
             }
@@ -37,9 +46,12 @@ const ArticleListCard = (props) => {
         }
     };
 
-    const classes = classnames("articleListCard", {
-        "articleListCard--small": small === true
-    });
+    let bookmarkIcon = null;
+    if (typeof onBookmark === "function") {
+        bookmarkIcon = GlobalUtils.getValue(articleData, "isBookmarked", false) ? 
+            <Tooltip title="Remove from bookmarks"><BookFilled onClick={onBookmark.bind(this, false, articleData)} /></Tooltip> :
+            <Tooltip title="Save to bookmarks"><BookOutlined onClick={onBookmark.bind(this, true, articleData)} /></Tooltip>;
+    }
 
     let closeElement = null;
     if (typeof onClose === "function") {
@@ -82,7 +94,7 @@ const ArticleListCard = (props) => {
                     </div>
                 </div>
                 <div className="articleListCard__actions">
-                    {typeof onSelect === "function" && <SelectOutlined onClick={onSelect.bind(this, articleData)} />}
+                    {bookmarkIcon}
                     {closeElement}
                 </div>
             </div>

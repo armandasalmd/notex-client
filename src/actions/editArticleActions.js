@@ -272,10 +272,14 @@ export const saveArticleDetails = (requestData) => async (dispatch) => {
 
     dispatch(setArticleCardLoading(true));
     const route = RouteUtils.api.articleManagement.saveArticle;
+
+    const { articleAccessStatus, sourceNoteId, ...rest } = requestData;
+    const accessStatus = parseInt(articleAccessStatus);
+
     const response = await RouteUtils.sendApiRequest(route, {
-        ...requestData,
-        accessStatus: parseInt(requestData.articleAccessStatus) || 2,
-        ext_SourceNoteId: requestData.sourceNoteId
+        ...rest,
+        accessStatus: isNaN(accessStatus) ? 2 : accessStatus,
+        ext_SourceNoteId: sourceNoteId
     });
     
     dispatch(setArticleCardLoading(false));

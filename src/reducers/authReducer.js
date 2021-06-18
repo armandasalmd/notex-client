@@ -1,6 +1,6 @@
 import { SET_CURRENT_USER, SET_AUTH_LOADING } from "@actions/types";
 
-const isEmpty = require("is-empty");
+import { GlobalUtils } from "@utils";
 
 const initialState = {
     isAuthenticated: false,
@@ -13,7 +13,7 @@ export default function (state = initialState, action) {
         case SET_CURRENT_USER:
             return {
                 ...state,
-                isAuthenticated: !isEmpty(action.payload),
+                isAuthenticated: !GlobalUtils.isEmpty(action.payload),
                 user: action.payload,
                 loading: false
             };

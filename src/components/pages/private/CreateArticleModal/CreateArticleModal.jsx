@@ -72,7 +72,7 @@ const CreateCollectionModal = (props) => {
             ]}
         >
             <Form form={form} layout="vertical" onFinish={handleSubmit} initialValues={initialValues}>
-                <Form.Item name="title" rules={[{required: true, message: "Please enter collection name"}]} label="Collection name">
+                <Form.Item name="title" rules={[{required: true, message: "Please enter collection name"}]} label="Article title">
                     <Input placeholder="Enter name" />
                 </Form.Item>
                 <Form.Item name="description" label="Short description" rules={[{required: true, message: "Please add description"}]} tooltip="Description will appear in search page">

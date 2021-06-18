@@ -60,7 +60,7 @@ const ArticleDetailsForm = (props) => {
         <>
         <Row className={className}>
             <Form style={{width: "100%"}} form={form} layout="horizontal" onFinish={handleSubmit}>
-                <Form.Item name="title" label="Collection name" {...formItemCommon("Please enter collection name")}>
+                <Form.Item name="title" label="Article title" {...formItemCommon("Please enter collection name")}>
                     <Input placeholder="Enter name" />
                 </Form.Item>
                 <Form.Item name="description" label="Short description" {...formItemCommon("Please add description")} tooltip="Description will appear in search page">

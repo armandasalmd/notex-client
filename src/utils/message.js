@@ -34,7 +34,7 @@ const info = (text) => show(text, MESSAGE_TYPES.info);
 const success = (text) => show(text, MESSAGE_TYPES.success);
 const warning = (text) => show(text, MESSAGE_TYPES.warning);
 
-const handleDispatch = (dispatchFn, action, errorMessage, onError, onFinish, logError = false) => {
+const handleDispatch = (dispatchFn, action, errorMessage, onError, onFinish, logError = true) => {
     return handleDispatched(dispatchFn(action), errorMessage, onError, onFinish, logError);
 };
 

@@ -60,9 +60,9 @@ const HeaderToolbar = () => {
                 <button className="ghostButton ghostButton--noText ghostButton--silent" onClick={toggleBookmark}>
                     <span className="ghostButton__icon">{bookmarkIcon}</span>
                 </button>
-                <button className="ghostButton ghostButton--noText ghostButton--silent">
+                <button className="ghostButton ghostButton--noText ghostButton--silent" onClick={copyUrl} >
                     <span className="ghostButton__icon">
-                        <LinkOutlined onClick={copyUrl} />
+                        <LinkOutlined />
                     </span>
                 </button>
             </Space>

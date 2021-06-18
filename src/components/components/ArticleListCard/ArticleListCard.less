@@ -47,10 +47,12 @@
             font-family: @raleway-font;
             font-weight: 600;
 
-            &:hover {
-                text-decoration: underline;
-                color: @primary-color;
-                cursor: pointer;
+            &:not(&--static) {
+                &:hover {
+                    text-decoration: underline;
+                    color: @primary-color;
+                    cursor: pointer;
+                }
             }
         }
 

@@ -46,7 +46,7 @@ const EditArticleCard = (props) => {
 
     useEffect(() => {
         if (thisRef && thisRef.current) {
-            thisRef.current.scrollIntoView();
+            thisRef.current.scrollIntoView({ behavior: "smooth" });
         }
     }, [thisRef]);
 

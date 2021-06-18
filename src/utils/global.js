@@ -1,5 +1,35 @@
 import Constants from "./constants";
 
+const isEmpty = (val) => {
+    if (val == null) return true;
+    if ("boolean" == typeof val) return false;
+    if ("number" == typeof val) return val === 0;
+    if ("string" == typeof val) return val.length === 0;
+    if ("function" == typeof val) return val.length === 0;
+    if (Array.isArray(val)) return val.length === 0;
+    if (val instanceof Error) return val.message === "";
+    
+    // eslint-disable-next-line
+    if (val.toString == Object.prototype.toString) {
+        switch (val.toString()) {
+            case "[object File]":
+            case "[object Map]":
+            case "[object Set]":
+                return val.size === 0;
+            case "[object Object]": {
+                for (let key in val)
+                    if (Object.prototype.hasOwnProperty.call(val, key)) return false;
+
+                return true;
+            }
+            default:
+                return false;
+        }
+    }
+
+    return false;
+};
+
 export default {
     appName: Constants.appName,
     callIfFunction: (functionToCall, ...functionArgs) => {
@@ -24,6 +54,10 @@ export default {
     hasLength: (object) => {
         return typeof object === "string" || Array.isArray(object) ? object.length > 0 : false;
     },
+    isAnyEmpty: (...items) => {
+        return Array.isArray(items) ? items.some(isEmpty) : true;
+    },
+    isEmpty,
     isGuid: (value) => {
         let regex = /^[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}$/i;
         let match = regex.exec(value);
@@ -34,7 +68,7 @@ export default {
         return !!promise && typeof promise.then === "function";
     },
     pluralise: (word, count) => {
-        return parseInt(count) > 1 ? word : word + "s";
+        return parseInt(count) > 1 ? word + "s" : word;
     },
     toDisplayDate: (date) => {
         if (date instanceof Date) {

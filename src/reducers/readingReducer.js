@@ -1,12 +1,13 @@
 import {
     BOOKMARK_ARTICLE,
+    BOOKMARK_READ_NEXT_ARTICLE,
     CLEAR_READING_DATA,
     INIT_READING_DATA,
     SET_ARTICLE_VOTE,
     SELECT_READING_FOOTER_TAB,
 } from "@actions/types";
 
-import { ReadingUtils } from "@utils";
+import { GlobalUtils, ReadingUtils } from "@utils";
 
 const initialState = {
     header: {
@@ -44,6 +45,27 @@ export default function (state = initialState, { type, payload }) {
         case BOOKMARK_ARTICLE:
             state.state.isBookmarked = !!payload;
             return { ...state };
+        case BOOKMARK_READ_NEXT_ARTICLE: {
+            const { collectionType, identifier, state: bookmarkState } = payload;
+
+            let collectionData = state.footer[collectionType.reduxKey];
+
+            if (collectionData) {
+                const index = collectionData.findIndex(o => GlobalUtils.getValue(o, "identifier", null) === identifier);
+
+                if (index >= 0) {
+                    collectionData[index].isBookmarked = bookmarkState;
+                    state.footer[collectionType.reduxKey] = [...collectionData];
+                }
+            }
+
+            return {
+                ...state,
+                footer: {
+                    ...state.footer
+                }
+            };
+        }
         case CLEAR_READING_DATA:
             return {
                 ...initialState,

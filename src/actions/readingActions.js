@@ -1,5 +1,6 @@
 import {
     BOOKMARK_ARTICLE,
+    BOOKMARK_READ_NEXT_ARTICLE,
     CLEAR_READING_DATA,
     INIT_READING_DATA,
     RESET_BOOKMARKS_CACHE,
@@ -17,6 +18,8 @@ export const bookmarkArticle = (identifier, bookmarkState) => async (dispatch) =
             articleGuids: [identifier],
         });
 
+        if (data.success !== true) return false;
+
         dispatch({
             type: BOOKMARK_ARTICLE,
             payload: bookmarkState,
@@ -25,10 +28,6 @@ export const bookmarkArticle = (identifier, bookmarkState) => async (dispatch) =
         dispatch({
             type: RESET_BOOKMARKS_CACHE
         });
-
-        if (data.success !== true) return false;
-
-        return "Bookmark state changed";
     } catch {
         return false;
     }
@@ -82,4 +81,35 @@ export const submitVote = (identifier, voteType, oldVoteType) => async (dispatch
     } catch {
         return false;
     }
+};
+
+export const bookmarkFooterCollectionArticle = (state, identifier, collectionType) => async (dispatch) => {
+    if (GlobalUtils.isAnyEmpty(state, identifier, collectionType)) return false;
+
+    const route = !!state ? RouteUtils.api.articles.addBookmarks : RouteUtils.api.articles.removeBookmarks;
+
+    try {
+        let { data } = await RouteUtils.sendApiRequest(route, {
+            articleGuids: [identifier],
+        });
+
+        dispatch({
+            type: BOOKMARK_READ_NEXT_ARTICLE,
+            payload: {
+                collectionType,
+                identifier,
+                state,
+            },
+        });
+        
+        if (data.success !== true) return false;
+
+        dispatch({
+            type: RESET_BOOKMARKS_CACHE
+        });
+    } catch {
+        return false;
+    }
+
+    return "Successfully bookmarked";
 };

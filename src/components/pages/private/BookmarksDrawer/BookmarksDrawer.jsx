@@ -23,7 +23,9 @@ const BookmarksDrawer = (props) => {
     const bookmarkState = useSelector((state) => state.bookmark);
 
     useEffect(() => {
+        console.log(bookmarkState.loading === false, bookmarkState.page.totalResults < 0, !isPageLoaded(1), getBookmarks(1));
         if (bookmarkState.loading === false && bookmarkState.page.totalResults < 0 && !isPageLoaded(1)) {
+            console.log(2)
             MessageUtils.handleDispatch(dispatch, loadAndOpenBookmarks(1), "Cannot load your bookmarks", function () {
                 setVisible(false);
             });
@@ -53,7 +55,7 @@ const BookmarksDrawer = (props) => {
         MessageUtils.handleDispatch(dispatch, removeBookmarkItem(identifier, bookmarkState.page.current), "Cannot remove selected bookmark");
     };
 
-    const title = `My bookmarks (${bookmarkState.page.totalResults > 0 ? bookmarkState.page.totalResults : "no"} items)`;
+    const title = `My bookmarks (total ${bookmarkState.page.totalResults > 0 ? bookmarkState.page.totalResults : "0"} items)`;
 
     return (
         <Drawer id="bookmarks-drawer" title={title} visible={visible} onClose={onDrawerClose}>
