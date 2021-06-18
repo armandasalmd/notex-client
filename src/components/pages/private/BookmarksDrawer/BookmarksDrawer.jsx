@@ -23,9 +23,7 @@ const BookmarksDrawer = (props) => {
     const bookmarkState = useSelector((state) => state.bookmark);
 
     useEffect(() => {
-        console.log(bookmarkState.loading === false, bookmarkState.page.totalResults < 0, !isPageLoaded(1), getBookmarks(1));
         if (bookmarkState.loading === false && bookmarkState.page.totalResults < 0 && !isPageLoaded(1)) {
-            console.log(2)
             MessageUtils.handleDispatch(dispatch, loadAndOpenBookmarks(1), "Cannot load your bookmarks", function () {
                 setVisible(false);
             });
