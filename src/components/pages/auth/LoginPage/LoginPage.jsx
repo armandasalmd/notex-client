@@ -38,6 +38,9 @@ const LoginPage = (props) => {
                 duration: 4
             });
             query.delete("successMsg");
+            props.history.replace({
+                search: query.toString()
+            });
         } else {
             const errorMessage = query.get("errorMsg");
             if (errorMessage) {
