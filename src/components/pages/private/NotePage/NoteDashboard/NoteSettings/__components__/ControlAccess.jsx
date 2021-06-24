@@ -13,9 +13,7 @@ const ControlAccess = ({ selectedValue, noteOwner, onSubmit }) => {
     const tBase = "dashboard.noteCard.settings.accessLevel";
     const [access, setAccess] = useState(selectedValue);
 
-    const handleChange = () => {
-        console.log("handle change");
-    };
+    const handleChange = () => { return; };
 
     const copyUrl = () => {
         copy(window.location.href);

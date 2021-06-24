@@ -3,11 +3,11 @@ export const SET_ACTIVE_NOTE = "SET_ACTIVE_NOTE";
 export const CLOSE_NOTEBOOK = "CLOSE_NOTEBOOK";
 export const SET_CHANGES_SAVED = "SET_CHANGES_SAVED";
 export const FETCH_NOTEBOOKS = "FETCH_NOTEBOOKS";
-export const SET_EDITOR_TEXT = "SET_EDITOR_TEXT";
 export const SAVE_NOTE = "SAVE_NOTE";
 export const SAVE_SPIN_START = "SAVE_SPIN_START";
 export const SAVE_SPIN_END = "SAVE_SPIN_END";
 export const SET_MENU_LOADING = "SET_MENU_LOADING";
+export const SET_EDITOR_DIRTY = "SET_EDITOR_DIRTY";
 
 // auth actions
 export const USER_LOADING = "USER_LOADING";

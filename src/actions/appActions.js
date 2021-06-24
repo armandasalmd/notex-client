@@ -1,11 +1,11 @@
 import {
     SET_ACTIVE_NOTE,
+    SET_EDITOR_DIRTY,
     SAVE_NOTE,
     SAVE_SPIN_END,
     SAVE_SPIN_START,
     CLOSE_NOTEBOOK,
     FETCH_NOTEBOOKS,
-    SET_EDITOR_TEXT,
 } from "@actions/types";
 import { GlobalUtils, NoteUtils, RouteUtils } from "@utils";
 
@@ -34,10 +34,16 @@ export const fetchNotebooks = () => async (dispatch) => {
 };
 
 export const saveChanges = (noteId, newText, isAutosave) => async (dispatch) => {
+    if (!noteId) return false;
+    
+    if (typeof newText !== "object") {
+        newText = NoteUtils.DEFAULT_EDITOR_CONTENT;
+    }
+
     const route = RouteUtils.api.note.saveNote;
     const body = {
         noteId,
-        newText: newText === undefined ? "" : newText,
+        newText: JSON.stringify(newText),
     };
 
     try {
@@ -84,9 +90,9 @@ export const setActiveNote = (backpack, noteId) => (dispatch) => {
     }
 };
 
-export const setEditorText = (text) => (dispatch) => {
+export const setEditorDirty = (isDirty) => (dispatch) => {
     dispatch({
-        type: SET_EDITOR_TEXT,
-        payload: text,
+        type: SET_EDITOR_DIRTY,
+        payload: isDirty,
     });
 };

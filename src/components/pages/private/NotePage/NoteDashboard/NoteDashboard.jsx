@@ -1,17 +1,16 @@
-import React from "react";
+import React, { useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { I18n } from "react-redux-i18n";
 import copy from "copy-to-clipboard";
 import classnames from "classnames";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
 
 import { closeNotebook, saveChanges } from "@actions/appActions";
 import { NoteUtils, GlobalUtils, MessageUtils } from "@utils";
 
+import NoteContentEditor from "../NoteContentEditor";
+import NoteContentRenderer from "../NoteContentRenderer";
 import "./NoteDashboard.less";
 import NoteSettings from "./NoteSettings";
-import TabbedEditor from "./TabbedEditor";
-import ReadMode from "./ReadMode";
 import {
     ShareAltOutlined,
     CloseOutlined,
@@ -24,24 +23,32 @@ import { Breadcrumb, Button, Col, Row, Tabs, Tooltip, Space, message } from "ant
 
 const { TabPane } = Tabs;
 
-const NoteDashboard = (props) => {
-    const tBase = "dashboard.noteCard";
-    const note = props.app.selectedNote;
-    const notebook = props.app.selectedNotebook;
+const NoteDashboard = () => {
+    const dispatch = useDispatch();    
+    const app = useSelector((state) => state.app);
 
-    const changesSaved = () => {
-        return (props.app.editorText || "") === (GlobalUtils.getValue(note, NoteUtils.props.note.text) || "");
-    };
+    const editorJsRef = useRef(null);
+
+    const tBase = "dashboard.noteCard";
+    const note = app.selectedNote;
+    const notebook = app.selectedNotebook;
+    const changesSaved = !app.isDirty;
 
     const copyUrl = () => {
         copy(window.location.href);
         message.success(I18n.t("common.urlCopy"));
     };
 
-    const onSave = () =>
-        MessageUtils.handleDispatched(
-            props.saveChanges(GlobalUtils.getValue(note, NoteUtils.props.note.id), props.app.editorText)
-        );
+    const onSave = async (autoSave = false) => {
+        try {
+            const savedData = await editorJsRef.current.save();
+            const noteId = GlobalUtils.getValue(note, NoteUtils.props.note.id);
+            
+            MessageUtils.handleDispatch(dispatch, saveChanges(noteId, savedData, autoSave));
+        } catch {
+            console.warn("Cannot save editor data");
+        }
+    };
 
     return (
         <div className="note-root">
@@ -58,9 +65,9 @@ const NoteDashboard = (props) => {
                     <Col>
                         <Space>
                             <Button
-                                loading={props.app.isSaving}
-                                disabled={changesSaved()}
-                                onClick={onSave}
+                                loading={app.isSaving}
+                                disabled={changesSaved}
+                                onClick={() => onSave(false)}
                                 className="action-save"
                                 type="primary"
                                 shape="round"
@@ -84,7 +91,7 @@ const NoteDashboard = (props) => {
                                     danger
                                     shape="circle"
                                     icon={<CloseOutlined />}
-                                    onClick={() => props.closeNotebook()}
+                                    onClick={() => dispatch(closeNotebook())}
                                 ></Button>
                             </Tooltip>
                         </Space>
@@ -95,7 +102,7 @@ const NoteDashboard = (props) => {
                     <h2
                         className={classnames({
                             "sub-title sub-title__warn": true,
-                            gone: changesSaved(),
+                            gone: changesSaved,
                         })}
                     >
                         {I18n.t(`${tBase}.toolbar.notSaved`)}
@@ -103,7 +110,7 @@ const NoteDashboard = (props) => {
                     <h2
                         className={classnames({
                             "sub-title sub-title__success": true,
-                            gone: !(props.app.isAutosaved && changesSaved()),
+                            gone: !(app.isAutosaved && changesSaved),
                         })}
                     >
                         {I18n.t(`${tBase}.toolbar.autoSaved`)}
@@ -120,7 +127,7 @@ const NoteDashboard = (props) => {
                             }
                             key="1"
                         >
-                            <TabbedEditor />
+                            <NoteContentEditor ref={editorJsRef} onSave={onSave} />
                         </TabPane>
                         <TabPane
                             tab={
@@ -131,11 +138,7 @@ const NoteDashboard = (props) => {
                             }
                             key="2"
                         >
-                            <ReadMode
-                                innerHtml={
-                                    props.app.editorText || GlobalUtils.getValue(note, NoteUtils.props.note.text)
-                                }
-                            />
+                            <NoteContentRenderer />
                         </TabPane>
                         <TabPane
                             tab={
@@ -155,14 +158,4 @@ const NoteDashboard = (props) => {
     );
 };
 
-NoteDashboard.propTypes = {
-    closeNotebook: PropTypes.func.isRequired,
-    saveChanges: PropTypes.func.isRequired,
-    app: PropTypes.object.isRequired,
-};
-
-const mapStateToProps = (state) => ({
-    app: state.app,
-});
-
-export default connect(mapStateToProps, { closeNotebook, saveChanges })(NoteDashboard);
+export default NoteDashboard;

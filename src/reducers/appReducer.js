@@ -13,7 +13,7 @@ import {
     SAVE_SPIN_END,
     SAVE_SPIN_START,
     SET_ACTIVE_NOTE,
-    SET_EDITOR_TEXT,
+    SET_EDITOR_DIRTY,
     SET_MENU_LOADING
 } from "@actions/types";
 import { GlobalUtils, NoteUtils } from "@utils";
@@ -23,8 +23,8 @@ const initialState = {
         isFetched: false,
         notebooks: []
     },
-    editorText: "",
     isAutosaved: false,
+    isDirty: false,
     isMenuLoading: false,
     isSaving: false,
     isSelected: false,
@@ -39,6 +39,11 @@ export default function (state = initialState, action) {
     var notebook;
 
     switch (action.type) {
+        case SET_EDITOR_DIRTY:
+            return {
+                ...state,
+                isDirty: !!action.payload
+            };
         case ADD_NEW_NOTE:
             notebook = NoteUtils.findNotebook(action.payload.notebookId, state.backpack) || {};
             GlobalUtils.getValue(notebook, NoteUtils.props.notebook.notes).push(action.payload.note);
@@ -63,8 +68,9 @@ export default function (state = initialState, action) {
                 selectedNoteId: initialState.selectedNoteId,
                 selectedNotebook: initialState.selectedNotebook,
                 selectedNote: initialState.selectedNote,
-                isSelected: false,
-                editorText: initialState.editorText
+                isAutosaved: false,
+                isDirty: false,
+                isSelected: false
             };
         case DELETE_BACKPACK:
             {
@@ -140,7 +146,6 @@ export default function (state = initialState, action) {
             }
         case SET_ACTIVE_NOTE:
             const selected = !!action.payload.notebookId && !!action.payload.noteId;
-            const newEditorText = GlobalUtils.getValue(action.payload.note, NoteUtils.props.note.text);
 
             return {
                 ...state,
@@ -148,15 +153,10 @@ export default function (state = initialState, action) {
                 selectedNoteId: action.payload.noteId,
                 selectedNotebook: action.payload.notebook,
                 selectedNote: action.payload.note,
-                isSelected: selected,
                 isAutosaved: false,
-                editorText: newEditorText,
+                isDirty: false,
+                isSelected: selected,
                 wasEverSelected: true
-            };
-        case SET_EDITOR_TEXT:
-            return {
-                ...state,
-                editorText: action.payload
             };
         case SAVE_NOTE:
             {
@@ -171,11 +171,11 @@ export default function (state = initialState, action) {
 
                 return {
                     ...state,
-                    isSaving: false,
                     isAutosaved: action.payload.autosaved,
+                    isDirty: false,
+                    isSaving: false,
                     selectedNote: noteObj,
-                    selectedNoteId: GlobalUtils.getValue(noteObj, NoteUtils.props.note.id),
-                    editorText: noteObj[NoteUtils.props.note.text]
+                    selectedNoteId: GlobalUtils.getValue(noteObj, NoteUtils.props.note.id)
                 };
             }
         case SAVE_SPIN_END:

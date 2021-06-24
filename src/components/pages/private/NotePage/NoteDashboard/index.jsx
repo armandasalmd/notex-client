@@ -1,2 +1,1 @@
-import NoteDashboard from "./NoteDashboard";
-export default NoteDashboard;
+export { default } from "./NoteDashboard";

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -12,6 +12,7 @@ import ArticleFooter from "./ArticleFooter";
 import Footer from "#/containers/Footer";
 
 export const ArticlePage = () => {
+    const selfRef = useRef(null);
     const dispatch = useDispatch();
     const history = useHistory();
 
@@ -37,12 +38,12 @@ export const ArticlePage = () => {
     });
 
     return (
-        <div className="articlePage">
-            <ArticleHeader />
+        <div ref={selfRef} className="articlePage scroll-container">
+            <ArticleHeader getPageContainer={() => selfRef.current} />
             <ArticleBody />
             <ArticleFooter />
             <Footer />
-            <BackTop />
+            <BackTop target={() => selfRef.current} />
         </div>
     );
 };
