@@ -8,7 +8,7 @@ import ArticleDetails from "./ArticleDetails";
 import HeaderToolbar from "./HeaderToolbar";
 import { Title } from "##/HeadTitle";
 
-export const ArticleHeader = () => {
+export const ArticleHeader = ({ getPageContainer }) => {
     const title = useSelector((state) => state.reading.header.title);
 
     return (
@@ -17,7 +17,7 @@ export const ArticleHeader = () => {
                 title && <Title title={`${Constants.appName} - ${title}`} />
             }
             <ArticleDetails />
-            <HeaderToolbar />
+            <HeaderToolbar getPageContainer={getPageContainer} />
         </div>
     );
 };

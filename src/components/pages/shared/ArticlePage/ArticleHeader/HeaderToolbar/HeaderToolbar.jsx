@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { I18n } from "react-redux-i18n";
 import copy from "copy-to-clipboard";
 
-import { MessageUtils } from "@utils";
+import { GlobalUtils, MessageUtils } from "@utils";
 import { bookmarkArticle } from "@actions/readingActions";
 
 import "./HeaderToolbar.less";
@@ -11,7 +11,7 @@ import { BookOutlined, BookFilled, LinkOutlined } from "@ant-design/icons";
 import { Voting } from "../../__components__";
 import { notification, Space, Tooltip } from "antd";
 
-const HeaderToolbar = () => {
+const HeaderToolbar = ({ getPageContainer }) => {
     const dispatch = useDispatch();
     const bookmarked = useSelector((state) => state.reading.state.isBookmarked);
     const identifier = useSelector((state) => state.reading.identifier);
@@ -23,11 +23,16 @@ const HeaderToolbar = () => {
     };
 
     const scrollToFooter = () => {
-        let element = document.getElementById("footer-toolbar");
-
-        if (element) {
-            let y = element.getBoundingClientRect().top + window.pageYOffset - 64;
-            window.scrollTo({ top: y, behavior: "smooth" });
+        let container = GlobalUtils.callIfFunction(getPageContainer);
+        
+        if (container) {
+            let element = document.getElementById("footer-toolbar");
+            
+            if (element) {
+                let y = element.getBoundingClientRect().top + window.pageYOffset - 64;
+                
+                container.scrollTo({ top: y, behavior: "smooth" });
+            }
         }
     };
 

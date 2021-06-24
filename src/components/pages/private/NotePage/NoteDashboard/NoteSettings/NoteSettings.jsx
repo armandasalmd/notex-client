@@ -22,9 +22,7 @@ const NoteSettings = props => {
         MessageUtils.handleDispatched(props.evictNote(GlobalUtils.getValue(note, NoteUtils.props.note.id), selectedNotebookId));
     };
 
-    const onChangeAccess = newAccessValue => {
-        console.log(newAccessValue);
-    };
+    const onChangeAccess = (newAccessValue) => { return newAccessValue; };
 
     const onDeleteNote = () => {
         MessageUtils.handleDispatched(props.deleteNote(props.app.selectedNoteId));

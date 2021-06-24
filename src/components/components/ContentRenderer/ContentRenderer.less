@@ -1,0 +1,44 @@
+@root: content-renderer-root;
+
+#@{root} {
+    max-width: 650px;
+    margin: 2em auto;
+
+    p {
+        margin: revert;
+    }
+
+    ul, ol {
+        padding: revert;
+
+        li {
+            padding: 5.5px 0 5.5px 3px;
+        }
+    }
+
+    a {
+        cursor: pointer;
+        text-decoration: underline;
+    }
+
+    a:active, a:hover {
+        text-decoration: none;
+        outline: 0;
+    }
+
+    h1 {
+        font-size: 2em;
+    }
+
+    h2 {
+        font-size: 1.5em;
+    }
+
+    h3 {
+        font-size: 1.17em;
+    }
+
+    h4 {
+        font-size: 1em;
+    }
+}

@@ -1,5 +1,9 @@
 import { GlobalUtils } from "@utils";
 
+const DEFAULT_EDITOR_CONTENT = {
+    blocks: []
+};
+
 const properties = {
     notebook: {
         notes: "notes",
@@ -106,12 +110,42 @@ const popNote = function (noteId, backpack) {
     return selectedNote;
 };
 
+const getContentDisplayData = (note) => {
+    let content = GlobalUtils.getValue(note, "text", "");
+
+    try {
+        if (typeof content === "string") {
+            content = JSON.parse(content);
+        }
+
+        if (!GlobalUtils.getValue(content, "blocks", false)) {
+            content = JSON.stringify(content);
+            throw new Error();
+        }
+    } catch {
+        content = {
+            blocks: [
+                {
+                    type: "paragraph",
+                    data: {
+                       text: content
+                    }
+                }
+            ]
+        };
+    }
+
+    return content;
+};
+
 export default {
     accessLevelOptions,
+    DEFAULT_EDITOR_CONTENT,
     findNote,
     findNotebook,
     findNoteParent,
     findNoteParentId,
+    getContentDisplayData,
     getNotebookSelectOptions,
     notebookCount,
     popNote,

@@ -13,7 +13,6 @@
     height: @body-heigth;
     position: sticky !important;
     top: @navbar-heigth;
-    // height: auto;
 
     z-index: 2;
     box-shadow: @default-box-shadow;
@@ -26,7 +25,8 @@
 @media screen {
     @media (max-width: @lg) {
         .@{note}-sidebar {
-            height: auto;    
+            height: auto;
+            min-height: 0px !important;
         }
     }
 }

@@ -1,10 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "#/App";
-import "./styles/Global.less";
-import "./tinymce";
 
-ReactDOM.render(
-    <App />,
-    document.getElementById("root")
-);
+import "./styles/Global.less";
+import App from "#/App";
+
+ReactDOM.render(<App />, document.getElementById("root"));

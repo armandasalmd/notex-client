@@ -34,7 +34,7 @@ export default {
     appName: Constants.appName,
     callIfFunction: (functionToCall, ...functionArgs) => {
         if (typeof functionToCall === "function") {
-            functionToCall(...functionArgs);
+            return functionToCall(...functionArgs);
         }
     },
     getComponentName: (WrappedComponent) => {

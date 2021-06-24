@@ -62,7 +62,7 @@ const NotePage = props => {
                 <Col className="note-sidebar" xs={24} sm={24} md={24} lg={6} xl={5}>
                     <Sidebar data={{}} />
                 </Col>
-                <Col className="note-main" xs={24} sm={24} md={24} lg={18} xl={19}>
+                <Col className="note-main scroll-container" xs={24} sm={24} md={24} lg={18} xl={19}>
                     {props.app.backpack.isFetched && props.app.isSelected ? (
                         <Row style={{ justifyContent: "space-evenly" }} align="top" gutter={[18, 18]}>
                             <Col xs={24} sm={24} md={15} lg={24} xl={17}>
