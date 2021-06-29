@@ -1,4 +1,4 @@
-FROM circleci/python:3.7.2-node as build
+FROM circleci/node:latest as build
 
 WORKDIR /app
 
