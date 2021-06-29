@@ -1,11 +1,11 @@
 import React from "react";
 import { useSelector } from "react-redux";
 
-import { GlobalUtils } from "@utils";
+import { NoteUtils, GlobalUtils } from "@utils";
 
 import "./ArticleBody.less";
 import { Skeleton, Image } from "antd";
-import TextRendering from "##/TextRendering";
+import ContentRenderer from "##/ContentRenderer";
 
 export const ArticleBody = () => {
     const coverSrc = useSelector((state) => state.reading.body.coverImageSource);
@@ -26,11 +26,21 @@ export const ArticleBody = () => {
         <Image alt="cover" src={coverSrc} />
     </div>;
 
+    let editorJsData = { 
+        blocks: []    
+    };
+
+    try {
+        editorJsData = JSON.parse(text);
+    } catch {
+        editorJsData.blocks.push(NoteUtils.createParagraphBlock(text))
+    }
+
     return (
         <div className="articlePageBody">
             {loading && getSkeletons(4)}
             {!loading && typeof coverSrc === "string" && imageWrapper}
-            {!loading && <TextRendering source={text} />} 
+            {!loading && <ContentRenderer data={editorJsData} />} 
         </div>
     );
 };

@@ -27,7 +27,7 @@ export const ArticleFooter = () => {
                 selectedTab={tabCollection} 
                 setSelectedTab={setTabCollection} />
             <div className="articlePage__footerContent">
-                <h1 className="header">{tabCollection.title}</h1>
+                <h1 className="header" style={{marginBottom: 16}}>{tabCollection.title}</h1>
                 <ArticleListRenderer source={getSelectedCollectionData()} collectionType={tabCollection} />
             </div>
         </div>

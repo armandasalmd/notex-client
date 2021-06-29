@@ -1,7 +1,9 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import classnames from "classnames";
 
+import { searchReset } from "@actions/searchActions";
 import { GlobalUtils, SearchUtils } from "@utils";
 
 import "./ResultCard.less";
@@ -10,6 +12,8 @@ import { Rate, Tag } from "antd";
 import CollectionArticlesMenu from "./CollectionArticlesMenu";
 
 const ResultCard = (props) => {
+    const dispatch = useDispatch();
+
     const { extraLabel, selected, color, onLovedChange, data, searchTags } = props;
     let { tags, title, description, readTime, views, lastUpdated, authorName, rating, loved, identifier, articlesInCollection, isCollection } = data || {};
 
@@ -27,14 +31,18 @@ const ResultCard = (props) => {
     const tagColor = "geekblue";
     const tagElements = (tags || []).map((tag, index) => <Tag key={index} color={searchTags.includes(tag) ? tagColor : undefined}>{tag}</Tag>);
 
+    const resetSearch = () => {
+        dispatch(searchReset())
+    };
+
     let titleComponent;
 
     if (isCollection) {
-        titleComponent = <CollectionArticlesMenu title={title} items={articlesInCollection} />;
+        titleComponent = <CollectionArticlesMenu title={title} items={articlesInCollection} onClick={resetSearch} />;
     } else {
         titleComponent = (
             <p className="resultCard__title">
-                <Link to={SearchUtils.pathToArticle(identifier)}>
+                <Link to={SearchUtils.pathToArticle(identifier)} onClick={resetSearch}>
                     {title}
                 </Link>
             </p>

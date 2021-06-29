@@ -9,10 +9,12 @@ import { DownOutlined } from '@ant-design/icons';
 const properties = SearchUtils.searchItemProps.childItem;
 
 const CollectionArticlesMenu = (props) => {
-    const { title, items } = props;
+    const { title, items, onClick } = props;
     const history = useHistory();
+
     const onItemClick = e => {
         if (e.key) {
+            GlobalUtils.callIfFunction(onClick);
             history.push(SearchUtils.pathToArticle(e.key));
         }
     };

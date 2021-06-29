@@ -32,6 +32,15 @@ const accessLevelOptions = [
     }
 ];
 
+const createParagraphBlock = function (text) {
+    return {
+        type: "paragraph",
+        data: {
+            text
+        }
+    };
+};
+
 const findNoteParent = function (noteId, backpack) {
     if (noteId && backpack && backpack.isFetched) {
         for (let notebook of backpack.notebooks) {
@@ -71,7 +80,6 @@ const findNotebook = function(notebookId, backpack) {
         }
     }
 };
-
 
 const getNotebookSelectOptions = function (backpack) {
     const list = Array.isArray(backpack.notebooks) ? backpack.notebooks : [];
@@ -125,12 +133,7 @@ const getContentDisplayData = (note) => {
     } catch {
         content = {
             blocks: [
-                {
-                    type: "paragraph",
-                    data: {
-                       text: content
-                    }
-                }
+                createParagraphBlock(content)
             ]
         };
     }
@@ -140,6 +143,7 @@ const getContentDisplayData = (note) => {
 
 export default {
     accessLevelOptions,
+    createParagraphBlock,
     DEFAULT_EDITOR_CONTENT,
     findNote,
     findNotebook,

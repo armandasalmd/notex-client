@@ -1,9 +1,16 @@
 import React from "react";
-import Blocks from "editorjs-blocks-react-renderer";
+
+import { GlobalUtils } from "@utils";
 
 import "./ContentRenderer.less";
+import Blocks from "editorjs-blocks-react-renderer";
+import { Empty } from "antd";
 
 const ContentRenderer = ({ data }) => {
+    if (!GlobalUtils.hasLength(GlobalUtils.getValue(data, "blocks"))) {
+        return <Empty style={{margin: "32px 0"}} description="No content to display" />;
+    }
+
     return (
         <div id="content-renderer-root">
             <Blocks data={data} config={{
