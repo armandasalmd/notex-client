@@ -1,14 +1,16 @@
 import {
     APPEND_ARTICLE,
     DELETE_AND_CLOSE_COLLECTION,
+    DELETE_ARTICLE,
+    EDIT_ARTICLE_RESET,
     INITIALISE_EDIT_COLLECTION,
-    SET_EDIT_ARTICLE,
+    POST_ARTICLE_SAVE_UPDATE_COLLECTION,
     SET_ARTICLE_CARD_LOADING,
     SET_BACKPACK_METADATA,
     SET_COLLECTION_CARD_LOADING,
+    SET_EDIT_ARTICLE,
     UPDATE_ACCESS_STATUS,
     UPDATE_COLLECTION_DETAILS,
-    DELETE_ARTICLE,
 } from "@actions/types";
 
 import { EditArticleUtils, GlobalUtils } from "@utils";
@@ -23,7 +25,7 @@ const initialState = {
     backpackMetaData: null,
 };
 
-export default function (state = initialState, action) {
+export default function (state = { ...initialState }, action) {
     switch (action.type) {
         case APPEND_ARTICLE: {
             const updatedCollection = { ...state.selectedCollection };
@@ -54,6 +56,10 @@ export default function (state = initialState, action) {
                 selectedCollection: updatedCollection
             };
         }
+        case EDIT_ARTICLE_RESET:
+            return {
+                ...initialState
+            };
         case SET_BACKPACK_METADATA:
             return {
                 ...state,
@@ -91,6 +97,22 @@ export default function (state = initialState, action) {
             }
 
             return newState;
+        }
+        case POST_ARTICLE_SAVE_UPDATE_COLLECTION: {
+            const { articleGuid: identifier } = action.payload;
+
+            let summary = EditArticleUtils.findArticleSummary(state.selectedCollection, identifier);
+
+            if (summary) {
+                summary = EditArticleUtils.mergeDisplayArticleWithFormData(summary, action.payload);
+            }
+            
+            return {
+                ...state,
+                selectedCollection: {
+                    ...state.selectedCollection
+                }
+            };
         }
         case UPDATE_ACCESS_STATUS: {
             if (action.payload.isCollection) {

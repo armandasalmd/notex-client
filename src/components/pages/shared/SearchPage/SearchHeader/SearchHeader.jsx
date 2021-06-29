@@ -12,11 +12,12 @@ import { FilterOutlined } from "@ant-design/icons";
 import { Switch } from "antd";
 
 const SearchHeader = (props) => {
-    const { totalResultsFound, filters } = props;
+    const { totalResultsFound, filters, onSearch } = props;
     const [filterOpen, setFilterOpen] = useState(false);
 
     function onChange(checked) {
         props.setIncludeCollections(checked);
+        GlobalUtils.callIfFunction(onSearch);
     }
 
     function toggleFilter() {

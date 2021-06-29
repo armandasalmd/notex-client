@@ -38,7 +38,7 @@ const SearchPage = () => {
     return (
         <div className="searchPage">
             <SearchBanner onSearch={onSearch} />
-            <SearchHeader />
+            <SearchHeader onSearch={onSearch} />
             <SearchResults onSearch={onSearch} />
         </div>
     );

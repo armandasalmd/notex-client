@@ -7,6 +7,7 @@ import { Button, Row, Form, Input, Select, Cascader } from "antd";
 import CoverUpload from "./CoverUpload";
 
 const { Option } = Select;
+const { MAX_TAG_COUNT } = EditArticleUtils;
 
 const ArticleDetailsForm = (props) => {
     const { onSubmit, sourceMetaData, className, article } = props;
@@ -26,21 +27,24 @@ const ArticleDetailsForm = (props) => {
 
     const handleSubmit = (data) => {
         data.sourceNoteId = GlobalUtils.getValue(data.sourceNoteId, "1", null);
+        data.tags = data.tags.slice(0, MAX_TAG_COUNT);
+
         GlobalUtils.callIfFunction(onSubmit, data);
     };
 
     useEffect(() => {
         if (sourceMetaData && article.sourceNoteId && form) {
             const noteParentId = EditArticleUtils.findNoteParentIdInMetaData(sourceMetaData, article.sourceNoteId);
+            const isValid = GlobalUtils.hasLength(noteParentId);
 
-            if (GlobalUtils.hasLength(noteParentId)) {
-                form.setFields([{
-                    name: "sourceNoteId",
-                    value: noteParentId? [noteParentId, article.sourceNoteId] : null
-                }]);
-            } else {
+            if (!isValid) {
                 MessageUtils.warning("Source article was removed. Please choose new source!");
             }
+
+            form.setFields([{
+                name: "sourceNoteId",
+                value: isValid ? [noteParentId, article.sourceNoteId] : null
+            }]);
         }
     }, [sourceMetaData, article, form]);
 
@@ -76,8 +80,8 @@ const ArticleDetailsForm = (props) => {
                 <Form.Item name="sourceNoteId" label="Select article source note" {...formItemCommon("Select source note")}>
                     <Cascader {...cascaderProps} />
                 </Form.Item>
-                <Form.Item name="tags" label="Article tags (up to 8)" wrapperCol={{ span:12 }}>
-                    <Select mode="tags" placeholder="Type to search..."></Select>
+                <Form.Item name="tags" label={`Article tags (up to ${MAX_TAG_COUNT})`} wrapperCol={{ span:12 }}>
+                    <Select mode="tags" maxTagCount={MAX_TAG_COUNT} maxTagTextLength={24} maxTagPlaceholder="Maximum amount of tags reached" placeholder="Type to search..."></Select>
                 </Form.Item>
                 <Form.Item name="coverImageSource" wrapperCol={{ span:24 }}>
                     <CoverUpload imageSource={article.coverImageSource} />

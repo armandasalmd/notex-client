@@ -1,5 +1,7 @@
 import { GlobalUtils } from "@utils";
 
+const MAX_TAG_COUNT = 8;
+
 const articleSummaryModel = {
     accessStatus: "accessStatus",
     identifier: "articleGuid",
@@ -66,12 +68,35 @@ const findNoteParentIdInMetaData = (metaData, noteId) => {
     }
 };
 
+const findArticleSummary = (collection, articleIdentifier) => {
+    let articles = getArticlesFromResponse(collection);
+
+    if (Array.isArray(articles) && articleIdentifier) {
+        return articles.find((o) => GlobalUtils.getValue(o, articleSummaryModel.identifier) === articleIdentifier);
+    }
+
+    return null;
+};
+
+const mergeDisplayArticleWithFormData = (displayArticle, formArticle) => {
+    if (typeof displayArticle === "object" && typeof formArticle === "object") {
+        displayArticle.accessStatus = parseInt(formArticle.articleAccessStatus);
+        displayArticle.articleTitle = formArticle.title;
+        displayArticle.lastUpdate = "Just now";
+    }
+
+    return displayArticle;
+};
+
 export default {
     articleSummaryModel,
     collectionSummaryModel,
+    findArticleSummary,
     findNoteParentIdInMetaData,
     getArticlesFromResponse,
     getCollectionTitle,
     getCollectionDescription,
-    responseToTableData
+    MAX_TAG_COUNT,
+    mergeDisplayArticleWithFormData,
+    responseToTableData,
 };

@@ -62,6 +62,10 @@ const EditCollectionCard = (props) => {
                 });
         },
         onAccessStatusChange: (value, identifier) => {
+            if (props.selectedArticleId === identifier) {
+                MessageUtils.handleDispatched(props.setEditArticle(null));
+            }
+            
             MessageUtils.handleDispatched(props.changeAccess(identifier, value, false));
         }
     };

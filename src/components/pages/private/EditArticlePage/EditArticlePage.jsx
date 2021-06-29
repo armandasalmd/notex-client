@@ -3,7 +3,7 @@ import { useParams, useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
-import { initialiseEditCollection } from "@actions/editArticleActions";
+import { editArticleReset, initialiseEditCollection } from "@actions/editArticleActions";
 import { GlobalUtils, RouteVariables, MessageUtils } from "@utils";
 
 import "./EditArticlePage.less";
@@ -12,13 +12,16 @@ import EditCollectionCard from "./EditCollectionCard";
 import EditArticleCard from "./EditArticleCard";
 
 const EditArticlePage = (props) => {
-    const { initialiseEditCollection } = props;
+    const { editArticleReset, initialiseEditCollection } = props;
     const { selectedCollectionId, selectedArticleId } = props.data;
     
     const history = useHistory();
     const params = useParams();
     
-    const returnToMenu = () => history.replace(RouteVariables.app.private.articleManagement.link);
+    const returnToMenu = () => {
+        MessageUtils.handleDispatched(editArticleReset());
+        history.replace(RouteVariables.app.private.articleManagement.link);
+    };
 
     useEffect(() => {
         const pageRoute = RouteVariables.app.private.editArticle;
@@ -58,6 +61,7 @@ const EditArticlePage = (props) => {
 
 EditArticlePage.propTypes = {
     data: PropTypes.object.isRequired,
+    editArticleReset: PropTypes.func.isRequired,
     initialiseEditCollection: PropTypes.func.isRequired
 };
 
@@ -65,4 +69,4 @@ const mapStateToProps = state => ({
     data: state.editArticle
 });
 
-export default connect(mapStateToProps, { initialiseEditCollection })(EditArticlePage);
+export default connect(mapStateToProps, { editArticleReset, initialiseEditCollection })(EditArticlePage);

@@ -1,14 +1,16 @@
 import {
+    APPEND_ARTICLE,
+    DELETE_AND_CLOSE_COLLECTION,
+    DELETE_ARTICLE,
+    EDIT_ARTICLE_RESET,
     INITIALISE_EDIT_COLLECTION,
-    SET_EDIT_ARTICLE,
+    POST_ARTICLE_SAVE_UPDATE_COLLECTION,
     SET_ARTICLE_CARD_LOADING,
+    SET_BACKPACK_METADATA,
     SET_COLLECTION_CARD_LOADING,
+    SET_EDIT_ARTICLE,
     UPDATE_ACCESS_STATUS,
     UPDATE_COLLECTION_DETAILS,
-    DELETE_AND_CLOSE_COLLECTION,
-    SET_BACKPACK_METADATA,
-    APPEND_ARTICLE,
-    DELETE_ARTICLE
 } from "@actions/types";
 
 import { ArticleManagementUtils, RouteUtils, GlobalUtils, EditArticleUtils } from "@utils";
@@ -267,6 +269,13 @@ export const deleteArticle = (identifier) => async (dispatch) => {
     return response.data;
 };
 
+const postSaveUpdateCollection = (articleData) => (dispatch) => {
+    dispatch({
+        type: POST_ARTICLE_SAVE_UPDATE_COLLECTION,
+        payload: articleData
+    });
+};
+
 export const saveArticleDetails = (requestData) => async (dispatch) => {
     if (typeof requestData !== "object") return;
 
@@ -282,7 +291,10 @@ export const saveArticleDetails = (requestData) => async (dispatch) => {
         ext_SourceNoteId: sourceNoteId
     });
     
+    dispatch(postSaveUpdateCollection(requestData));
     dispatch(setArticleCardLoading(false));
 
     return response.data;
 };
+
+export const editArticleReset = () => (dispatch) => dispatch({ type: EDIT_ARTICLE_RESET });

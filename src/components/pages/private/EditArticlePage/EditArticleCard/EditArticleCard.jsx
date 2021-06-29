@@ -48,7 +48,7 @@ const EditArticleCard = (props) => {
         if (thisRef && thisRef.current) {
             thisRef.current.scrollIntoView({ behavior: "smooth" });
         }
-    }, [thisRef]);
+    }, [thisRef, props.articleId]);
 
     return (
         <Spin spinning={props.loading}>

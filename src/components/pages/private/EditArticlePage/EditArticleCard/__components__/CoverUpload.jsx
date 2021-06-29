@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { AuthUtils, RouteUtils, GlobalUtils } from "@utils";
 
@@ -26,12 +26,16 @@ function createUploadFile(sourceUrl) {
     };
 }
 
+function imageSourceToFileList(imageSource) {
+    return imageSource ? [createUploadFile(imageSource)] : [];
+}
+
 const CoverUpload = (props) => {
     const { onChange, imageSource } = props;
     const [loading, setLoading] = useState(false);
     const [previewVisible, setPreviewVisible] = useState(false);
     const [imageUrl, setImageUrl] = useState(imageSource);
-    const [fileList, setFileList] = useState(imageSource ? [createUploadFile(imageSource)] : []);
+    const [fileList, setFileList] = useState(imageSourceToFileList(imageSource));
 
     const handleChange = (info) => {
         if (info.file.status === "done") {
@@ -67,6 +71,13 @@ const CoverUpload = (props) => {
         setFileList([]);
         GlobalUtils.callIfFunction(onChange, null);
     };
+
+    useEffect(() => {
+        if (imageSource !== imageUrl) {
+            setImageUrl(imageSource);
+            setFileList(imageSourceToFileList(imageSource));
+        }
+    }, [imageSource, imageUrl]);
 
     return (
         <div className="editArticleCard__upload">
