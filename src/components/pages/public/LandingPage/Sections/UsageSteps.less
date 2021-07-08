@@ -1,0 +1,59 @@
+@import "@styles/Variables.less";
+
+@root: usageSteps;
+
+.@{root} {
+    margin-top: @unit * 5;
+
+    &__steps {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        margin-top: @unit * 3;
+        justify-items: center;
+        padding: 0 10%;
+    }
+
+    &__step {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        max-width: @unit * 16;
+        font-family: @rubik-font;
+
+        .@{root}__stepDescription {
+            font-size: 1.1em;
+            text-align: center;
+        }
+        
+        .@{root}__stepTitle {
+            margin-top: @unit * 2;
+            font-size: 1.3em;
+            font-weight: 600;
+        }
+
+        &:hover {
+            transform: scale(1.05);
+            transition: all .2s ease-in-out;
+        }
+    }
+    
+    &__title {
+        font-family: @rubik-font;
+        font-size: 2.6em;
+        font-weight: 500;
+        text-align: center;
+    }
+}
+
+@media screen and (max-width: @xl) {
+    .@{root}__steps {
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+        gap: @unit * 4;
+    }
+
+    .@{root}__title {
+        font-size: 2em;
+    }
+}

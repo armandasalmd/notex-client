@@ -1,11 +1,23 @@
 import React from "react";
 
-import LandingShowcase from "#/thirdParty/LandingShowcase";
+import { 
+    Banner,
+    EditorTrial,
+    Highlights,
+    JoinUsPreFooter,
+    UsageSteps
+} from "./Sections";
+import Footer from "#/containers/Footer";
 
 const LandingPage = () => {
     return (
-        <div style={{background: "white"}}>
-            <LandingShowcase />
+        <div className="scroll-container" style={{background: "white"}}>
+            <Banner />
+            <UsageSteps />
+            <Highlights />
+            <EditorTrial />
+            <JoinUsPreFooter />
+            <Footer />
         </div>
     );
 };

@@ -1,0 +1,70 @@
+@import "@styles/Variables.less";
+
+@root: editorTrial;
+
+.@{root} {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    margin-top: @unit * 3;
+
+    &__header {
+        font-family: @rubik-font;
+        text-align: center;
+
+        .@{root}__title {
+            font-size: 2.6em;
+            font-weight: 500;
+            margin: 0;
+            line-height: 1.2;
+        }
+        
+        .@{root}__subtitle {
+            font-size: 1.6em;
+            font-weight: 400;
+        }
+    }
+
+    &__editorWrapper {
+        margin-top: @unit;
+        border-radius: @unit * 2;
+        background: #EEF5FA;
+        width: 80vw;
+        max-width: @unit * 72;
+    }
+
+    &__editor {
+        height: 100%;
+        margin: @unit * 2;
+        background: white;
+        border-radius: @unit * 0.5;
+        box-shadow: @default-box-shadow;
+        min-height: @unit * 16;
+        padding-top: @unit * 6;
+    }
+}
+
+@media screen and (max-width: @xl) {
+    .@{root}__header {
+        .@{root}__title {
+            font-size: 2em;
+        }
+
+        .@{root}__subtitle {
+            font-size: 1.3em;
+        }
+    }
+}
+
+@media screen and (max-width: @md) {
+    .@{root}__editorWrapper {
+        width: 100%;
+        background: white;
+        margin-top: 0;
+    }
+    
+    .@{root}__editor {
+        margin: @unit;
+        padding-top: @unit;
+    }
+}
