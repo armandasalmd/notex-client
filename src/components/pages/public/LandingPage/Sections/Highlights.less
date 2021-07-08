@@ -1,0 +1,69 @@
+@import "@styles/Variables.less";
+
+@root: highlights;
+
+.@{root} {
+    background: linear-gradient(180deg, #ebebeb 0%, #ffffff 80%);
+    padding: @unit * 6 10%;
+    margin-top: @unit * 10;
+    display: grid;
+    grid-template-columns: 60% 40%;
+    align-items: center;
+
+    &__display {
+        max-width: @unit * 25;
+    }
+
+    &__description {
+        font-family: @rubik-font;
+        font-size: 1.15em;
+        margin-bottom: @unit * 1.5;
+    }
+
+    &__image {
+        justify-self: center;
+    }
+
+    &__list {
+        .@{root}__listItem {
+            display: flex;
+            margin-bottom: @unit;
+        }
+
+        .@{root}__listImage {
+            margin-right: @unit;
+        }
+        
+        .@{root}__listText {
+            font-family: @rubik-font;
+            font-size: 1.1em;
+        }
+    }
+    
+    &__title {
+        font-family: @rubik-font;
+        font-size: 2em;
+        font-weight: 500;
+        line-height: 1.4;
+    }
+}
+
+@media screen and (max-width: @xl) {
+    .@{root} {
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+        margin-top: @unit * 6;
+        padding-top: @unit * 4;
+    }
+
+    .@{root}__display {
+        margin-top: @unit * 2.5;
+    }
+}
+
+@media screen and (max-width: @sm) {
+    .@{root}__image {
+        width: 100%;
+    }
+}

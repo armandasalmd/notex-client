@@ -1,0 +1,133 @@
+@import "@styles/Variables.less";
+@import "./components/GradientButton.less";
+
+@root: banner;
+
+.boxSize() {
+    height: 90vh;
+    min-height: 640px;
+    width: 100%;
+}
+
+.@{root} {
+    position: relative;
+
+    &__container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 10% 10vh 10%;
+
+        .boxSize();
+    }
+
+    &__button {
+        .gradientButton(#3AE4DF, #7A88FF);
+    }
+
+    &__image {
+        z-index: 10;
+        user-select: none;
+        width: 50%;
+        padding-left: 5vw;
+    }
+
+    &__display {
+        font-family: @rubik-font;
+        position: relative;
+        top: @unit * -4;
+        z-index: 10;
+
+        width: 50%;
+        max-width: 600px;
+
+        .@{root}__description {
+            font-size: 1.2em;
+        }
+
+        .@{root}__displayOr {
+            margin: 0 @unit;
+        }
+
+        .@{root}__title {
+            font-weight: 400;
+            font-size: 4em;
+            line-height: 1.15;
+        }
+    }
+
+    &__link {
+        font-family: @rubik-font;
+        font-size: 1.2em;
+        font-weight: 500;
+        white-space: nowrap;
+    }
+
+    &__search {
+        margin-top: @unit * 2;
+        
+        .@{root}__searchActions {
+            margin-top: @unit * 0.5;
+            display: flex;
+            align-items: center;
+        }
+    }
+
+    &__background {
+        position: absolute;
+        top: 0;
+        user-select: none;
+        object-fit: cover;
+        object-position: bottom;
+
+        .boxSize();
+    }
+}
+
+@media screen and (max-width: @xl) {
+    .@{root}__container {
+        flex-flow: column-reverse;
+        height: auto;
+    }
+
+    .@{root}__background {
+        height: 100%;
+    }
+
+    .@{root}__image {
+        padding-left: 0;
+        margin-top: @unit * 2;
+        width: 80%;
+    }
+
+    .@{root}__display {
+        position: static;
+        margin-bottom: @unit * 8;
+        width: 80%;
+    }
+
+    .@{root}__searchActions {
+        flex-flow: column-reverse;
+        align-items: flex-start !important;
+    }
+
+    .@{root}__displayOr {
+        margin: 0 !important;
+        padding-bottom: @unit * 0.25;
+    }
+}
+
+@media screen and (max-width: @sm) {
+    .@{root}__image {
+        width: 100%;
+    }
+
+    .@{root}__display {
+        width: 100%;
+    }
+
+    .@{root}__title {
+        margin-top: @unit;
+        font-size: 2.8em !important;
+    }
+}

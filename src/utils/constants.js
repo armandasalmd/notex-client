@@ -55,48 +55,7 @@ const constants = {
             id: "section-security",
             titleKey: "settings.sections.securityAndAccount.title"
         }
-    ],
-    mceOptions: {
-        codesample_languages: [
-            { text: "HTML/XML", value: "markup" },
-            { text: "JavaScript", value: "javascript" },
-            { text: "CSS", value: "css" },
-            { text: "Ruby", value: "ruby" },
-            { text: "Python", value: "python" },
-            { text: "Java", value: "java" },
-            { text: "C", value: "c" },
-            { text: "C#", value: "csharp" },
-            { text: "C++", value: "cpp" }
-        ],
-        height: "560px",
-        menubar: true,
-        plugins: [
-            "codesample advlist autolink lists link image charmap print preview anchor",
-            "searchreplace visualblocks code fullscreen textpattern",
-            "insertdatetime media table paste code help wordcount"
-        ],
-        textpattern_patterns: [
-            { start: "#", format: "h2" },
-            { start: "##", format: "h3" },
-            { start: "###", format: "h4" },
-            { start: "####", format: "h5" },
-            { start: "#####", format: "h6" },
-            { start: "* ", cmd: "InsertUnorderedList" },
-            { start: "- ", cmd: "InsertUnorderedList" },
-            { start: "1. ", cmd: "InsertOrderedList", value: { "list-style-type": "decimal" } },
-            { start: "1) ", cmd: "InsertOrderedList", value: { "list-style-type": "decimal" } },
-            { start: "a. ", cmd: "InsertOrderedList", value: { "list-style-type": "lower-alpha" } },
-            { start: "a) ", cmd: "InsertOrderedList", value: { "list-style-type": "lower-alpha" } },
-            { start: "i. ", cmd: "InsertOrderedList", value: { "list-style-type": "lower-roman" } },
-            { start: "i) ", cmd: "InsertOrderedList", value: { "list-style-type": "lower-roman" } },
-            { start: "*", end: "*", format: "italic" },
-            { start: "**", end: "**", format: "bold" },
-            { start: "~", end: "~", cmd: "createLink", value: "" }
-        ],
-        toolbar:
-            "undo redo | code formatselect | bold italic backcolor | fullscreen link image codesample print | bullist numlist outdent indent | removeformat | help",
-        toolbar_mode: "sliding"
-    }
+    ]
 };
 
 export default constants;

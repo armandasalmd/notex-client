@@ -1,0 +1,48 @@
+@import "@styles/Variables.less";
+@import "./components/GradientButton.less";
+
+@root: preFooter;
+
+.@{root} {
+    padding-top: @unit * 8;
+    margin-top: @unit * 10;
+    height: @unit * 34;
+    background-image: url("/images/landing/footer-background.svg");
+    background-position: top;
+    background-size: cover;
+    border-bottom: 3px solid lighten(@secondary-color, 10%);
+    
+    font-family: @raleway-font;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &__container {
+        display: flex;
+        flex-flow: column;
+        gap: @unit;
+    }
+
+    &__title {
+        color: white;
+        font-size: 2em;
+        margin: 0;
+    }
+    
+    &__subtitle {
+        color: white;
+        font-size: 1.2em;
+        margin-bottom: @unit;
+    }
+
+    &__button {
+        .gradientButton(#F3BD34, #fd9627);
+        
+        text-transform: uppercase;
+
+        &:hover {
+            box-shadow: 0px 12px 36px rgba(199, 182, 27, 0.45);
+        }
+    }
+}
