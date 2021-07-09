@@ -7,11 +7,11 @@
 ## Backend server links
 
 - Notex Main
-    - PURPOSE: Core server for authentication, accounts, notes management 
+    - PURPOSE: Core server for authentication, accounts, note management service 
     - HOST: https://notex-api.herokuapp.com
     - REVERSE PROXY HOST: https://notex-app.com/api
 - Nexus
-    - PURPOSE: Everything that has to do with `articles` including search
+    - PURPOSE: Everything that has to do with `articles` including search engine
     - HOST: https://notex-nexus.herokuapp.com
     - REVERSE PROXY HOST: https://notex-app.com/nexus
 
