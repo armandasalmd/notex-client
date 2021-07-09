@@ -38,5 +38,5 @@ workflows:
                 filters:
                     branches:
                         only:
-                            - master
+                            - staging
                 context: Heroku
