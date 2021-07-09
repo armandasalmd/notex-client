@@ -6,15 +6,14 @@ export default {
         sectionAbout: {
             title: "What is this site about?",
             paragraphs: [
+                `This project is all about exchanging knowledge. You can create 
+                your private notes just as textbook but you can also publish 
+                your note content. Creating and managing articles is easy.`,
+
                 `Why can't we get rid of textbooks in an era of
                 computers? Create an account and make your
                 school/university notes online. You are going to be
                 using simple file formating - Markdown.`,
-
-                `Don't know how to use MarkDown? Have a quick tutorial:
-                <a href="https://www.markdowntutorial.com/">
-                    https://www.Markdowntutorial.com
-                </a>`,
 
                 `Take a look at the MarkDown cheatsheet here:
                 <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet">
