@@ -1,24 +1,27 @@
-LIVE: https://notex-app.com/
+## Website links
 
-STAGING: http://notex-client.herokuapp.com
-- At the moment working with new feature articles and collections 
-- KanBan board https://github.com/armandasalmd/notex-client/projects/3
+- LIVE (production branch): ✅ https://notex-app.com ✅
+- DEV (staging branch): 🚧 http://notex-client.herokuapp.com 🚧
+- LOCAL: http://localhost:3000
 
-## Main app page preview
-![image](https://user-images.githubusercontent.com/17089888/121009795-7e1b4f80-c78c-11eb-92b2-b566527b5da3.png)
+## Backend server links
 
-## Notex frontend application
+- Notex Main
+    - PURPOSE: Core server for authentication, accounts, note management service 
+    - HOST: https://notex-api.herokuapp.com
+    - REVERSE PROXY HOST: https://notex-app.com/api
+- Nexus
+    - PURPOSE: Everything that has to do with `articles` including search engine
+    - HOST: https://notex-nexus.herokuapp.com
+    - REVERSE PROXY HOST: https://notex-app.com/nexus
 
-**_Folder structure_**
+## Description
 
--   `/node_modules`
--   `/public` - static files goes here
--   `/src` - deelopment code root directly
-    -   `/components` - Components root folder
-    -   `/actions` - Redux actions
-        -   `types.js` - action type variables (used when triggering)
-    -   `/reducers` - Redux reducers
-    -   `/utils` - other necessarily functions
-    -   `/assets` - text data for static content
--   `.gitignore`
--   `package.json`
+ReactJs application. This repository is used to build docker image. Docker container starts `nginx` server which servers static react files and allows `reverse proxy` for backend servers `Notex Main` and `Nexus`.
+
+**LIVE** application container is deployed to **Azure DevOps**
+
+**DEV** application container is deployed to **Heroku** (includes CI build so can run tests etc)
+
+## Landing preview
+![image](https://user-images.githubusercontent.com/17089888/125075958-305d7400-e0b7-11eb-9304-31fe71f504b9.png)

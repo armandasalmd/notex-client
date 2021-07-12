@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { I18n } from "react-redux-i18n";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { NoteUtils, GlobalUtils, MessageUtils } from "@utils";
-import { addNewNote, deleteNotebook, renameNotebook } from "@actions/noteActions";
+import { deleteNotebook, renameNotebook, setAddNoteOpen } from "@actions/noteActions";
 
 import { Row, Button, Popconfirm } from "antd";
 import { PlusOutlined, EditOutlined, PrinterOutlined, DeleteOutlined } from "@ant-design/icons";
@@ -13,32 +12,30 @@ import SingleFieldModal from "##/SingleFieldModal";
 import "./NotebookDetails.less";
 
 const NotebookDetails = props => {
-    const textUnavailable = I18n.t("common.unavailable"),
-        tBase = "dashboard.detailsCard";
+    const dispatch = useDispatch();
+    const textUnavailable = I18n.t("common.unavailable");
+    const tBase = "dashboard.detailsCard";
+    
+    const app = useSelector((state) => state.app);
 
-    const notebook = props.app.selectedNotebook;
-    const note = props.app.selectedNote;
-    let noteAccessLevel = GlobalUtils.getValue(note, NoteUtils.props.note.accessLevel, textUnavailable);
+    const notebook = app.selectedNotebook;
+    const note = app.selectedNote;
+    const noteAccessLevel = GlobalUtils.getValue(note, NoteUtils.props.note.accessLevel, textUnavailable);
+
     let noteLastChanged = GlobalUtils.getValue(note, NoteUtils.props.note.lastChanged, textUnavailable);
     
     if (noteLastChanged !== textUnavailable) {
         noteLastChanged = GlobalUtils.toDisplayDate(new Date(noteLastChanged));
     }
 
-    const [modalAddNoteOpen, setModalAddNoteOpen] = useState(false);
     const [modalRenameOpen, setModalRenameOpen] = useState(false);
 
-    const submitAddNote = (value, { notebookId }) => {
-        MessageUtils.handleDispatched(props.addNewNote(props.app.backpack, value, notebookId));
-        setModalAddNoteOpen(false);
-    };
-    
     const submitRenameNotebook = (value, { notebookId }) => {
-        MessageUtils.handleDispatched(props.renameNotebook(notebookId, value));
+        MessageUtils.handleDispatch(dispatch, renameNotebook(notebookId, value));
         setModalRenameOpen(false);
     };
 
-    const onDelete = () => MessageUtils.handleDispatched(props.deleteNotebook(props.app.selectedNotebookId, props.app.selectedNotebookId));
+    const onDelete = () => MessageUtils.handleDispatch(dispatch, deleteNotebook(app.selectedNotebookId, app.selectedNotebookId));
 
     return (
         <div className="notebook-details-root">
@@ -69,7 +66,7 @@ const NotebookDetails = props => {
                 </Row>
                 <Row className="notebook-details-actions">
                     <h1 className="header header--medium">{I18n.t(`${tBase}.notebookActions`)}</h1>
-                    <Button type="primary" onClick={() => setModalAddNoteOpen(true)} ghost block icon={<PlusOutlined />}>
+                    <Button type="primary" onClick={() => dispatch(setAddNoteOpen(true, app.selectedNotebookId))} ghost block icon={<PlusOutlined />}>
                         {I18n.t(`${tBase}.buttons.add`)}
                     </Button>
                     <Button block onClick={() => setModalRenameOpen(true)} icon={<EditOutlined />}>
@@ -92,15 +89,7 @@ const NotebookDetails = props => {
                 </Row>
             </div>
             <SingleFieldModal
-                extra={{notebookId: props.app.selectedNotebookId}}
-                title={I18n.t("modals.addNote.title")}
-                textPlaceholder={I18n.t("modals.addNote.placeholder")}
-                visible={modalAddNoteOpen}
-                setVisible={setModalAddNoteOpen}
-                onSubmit={submitAddNote}
-            />
-            <SingleFieldModal
-                extra={{notebookId: props.app.selectedNotebookId}}
+                extra={{notebookId: app.selectedNotebookId}}
                 title={I18n.t("modals.renameNote.title")}
                 textPlaceholder={I18n.t("modals.renameNote.placeholder")}
                 text={GlobalUtils.getValue(notebook, NoteUtils.props.notebook.title)}
@@ -112,15 +101,4 @@ const NotebookDetails = props => {
     );
 };
 
-NotebookDetails.propTypes = {
-    addNewNote: PropTypes.func.isRequired,
-    app: PropTypes.object.isRequired,
-    deleteNotebook: PropTypes.func.isRequired,
-    renameNotebook: PropTypes.func.isRequired
-};
-
-const mapStateToProps = state => ({
-    app: state.app
-});
-
-export default connect(mapStateToProps, { addNewNote, deleteNotebook, renameNotebook })(NotebookDetails);
+export default NotebookDetails;
