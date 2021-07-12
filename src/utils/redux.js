@@ -3,4 +3,3 @@ const immediateDispatch = (type, payload) => (dispatch) => dispatch({ type, payl
 export default {
     immediateDispatch
 };
-

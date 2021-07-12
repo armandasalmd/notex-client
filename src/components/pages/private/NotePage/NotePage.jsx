@@ -48,7 +48,7 @@ const NotePage = () => {
                 MessageUtils.handleDispatch(dispatch, setActiveNote(app.backpack, noteId));
             }
         }
-    }, [app, query]);
+    }, [app, query, dispatch]);
 
     const submitAddNote = (submitText) => MessageUtils.handleDispatch(dispatch, addNewNote(app.backpack, submitText, app.modalState.addNotebookOpenId));
     const submitAddNotebook = (submitText) => MessageUtils.handleDispatch(dispatch, addNewNotebook(app.backpack, submitText));

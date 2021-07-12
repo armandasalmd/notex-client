@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { GlobalUtils, NoteUtils, MessageUtils } from "@utils";
 import { setActiveNote } from "@actions/appActions";
-import { addNewNote, deleteNotebook, renameNotebook, setAddNoteOpen } from "@actions/noteActions";
+import { deleteNotebook, renameNotebook, setAddNoteOpen } from "@actions/noteActions";
 
 import { NotebookOptions } from ".";
 import { Button, Menu, Popconfirm } from "antd";
@@ -15,7 +15,6 @@ const { SubMenu } = Menu;
 const NotebookMenu = props => {
     const dispatch = useDispatch();
 
-    const addNoteNotebookId = useSelector((state) => state.app.modalState.addNotebookOpenId);
     const autoClose = useSelector((state) => state.settings.appSettings.closeAfterSelect);
     const backpack = useSelector((state) => state.app.backpack);
     const selectedNoteId = useSelector((state) => state.app.selectedNoteId);
@@ -24,7 +23,6 @@ const NotebookMenu = props => {
     const [openSubMenus, setOpenSubMenus] = useState([]);
     const [menuWasPreopened, setMenuWasPreopened] = useState(false);
 
-    const submitAddNote = value => MessageUtils.handleDispatch(dispatch, addNewNote(backpack, value, addNoteNotebookId));
     const submitDelete = notebookId => MessageUtils.handleDispatch(dispatch, deleteNotebook(notebookId, selectedNotebookId));
     const submitRename = (notebookId, newTitle) => MessageUtils.handleDispatch(dispatch, renameNotebook(notebookId, newTitle));
 
