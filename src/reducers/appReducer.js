@@ -9,10 +9,15 @@ import {
     FETCH_NOTEBOOKS,
     RENAME_NOTEBOOK,
     RENAME_NOTE,
+    RESET_ADD_MODALS,
     SAVE_NOTE,
     SAVE_SPIN_END,
     SAVE_SPIN_START,
     SET_ACTIVE_NOTE,
+    SET_ADD_NOTEBOOK_LOADING,
+    SET_ADD_NOTE_LOADING,
+    SET_ADD_NOTEBOOK_OPEN,
+    SET_ADD_NOTE_OPEN,
     SET_EDITOR_DIRTY,
     SET_MENU_LOADING
 } from "@actions/types";
@@ -28,12 +33,29 @@ const initialState = {
     isMenuLoading: false,
     isSaving: false,
     isSelected: false,
+    modalState: {
+        addNotebookOpen: false,
+        addNoteOpen: false,
+        addNotebookLoading: false,
+        addNoteLoading: false,
+        addNotebookOpenId: ""
+    },
     selectedNotebookId: "",
     selectedNoteId: "",
     selectedNotebook: {},
     selectedNote: {},
     wasEverSelected: false
 };
+
+function rebuildModalState(state, modalStateProp, value) {
+    return {
+        ...state,
+        modalState: {
+            ...state.modalState,
+            [modalStateProp]: value
+        }
+    };
+}
 
 export default function (state = initialState, action) {
     var notebook;
@@ -144,6 +166,11 @@ export default function (state = initialState, action) {
                 ...state,
                 isMenuLoading: false
             }
+        case RESET_ADD_MODALS:
+            return {
+                ...state,
+                modalState: { ...initialState.modalState }
+            };
         case SET_ACTIVE_NOTE:
             const selected = !!action.payload.notebookId && !!action.payload.noteId;
 
@@ -158,6 +185,19 @@ export default function (state = initialState, action) {
                 isSelected: selected,
                 wasEverSelected: true
             };
+        case SET_ADD_NOTEBOOK_LOADING:
+            return rebuildModalState(state, "addNotebookLoading", !!action.payload);
+        case SET_ADD_NOTE_LOADING:
+            return rebuildModalState(state, "addNoteLoading", !!action.payload);
+        case SET_ADD_NOTE_OPEN: {
+            let newState = rebuildModalState(state, "addNoteOpen", !!action.payload.isOpen);
+
+            newState.modalState.addNotebookOpenId = action.payload.notebookId;
+
+            return newState;
+        }
+        case SET_ADD_NOTEBOOK_OPEN:
+            return rebuildModalState(state, "addNotebookOpen", !!action.payload);
         case SAVE_NOTE:
             {
                 var noteObj = NoteUtils.findNote(action.payload.noteId, state.backpack);

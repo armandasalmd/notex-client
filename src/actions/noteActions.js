@@ -1,7 +1,8 @@
-import { RouteUtils, GlobalUtils, NoteUtils } from "@utils";
-import { ADD_NEW_NOTEBOOK, ADD_NEW_NOTE, DELETE_NOTEBOOK, DELETE_NOTE, EVICT_NOTE, RENAME_NOTEBOOK, RENAME_NOTE, SET_MENU_LOADING } from "@actions/types";
-
+import { RouteUtils, GlobalUtils, NoteUtils, ReduxUtils } from "@utils";
+import { ADD_NEW_NOTEBOOK, ADD_NEW_NOTE, DELETE_NOTEBOOK, DELETE_NOTE, EVICT_NOTE, RENAME_NOTEBOOK, RENAME_NOTE, RESET_ADD_MODALS, SET_ADD_NOTE_OPEN, SET_ADD_NOTEBOOK_OPEN, SET_ADD_NOTEBOOK_LOADING, SET_ADD_NOTE_LOADING, SET_MENU_LOADING } from "@actions/types";
 import { closeNotebook, setActiveNote } from "./appActions";
+
+const { immediateDispatch } = ReduxUtils;
 
 export const addNewNote = (backpack, noteName, notebookId) => async (dispatch) => {
     if (!noteName) return;
@@ -12,10 +13,20 @@ export const addNewNote = (backpack, noteName, notebookId) => async (dispatch) =
         notebookId: notebookId
     };
 
-    dispatch(setMenuLoading(true));
+    const setLoading = (isLoading) => {
+        dispatch(setMenuLoading(isLoading));
+        dispatch(setAddNoteLoading(isLoading));
+
+        if (isLoading === false) {
+            dispatch(immediateDispatch(RESET_ADD_MODALS));
+        }
+    };
+
+    setLoading(true);
+
     try {
         let { data } = await RouteUtils.sendApiRequest(route, dto);
-
+        
         dispatch({
             type: ADD_NEW_NOTE,
             payload: {
@@ -23,18 +34,18 @@ export const addNewNote = (backpack, noteName, notebookId) => async (dispatch) =
                 note: data.data
             }
         });
-
+        
         let noteId = GlobalUtils.getValue(data.data, NoteUtils.props.note.id);
-
+        
         if (noteId) {
             dispatch(setActiveNote(backpack, noteId));
         }
     } catch {
-        dispatch(setMenuLoading(false));
+        setLoading(false);
         return false;
     }
     
-    dispatch(setMenuLoading(false));
+    setLoading(false);
 };
 
 export const addNewNotebook = (backpack, notebookName) => async (dispatch) => {
@@ -45,7 +56,16 @@ export const addNewNotebook = (backpack, notebookName) => async (dispatch) => {
         title: notebookName
     };
 
-    dispatch(setMenuLoading(true));
+    const setLoading = (isLoading) => {
+        dispatch(setMenuLoading(isLoading));
+        dispatch(setAddNotebookLoading(isLoading));
+
+        if (isLoading === false) {
+            dispatch(immediateDispatch(RESET_ADD_MODALS));
+        }
+    };
+
+    setLoading(true);
 
     try {
         let { data } = await RouteUtils.sendApiRequest(route, dto);
@@ -61,9 +81,11 @@ export const addNewNotebook = (backpack, notebookName) => async (dispatch) => {
             dispatch(setActiveNote(backpack, noteId));
         }
     } catch {
-        dispatch(setMenuLoading(false));
+        setLoading(false);
         return false;
     }
+
+    setLoading(false);
 };
 
 export const deleteNotebook = (notebookId, activeNotebookId) => async (dispatch) => {
@@ -76,7 +98,7 @@ export const deleteNotebook = (notebookId, activeNotebookId) => async (dispatch)
 
     try {
         await RouteUtils.sendApiRequest(route, dto);
-        
+
         if (activeNotebookId && activeNotebookId === notebookId) {
             dispatch(closeNotebook());
         }
@@ -142,7 +164,7 @@ export const evictNote = (noteId, newNotebookId) => async (dispatch) => {
         dispatch(setMenuLoading(false));
         return false;
     }
-    
+
     dispatch(setMenuLoading(false));
 };
 
@@ -204,9 +226,16 @@ export const renameNote = (noteId, newName) => async (dispatch) => {
     dispatch(setMenuLoading(false));
 };
 
-export const setMenuLoading = isLoading => (dispatch) => {
+export const setAddNotebookOpen = (isOpen) => immediateDispatch(SET_ADD_NOTEBOOK_OPEN, isOpen);
+export const setAddNotebookLoading = (isLoading) => immediateDispatch(SET_ADD_NOTEBOOK_LOADING, isLoading);
+export const setAddNoteLoading = (isLoading) => immediateDispatch(SET_ADD_NOTE_LOADING, isLoading);
+export const setMenuLoading = (isLoading) => immediateDispatch(SET_MENU_LOADING, isLoading);
+
+export const setAddNoteOpen = (isOpen, notebookId) => (dispatch) => {
     dispatch({
-        type: SET_MENU_LOADING,
-        payload: isLoading
+        type: SET_ADD_NOTE_OPEN,
+        payload: {
+            isOpen, notebookId
+        }
     });
 };

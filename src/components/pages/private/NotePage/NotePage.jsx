@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { I18n } from "react-redux-i18n";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useHotkeys } from "react-hotkeys-hook";
 
 import { GlobalUtils, RouteUtils, HistoryUtils, MessageUtils } from "@utils";
 import { fetchNotebooks, setActiveNote } from "@actions/appActions";
-import { addNewNotebook } from "@actions/noteActions";
+import { addNewNotebook, addNewNote, setAddNotebookOpen, setAddNoteOpen } from "@actions/noteActions";
 
 import "./NotePage.less";
 import Sidebar from "./Sidebar/Sidebar";
@@ -15,40 +15,50 @@ import SingleFieldModal from "##/SingleFieldModal";
 
 import { Row, Col, Empty, Button } from "antd";
 
-const NotePage = props => {
+const NotePage = () => {
+    const dispatch = useDispatch();
     const query = HistoryUtils.useQuery();
-    const [modalAddOpen, setModalAddOpen] = useState(false);
-    const [addLoading, setAddLoading] = useState(false);
+    
+    const app = useSelector((state) => state.app);
+
+    useHotkeys("ctrl+a", (event) => {
+        if (!app.modalState.addNotebookOpen && !app.modalState.addNoteOpen) {
+            event.preventDefault();
+
+            if (GlobalUtils.isEmpty(app.selectedNotebookId)) {
+                dispatch(setAddNotebookOpen(true));
+            } else {
+                dispatch(setAddNoteOpen(true, app.selectedNotebookId));
+            }
+        }
+    }, {}, [app.selectedNotebookId]);
+
+    const { addNotebookOpen, addNotebookLoading } = app.modalState;
+    const { addNoteOpen, addNoteLoading } = app.modalState;
 
     useEffect(() => {
-        if (!props.app.backpack.isFetched) {
-            props.fetchNotebooks();
+        if (!app.backpack.isFetched) {
+            MessageUtils.handleDispatch(dispatch, fetchNotebooks());
         } else {
             const noteId = query.get(RouteUtils.app.private.note.queryNames.note);
 
-            if (!noteId && GlobalUtils.hasLength(props.app.selectedNoteId)) {
-                window.history.pushState(RouteUtils.app.private.note.link, "", `?${RouteUtils.app.private.note.queryNames.note}=${props.app.selectedNoteId}`);
-            } else if (!props.app.wasEverSelected && noteId) {
-                props.setActiveNote(props.app.backpack, noteId);
+            if (!noteId && GlobalUtils.hasLength(app.selectedNoteId)) {
+                window.history.pushState(RouteUtils.app.private.note.link, "", `?${RouteUtils.app.private.note.queryNames.note}=${app.selectedNoteId}`);
+            } else if (!app.wasEverSelected && noteId) {
+                MessageUtils.handleDispatch(dispatch, setActiveNote(app.backpack, noteId));
             }
         }
-    }, [props, query]);
+    }, [app, query]);
 
-    const submitAdd = async submitText => {
-        setAddLoading(true);
-        MessageUtils.handleDispatched(props.addNewNotebook(props.app.backpack, submitText));
-        setAddLoading(false);
-        setModalAddOpen(false);
-    };
+    const submitAddNote = (submitText) => MessageUtils.handleDispatch(dispatch, addNewNote(app.backpack, submitText, app.modalState.addNotebookOpenId));
+    const submitAddNotebook = (submitText) => MessageUtils.handleDispatch(dispatch, addNewNotebook(app.backpack, submitText));
 
     const EmptyContainer = () => (
         <div className="content-card flex-center">
             <Empty description={I18n.t("dashboard.introCard.selectNoteText")}>
                 <Button
                     type="primary"
-                    onClick={() => {
-                        setModalAddOpen(true);
-                    }}
+                    onClick={() => dispatch(setAddNotebookOpen(true))}
                 >
                     {I18n.t("dashboard.introCard.addNotebookButton")}
                 </Button>
@@ -60,10 +70,10 @@ const NotePage = props => {
         <div className="note-root">
             <Row>
                 <Col className="note-sidebar" xs={24} sm={24} md={24} lg={6} xl={5}>
-                    <Sidebar data={{}} />
+                    <Sidebar />
                 </Col>
                 <Col className="note-main scroll-container" xs={24} sm={24} md={24} lg={18} xl={19}>
-                    {props.app.backpack.isFetched && props.app.isSelected ? (
+                    {app.backpack.isFetched && app.isSelected ? (
                         <Row style={{ justifyContent: "space-evenly" }} align="top" gutter={[18, 18]}>
                             <Col xs={24} sm={24} md={15} lg={24} xl={17}>
                                 <NoteDashboard />
@@ -80,10 +90,18 @@ const NotePage = props => {
                     <SingleFieldModal
                         title={I18n.t("modals.addNotebook.title")}
                         textPlaceholder={I18n.t("modals.addNotebook.placeholder")}
-                        loading={addLoading}
-                        visible={modalAddOpen}
-                        setVisible={setModalAddOpen}
-                        onSubmit={submitAdd}
+                        loading={addNotebookLoading}
+                        visible={addNotebookOpen}
+                        setVisible={(visible) => dispatch(setAddNotebookOpen(visible))}
+                        onSubmit={submitAddNotebook}
+                    />
+                    <SingleFieldModal
+                        title={I18n.t("modals.addNote.title")}
+                        textPlaceholder={I18n.t("modals.addNote.placeholder")}
+                        loading={addNoteLoading}
+                        visible={addNoteOpen}
+                        setVisible={(visible) => dispatch(setAddNoteOpen(visible, ""))}
+                        onSubmit={submitAddNote}
                     />
                 </Col>
             </Row>
@@ -91,17 +109,4 @@ const NotePage = props => {
     );
 };
 
-NotePage.propTypes = {
-    addNewNotebook: PropTypes.func.isRequired,
-    fetchNotebooks: PropTypes.func.isRequired,
-    setActiveNote: PropTypes.func.isRequired,
-    app: PropTypes.object.isRequired,
-    history: PropTypes.object.isRequired
-};
-
-const mapStateToProps = state => ({
-    app: state.app,
-    auth: state.auth
-});
-
-export default connect(mapStateToProps, { fetchNotebooks, setActiveNote, addNewNotebook })(NotePage);
+export default NotePage;

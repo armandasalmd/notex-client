@@ -11,6 +11,7 @@ export { default as NoteUtils } from "./note";
 export { default as RouteVariables } from "./routeVariables";
 export { default as RouteUtils } from "./routes";
 export { default as ReadingUtils } from "./reading";
+export { default as ReduxUtils } from "./redux";
 export { default as SearchUtils } from "./search";
 
 // dependant exports
