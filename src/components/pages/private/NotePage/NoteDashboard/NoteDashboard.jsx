@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { I18n } from "react-redux-i18n";
 import copy from "copy-to-clipboard";
 import classnames from "classnames";
+import { useHotkeys } from "react-hotkeys-hook";
 
 import { closeNotebook, saveChanges } from "@actions/appActions";
 import { NoteUtils, GlobalUtils, MessageUtils } from "@utils";
@@ -24,15 +25,24 @@ import { Breadcrumb, Button, Col, Row, Tabs, Tooltip, Space, message } from "ant
 const { TabPane } = Tabs;
 
 const NoteDashboard = () => {
-    const dispatch = useDispatch();    
-    const app = useSelector((state) => state.app);
-
-    const editorJsRef = useRef(null);
-
     const tBase = "dashboard.noteCard";
+    const dispatch = useDispatch();    
+    const editorJsRef = useRef(null);
+    
+    const app = useSelector((state) => state.app);
     const note = app.selectedNote;
     const notebook = app.selectedNotebook;
     const changesSaved = !app.isDirty;
+
+    useHotkeys("ctrl+s", (event) => {
+        event.preventDefault();
+
+        if (!changesSaved) {
+            onSave(false);
+        }
+    }, {
+        enableOnContentEditable: true
+    }, [app, editorJsRef]);
 
     const copyUrl = () => {
         copy(window.location.href);

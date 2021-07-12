@@ -1,45 +1,35 @@
 import React, { useState } from "react";
 import { I18n } from "react-redux-i18n";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { GlobalUtils, NoteUtils, MessageUtils } from "@utils";
 import { setActiveNote } from "@actions/appActions";
-import { addNewNote, deleteNotebook, renameNotebook } from "@actions/noteActions";
+import { deleteNotebook, renameNotebook, setAddNoteOpen } from "@actions/noteActions";
 
 import { NotebookOptions } from ".";
 import { Button, Menu, Popconfirm } from "antd";
 import { FolderOutlined } from "@ant-design/icons";
-import SingleFieldModal from "##/SingleFieldModal";
 
 const { SubMenu } = Menu;
 
 const NotebookMenu = props => {
-    const [modalAddNoteOpen, setModalAddNoteOpen] = useState(false);
-    const [addNoteNotebookId, setAddNoteNotebookId] = useState(null);
-    const [addNoteLoading, setAddNoteLoading] = useState(false);
+    const dispatch = useDispatch();
+
+    const autoClose = useSelector((state) => state.settings.appSettings.closeAfterSelect);
+    const backpack = useSelector((state) => state.app.backpack);
+    const selectedNoteId = useSelector((state) => state.app.selectedNoteId);
+    const selectedNotebookId = useSelector((state) => state.app.selectedNotebookId);
+
     const [openSubMenus, setOpenSubMenus] = useState([]);
     const [menuWasPreopened, setMenuWasPreopened] = useState(false);
 
-    const submitAddNote = value => {
-        setAddNoteLoading(true);
-        MessageUtils.handleDispatched(props.addNewNote(props.backpack, value, addNoteNotebookId));
-        setAddNoteLoading(false);
-        setModalAddNoteOpen(false);
-    };
-
-    const submitDelete = notebookId => {
-        MessageUtils.handleDispatched(props.deleteNotebook(notebookId, props.app.selectedNotebookId));
-    };
-
-    const submitRename = (notebookId, newTitle) => {
-        MessageUtils.handleDispatched(props.renameNotebook(notebookId, newTitle));
-    };
+    const submitDelete = notebookId => MessageUtils.handleDispatch(dispatch, deleteNotebook(notebookId, selectedNotebookId));
+    const submitRename = (notebookId, newTitle) => MessageUtils.handleDispatch(dispatch, renameNotebook(notebookId, newTitle));
 
     const handleClick = e => {
-        props.setActiveNote(props.backpack, e.key);
+        dispatch(setActiveNote(backpack, e.key));
 
-        if (props.autoClose) {
+        if (autoClose) {
             GlobalUtils.callIfFunction(props.tryCloseMenu);
         }
     };
@@ -49,8 +39,8 @@ const NotebookMenu = props => {
             return <Menu.Item key={note._id}>{note.title}</Menu.Item>;
         });
 
-        const notebookId = GlobalUtils.getValue(notebook, NoteUtils.props.notebook.id),
-            notebookTitle = GlobalUtils.getValue(notebook, NoteUtils.props.notebook.title);
+        const notebookId = GlobalUtils.getValue(notebook, NoteUtils.props.notebook.id);
+        const notebookTitle = GlobalUtils.getValue(notebook, NoteUtils.props.notebook.title);
 
         return (
             <SubMenu icon={<FolderOutlined />} style={{ fontSize: "1.15em" }} key={notebookId} title={notebookTitle}>
@@ -58,10 +48,7 @@ const NotebookMenu = props => {
                     <Button
                         id="add"
                         type="text"
-                        onClick={() => {
-                            setModalAddNoteOpen(true);
-                            setAddNoteNotebookId(notebookId);
-                        }}
+                        onClick={() => dispatch(setAddNoteOpen(true, notebookId))}
                     >
                         {I18n.t("menu.addNote")}
                     </Button>
@@ -89,7 +76,7 @@ const NotebookMenu = props => {
         );
     };
 
-    const data = props.backpack.notebooks || [];
+    const data = backpack.notebooks || [];
     const notebookMenuItems = data.map(function (notebook) {
         return (
             <React.Fragment key={notebook._id}>
@@ -99,11 +86,11 @@ const NotebookMenu = props => {
         );
     });
 
-    const selectedNotebookId = NoteUtils.findNoteParentId(props.app.selectedNoteId, props.backpack);
+    const selectedNotebookIdFound = NoteUtils.findNoteParentId(selectedNoteId, backpack);
 
-    if (selectedNotebookId && !openSubMenus.includes(selectedNotebookId) && !menuWasPreopened) {
+    if (selectedNotebookIdFound && !openSubMenus.includes(selectedNotebookIdFound) && !menuWasPreopened) {
         // opening preselected note item submenu
-        setOpenSubMenus([selectedNotebookId]);
+        setOpenSubMenus([selectedNotebookIdFound]);
         setMenuWasPreopened(true);
     }
 
@@ -117,38 +104,14 @@ const NotebookMenu = props => {
                 onOpenChange={openKeys => {
                     setOpenSubMenus(openKeys);
                 }}
-                selectedKeys={[props.app.selectedNoteId]}
+                selectedKeys={[selectedNoteId]}
                 mode="inline"
             >
                 <Menu.Divider />
                 { notebookMenuItems }
             </Menu>
-            <SingleFieldModal
-                title={I18n.t("modals.addNote.title")}
-                textPlaceholder={I18n.t("modals.addNote.placeholder")}
-                loading={addNoteLoading}
-                visible={modalAddNoteOpen}
-                setVisible={setModalAddNoteOpen}
-                onSubmit={submitAddNote}
-            />
         </>
     );
 };
 
-NotebookMenu.propTypes = {
-    addNewNote: PropTypes.func.isRequired,
-    app: PropTypes.object.isRequired,
-    autoClose: PropTypes.bool.isRequired,
-    backpack: PropTypes.object.isRequired,
-    deleteNotebook: PropTypes.func.isRequired,
-    renameNotebook: PropTypes.func.isRequired,
-    setActiveNote: PropTypes.func.isRequired
-};
-
-const mapStateToProps = state => ({
-    app: state.app,
-    backpack: state.app.backpack,
-    autoClose: state.settings.appSettings.closeAfterSelect
-});
-
-export default connect(mapStateToProps, { addNewNote, deleteNotebook, renameNotebook, setActiveNote })(NotebookMenu);
+export default NotebookMenu;
