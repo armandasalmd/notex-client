@@ -19,7 +19,8 @@ var BackendServers = {
 function resolveHostName(server) {
     let host = ""; // intentionally left blank - production mode
 
-    if (Constants.env === "development" && server) {
+    // if (Constants.env === "development" && server) {
+    if (server) {
         host = server.preferDevHost ? server.devHost : server.prodHost;
     }
 
