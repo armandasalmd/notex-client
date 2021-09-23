@@ -19,9 +19,10 @@ var BackendServers = {
 function resolveHostName(server) {
     let host = ""; // intentionally left blank - production mode
 
-    // if (Constants.env === "development" && server) {
-    if (server) {
+    if (Constants.env === "development" && server) {
         host = server.preferDevHost ? server.devHost : server.prodHost;
+    } else {
+        host = server.prodHost;
     }
 
     return host.replace(/\/*$/, "");
@@ -36,7 +37,8 @@ const resolveUrl = (path) => {
         path = path.path;
     }
 
-    if (Constants.env === "production" || path.startsWith("http")) {
+    // if (Constants.env === "production" || path.startsWith("http")) {
+    if (path.startsWith("http")) {
         return path;
     } else if (path.startsWith(BackendServers.nexus.prefix)) {
         return resolveHostName(BackendServers.nexus) + path;
