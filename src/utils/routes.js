@@ -37,8 +37,7 @@ const resolveUrl = (path) => {
         path = path.path;
     }
 
-    // if (Constants.env === "production" || path.startsWith("http")) {
-    if (path.startsWith("http")) {
+    if (Constants.env === "production" || path.startsWith("http")) {
         return path;
     } else if (path.startsWith(BackendServers.nexus.prefix)) {
         return resolveHostName(BackendServers.nexus) + path;
