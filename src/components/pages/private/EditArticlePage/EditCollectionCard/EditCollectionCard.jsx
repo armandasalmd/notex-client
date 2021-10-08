@@ -15,7 +15,7 @@ import {
 } from "@actions/editArticleActions";
 
 import "./EditCollectionCard.less";
-import { Button, Spin, message } from "antd";
+import { Alert, Button, Spin, message } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { EditCollectionActions, EditCollectionDetails, ArticlesTable } from "./__components__";
 import CreateArticleModal from "../../CreateArticleModal";
@@ -78,6 +78,8 @@ const EditCollectionCard = (props) => {
     const rawArticles = EditArticleUtils.getArticlesFromResponse(props.collection);
 
     const collectionTitle = GlobalUtils.getValue(props.collection, EditArticleUtils.collectionSummaryModel.title, "unknown");
+    const collectionAccess = GlobalUtils.getValue(props.collection, EditArticleUtils.collectionSummaryModel.accessStatus);
+    console.log(collectionAccess);
 
     useEffect(() => {
         if (backpackMetaData == null) {
@@ -91,7 +93,7 @@ const EditCollectionCard = (props) => {
                 <div className="card__header card__header--separatorDashed">
                     <div className="editCollectionCard__header">
                         <h3 className="editCollectionCard__title">Collection settings</h3>
-                        <EditCollectionActions accessStatus={GlobalUtils.getValue(props.collection, EditArticleUtils.collectionSummaryModel.accessStatus)} {...actions} />
+                        <EditCollectionActions accessStatus={collectionAccess} {...actions} />
                     </div>
                     <EditCollectionDetails
                         loading={props.loading}
@@ -106,6 +108,13 @@ const EditCollectionCard = (props) => {
                             <p className="editCollectionCard__description">Select article from table to preview</p>
                         </span>
                         <Button type="primary" className="editCollectionCard__button" onClick={onOpenAddArticle} icon={<PlusOutlined />}>Add new article</Button>
+                    </div>
+                    <div>
+                    {
+                        // eslint-disable-next-line
+                        (collectionAccess == 1 || collectionAccess == 2) &&
+                        <Alert className="editCollectionCard__alert" message="This article collection is not published. Published articles are not visable in the search!" type="warning" />
+                    }
                     </div>
                     <ArticlesTable rawArticles={rawArticles} actions={articleActions} className="editCollectionCard__articlesTable" />
                 </div>
