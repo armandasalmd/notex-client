@@ -79,7 +79,6 @@ const EditCollectionCard = (props) => {
 
     const collectionTitle = GlobalUtils.getValue(props.collection, EditArticleUtils.collectionSummaryModel.title, "unknown");
     const collectionAccess = GlobalUtils.getValue(props.collection, EditArticleUtils.collectionSummaryModel.accessStatus);
-    console.log(collectionAccess);
 
     useEffect(() => {
         if (backpackMetaData == null) {
