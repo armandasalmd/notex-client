@@ -1,5 +1,5 @@
-import { Constants, RouteVariables } from "@utils";
 import axios from "axios";
+import { Constants, RouteVariables } from "@utils";
 
 var BackendServers = {
     notexMain: {
@@ -10,9 +10,9 @@ var BackendServers = {
     },
     nexus: {
         prodHost: "https://notex-nexus.herokuapp.com",
-        devHost: "https://localhost:49155",
+        devHost: "https://localhost:44399",
         prefix: "/nexus",
-        preferDevHost: false
+        preferDevHost: true
     }
 };
 
